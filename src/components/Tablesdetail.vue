@@ -18,8 +18,8 @@ onMounted(async () => {
       console.log(queryAnnounce.value);
     }
     else if (result.status === 404 || result.status === 400) {
-      alert("The requested page is not available!")
-      router.push(`/admin/announcement/`)
+      // alert("The requested page is not available!")
+      // router.push(`/admin/announcement/`)
     }
   } catch (err) {
     console.log("fetch failed")
@@ -60,16 +60,16 @@ const changeTime = (time) => {
         <p>Display</p>
       </div>
       <div class="flex flex-col space-y-5">
-        <p>{{ queryAnnounce.announcementTitle }}</p>
-        <p>{{ queryAnnounce.announcementCategory }}</p>
-        <p>{{ queryAnnounce.announcementDescription }}</p>
-        <p>{{ changeTime(queryAnnounce.publishDate) }}</p>
-        <p>{{ changeTime(queryAnnounce.closeDate) }}</p>
-        <p>{{ queryAnnounce.announcementDisplay }}</p>
+        <p class="ann-title">{{ queryAnnounce.announcementTitle }}</p>
+        <p class="ann-category">{{ queryAnnounce.announcementCategory }}</p>
+        <p class="ann-description">{{ queryAnnounce.announcementDescription }}</p>
+        <p class="ann-publish-date">{{ changeTime(queryAnnounce.publishDate) }}</p>
+        <p class="ann-close-date">{{ changeTime(queryAnnounce.closeDate) }}</p>
+        <p class="ann-display">{{ queryAnnounce.announcementDisplay }}</p>
       </div>
     </div>
     <div class="py-5">
-      <button class="bg-gray-300 px-4 py-1 rounded-md " @click="$router.back()">Back</button>
+      <button class="ann-button bg-gray-300 px-4 py-1 rounded-md " @click="$router.back()">Back</button>
     </div>
   </div>
 </template>

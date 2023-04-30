@@ -53,7 +53,7 @@ const changeTime = (time) => {
         <p class="font-bold">Date/Time shown in Timezone: <span class="font-normal">{{ timezone }}</span></p>
     
         <p class="text-5xl flex justify-center text-center text-red-600 pt-5" v-if="notFound" >
-          No Announcement
+          No Announcements
     </p>
 
 <table class=" w-full border-2 rounded-lg" v-else>
@@ -66,17 +66,17 @@ const changeTime = (time) => {
     <th>Display</th>
     <th>Action</th>
   </tr>
-  <tr class="border-b-2" v-for="(announce,index) in announces" >
+  <tr class="ann-item border-b-2" v-for="(announce,index) in announces"  >
     <td class="text-center py-4">{{ index+1}}</td>
-    <td>{{ announce?.announcementTitle }}</td>
-    <td>{{ announce?.announcementCategory }}</td>
-    <td>{{ changeTime(announce?.publishDate) }}</td>
-    <td>{{ changeTime(announce?.closeDate) }}</td>
-    <td class="text-center">{{ announce?.announcementDisplay }}</td>
+    <td class="ann-title">{{ announce?.announcementTitle }}</td>
+    <td class="ann-category">{{ announce?.announcementCategory }}</td>
+    <td class="ann-publish-date">{{ changeTime(announce?.publishDate) }}</td>
+    <td class="ann-close-date">{{ changeTime(announce?.closeDate) }}</td>
+    <td class="ann-display text-center">{{ announce?.announcementDisplay }}</td>
     
     <td class="text-center">
       <RouterLink :to="{name: 'Tablesdetail', params: {id: announce.id}}">
-      <button class="bg-gray-300 px-2 py-1 rounded-lg">view</button>
+      <button class="ann-button bg-gray-300 px-2 py-1 rounded-lg">view</button>
       </RouterLink>
     </td>
   
