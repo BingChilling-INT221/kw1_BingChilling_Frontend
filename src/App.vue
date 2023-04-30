@@ -1,6 +1,4 @@
 <script setup>
-import tables from '../src/components/tables.vue'
-
 
 </script>
  

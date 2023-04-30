@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Notfound from '../views/Notfound.vue'
 import Tables from '../components/Tables.vue'
 import Tablesdetail from '../components/Tablesdetail.vue'
 
