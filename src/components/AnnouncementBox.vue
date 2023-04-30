@@ -47,11 +47,11 @@ const changeTime = (time) => {
         <div class="pr-5 pt-1">
           <a
             href="#"
-            class="flex text-white bg-green-500 p-2 rounded-lg w-20 justify-center"
+            class="flex text-white bg-green-500 p-2 h-7 w-7 rounded-full justify-center"
             :class="
               data.announcementDisplay === 'Y' ? 'bg-green-500' : 'bg-red-500'
             "
-            >{{ data.announcementDisplay }}</a
+            ></a
           >
         </div>
       </div>

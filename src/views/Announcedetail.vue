@@ -57,12 +57,9 @@ const changeTime = (time) => {
         <div class="w-6 pt-3">
             <button @click="$router.back()"><img src="../assets/image.png" alt="" /></button>
         </div>
-        <div>
-          <p class="font-bold text-xl pt-2.5">Back</p>
-        </div>
       </div>
 
-      <div class="flex pt-2 w-full justify-end w-4/6">
+      <div class="flex pt-2 w-full justify-end ">
         <p class="pr-2 text-lg">{{ toHoursAndMinutes(UTC) }}</p>
         <img src="../assets/1845948.png" alt="" class="h-6 pr-1" />
       </div>

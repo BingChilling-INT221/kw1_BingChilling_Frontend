@@ -4,6 +4,7 @@ import AnnouncementBox from "./AnnouncementBox.vue";
 import { ref } from "vue";
 const date = new Date();
 const UTC = date.getTimezoneOffset();
+const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 function toHoursAndMinutes(totalMinutes) {
   const negetive = totalMinutes > 0 ? 'UTC-' : 'UTC+';
   if (totalMinutes < 0) {
@@ -36,11 +37,13 @@ console.log(toHoursAndMinutes(UTC));
           </div>
         </div>
 
-        <div class="flex pt-2 w-full justify-end w-4/6">
-          <p class="pr-2 text-lg">{{toHoursAndMinutes(UTC) }}</p>
+        <div class="flex pt-2 w-full justify-end space-x-2">
+          <p class="text-lg">Time zone: {{ timezone }}</p>
+          <p class="text-lg">{{toHoursAndMinutes(UTC) }}</p>
           <img src="../assets/1845948.png" alt="" class="h-6 pr-1" />
         </div>
       </div>
+      
       <div class="pt-10">
         <div class="m-auto w-11/12 rounded-xl h-auto">
           <div class="flex space-x-16 pt-3 pr-5 w-full">
