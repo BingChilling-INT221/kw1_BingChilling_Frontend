@@ -53,7 +53,7 @@ const changeTime = (time) => {
         <p class="font-bold">Date/Time shown in Timezone: <span class="font-normal">{{ timezone }}</span></p>
     
         <p class="text-5xl flex justify-center text-center text-red-600 pt-5" v-if="notFound" >
-          No Announcements
+          No Announcement
     </p>
 
 <table class=" w-full border-2 rounded-lg" v-else>
