@@ -23,7 +23,8 @@ onMounted(async () => {
       console.log("Something went wrong")
     }
   } catch (err) {
-    console.log(err);
+    alert("The request page is not available")
+      router.push(`/admin/announcement/`)
   }
 });
 
