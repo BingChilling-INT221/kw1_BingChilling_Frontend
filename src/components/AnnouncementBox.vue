@@ -32,7 +32,7 @@ const changeTime = (time) => {
   };
   return `${
 
-      newDate.toLocaleDateString("en-GB", options).replace(/[,]/gi, '') +
+      newDate.toLocaleDateString("en-GB", options).replace(/,/gi, '') +
       ", " +
       newDate.toLocaleTimeString([], {hour: "2-digit", minute: "2-digit", hour12: false})
 
@@ -42,51 +42,46 @@ const changeTime = (time) => {
 </script>
 
 <template>
-  <div>
-    <p v-if="notFound" class="flex justify-center pt-5 text-5xl text-center text-gray-400">
+  <div class="">
+    <p v-if="notFound" class="flex justify-center text-5xl text-center text-gray-400">
       No Announcement
     </p>
+    <div v-for="(data,index) in announce" v-else :key="data.id" class="pb-5 ann-item">
 
-
-    <div v-for="data in announce" v-else :key="data.id" class="px-5 pt-5 pb-2 font-mono ann-item">
-      <RouterLink :to="{name: 'Tablesdetail', params: {id: data.id}}">
-        <div class="h-auto p-3 m-auto bg-white w-12/12 hover:bg-gray-400">
+        <div class="flex h-auto p-3 m-auto bg-white rounded-md ">
+            <div class="text-black w-[8%] flex break-all items-center justify-center border-r-2 font-semibold ">No.{{ index+1 }}</div>
+          <div class="h-full pl-4 grow">
           <div class="flex justify-between font-bold">
-            <p class="pt-1 pl-3 text-3xl text-black ann-title">{{ data.announcementTitle }}</p>
-            <div class="pt-1 pr-5">
-              <a
-                  :class="
-              data.announcementDisplay === 'Y' ? 'bg-green-500' : 'bg-red-500'
-            "
-                  class="flex justify-center p-2 text-white bg-green-500 rounded-full h-7 w-7 ann-display"
-                  href="#"
-              >{{ data.announcementDisplay }}</a
-              >
+            <p class="pt-1 text-xl text-black ann-title">{{ data.announcementTitle }}</p>
+
+            <div class="flex ">
+                <button class="px-2 py-1 ml-2 text-black rounded-lg hover:bg-green-500 hover:text-white ann-button" @click="$router.push({name: 'announcementdetail', params: {id: data.id}})">view</button>
+              <button class="px-2 py-1 ml-2 text-black rounded-lg hover:bg-red-500 hover:text-white ann-button">delete</button>
             </div>
           </div>
-          <div class="pt-5 pl-3 pr-3 m-auto">
-            <a
-                class="text-white bg-[#628FB8] px-5 text-sm rounded-lg py-1 ann-category"
-                href="#"
-            >{{ data.announcementCategory }}</a
-            >
+          <div class="flex mt-2">
+            <p class="pt-1 text-[#4E6FE2] font-bold ann-publish-date">
+              Publishdate: {{ changeTime(data.publishDate) !== null ? changeTime(data.publishDate) : '-' }}
+            </p>
+            <p class="pl-20 pt-1 text-[#A649A2] font-bold ann-close-date">
+              Close Date: {{ changeTime(data.closeDate) !== null ? changeTime(data.closeDate) : '-' }}
+            </p>
 
-            <div class="flex">
-              <p class="pt-1 text-[#4E6FE2] font-bold ann-publish-date">
-                Publishdate: {{ changeTime(data.publishDate) !== null ? changeTime(data.publishDate) : '-' }}
-              </p>
-              <p class="pl-20 pt-1 text-[#A649A2] font-bold ann-close-date">
-                Close Date: {{ changeTime(data.closeDate) !== null ? changeTime(data.closeDate) : '-' }}
-              </p>
+          </div>
+          <div class="flex justify-between mt-4">
+            <div
+                class="text-white bg-[#628FB8] px-5 text-sm rounded-lg py-1 ann-category"
+            >{{ data.announcementCategory }}
             </div>
-            <div class="flex ">
-              <RouterLink :to="{name: 'Tablesdetail', params: {id: data.id}}">
-                <button class="px-2 py-1 bg-gray-300 rounded-lg ann-button">view</button>
-              </RouterLink>
+            <div
+                :class="data.announcementDisplay === 'Y' ? 'bg-green-500' : 'bg-red-500'"
+                class="flex justify-center w-24 text-center text-white bg-green-500 rounded-lg ann-display"
+            >{{ data.announcementDisplay === 'Y' ? 'Open' : 'Closed'}}
+
             </div>
           </div>
         </div>
-      </RouterLink>
+        </div>
     </div>
   </div>
 </template>
