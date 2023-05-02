@@ -15,6 +15,11 @@ const router = createRouter({
       name: 'Tablesdetail',
       component: Tablesdetail
     },
+    {
+      path: '/',
+      name: 'Chair',
+      redirect:'/admin/announcement'
+    },
   ]
 })
 
