@@ -18,7 +18,7 @@ onMounted(async () => {
       console.log(queryAnnounce.value);
     }
     else if (result.status === 404 || result.status === 400) {
-      alert("The request page is not available")
+      alert("**The request page is not available**")
       router.push(`/admin/announcement/`)
     }
   } catch (err) {
@@ -49,9 +49,9 @@ const changeTime = (time) => {
  
 <template>
   <div class="mx-[2%] w-[96%]" v-show="status_ok === true">
-    <p class="text-black text-3xl font-bold py-5">Announcement Detail:</p>
-    <div class="border-2 flex flex-row space-x-5 p-5">
-      <div class="font-bold flex flex-col space-y-5">
+    <p class="py-5 text-3xl font-bold text-black">Announcement Detail:</p>
+    <div class="flex flex-row p-5 space-x-5 border-2">
+      <div class="flex flex-col space-y-5 font-bold">
         <p>Title</p>
         <p>Category</p>
         <p>Description</p>
@@ -68,9 +68,9 @@ const changeTime = (time) => {
         <p class="ann-display">{{ queryAnnounce.announcementDisplay }}</p>
       </div>
     </div>
-    <div class="py-5 flex space-x-2">
-      <button class="ann-button bg-gray-300 px-4 py-1 rounded-md " @click="$router.back()">Back</button>
-      <button class="ann-button bg-gray-300 px-4 py-1 rounded-md ">Edit</button>
+    <div class="flex py-5 space-x-2">
+      <button class="px-4 py-1 bg-gray-300 rounded-md ann-button " @click="$router.back()">Back</button>
+      <button class="px-4 py-1 bg-gray-300 rounded-md ann-button ">Edit</button>
     </div>
   </div>
 </template>
