@@ -8,32 +8,23 @@ const publishDate =ref("")
 const publishTime = ref("")
 const closeDate = ref("")
 const closeTime = ref("")
-const announcementDisplay = ref("N")
+const announcementDisplay = ref("")
+
+
+
 
 const data = computed(() => {
   return {
     announcementTitle: announcementTitle.value,
     categoryId: categoryId.value,
     announcementDescription: announcementDescription.value,
-    publishDate: publishDate.value + " " + publishTime.value,
-    publishTime: closeTime.value + " " + closeDate.value,
+    publishDate: new Date(publishDate.value + " " + publishTime.value),
+    publishTime: new Date(closeTime.value + " " + closeDate.value),
     announcementDisplay: announcementDisplay.value ? "Y" : "N"
   }
 })
 
-onMounted(async () => {
-  try {
-    const result = await fetch(
-      `${import.meta.env.VITE_BASE_URL}`
-    );
-    if (result.status === 200) {
-      const response = await result.json();
-      announce.value = response;
-    }
-  } catch (err) {
-    console.log(err);
-  }
-});
+
 
 </script>
 
@@ -56,6 +47,7 @@ onMounted(async () => {
           cols="100"
           rows="10"
           class="w-full border-2 rounded-md ann-description"
+          v-model="announcementDescription"
         ></textarea>
         <p class="text-white font-bold py-2">Publish Date</p>
         <div class="flex space-x-4">
@@ -63,11 +55,13 @@ onMounted(async () => {
             type="text"
             class="border-2 rounded-md w-1/12 py-1 ann-publish-date"
             placeholder="  01/05/2023"
+            v-model="publishDate"
           />
           <input
             type="text"
             class="border-2 rounded-md w-1/12 py-1 ann-publish-time"
             placeholder="  12:30"
+            v-model="publishTime"
           />
         </div>
         <p class="text-white font-bold py-2">Close Date</p>
@@ -76,22 +70,24 @@ onMounted(async () => {
             type="text"
             class="border-2 rounded-md w-1/12 py-1 ann-close-date"
             placeholder="  01/05/2023"
+            v-model="closeDate"
           />
           <input
             type="text"
             class="border-2 rounded-md w-1/12 py-1 ann-close-time"
             placeholder="  12:30"
+            v-model="closeTime"
           />
         </div>
         <p class="text-white font-bold py-2">Display</p>
-        <input type="checkbox" value="N" />
+        <input type="checkbox" v-model="announcementDisplay"/>
         <label class="font-semibold text-white"> Check to show this announcement</label>
 
         <div class="py-5 flex space-x-2">
           <button class="ann-button bg-gray-300 px-4 py-1 rounded-md">
             Submit
           </button>
-          <button class="ann-button bg-gray-300 px-4 py-1 rounded-md">
+          <button class="ann-button bg-gray-300 px-4 py-1 rounded-md" >
             Cancel
           </button>
         </div>
