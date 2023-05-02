@@ -50,9 +50,11 @@ const changeTime = (time) => {
         <p class="flex justify-center font-bold text-3xl py-2">SIT Announcement System (SAS)</p>
     </div>
     <div class="mx-[2%] w-[96%]">
-      <div class="flex">
+      <div class="flex w-full">
         <p class="font-bold">Date/Time shown in Timezone: <span class="font-normal">{{ timezone }}</span></p>
-        <button class="ann-button bg-gray-300 px-2 py-1 rounded-md justify- ">Add Announcement</button>
+        <RouterLink to="/admin/announcement/add">
+        <p class="ann-button bg-gray-300 px-2 py-1 rounded-md">Add Announcement</p>
+      </RouterLink>
       </div>
         
     
