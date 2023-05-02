@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Tables from '../components/Tables.vue'
 import Tablesdetail from '../components/Tablesdetail.vue'
+import Addtables from '../components/Addtables.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,6 +21,12 @@ const router = createRouter({
       name: 'Chair',
       redirect:'/admin/announcement'
     },
+    {
+      path: '/admin/announcement/add',
+      name: 'Addtables',
+      component: Addtables
+    },
+    
   ]
 })
 

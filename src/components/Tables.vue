@@ -47,14 +47,19 @@ const changeTime = (time) => {
 <template>
 
     <div>
-        <p class="flex justify-center font-bold text-3xl py-2">SIT Announcesment System (SAS)</p>
+        <p class="flex justify-center font-bold text-3xl py-2">SIT Announcement System (SAS)</p>
     </div>
     <div class="mx-[2%] w-[96%]">
+      <div class="flex">
         <p class="font-bold">Date/Time shown in Timezone: <span class="font-normal">{{ timezone }}</span></p>
+        <button class="ann-button bg-gray-300 px-2 py-1 rounded-md justify- ">Add Announcement</button>
+      </div>
+        
     
         <p class="text-5xl flex justify-center text-center text-red-600 pt-5" v-if="notFound" >
           No Announcement
     </p>
+
 
 <table class=" w-full border-2 rounded-lg" v-else>
   <tr class="bg-gray-200 font-bold border-b-2">

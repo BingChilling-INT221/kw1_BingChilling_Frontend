@@ -68,8 +68,9 @@ const changeTime = (time) => {
         <p class="ann-display">{{ queryAnnounce.announcementDisplay }}</p>
       </div>
     </div>
-    <div class="py-5">
+    <div class="py-5 flex space-x-2">
       <button class="ann-button bg-gray-300 px-4 py-1 rounded-md " @click="$router.back()">Back</button>
+      <button class="ann-button bg-gray-300 px-4 py-1 rounded-md ">Edit</button>
     </div>
   </div>
 </template>
