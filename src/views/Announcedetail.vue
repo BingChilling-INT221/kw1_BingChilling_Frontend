@@ -15,11 +15,12 @@ onMounted(async () => {
       console.log(queryAnnounce.value);
     }
     else if (result.status === 404 || result.status === 400) {
+      console.log("404")
       alert("The request page is not available")
       router.push(`/admin/announcement/`)
     }
     else {
-      alert("Something went wrong")
+      console.log("Something went wrong")
     }
   } catch (err) {
     console.log(err);
