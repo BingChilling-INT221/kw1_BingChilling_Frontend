@@ -1,6 +1,7 @@
 <script setup>
-import { onMounted, ref } from "vue";
-import { useRoute ,useRouter} from "vue-router";
+import {onMounted, ref} from "vue";
+import {useRoute, useRouter} from "vue-router";
+
 const queryAnnounce = ref({});
 const route = useRoute();
 const router = useRouter();
@@ -8,7 +9,7 @@ const status_ok = ref(false);
 onMounted(async () => {
   try {
     const result = await fetch(
-      `${import.meta.env.VITE_BASE_URL}/${route.params.id}`
+        `${import.meta.env.VITE_BASE_URL}/${route.params.id}`
     );
     console.log(result);
     if (result.status === 200) {
@@ -16,8 +17,7 @@ onMounted(async () => {
       const response = await result.json();
       queryAnnounce.value = response;
       console.log(queryAnnounce.value);
-    }
-    else if (result.status === 404 || result.status === 400) {
+    } else if (result.status === 404 || result.status === 400) {
       alert("The request page is not available")
       router.push(`/admin/announcement/`)
     }
@@ -38,17 +38,17 @@ const changeTime = (time) => {
     year: "numeric",
   };
   return `${newDate.toLocaleDateString("en-GB", options).replace(/[,]/gi, '') +
-    ", " +
-    newDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false })
+  ", " +
+  newDate.toLocaleTimeString([], {hour: "2-digit", minute: "2-digit", hour12: false})
 
-    }`;
+  }`;
 };
 
 
 </script>
- 
+
 <template>
-  <div class="mx-[2%] w-[96%]" v-show="status_ok === true">
+  <div v-show="status_ok === true" class="mx-[2%] w-[96%]">
     <p class="py-5 text-3xl font-bold text-black">Announcement Detail:</p>
     <div class="flex flex-row p-5 space-x-5 border-2">
       <div class="flex flex-col space-y-5 font-bold">
@@ -74,5 +74,5 @@ const changeTime = (time) => {
     </div>
   </div>
 </template>
- 
+
 <style scoped></style>
