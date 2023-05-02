@@ -26,40 +26,21 @@ console.log(toHoursAndMinutes(UTC));
   <div class="font-mono">
     <div class="w-full h-full">
       <div
-        class="bg-gradient-to-r from-purple-950 via-gray-500 to-blue-950 h-56 m-auto flex"
+        class="flex h-56 m-auto bg-gradient-to-r from-purple-950 via-gray-500 to-blue-950"
       >
-        <div class="flex pl-24 space-x-16 w-full">
-          <div class="w-44 pt-14">
-            <img src="../assets/boost.png" alt="" />
+        <div class="flex w-full pl-24 space-x-16">
+          <div class="flex items-center w-48 justify-items-center">
+            <img src="../assets/boost.png" alt=""  class="w-full h-auto"/>
           </div>
-          <div>
-            <p class="font-bold text-5xl pt-24">Announcement</p>
+          <div class="flex items-center justify-items-center" >
+            <p class="flex py-2 space-x-16 font-bold text-white text-7xl ">SIT Announcement System (SAS)</p>
           </div>
         </div>
+      </div>
+    <div>
+        
+    </div>
 
-        <div class="flex pt-2 w-full justify-end space-x-2">
-          <p class="text-lg">Time zone: {{ timezone }}</p>
-          <p class="text-lg">{{toHoursAndMinutes(UTC) }}</p>
-          <img src="../assets/1845948.png" alt="" class="h-6 pr-1" />
-        </div>
-      </div>
-      
-      <div class="pt-10">
-        <div class="m-auto w-11/12 rounded-xl h-auto">
-          <div class="flex space-x-16 pt-3 pr-5 w-full">
-            <div class="flex w-8/12 space-x-14 text-xl font-bold">
-              <p class="pl-5">All Announcement</p>
-              <p class="">Open</p>
-              <p class="">Closed</p>
-            </div>
-            <div class="w-full flex justify-end font-bold pt-1 text-xl">
-              <p>Sort by date</p>
-            </div>
-          </div>
-          
-          <AnnouncementBox/>
-        </div>
-      </div>
     </div>
   </div>
 </template>
