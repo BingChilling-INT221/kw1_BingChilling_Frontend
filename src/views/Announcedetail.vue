@@ -63,33 +63,27 @@ const changeTime = (time) => {
 </script>
 
 <template>
-  <div class="w-full h-screen font-mono">
-    <div class="flex h-auto m-auto">
-      <div class="flex w-full pl-12 space-x-2">
-        <div class="w-6 pt-3">
-          <button class="text-4xl text-white ann-button" @click="$router.back()">Back</button>
-        </div>
-      </div>
-
+  <div class="">
+    <div class="">
+          <button class="text-2xl font-bold text-white ann-button " @click="$router.back()"><span>&lt;</span> Back</button>
     </div>
-    <div class="pt-5">
-      <div class="w-11/12 h-auto p-3 m-auto bg-white rounded-lg">
+    <div class="mt-2 ">
+      <div class="w-full px-8 pt-4 pb-4 bg-white rounded-lg ">
         <div class="flex justify-between font-bold">
-          <p class="pt-1 text-2xl text-black ann-title">
+          <p class="text-2xl text-black ann-title">
             Title:
             {{ queryAnnounce.announcementTitle }}
           </p>
-          <div class="pt-1 pr-5 ann-display">
-            <a
+           
+          <div
                 :class="
               queryAnnounce.announcementDisplay === 'Y' ? 'bg-green-500' : 'bg-red-500'
             "
-                class="flex justify-center w-20 p-2 text-white bg-green-500 rounded-lg"
-                href="#"
-            >{{ queryAnnounce.announcementDisplay }}</a
+                class="flex justify-center w-20 p-2 text-white bg-green-500 rounded-lg ann-display"
+            >{{ queryAnnounce.announcementDisplay }}</div
             >
-          </div>
         </div>
+        <div class="flex justify-between">
         <div class="flex">
           <p class="pt-1 text-[#4E6FE2] font-bold ann-publish-date">
             Publishdate: {{ changeTime(queryAnnounce.publishDate) }}
@@ -98,18 +92,24 @@ const changeTime = (time) => {
             Close Date: {{ changeTime(queryAnnounce.closeDate) }}
           </p>
         </div>
+   
+      </div>
+       
+        <div class="py-5 ann-category">
+          <a
+              class="text-white bg-[#628FB8] px-5 text-sm rounded-lg py-1"
+              href="#"
+          >{{ queryAnnounce.announcementCategory }}</a
+          >
+        </div>
         <div class="pt-5 font-bold text-black border-2 rounded-lg">
           <p class="pl-5">Description:</p>
           <div class="h-auto">
             <p class="p-5 pl-5 ann-description">{{ queryAnnounce.announcementDescription }}</p>
           </div>
         </div>
-        <div class="pt-5 ann-category">
-          <a
-              class="text-white bg-[#628FB8] px-5 text-sm rounded-lg py-1"
-              href="#"
-          >{{ queryAnnounce.announcementCategory }}</a
-          >
+        <div class="flex justify-end">
+          <button class="px-2 py-1 mt-2 ml-6 text-black border-2 rounded-lg ann-button hover:bg-gray-300">edit</button> 
         </div>
       </div>
     </div>
