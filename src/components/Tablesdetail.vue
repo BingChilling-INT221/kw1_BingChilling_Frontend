@@ -18,8 +18,8 @@ onMounted(async () => {
       console.log(queryAnnounce.value);
     }
     else if (result.status === 404 || result.status === 400) {
-      // alert("The requested page is not available!")
-      // router.push(`/admin/announcement/`)
+      alert("The request page is not available")
+      router.push(`/admin/announcement/`)
     }
   } catch (err) {
     console.log("fetch failed")
