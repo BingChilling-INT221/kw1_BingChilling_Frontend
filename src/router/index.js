@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import homepage from '../views/Homeview.vue'
-import Addtables from '../components/Addtables.vue'
-import announcementdetail from '../views/Announcementdetail.vue'
+import homepage from '../views/homepage.vue'
+import announcementdetail from '../views/announcementdetail.vue'
+import addannouncement from '../views/addannouncement.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -23,8 +23,8 @@ const router = createRouter({
     },
     {
       path: '/admin/announcement/add',
-      name: 'Addtables',
-      component: Addtables
+      name: 'addannouncement',
+      component: addannouncement
     },
     {
       path: "/:pathMatch(.*)*",
