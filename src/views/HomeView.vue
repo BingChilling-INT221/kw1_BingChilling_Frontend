@@ -52,7 +52,7 @@ const changeTime = (time) => {
     <div class="flex justify-between w-full ">
       <p class="py-1 text-2xl font-bold">Date/Time shown in Timezone: <span class="font-normal">{{ timezone }}</span>
       </p>
-      <button class="px-2 py-1 text-black bg-white rounded-md ann-button">Add Announcement</button>
+      <button class="px-2 py-1 text-black bg-white rounded-md ann-button" @click="$router.push({name: 'Addtables'})">Add Announcement</button>
     </div>
     <div class="mt-10 ">
       <AnnouncementBox></AnnouncementBox>
