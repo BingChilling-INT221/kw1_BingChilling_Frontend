@@ -38,7 +38,39 @@ const changeTime = (time) => {
 
   }`;
 };
+const deleteAnnouncement = async(id)=>{
+  if (
+  confirm("Are you sure you want to delete this announcement?") === false
+  ) {
+    return;
+  }
 
+  try {
+    const result = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/${id}`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+        }
+    );
+    if (result.status === 200) {
+      alert("Announcement deleted")
+      window.location.reload()
+    }
+    else if (result.status === 404 || result.status === 400) {
+      console.log("404")
+      alert("The request page is not available")
+    }
+    else {
+      console.log("Something went wrong")
+    }
+  }
+  catch (err) {
+    console.log(err)
+  }
+}
 </script>
 
 <template>
@@ -56,7 +88,7 @@ const changeTime = (time) => {
 
             <div class="flex ">
                 <button class="px-2 py-1 ml-2 text-black rounded-lg hover:bg-green-500 hover:text-white ann-button" @click="$router.push({name: 'announcementdetail', params: {id: data.id}})">view</button>
-              <button class="px-2 py-1 ml-2 text-black rounded-lg hover:bg-red-500 hover:text-white ann-button">delete</button>
+              <button class="px-2 py-1 ml-2 text-black rounded-lg hover:bg-red-500 hover:text-white ann-button" @click="deleteAnnouncement(data.id)">delete</button>
             </div>
           </div>
           <div class="flex mt-2">

@@ -1,13 +1,10 @@
 <script setup>
 import {onMounted, ref} from "vue";
-import {useRouter} from "vue-router";
 import AnnouncementBox from "../components/AnnouncementBox.vue";
 
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 const announces = ref([]);
-const notFound = ref(false)
-
-const router = useRouter();
+const notFound = ref(false);
 onMounted(async () => {
   try {
     const result = await fetch(
@@ -24,26 +21,6 @@ onMounted(async () => {
     console.log(err);
   }
 });
-
-const changeTime = (time) => {
-  if (time === null) {
-    return "-"
-  }
-  const newDate = new Date(time);
-  const options = {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  };
-  return `${
-
-      newDate.toLocaleDateString("en-GB", options).replace(/[,]/gi, '') +
-      ", " +
-      newDate.toLocaleTimeString([], {hour: "2-digit", minute: "2-digit", hour12: false})
-
-  }`;
-};
-
 </script>
 
 <template>

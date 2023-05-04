@@ -1,8 +1,16 @@
 <script setup>
-import { onMounted, ref, computed } from "vue";
+import {onMounted, ref, computed, watch} from "vue";
+import { useRouter } from "vue-router";
+
+const props =defineProps({
+  id: {
+    type: String,
+  },
+
+})
+
 
 const category = ref([])
-
 const announcementTitle = ref("")
 const categoryId = ref(Number)
 const announcementDescription = ref("")
@@ -11,9 +19,9 @@ const publishTime = ref("")
 const closeDate = ref("")
 const closeTime = ref("")
 const announcementDisplay = ref("")
-const checkDate = /^(0?[1-9]|[12]\d|3[01])[\/](0?[1-9]|1[0-2])[\/](19|20)\d{2}$/g
-const checkTime = /([01]?[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?/g
-
+const checkDate = /^(0?[1-9]|[12]\d|3[01])\/(0?[1-9]|1[0-2])\/(19|20)\d{2}$/g
+const checkTime = /([01]?[0-9]|2[0-3]):[0-5][0-9]?/g
+const router = useRouter()
 onMounted( async() => {
   try {
     const result = await fetch(
@@ -103,33 +111,108 @@ const comeTime = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2
 const comeDate = new Date().toLocaleDateString("en-GB")
 
 
-const isDateTimeFormat = () =>{
-  if(checkDate.test(publishDate.value) || checkDate.test(closeDate.value)){
+const isDateFormat = (date) => {
+  if(!checkDate.test(date)){
     alert("Please enter correct date format")
-    return false
-  }
-  else if(checkTime.test(publishTime.value) || checkTime.test(closeTime.value)){
-    alert("Please enter correct time format")
     return false
   }
   return true
 } 
+const isTimeFormat = (time) => {
+  if(!checkTime.test(time)){
+    alert("Please enter correct time format")
+    return false
+  }
+  return true
+}
 
+const sendSubmit = async (event) => {
+  if (publishDate.value !== "" )
+  {
+    if(isDateFormat(publishDate.value) === false) return false
 
+  }
+  if (publishTime.value !== "")
+  {
+    if(isTimeFormat(publishTime.value) === false) return false
+  }
+  if (closeDate.value !=="") {
+    if (isDateFormat(closeDate.value) === false) return false
+  }
+  if (closeTime.value !=="") {
+    if (isTimeFormat(closeTime.value) === false) return false
+  }
+  if (publishDate.value !== "" && publishTime.value !== "" && closeDate.value !== "" && closeTime.value !== "")
+  {
+    if (publishDatePlueTime.value >= closeDatePlueTime.value)
+    {
+      alert("Please enter correct date and time")
+      return false
+    }
+  }
+  if (publishDatePlueTime.value < new Date().toISOString() || publishDatePlueTime.value === null)
+  {
+    publishDate.value = comeDate
+    publishTime.value = comeTime
+  }
+  event.preventDefault();
+  if (announcementDisplay.value)
+  {
+    announcementDisplay.value = "Y"
+  }
+  else
+  {
+    announcementDisplay.value = "N"
+  }
+  const sendPackage = {
+    announcementTitle: announcementTitle.value,
+    announcementDescription: announcementDescription.value,
+    announcementDisplay: announcementDisplay.value,
+    publishDate: publishDatePlueTime.value,
+    announcementCategory: categoryId.value,
+  }
+  if (closeDatePlueTime.value !== null) sendPackage.closeDate = closeDatePlueTime.value
+  try {
+    console.log(JSON.stringify(sendPackage))
+    const result = await fetch(
+      `http://intproj22.sit.kmutt.ac.th:8080/kw1/api/announcements`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(sendPackage),
+      }
+    );
+    if (result.status === 200) {
+      alert("Create announcement success")
+      router.push({ name: "homepage" })
+    }
+    else {
+      console.log(result)
+      alert("Create announcement fail")
+    }
+  }
+  catch (err) {
+    alert(err)
+  }
+
+}
 </script>
 
 <template>
+  {{props?.id}}
   <div class="p-2">
-    <div class="border-2 m-auto p-4 rounded-lg">
-      <p class="text-white font-bold text-3xl">Announcement Detail:</p>
-      <form action="" :onsubmit="isDateTimeFormat()">
-        <p class="text-white font-bold py-2">Title</p>
-        <input type="text" class="border-2 rounded-md w-full py-1 ann-title" v-model="announcementTitle" required />
-        <p class="text-white font-bold py-2">Category</p>
+    <div class="p-4 m-auto border-2 rounded-lg">
+      <p class="text-3xl font-bold text-white">Announcement Detail:</p>
+      <form action="" >
+        <p class="py-2 font-bold text-white">Title</p>
+        <input type="text" class="w-full py-1 border-2 rounded-md ann-title" v-model="announcementTitle" required />
+        <p class="py-2 font-bold text-white">Category</p>
         <select class="w-3/12 shadow-md shadow-slate-300 ann-category" v-model="categoryId" required>
-          <option :value="data.category_Id" v-for="(data,index) in category" :key="data.id">{{ data.categoryName }}</option>
+          <option :value="data.category_Id" v-for="(data) in category" :key="data.id">{{ data.categoryName }}</option>
         </select>
-        <p class="text-white font-bold py-2">Description</p>
+        <p class="py-2 font-bold text-white">Description</p>
         <textarea
           cols="100"
           rows="10"
@@ -137,49 +220,49 @@ const isDateTimeFormat = () =>{
           v-model="announcementDescription"
           required
         ></textarea>
-        <p class="text-white font-bold py-2">Publish Date</p>
+        <p class="py-2 font-bold text-white">Publish Date</p>
         <div class="flex space-x-4">
           <input
             type="text"
-            class="border-2 rounded-md w-1/12 py-1 ann-publish-date"
+            class="w-1/12 py-1 border-2 rounded-md ann-publish-date"
             :placeholder="'  '+comeDate+''"
             v-model="publishDate"
             
           />
           <input
             type="text"
-            class="border-2 rounded-md w-1/12 py-1 ann-publish-time"
+            class="w-1/12 py-1 border-2 rounded-md ann-publish-time"
             :placeholder="'  '+comeTime+''"
             v-model="publishTime"
             
           />
         </div>
-        <p class="text-white font-bold py-2">Close Date</p>
+        <p class="py-2 font-bold text-white">Close Date</p>
         <div class="flex space-x-4">
           <input
             type="text"
-            class="border-2 rounded-md w-1/12 py-1 ann-close-date"
+            class="w-1/12 py-1 border-2 rounded-md ann-close-date"
             :placeholder="'  '+comeDate+''"
             v-model="closeDate"
             
           />
           <input
             type="text"
-            class="border-2 rounded-md w-1/12 py-1 ann-close-time"
+            class="w-1/12 py-1 border-2 rounded-md ann-close-time"
             :placeholder="'  '+comeTime+''"
             v-model="closeTime"
             
           />
         </div>
-        <p class="text-white font-bold py-2">Display</p>
+        <p class="py-2 font-bold text-white">Display</p>
         <input type="checkbox" v-model="announcementDisplay" required/>
         <label class="font-semibold text-white"> Check to show this announcement</label>
 
-        <div class="py-5 flex space-x-2">
-          <button class="ann-button bg-gray-300 px-4 py-1 rounded-md">
+        <div class="flex py-5 space-x-2">
+          <button class="px-4 py-1 bg-gray-300 rounded-md ann-button" @click="sendSubmit($event)">
             Submit
           </button>
-          <button class="ann-button bg-gray-300 px-4 py-1 rounded-md"  @click="$router.push({name: 'homepage'})">
+          <button class="px-4 py-1 bg-gray-300 rounded-md ann-button"  @click="$router.push({name: 'homepage'})">
             Cancel
           </button>
         </div>

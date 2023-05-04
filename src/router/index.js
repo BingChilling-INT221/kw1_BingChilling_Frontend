@@ -27,6 +27,12 @@ const router = createRouter({
       component: addannouncement
     },
     {
+      path: '/admin/announcement/:id/edit',
+      name: 'editannouncement',
+      component: addannouncement,
+        props: true
+    },
+    {
       path: "/:pathMatch(.*)*",
       redirect: { name: 'homepage' }
     }
