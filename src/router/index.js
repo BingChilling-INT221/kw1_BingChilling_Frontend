@@ -30,7 +30,8 @@ const router = createRouter({
     {
       path: '/admin/announcement/:id/edit',
       name: 'editannouncement',
-      component: editannouncement
+      component: addannouncement,
+        props: true
     },
     {
       path: "/:pathMatch(.*)*",
