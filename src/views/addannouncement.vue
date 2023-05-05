@@ -169,6 +169,7 @@ const sendSubmit = async (event) => {
     announcementDescription: announcementDescription.value,
     announcementDisplay: announcementDisplay.value,
     publishDate: publishDatePlueTime.value,
+    closeDate: closeDatePlueTime.value,
     announcementCategory: categoryId.value,
   }
   if (closeDatePlueTime.value !== null) sendPackage.closeDate = closeDatePlueTime.value
