@@ -109,7 +109,7 @@ const changeTime = (time) => {
           </div>
         </div>
         <div class="flex justify-end">
-          <button class="px-2 py-1 mt-2 ml-6 text-black border-2 rounded-lg ann-button hover:bg-gray-300">edit</button> 
+          <button class="px-2 py-1 mt-2 ml-6 text-black border-2 rounded-lg ann-button hover:bg-gray-300" @click="$router.push({name: 'editannouncement', params: {id: queryAnnounce.id}})">edit</button> 
         </div>
       </div>
     </div>
