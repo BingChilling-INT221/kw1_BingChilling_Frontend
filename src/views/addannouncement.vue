@@ -210,7 +210,7 @@ const sendSubmit = async (event) => {
     categoryId: categoryId.value,
   }
   if (closeDatePlueTime.value !== null) sendPackage.closeDate = closeDatePlueTime.value
-  if (updateCheck) {
+  if (updateCheck.value) {
     try {
       console.log(JSON.stringify(sendPackage))
       const result = await fetch(
@@ -251,7 +251,7 @@ const sendSubmit = async (event) => {
         await router.push({name: "homepage"})
       } else {
         console.log(result)
-        alert("Create announcement fail")
+        alert(result)
       }
     } catch (err) {
       alert(err)
@@ -340,7 +340,7 @@ const sendSubmit = async (event) => {
 
 
           <div class="flex py-5 space-x-2 justify-end">
-            <button :class="change ? '' : 'opacity-40'" :disabled="!change && updateCheck"
+            <button :class="!change && updateCheck ?  'opacity-40' : ''" :disabled="!change && updateCheck"
                     class="px-4 py-1 bg-gray-300 rounded-md ann-button submit">
               {{ updateCheck ? "edit" : "submit" }}
             </button>
