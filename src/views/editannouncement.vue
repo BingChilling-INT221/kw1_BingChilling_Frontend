@@ -2,6 +2,7 @@
 import {computed, onMounted, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import Addannouncement from "./addannouncement.vue";
+
 useRouter();
 const route = useRoute();
 
@@ -37,7 +38,6 @@ onMounted(async () => {
     console.log(err);
   }
 });
-
 
 
 const changeNewStringToDate = (dates) => {

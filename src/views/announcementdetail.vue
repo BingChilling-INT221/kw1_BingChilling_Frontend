@@ -64,7 +64,7 @@ const changeTime = (time) => {
 </script>
 
 <template>
-  <div class="">
+  <div class="mx-[10%] w-[80%] pt-10">
     <div class="">
       <button class="text-2xl font-bold text-white ann-button " @click="$router.back()"><span>&lt;</span> Back</button>
     </div>
