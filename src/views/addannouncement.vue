@@ -270,7 +270,7 @@ const sendSubmit = async (event) => {
       </div>
       <div class="m-auto border-2 mt-5 bg-white rounded-lg   text-purpleCustom1 px-20 pt-10 pb-2 ">
         <!-- <p class="text-2xl font-bold ">Announcement Detail:</p> -->
-        <form action="" @submit="sendSubmit" class="w-full">
+        <form action="" class="w-full" @submit="sendSubmit">
           <div class="flex w-full">
             <p class="py-2 font-bold w-1/4 text-2xl ">Title</p>
             <input v-model="announcementTitle" class=" bg-gray-200  ml-2 border-2 rounded-md ann-title w-3/4" required
@@ -307,27 +307,27 @@ const sendSubmit = async (event) => {
           </div>
           <div class="flex w-full mt-6">
             <p class="py-2 font-bold w-1/4 text-2xl">Close Date</p>
-          <div class="flex space-x-4 w-3/4">
-            <input
-                v-model="closeDate"
-                :placeholder="'  '+comeDate+''"
-                class="w-1/4 py-1 border-2 rounded-md ann-close-date ml-2 bg-gray-200"
-                type="text"
+            <div class="flex space-x-4 w-3/4">
+              <input
+                  v-model="closeDate"
+                  :placeholder="'  '+comeDate+''"
+                  class="w-1/4 py-1 border-2 rounded-md ann-close-date ml-2 bg-gray-200"
+                  type="text"
 
-            />
-            <input
-                v-model="closeTime"
-                :placeholder="'  '+comeTime+''"
-                class="w-1/4 py-1 border-2 rounded-md ann-close-time ml-2 bg-gray-200"
-                type="text"
+              />
+              <input
+                  v-model="closeTime"
+                  :placeholder="'  '+comeTime+''"
+                  class="w-1/4 py-1 border-2 rounded-md ann-close-time ml-2 bg-gray-200"
+                  type="text"
 
-            />
-          </div>
+              />
+            </div>
           </div>
           <div class="flex mt-5 py-2">
-          <p class=" font-bold text-2xl w-1/4">Display</p>
-          <input v-model="announcementDisplay" type="checkbox" class="w-[2%]"/>
-          <label class="m-auto ml-2"> Check to show this announcement</label>
+            <p class=" font-bold text-2xl w-1/4">Display</p>
+            <input v-model="announcementDisplay" class="w-[2%]" type="checkbox"/>
+            <label class="m-auto ml-2"> Check to show this announcement</label>
           </div>
           <p class="py-2 font-bold text-2xl mt-5 ">Description</p>
           <textarea
@@ -338,8 +338,7 @@ const sendSubmit = async (event) => {
               rows="3"
           ></textarea>
 
-         
-         
+
           <div class="flex py-5 space-x-2 justify-end">
             <button :class="change ? '' : 'opacity-40'" :disabled="!change"
                     class="px-4 py-1 bg-gray-300 rounded-md ann-button submit">
