@@ -116,17 +116,17 @@ const changeStringToTime = (time) => {
 };
 
 
-const publishDatePlueTime = computed(() => {
+const publishDatePlusTime = computed(() => {
   if (!publishDate.value || !publishTime.value) return null
-  if (publishTime.value.length < 5) return null
-  const time = changeStringToTime(publishTime.value)
-  const date = changeStringToDate(publishDate.value)
-  if (!time || !date) return null
-  return new Date(`${date}T${time}:00`).toISOString()
+  // if (publishTime.value.length < 5) return null
+  // const time = changeStringToTime(publishTime.value)
+  // const date = changeStringToDate(publishDate.value)
+  // if (!time || !date) return null
+  return new Date(`${publishDate.value}T${publishTime.value}:00`).toISOString()
 });
 
 
-const closeDatePlueTime = computed(() => {
+const closeDatePlusTime = computed(() => {
   if (!closeDate.value || !closeTime.value) return null
   if (closeTime.value.length < 5) return null
   const time = changeStringToTime(closeTime.value)
@@ -186,15 +186,15 @@ const sendSubmit = async (event) => {
   //   if (isTimeFormat(closeTime.value) === false) return false
   // }
   // if (publishDate.value !== "" && publishTime.value !== "" && closeDate.value !== "" && closeTime.value !== "") {
-  //   if (publishDatePlueTime.value >= closeDatePlueTime.value) {
+  //   if (publishDatePlusTime.value >= closeDatePlusTime.value) {
   //     alert("Please enter correct date and time")
   //     return false
   //   }
   // }
-  if (publishDatePlueTime.value < new Date().toISOString() || publishDatePlueTime.value === null) {
-    publishDate.value = comeDate
-    publishTime.value = comeTime
-  }
+  // if (publishDatePlusTime.value < new Date().toISOString() || publishDatePlusTime.value === null) {
+  //   publishDate.value = comeDate
+  //   publishTime.value = comeTime
+  // }
   event.preventDefault();
   if (announcementDisplay.value) {
     announcementDisplay.value = "Y"
@@ -205,11 +205,11 @@ const sendSubmit = async (event) => {
     announcementTitle: announcementTitle.value,
     announcementDescription: announcementDescription.value,
     announcementDisplay: announcementDisplay.value,
-    publishDate: publishDatePlueTime.value,
-    closeDate: closeDatePlueTime.value,
+    publishDate: publishDatePlusTime.value,
+    closeDate: closeDatePlusTime.value,
     categoryId: categoryId.value,
   }
-  if (closeDatePlueTime.value !== null) sendPackage.closeDate = closeDatePlueTime.value
+  if (closeDatePlusTime.value !== null) sendPackage.closeDate = closeDatePlusTime.value
   if (updateCheck.value) {
     try {
       console.log(JSON.stringify(sendPackage))
