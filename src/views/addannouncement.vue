@@ -171,26 +171,26 @@ const isTimeFormat = (time) => {
 }
 
 const sendSubmit = async (event) => {
-  console.log(event)
-  if (publishDate.value !== "") {
-    if (isDateFormat(publishDate.value) === false) return false
+  // console.log(event)
+  // if (publishDate.value !== "") {
+  //   if (isDateFormat(publishDate.value) === false) return false
 
-  }
-  if (publishTime.value !== "") {
-    if (isTimeFormat(publishTime.value) === false) return false
-  }
-  if (closeDate.value !== "") {
-    if (isDateFormat(closeDate.value) === false) return false
-  }
-  if (closeTime.value !== "") {
-    if (isTimeFormat(closeTime.value) === false) return false
-  }
-  if (publishDate.value !== "" && publishTime.value !== "" && closeDate.value !== "" && closeTime.value !== "") {
-    if (publishDatePlueTime.value >= closeDatePlueTime.value) {
-      alert("Please enter correct date and time")
-      return false
-    }
-  }
+  // }
+  // if (publishTime.value !== "") {
+  //   if (isTimeFormat(publishTime.value) === false) return false
+  // }
+  // if (closeDate.value !== "") {
+  //   if (isDateFormat(closeDate.value) === false) return false
+  // }
+  // if (closeTime.value !== "") {
+  //   if (isTimeFormat(closeTime.value) === false) return false
+  // }
+  // if (publishDate.value !== "" && publishTime.value !== "" && closeDate.value !== "" && closeTime.value !== "") {
+  //   if (publishDatePlueTime.value >= closeDatePlueTime.value) {
+  //     alert("Please enter correct date and time")
+  //     return false
+  //   }
+  // }
   if (publishDatePlueTime.value < new Date().toISOString() || publishDatePlueTime.value === null) {
     publishDate.value = comeDate
     publishTime.value = comeTime
@@ -293,14 +293,14 @@ const sendSubmit = async (event) => {
                   v-model="publishDate"
                   :placeholder="'  '+comeDate+''"
                   class="w-1/4 py-1 ml-2 bg-gray-200 border-2 rounded-md ann-publish-date"
-                  type="text"
+                  type="date"
 
               />
               <input
                   v-model="publishTime"
                   :placeholder="'  '+comeTime+''"
                   class="w-1/4 py-1 ml-2 bg-gray-200 border-2 rounded-md ann-publish-time"
-                  type="text"
+                  type="time"
 
               />
             </div>
@@ -312,14 +312,14 @@ const sendSubmit = async (event) => {
                   v-model="closeDate"
                   :placeholder="'  '+comeDate+''"
                   class="w-1/4 py-1 ml-2 bg-gray-200 border-2 rounded-md ann-close-date"
-                  type="text"
+                  type="date"
 
               />
               <input
                   v-model="closeTime"
                   :placeholder="'  '+comeTime+''"
                   class="w-1/4 py-1 ml-2 bg-gray-200 border-2 rounded-md ann-close-time"
-                  type="text"
+                  type="time"
 
               />
             </div>
