@@ -1,40 +1,47 @@
 <script setup>
-import {computed, onMounted, ref} from "vue";
+import {onMounted, ref, computed, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
+import Addannouncement from "./addannouncement.vue";
 
 
 const router = useRouter()
 const route = useRoute();
 
-const announcement = ref({})
+const announcement =ref({})
 
-const category = ref("")
+const category = ref([])
 const announcementTitle = ref("")
 const categoryId = ref(Number)
 const announcementDescription = ref("")
-const publishDate = ref("")
+const publishDate =ref("")
 const publishTime = ref("")
 const closeDate = ref("")
 const closeTime = ref("")
 const announcementDisplay = ref("")
 
-const checkDate = /^(0?[1-9]|[12]\d|3[01])\/(0?[1-9]|1[0-2])\/(19|20)\d{2}$/g
-const checkTime = /([01]?[0-9]|2[0-3]):[0-5][0-9]?/g
+const newPublishDate =ref("")
+const newPublishTime = ref("")
+
+const newCloseDate = ref("")
+const newCloseTime = ref("")
+
+// const checkDate = /^(0?[1-9]|[12]\d|3[01])\/(0?[1-9]|1[0-2])\/(19|20)\d{2}$/g
+// const checkTime = /([01]?[0-9]|2[0-3]):[0-5][0-9]?/g
 
 
-onMounted(async () => {
-  try {
-    const result = await fetch(
-        `http://intproj22.sit.kmutt.ac.th:8080/kw1/api/categories`
-    );
-    if (result.status === 200) {
-      const response = await result.json();
-      category.value = response;
-    }
-  } catch (err) {
-    console.log(err);
-  }
-})
+// onMounted( async() => {
+//   try {
+//     const result = await fetch(
+//         `http://intproj22.sit.kmutt.ac.th:8080/kw1/api/categories`
+//     );
+//     if (result.status === 200) {
+//       const response = await result.json();
+//       category.value = response;
+//     }
+//   } catch (err) {
+//     console.log(err);
+//   }
+// })
 
 
 onMounted(async () => {
@@ -45,7 +52,16 @@ onMounted(async () => {
     if (result.status === 200) {
       const response = await result.json();
       announcement.value = response;
-      console.log(announcement.value);
+      announcement.value.announcementDisplay = announcement.value.announcementDisplay == 'Y' ? true : false
+      // console.log(announcement.value);
+    }
+    if(announcement.value.publishDate) {
+      newPublishDate.value = changeNewStringToDate(new Date(announcement.value.publishDate))
+      newPublishTime.value = changeStringToTime(new Date(announcement.value.publishDate).toTimeString())
+    }
+    if(announcement.value.closeDate) {
+      newCloseDate.value = changeNewStringToDate(new Date(announcement.value.closeDate))
+      newCloseTime.value = changeStringToTime(new Date(announcement.value.closeDate).toTimeString())
     }
   } catch (err) {
     console.log(err);
@@ -53,26 +69,43 @@ onMounted(async () => {
 });
 
 
-const changeStringToDate = (date) => {
-  if (!date) return null
-  let [day, month, year] = date.split("/");
-  if (day === undefined || month === undefined || year === undefined) return null
-  if (day > 31 || month > 12 || day < 1 || month < 1) return null
+// const changeStringToDate = (date) => {
+//   if(!date) return null
+//   let [day, month, year] = date.split("/");
+//   if (day === undefined || month === undefined || year === undefined) return null
+//   if (day > 31 || month > 12 || day < 1 || month <1) return null
+  
+//   if (year.length === 2) year = `20${year}`
+  
+//   if (month === 2 && day > checkFeb(year)) return null
+//   if (month.length === 1) month = `0${month}`
+//   if (day.length === 1) day = `0${day}`
+//   if (day.length < 2 || month.length < 2 || year.length < 4) return null
 
-  if (year.length === 2) year = `20${year}`
+//   return `${year}-${month}-${day}`
+// };
 
-  if (month === 2 && day > checkFeb(year)) return null
-  if (month.length === 1) month = `0${month}`
-  if (day.length === 1) day = `0${day}`
-  if (day.length < 2 || month.length < 2 || year.length < 4) return null
+const changeNewStringToDate = (dates) => {
+  let date,month,year;
 
-  return `${year}-${month}-${day}`
-};
+  date = dates.getDate();
+  month = dates.getMonth() + 1;
+  year = dates.getFullYear();
 
+    date = date
+        .toString()
+        .padStart(2, '0');
+
+    month = month
+        .toString()
+        .padStart(2, '0');
+
+  return `${date}/${month}/${year}`;
+}
 
 const changeStringToTime = (time) => {
   if (!time) return null
-  console.log(time)
+  // console.log(time)
   let [hour, minute] = time.split(":");
   if (hour < 0 || hour > 23 || minute < 0 || minute > 59) return null
   if (hour === undefined || minute === undefined) return null
@@ -83,204 +116,234 @@ const changeStringToTime = (time) => {
 };
 
 
-const publishDatePlueTime = computed(() => {
-  if (!publishDate.value || !publishTime.value) return null
-  if (publishTime.value.length < 5) return null
-  const time = changeStringToTime(publishTime.value)
-  const date = changeStringToDate(publishDate.value)
-  if (!time || !date) return null
-  return new Date(`${date}T${time}:00`).toISOString()
-});
+// const publishDatePlueTime = computed(() => {
+//   if (!publishDate.value || !publishTime.value) return null
+//   if (publishTime.value.length < 5) return null
+//   const time = changeStringToTime(publishTime.value)
+//   const date = changeStringToDate(publishDate.value)
+//   if (!time || !date) return null
+//   return new Date(`${date}T${time}:00`).toISOString()
+// });
 
 
-const closeDatePlueTime = computed(() => {
-  if (!closeDate.value || !closeTime.value) return null
-  if (closeTime.value.length < 5) return null
-  const time = changeStringToTime(closeTime.value)
-  const date = changeStringToDate(closeDate.value)
-  if (!time || !date) return null
-  return new Date(`${date}T${time}:00`).toISOString()
-});
+// const closeDatePlueTime = computed(() => {
+//   if (!closeDate.value || !closeTime.value) return null
+//   if (closeTime.value.length < 5) return null
+//   const time = changeStringToTime(closeTime.value)
+//   const date = changeStringToDate(closeDate.value)
+//   if (!time || !date) return null
+//   return new Date(`${date}T${time}:00`).toISOString()
+// });
 
 
-const checkFeb = (year) => {
-  if (year % 4 === 0) {
-    if (year % 100 === 0) {
-      if (year % 400 === 0) {
-        return 29
-      }
-      return 28
-    }
-    return 29
-  }
-  return 28
-}
+// const checkFeb = (year) => {
+//   if (year % 4 === 0) 
+//   {
+//     if (year % 100 === 0) 
+//     {
+//       if (year % 400 === 0) 
+//       {
+//         return 29
+//       }
+//       return 28
+//     }
+//     return 29
+//   }
+//   return 28
+// }
 
 
-const comeTime = new Date().toLocaleTimeString([], {hour: "2-digit", minute: "2-digit", hour12: false})
-const comeDate = new Date().toLocaleDateString("en-GB")
+// const comeTime = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false })
+// const comeDate = new Date().toLocaleDateString("en-GB")
 
 
-const isDateFormat = (date) => {
-  if (!checkDate.test(date)) {
-    alert("Please enter correct date format")
-    return false
-  }
-  return true
-}
-const isTimeFormat = (time) => {
-  if (!checkTime.test(time)) {
-    alert("Please enter correct time format")
-    return false
-  }
-  return true
-}
+// const isDateFormat = (date) => {
+//   if(!checkDate.test(date)){
+//     alert("Please enter correct date format")
+//     return false
+//   }
+//   return true
+// } 
+// const isTimeFormat = (time) => {
+//   if(!checkTime.test(time)){
+//     alert("Please enter correct time format")
+//     return false
+//   }
+//   return true
+// }
 
-const sendSubmit = async (event) => {
-  if (publishDate.value !== "") {
-    if (isDateFormat(publishDate.value) === false) return false
+// const sendSubmit = async (event) => {
+//   if (publishDate.value !== "" )
+//   {
+//     if(isDateFormat(publishDate.value) === false) return false
 
-  }
-  if (publishTime.value !== "") {
-    if (isTimeFormat(publishTime.value) === false) return false
-  }
-  if (closeDate.value !== "") {
-    if (isDateFormat(closeDate.value) === false) return false
-  }
-  if (closeTime.value !== "") {
-    if (isTimeFormat(closeTime.value) === false) return false
-  }
-  if (publishDate.value !== "" && publishTime.value !== "" && closeDate.value !== "" && closeTime.value !== "") {
-    if (publishDatePlueTime.value >= closeDatePlueTime.value) {
-      alert("Please enter correct date and time")
-      return false
-    }
-  }
-  if (publishDatePlueTime.value < new Date().toISOString() || publishDatePlueTime.value === null) {
-    publishDate.value = comeDate
-    publishTime.value = comeTime
-  }
-  event.preventDefault();
-  if (announcementDisplay.value) {
-    announcementDisplay.value = "Y"
-  } else {
-    announcementDisplay.value = "N"
-  }
-  const newPackage = {
-    announcementTitle: announcement.value.announcementTitle,
-    announcementDescription: announcement.value.announcementDescription,
-    announcementDisplay: announcement.value.announcementDisplay,
-    publishDate: announcement.value.publishDatePlueTime,
-    closeDate: announcement.value.closeDatePlueTime,
-    announcementCategory: announcement.value.categoryId,
-  }
-  if (closeDatePlueTime.value !== null) sendPackage.closeDate = closeDatePlueTime.value
-  try {
-    console.log(JSON.stringify(sendPackage))
-    const result = await fetch(
-        `${import.meta.env.VITE_BASE_URL}/${route.params.id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(newPackage),
-        }
-    );
-    if (result.status === 200) {
-      alert("Update announcement success")
-      router.push({name: "homepage"})
-    } else {
-      console.log(result)
-      alert("Update announcement fail")
-    }
-  } catch (err) {
-    alert(err)
-  }
+//   }
+//   if (publishTime.value !== "")
+//   {
+//     if(isTimeFormat(publishTime.value) === false) return false
+//   }
+//   if (closeDate.value !=="") {
+//     if (isDateFormat(closeDate.value) === false) return false
+//   }
+//   if (closeTime.value !=="") {
+//     if (isTimeFormat(closeTime.value) === false) return false
+//   }
+//   if (publishDate.value !== "" && publishTime.value !== "" && closeDate.value !== "" && closeTime.value !== "")
+//   {
+//     if (publishDatePlueTime.value >= closeDatePlueTime.value)
+//     {
+//       alert("Please enter correct date and time")
+//       return false
+//     }
+//   }
+//   if (publishDatePlueTime.value < new Date().toISOString() || publishDatePlueTime.value === null)
+//   {
+//     publishDate.value = comeDate
+//     publishTime.value = comeTime
+//   }
+//   event.preventDefault();
+//   if (announcementDisplay.value)
+//   {
+//     announcementDisplay.value = "Y"
+//   }
+//   else
+//   {
+//     announcementDisplay.value = "N"
+//   }
+//   const newPackage = {
+//     announcementTitle: announcement.value.announcementTitle,
+//     announcementDescription: announcement.value.announcementDescription,
+//     announcementDisplay: announcement.value.announcementDisplay,
+//     publishDate: announcement.value.publishDatePlueTime,
+//     closeDate: announcement.value.closeDatePlueTime,
+//     announcementCategory: announcement.value.categoryId,
+//   }
+//   if (closeDatePlueTime.value !== null) newPackage.closeDate = closeDatePlueTime.value
+//   try {
+//     console.log(JSON.stringify(newPackage))
+//     const result = await fetch(
+//       `${import.meta.env.VITE_BASE_URL}/${route.params.id}`,
+//       {
+//         method: "PUT",
+//         headers: {
+//           "Content-Type": "application/json"
+//         },
+//         body: JSON.stringify(newPackage),
+//       }
+//     );
+//     if (result.status === 200) {
+//       alert("Update announcement success")
+//       router.push({ name: "homepage" })
+//     }
+//     else {
+//       console.log(result)
+//       alert("Update announcement fail")
+//     }
+//   }
+//   catch (err) {
+//     alert(err)
+//   }
 
-}
+// }
+// announcementTitle: announcement.value.announcementTitle,
+//     announcementDescription: announcement.value.announcementDescription,
+//     announcementDisplay: announcement.value.announcementDisplay,
+//     publishDate: announcement.value.publishDatePlueTime,
+//     closeDate: announcement.value.closeDatePlueTime,
+//     announcementCategory: announcement.value.categoryId,
+const updatePackage = computed(() => {
+  return {
+    "announcementTitle": announcement.value.announcementTitle,
+        "announcementDescription": announcement.value.announcementDescription,
+        "newPublishDate": newPublishDate.value,
+        "newPublishTime": newPublishTime.value,
+        "newCloseDate": newCloseDate.value,
+        "newCloseTime": newCloseTime.value,
+        "announcementDisplay": announcement.value.announcementDisplay,
+        "categoryId": 3
+  }
+})
 </script>
 
 <template>
-
+  <Addannouncement :updatePackage="updatePackage"></Addannouncement>
+<!-- {{ announcement.publishDate }}
   <div class="p-2">
     <div class="p-4 m-auto border-2 rounded-lg">
-      <p class="text-3xl font-bold text-white">Edit Announcement Detail: {{ route.params.id }}</p>
-      <form action="">
+      <p class="text-3xl font-bold text-white">Edit Announcement Detail</p>
+      <form action="" >
         <p class="py-2 font-bold text-white">Title</p>
-        <input v-model="announcement.announcementTitle" class="w-full py-1 border-2 rounded-md ann-title" required
-               type="text"/>
+        <input type="text" class="w-full py-1 border-2 rounded-md ann-title" v-model="announcement.announcementTitle" required />
         <p class="py-2 font-bold text-white">Category</p>
-        <select v-model="announcement.categoryId" class="w-3/12 shadow-md shadow-slate-300 ann-category" required>
-          <option v-for="(data) in category" :key="data.id" :value="data.category_Id">{{ data.categoryName }}</option>
+        <select class="w-3/12 shadow-md shadow-slate-300 ann-category" v-model="announcement.categoryId" required>
+          <option :value="data.category_Id" v-for="(data) in category" :key="data.id">{{ data.categoryName }}</option>
         </select>
         <p class="py-2 font-bold text-white">Description</p>
         <textarea
-            v-model="announcement.announcementDescription"
-            class="w-full border-2 rounded-md ann-description"
-            cols="100"
-            required
-            rows="10"
+          cols="100"
+          rows="10"
+          class="w-full border-2 rounded-md ann-description"
+          v-model="announcement.announcementDescription"
+          required
         ></textarea>
         <p class="py-2 font-bold text-white">Publish Date</p>
         <div class="flex space-x-4">
           <input
-              v-model="announcement.publishDate"
-              :placeholder="'  '+comeDate+''"
-              class="w-1/12 py-1 border-2 rounded-md ann-publish-date"
-              type="text"
-
+            type="text"
+            class="w-1/12 py-1 border-2 rounded-md ann-publish-date"
+            :placeholder="'  '+comeDate+''"
+            v-model="newPublishDate"
           />
           <input
-              v-model="announcement.publishTime"
-              :placeholder="'  '+comeTime+''"
-              class="w-1/12 py-1 border-2 rounded-md ann-publish-time"
-              type="text"
-
+            type="text"
+            class="w-1/12 py-1 border-2 rounded-md ann-publish-time"
+            :placeholder="'  '+comeTime+''"
+            v-model="newPublishTime"
           />
         </div>
         <p class="py-2 font-bold text-white">Close Date</p>
         <div class="flex space-x-4">
           <input
-              v-model="announcement.closeDate"
-              :placeholder="'  '+comeDate+''"
-              class="w-1/12 py-1 border-2 rounded-md ann-close-date"
-              type="text"
-
+            type="text"
+            class="w-1/12 py-1 border-2 rounded-md ann-close-date"
+            :placeholder="'  '+comeDate+''"
+            v-model="newCloseDate"
+            
           />
           <input
-              v-model="announcement.closeTime"
-              :placeholder="'  '+comeTime+''"
-              class="w-1/12 py-1 border-2 rounded-md ann-close-time"
-              type="text"
-
+            type="text"
+            class="w-1/12 py-1 border-2 rounded-md ann-close-time"
+            :placeholder="'  '+comeTime+''"
+            v-model="newCloseTime"
+            
           />
         </div>
         <p class="py-2 font-bold text-white">Display</p>
-        <input v-model="announcement.announcementDisplay" required type="checkbox"/>
+        <input type="checkbox" v-model="announcement.announcementDisplay" required/>
         <label class="font-semibold text-white"> Check to show this announcement</label>
 
         <div class="flex py-5 space-x-2">
           <button class="px-4 py-1 bg-gray-300 rounded-md ann-button" @click="sendSubmit($event)">
             Submit
           </button>
-          <button class="px-4 py-1 bg-gray-300 rounded-md ann-button" @click="$router.push({name: 'homepage'})">
+          <button class="px-4 py-1 bg-gray-300 rounded-md ann-button"  @click="$router.push({name: 'homepage'})">
             Cancel
           </button>
         </div>
-
+     
 
         <p class="text-white">
-          {{ publishDatePlueTime }}
-          {{ closeDatePlueTime }}
-          {{ announcementDisplay }}
-          {{ categoryId }}
-          {{ announcementDescription }}
-        </p>
+        {{publishDatePlueTime }}
+        {{ closeDatePlueTime }}
+        {{ announcementDisplay }}
+        {{ categoryId }}
+        {{ announcementDescription }}
+      </p>
       </form>
-
+    
     </div>
-  </div>
+  </div> -->
+
 
 
 </template>
