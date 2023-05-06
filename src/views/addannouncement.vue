@@ -340,7 +340,7 @@ const sendSubmit = async (event) => {
 
 
           <div class="flex py-5 space-x-2 justify-end">
-            <button :class="change ? '' : 'opacity-40'" :disabled="!change"
+            <button :class="change ? '' : 'opacity-40'" :disabled="!change && updateCheck"
                     class="px-4 py-1 bg-gray-300 rounded-md ann-button submit">
               {{ updateCheck ? "edit" : "submit" }}
             </button>
