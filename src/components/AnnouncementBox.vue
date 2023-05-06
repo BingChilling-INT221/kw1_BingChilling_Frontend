@@ -81,7 +81,7 @@ const deleteAnnouncement = async (id) => {
         <div class="text-black w-[8%] flex break-all items-center justify-center border-r-2 font-semibold ">
           No.{{ index + 1 }}
         </div>
-        <div class="h-full pl-4 grow">
+        <div class="h-full pl-4 w-[92%]">
           <div class="flex justify-between font-bold">
             <p class="pt-1 text-xl text-black ann-title">{{ data.announcementTitle }}</p>
 
