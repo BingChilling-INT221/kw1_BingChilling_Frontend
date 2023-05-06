@@ -22,17 +22,28 @@ onMounted(async () => {
     );
     if (result.status === 200) {
       const response = await result.json();
+      // console.log(response)
       announcement.value = response;
       announcement.value.announcementDisplay = announcement.value.announcementDisplay === 'Y'
       // console.log(announcement.value);
     }
-    if (announcement.value.publishDate) {
-      newPublishDate.value = changeNewStringToDate(new Date(announcement.value.publishDate))
-      newPublishTime.value = changeStringToTime(new Date(announcement.value.publishDate).toTimeString())
+    if (announcement.value.publishDate !== null || announcement.value.publishDate) {
+      const date = changeNewStringToDate(new Date(announcement.value.publishDate))
+      const time = changeStringToTime(new Date(announcement.value.publishDate).toTimeString())
+      newPublishDate.value = date ?? ""
+      newPublishTime.value = time ?? ""
     }
-    if (announcement.value.closeDate) {
-      newCloseDate.value = changeNewStringToDate(new Date(announcement.value.closeDate))
-      newCloseTime.value = changeStringToTime(new Date(announcement.value.closeDate).toTimeString())
+  
+    if (announcement.value.closeDate !== null || announcement.value.closeDate) {
+      console.log(announcement.value.closeDate)
+      const date = changeNewStringToDate(new Date(announcement.value.closeDate))
+      const time = changeStringToTime(new Date(announcement.value.closeDate).toTimeString())
+      console.log(date)
+      console.log(time)
+      newCloseDate.value = date ?? ""
+      console.log(newCloseDate.value)
+      newCloseTime.value = time ?? ''
+
     }
   } catch (err) {
     console.log(err);
@@ -41,8 +52,8 @@ onMounted(async () => {
 
 
 const changeNewStringToDate = (dates) => {
+  if (!dates) return null
   let date, month, year;
-
   date = dates.getDate();
   month = dates.getMonth() + 1;
   year = dates.getFullYear();
@@ -54,8 +65,8 @@ const changeNewStringToDate = (dates) => {
   month = month
       .toString()
       .padStart(2, '0');
-
-  return `${date}/${month}/${year}`;
+  const result = `${year}-${month}-${date}`
+  return result
 }
 
 const changeStringToTime = (time) => {
@@ -85,6 +96,7 @@ const updatePackage = computed(() => {
 </script>
 
 <template>
+  <!-- {{ updatePackage }} -->
   <Addannouncement :updatePackage="updatePackage"></Addannouncement>
 
 </template>

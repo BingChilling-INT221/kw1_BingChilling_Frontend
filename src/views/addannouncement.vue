@@ -41,7 +41,7 @@ const updateInit = () => {
   announcementDescription.value = props.updatePackage.announcementDescription
   publishDate.value = props.updatePackage.newPublishDate
   publishTime.value = props.updatePackage.newPublishTime
-  closeDate.value = props.updatePackage.newCloseDate
+  closeDate.value = props.updatePackage.newCloseDate 
   closeTime.value = props.updatePackage.newCloseTime
   announcementDisplay.value = props.updatePackage.announcementDisplay
 }
@@ -128,11 +128,11 @@ const publishDatePlusTime = computed(() => {
 
 const closeDatePlusTime = computed(() => {
   if (!closeDate.value || !closeTime.value) return null
-  if (closeTime.value.length < 5) return null
-  const time = changeStringToTime(closeTime.value)
-  const date = changeStringToDate(closeDate.value)
-  if (!time || !date) return null
-  return new Date(`${date}T${time}:00`).toISOString()
+  // if (closeTime.value.length < 5) return null
+  // const time = changeStringToTime(closeTime.value)
+  // const date = changeStringToDate(closeDate.value)
+  // if (!time || !date) return null
+  return new Date(`${closeDate.value}T${closeTime.value}:00`).toISOString()
 });
 
 

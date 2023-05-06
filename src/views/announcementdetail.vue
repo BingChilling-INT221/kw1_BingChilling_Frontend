@@ -71,7 +71,7 @@ const changeTime = (time) => {
     <div class="mt-2 ">
       <div class="w-full px-8 pt-4 pb-4 bg-white rounded-lg ">
         <div class="flex justify-between font-bold">
-          <p class="text-2xl text-black ann-title w-4/5">
+          <p class="w-4/5 text-2xl text-black ann-title">
             Title:
             {{ queryAnnounce.announcementTitle }}
           </p>
@@ -80,7 +80,7 @@ const changeTime = (time) => {
               :class="
               queryAnnounce.announcementDisplay === 'Y' ? 'bg-green-500' : 'bg-red-500'
             "
-              class="flex justify-center w-24 p-2 h-10 text-white bg-green-500 rounded-lg ann-display"
+              class="flex justify-center w-24 h-10 p-2 text-white bg-green-500 rounded-lg ann-display"
           >{{ queryAnnounce.announcementDisplay }}
           </div>
           </div>  
