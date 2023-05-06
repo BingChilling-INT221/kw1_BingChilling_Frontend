@@ -326,7 +326,7 @@ const sendSubmit = async (event) => {
           </div>
           <div class="flex py-2 mt-5">
             <p class="w-1/4 text-2xl font-bold ">Display</p>
-            <input v-model="announcementDisplay" class="w-[2%]" type="checkbox"/>
+            <input v-model="announcementDisplay" class="w-[2%] ann-display" type="checkbox"/>
             <label class="m-auto ml-2"> Check to show this announcement</label>
           </div>
           <p class="py-2 mt-5 text-2xl font-bold ">Description</p>
