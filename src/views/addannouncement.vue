@@ -210,7 +210,8 @@ const sendSubmit = async (event) => {
     categoryId: categoryId.value,
   }
   if (closeDatePlueTime.value !== null) sendPackage.closeDate = closeDatePlueTime.value
-  if (updateCheck) {
+  console.log(updateCheck.value)
+  if (updateCheck.value) {
     try {
       console.log(JSON.stringify(sendPackage))
       const result = await fetch(
@@ -228,7 +229,7 @@ const sendSubmit = async (event) => {
         await router.push({name: "homepage"})
       } else {
         console.log(result)
-        alert("update announcement fail")
+        alert(result)
       }
     } catch (err) {
       alert(err)
@@ -251,7 +252,7 @@ const sendSubmit = async (event) => {
         await router.push({name: "homepage"})
       } else {
         console.log(result)
-        alert("Create announcement fail")
+        alert(result)
       }
     } catch (err) {
       alert(err)
@@ -262,23 +263,23 @@ const sendSubmit = async (event) => {
 </script>
 
 <template>
-  <div class="w-full flex  ">
+  <div class="flex w-full ">
     <div class=" w-[80%] mx-[10%]   ">
-      <div class=" mt-5  text-white">
-        <button class="text-2xl font-bold  ann-button  " @click="$router.back()"><span>&lt;</span> Back</button>
-        <p class="text-5xl pt-5 font-bold ">{{ updateCheck ? "Edit" : "Create " }} Announcement</p>
+      <div class="mt-5 text-white ">
+        <button class="text-2xl font-bold ann-button " @click="$router.back()"><span>&lt;</span> Back</button>
+        <p class="pt-5 text-5xl font-bold ">{{ updateCheck ? "Edit" : "Create " }} Announcement</p>
       </div>
-      <div class="m-auto border-2 mt-5 bg-white rounded-lg   text-purpleCustom1 px-20 pt-10 pb-2 ">
+      <div class="px-20 pt-10 pb-2 m-auto mt-5 bg-white border-2 rounded-lg text-purpleCustom1 ">
         <!-- <p class="text-2xl font-bold ">Announcement Detail:</p> -->
         <form action="" class="w-full" @submit="sendSubmit">
           <div class="flex w-full">
-            <p class="py-2 font-bold w-1/4 text-2xl ">Title</p>
-            <input v-model="announcementTitle" class=" bg-gray-200  ml-2 border-2 rounded-md ann-title w-3/4" required
+            <p class="w-1/4 py-2 text-2xl font-bold ">Title</p>
+            <input v-model="announcementTitle" class="w-3/4 ml-2 bg-gray-200 border-2 rounded-md ann-title" required
                    type="text"/>
           </div>
-          <div class="flex mt-6 w-full">
-            <p class="py-2 font-bold w-1/4 text-2xl">Category</p>
-            <select v-model="categoryId" class="w-3/4 shadow-md  ml-2 bg-gray-200 shadow-slate-300 ann-category"
+          <div class="flex w-full mt-6">
+            <p class="w-1/4 py-2 text-2xl font-bold">Category</p>
+            <select v-model="categoryId" class="w-3/4 ml-2 bg-gray-200 shadow-md shadow-slate-300 ann-category"
                     required>
               <option v-for="(data) in category" :key="data.id" :value="data.category_Id">{{
                   data.categoryName
@@ -286,50 +287,50 @@ const sendSubmit = async (event) => {
               </option>
             </select>
           </div>
-          <div class="w-full flex mt-6">
-            <p class="py-2 font-bold w-1/4 text-2xl">Publish Date</p>
-            <div class="flex space-x-4 w-3/4 ">
+          <div class="flex w-full mt-6">
+            <p class="w-1/4 py-2 text-2xl font-bold">Publish Date</p>
+            <div class="flex w-3/4 space-x-4 ">
               <input
                   v-model="publishDate"
                   :placeholder="'  '+comeDate+''"
-                  class=" py-1 border-2 rounded-md ann-publish-date ml-2 w-1/4 bg-gray-200"
+                  class="w-1/4 py-1 ml-2 bg-gray-200 border-2 rounded-md ann-publish-date"
                   type="text"
 
               />
               <input
                   v-model="publishTime"
                   :placeholder="'  '+comeTime+''"
-                  class="w-1/4 py-1 border-2 rounded-md ann-publish-time ml-2  bg-gray-200"
+                  class="w-1/4 py-1 ml-2 bg-gray-200 border-2 rounded-md ann-publish-time"
                   type="text"
 
               />
             </div>
           </div>
           <div class="flex w-full mt-6">
-            <p class="py-2 font-bold w-1/4 text-2xl">Close Date</p>
-            <div class="flex space-x-4 w-3/4">
+            <p class="w-1/4 py-2 text-2xl font-bold">Close Date</p>
+            <div class="flex w-3/4 space-x-4">
               <input
                   v-model="closeDate"
                   :placeholder="'  '+comeDate+''"
-                  class="w-1/4 py-1 border-2 rounded-md ann-close-date ml-2 bg-gray-200"
+                  class="w-1/4 py-1 ml-2 bg-gray-200 border-2 rounded-md ann-close-date"
                   type="text"
 
               />
               <input
                   v-model="closeTime"
                   :placeholder="'  '+comeTime+''"
-                  class="w-1/4 py-1 border-2 rounded-md ann-close-time ml-2 bg-gray-200"
+                  class="w-1/4 py-1 ml-2 bg-gray-200 border-2 rounded-md ann-close-time"
                   type="text"
 
               />
             </div>
           </div>
-          <div class="flex mt-5 py-2">
-            <p class=" font-bold text-2xl w-1/4">Display</p>
+          <div class="flex py-2 mt-5">
+            <p class="w-1/4 text-2xl font-bold ">Display</p>
             <input v-model="announcementDisplay" class="w-[2%]" type="checkbox"/>
             <label class="m-auto ml-2"> Check to show this announcement</label>
           </div>
-          <p class="py-2 font-bold text-2xl mt-5 ">Description</p>
+          <p class="py-2 mt-5 text-2xl font-bold ">Description</p>
           <textarea
               v-model="announcementDescription"
               class="w-full border-2 rounded-md ann-description"
@@ -339,8 +340,8 @@ const sendSubmit = async (event) => {
           ></textarea>
 
 
-          <div class="flex py-5 space-x-2 justify-end">
-            <button :class="change ? '' : 'opacity-40'" :disabled="!change && updateCheck"
+          <div class="flex justify-end py-5 space-x-2">
+            <button :class="change || !updateCheck ? '' : 'opacity-40'" :disabled="!change && updateCheck"
                     class="px-4 py-1 bg-gray-300 rounded-md ann-button submit">
               {{ updateCheck ? "edit" : "submit" }}
             </button>
