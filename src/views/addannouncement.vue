@@ -210,7 +210,6 @@ const sendSubmit = async (event) => {
     categoryId: categoryId.value,
   }
   if (closeDatePlueTime.value !== null) sendPackage.closeDate = closeDatePlueTime.value
-  console.log(updateCheck.value)
   if (updateCheck.value) {
     try {
       console.log(JSON.stringify(sendPackage))
