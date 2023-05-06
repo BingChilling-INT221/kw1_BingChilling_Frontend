@@ -25,7 +25,7 @@ onMounted(async () => {
 
 <template>
 
-  <div class="text-white ">
+  <div class="text-white mx-[10%] w-[80%] pt-10">
     <div class="flex justify-between w-full ">
       <p class="py-1 text-2xl font-bold">Date/Time shown in Timezone: <span class="font-normal">{{ timezone }}</span>
       </p>

@@ -8,16 +8,6 @@ const props = defineProps(
     {
       updatePackage: {
         type: Object,
-        //           default: {
-        //   "announcementTitle" :"",
-        //   "categoryId":-1,
-        //   "announcementDescription":"",
-        //   "newPublishDate":"",
-        //   "newPublishTime":"",
-        //   "newCloseDate":"" ,
-        //   "newCloseTime":"",
-        //   "announcementDisplay":""
-        // }
       }
     }
 )
@@ -70,6 +60,7 @@ const compObj = computed(() => {
 })
 let change = ref(false)
 watch(() => compObj, () => {
+  if (!updateCheck.value) return
   change.value = false
   for (const property in compObj.value) {
     if (compObj.value[property] !== props.updatePackage[property]) {
@@ -271,85 +262,99 @@ const sendSubmit = async (event) => {
 </script>
 
 <template>
-  <div class="p-2">
-    <div class="p-4 m-auto border-2 rounded-lg">
-      <p class="text-3xl font-bold text-white">Announcement Detail:</p>
-      <form action="" @submit="sendSubmit">
-        <p class="py-2 font-bold text-white">Title</p>
-        <input v-model="announcementTitle" class="w-full py-1 border-2 rounded-md ann-title" required type="text"/>
-        <p class="py-2 font-bold text-white">Category</p>
-        <select v-model="categoryId" class="w-3/12 shadow-md shadow-slate-300 ann-category" required>
-          <option v-for="(data) in category" :key="data.id" :value="data.category_Id">{{ data.categoryName }}</option>
-        </select>
-        <p class="py-2 font-bold text-white">Description</p>
-        <textarea
-            v-model="announcementDescription"
-            class="w-full border-2 rounded-md ann-description"
-            cols="100"
-            required
-            rows="10"
-        ></textarea>
-        <p class="py-2 font-bold text-white">Publish Date</p>
-        <div class="flex space-x-4">
-          <input
-              v-model="publishDate"
-              :placeholder="'  '+comeDate+''"
-              class="w-1/12 py-1 border-2 rounded-md ann-publish-date"
-              type="text"
+  <div class="w-full flex  ">
+    <div class=" w-[80%] mx-[10%]   ">
+      <div class=" mt-5  text-white">
+        <button class="text-2xl font-bold  ann-button  " @click="$router.back()"><span>&lt;</span> Back</button>
+        <p class="text-5xl pt-5 font-bold ">{{ updateCheck ? "Edit" : "Create " }} Announcement</p>
+      </div>
+      <div class="m-auto border-2 mt-5 bg-white rounded-lg   text-purpleCustom1 px-20 pt-10 pb-2 ">
+        <!-- <p class="text-2xl font-bold ">Announcement Detail:</p> -->
+        <form action="" class="w-full" @submit="sendSubmit">
+          <div class="flex w-full">
+            <p class="py-2 font-bold w-1/4 text-2xl ">Title</p>
+            <input v-model="announcementTitle" class=" bg-gray-200  ml-2 border-2 rounded-md ann-title w-3/4" required
+                   type="text"/>
+          </div>
+          <div class="flex mt-6 w-full">
+            <p class="py-2 font-bold w-1/4 text-2xl">Category</p>
+            <select v-model="categoryId" class="w-3/4 shadow-md  ml-2 bg-gray-200 shadow-slate-300 ann-category"
+                    required>
+              <option v-for="(data) in category" :key="data.id" :value="data.category_Id">{{
+                  data.categoryName
+                }}
+              </option>
+            </select>
+          </div>
+          <div class="w-full flex mt-6">
+            <p class="py-2 font-bold w-1/4 text-2xl">Publish Date</p>
+            <div class="flex space-x-4 w-3/4 ">
+              <input
+                  v-model="publishDate"
+                  :placeholder="'  '+comeDate+''"
+                  class=" py-1 border-2 rounded-md ann-publish-date ml-2 w-1/4 bg-gray-200"
+                  type="text"
 
-          />
-          <input
-              v-model="publishTime"
-              :placeholder="'  '+comeTime+''"
-              class="w-1/12 py-1 border-2 rounded-md ann-publish-time"
-              type="text"
+              />
+              <input
+                  v-model="publishTime"
+                  :placeholder="'  '+comeTime+''"
+                  class="w-1/4 py-1 border-2 rounded-md ann-publish-time ml-2  bg-gray-200"
+                  type="text"
 
-          />
-        </div>
-        <p class="py-2 font-bold text-white">Close Date</p>
-        <div class="flex space-x-4">
-          <input
-              v-model="closeDate"
-              :placeholder="'  '+comeDate+''"
-              class="w-1/12 py-1 border-2 rounded-md ann-close-date"
-              type="text"
+              />
+            </div>
+          </div>
+          <div class="flex w-full mt-6">
+            <p class="py-2 font-bold w-1/4 text-2xl">Close Date</p>
+            <div class="flex space-x-4 w-3/4">
+              <input
+                  v-model="closeDate"
+                  :placeholder="'  '+comeDate+''"
+                  class="w-1/4 py-1 border-2 rounded-md ann-close-date ml-2 bg-gray-200"
+                  type="text"
 
-          />
-          <input
-              v-model="closeTime"
-              :placeholder="'  '+comeTime+''"
-              class="w-1/12 py-1 border-2 rounded-md ann-close-time"
-              type="text"
+              />
+              <input
+                  v-model="closeTime"
+                  :placeholder="'  '+comeTime+''"
+                  class="w-1/4 py-1 border-2 rounded-md ann-close-time ml-2 bg-gray-200"
+                  type="text"
 
-          />
-        </div>
-        <p class="py-2 font-bold text-white">Display</p>
-        <input v-model="announcementDisplay" type="checkbox"/>
-        <label class="font-semibold text-white"> Check to show this announcement</label>
-        <div class="flex py-5 space-x-2">
-          <button :class="change ? '' : 'opacity-40'" :disabled="!change"
-                  class="px-4 py-1 bg-gray-300 rounded-md ann-button submit">
-            {{ updateCheck ? "edit" : "submit" }}
-          </button>
-          <button class="px-4 py-1 bg-gray-300 rounded-md ann-button" @click="$router.push({name: 'homepage'})">
-            Cancel
-          </button>
-        </div>
+              />
+            </div>
+          </div>
+          <div class="flex mt-5 py-2">
+            <p class=" font-bold text-2xl w-1/4">Display</p>
+            <input v-model="announcementDisplay" class="w-[2%]" type="checkbox"/>
+            <label class="m-auto ml-2"> Check to show this announcement</label>
+          </div>
+          <p class="py-2 font-bold text-2xl mt-5 ">Description</p>
+          <textarea
+              v-model="announcementDescription"
+              class="w-full border-2 rounded-md ann-description"
+              cols="100"
+              required
+              rows="3"
+          ></textarea>
 
 
-        <p class="text-white">
-          {{ publishDatePlueTime }}
-          {{ closeDatePlueTime }}
-          {{ announcementDisplay }}
-          {{ categoryId }}
-          {{ announcementDescription }}
-        </p>
-      </form>
+          <div class="flex py-5 space-x-2 justify-end">
+            <button :class="change ? '' : 'opacity-40'" :disabled="!change"
+                    class="px-4 py-1 bg-gray-300 rounded-md ann-button submit">
+              {{ updateCheck ? "edit" : "submit" }}
+            </button>
+            <button class="px-4 py-1 bg-gray-300 rounded-md ann-button" @click="$router.push({name: 'homepage'})">
+              Cancel
+            </button>
+          </div>
 
+        </form>
+
+      </div>
     </div>
+
   </div>
-
-
 </template>
 
 <style scoped></style>
