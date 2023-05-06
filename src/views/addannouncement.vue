@@ -1,9 +1,38 @@
 <script setup>
-import {onMounted, ref, computed, watch} from "vue";
-import { useRouter } from "vue-router";
+import {onMounted, ref, computed, watch,watchEffect} from "vue";
+import { useRouter,useRoute } from "vue-router";
 
+const route = useRoute();
 
+const props = defineProps(
+  {
+    updatePackage: {
+            type: Object,
+  //           default: {
+  //   "announcementTitle" :"",
+  //   "categoryId":-1,
+  //   "announcementDescription":"",
+  //   "newPublishDate":"",
+  //   "newPublishTime":"",
+  //   "newCloseDate":"" ,
+  //   "newCloseTime":"",
+  //   "announcementDisplay":""
+  // }
+        }
+  }
+)
 
+const updateCheck = ref(false)
+watch(()=>props.updatePackage,(newv)=>{
+  console.log(newv)
+  if(JSON.stringify(newv).length > 0)
+  {
+    updateCheck.value = true
+    updateInit();
+  }
+  else{
+  updateCheck.value = false}
+})
 
 const category = ref([])
 const announcementTitle = ref("")
@@ -17,6 +46,42 @@ const announcementDisplay = ref("")
 const checkDate = /^(0?[1-9]|[12]\d|3[01])\/(0?[1-9]|1[0-2])\/(19|20)\d{2}$/g
 const checkTime = /([01]?[0-9]|2[0-3]):[0-5][0-9]?/g
 const router = useRouter()
+const updateInit = ()=>{
+  announcementTitle.value = props.updatePackage.announcementTitle
+ categoryId.value = props.updatePackage.categoryId
+ announcementDescription.value = props.updatePackage.announcementDescription
+ publishDate.value =props.updatePackage.newPublishDate
+ publishTime.value = props.updatePackage.newPublishTime
+ closeDate.value = props.updatePackage.newCloseDate
+ closeTime.value = props.updatePackage.newCloseTime
+ announcementDisplay.value = props.updatePackage.announcementDisplay
+}
+
+const compObj = computed(()=>{
+  return {
+    "announcementTitle" :announcementTitle.value,
+    "announcementDescription":announcementDescription.value ,
+    "newPublishDate":publishDate.value,
+    "newPublishTime":publishTime.value,
+    "newCloseDate":closeDate.value ,
+    "newCloseTime":closeTime.value ,
+    "announcementDisplay":announcementDisplay.value,
+    "categoryId":categoryId.value
+  }
+})
+let change = ref(false)
+watch(()=>compObj ,()=>{
+  change.value = false
+  for(const property in compObj.value )
+  {
+    if(compObj.value[property] != props.updatePackage[property])
+    {
+
+      change.value = true;
+      break;
+    }
+  }
+},  { deep: true })
 onMounted( async() => {
   try {
     const result = await fetch(
@@ -25,6 +90,7 @@ onMounted( async() => {
     if (result.status === 200) {
       const response = await result.json();
       category.value = response;
+      categoryId.value = category.value[0].category_Id
     }
   } catch (err) {
     console.log(err);
@@ -121,6 +187,7 @@ const isTimeFormat = (time) => {
 }
 
 const sendSubmit = async (event) => {
+  console.log(event)
   if (publishDate.value !== "" )
   {
     if(isDateFormat(publishDate.value) === false) return false
@@ -164,9 +231,37 @@ const sendSubmit = async (event) => {
     announcementDisplay: announcementDisplay.value,
     publishDate: publishDatePlueTime.value,
     closeDate: closeDatePlueTime.value,
-    announcementCategory: categoryId.value,
+    categoryId: categoryId.value,
   }
   if (closeDatePlueTime.value !== null) sendPackage.closeDate = closeDatePlueTime.value
+  if(updateCheck)
+  {
+    try {
+    console.log(JSON.stringify(sendPackage))
+    const result = await fetch(
+      `${import.meta.env.VITE_BASE_URL}/${route.params.id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(sendPackage),
+      }
+    );
+    if (result.status === 200) {
+      alert("update announcement success")
+      router.push({ name: "homepage" })
+    }
+    else {
+      console.log(result)
+      alert("update announcement fail")
+    }
+  }
+  catch (err) {
+    alert(err)
+  }
+  }
+  else{
   try {
     console.log(JSON.stringify(sendPackage))
     const result = await fetch(
@@ -190,17 +285,19 @@ const sendSubmit = async (event) => {
   }
   catch (err) {
     alert(err)
-  }
+  }}
 
+}
+const test = () =>{
+  console.log("เลิกนะ /g")
 }
 </script>
 
 <template>
-  {{props?.id}}
   <div class="p-2">
     <div class="p-4 m-auto border-2 rounded-lg">
       <p class="text-3xl font-bold text-white">Announcement Detail:</p>
-      <form action="" >
+      <form action="" @submit="sendSubmit">
         <p class="py-2 font-bold text-white">Title</p>
         <input type="text" class="w-full py-1 border-2 rounded-md ann-title" v-model="announcementTitle" required />
         <p class="py-2 font-bold text-white">Category</p>
@@ -250,12 +347,11 @@ const sendSubmit = async (event) => {
           />
         </div>
         <p class="py-2 font-bold text-white">Display</p>
-        <input type="checkbox" v-model="announcementDisplay" required/>
+        <input type="checkbox" v-model="announcementDisplay" />
         <label class="font-semibold text-white"> Check to show this announcement</label>
-
         <div class="flex py-5 space-x-2">
-          <button class="px-4 py-1 bg-gray-300 rounded-md ann-button" @click="sendSubmit($event)">
-            Submit
+          <button class="px-4 py-1 bg-gray-300 rounded-md ann-button submit" :disabled="!change" :class="change ? '' : 'opacity-40'">
+            {{ updateCheck ? "edit" : "submit" }}
           </button>
           <button class="px-4 py-1 bg-gray-300 rounded-md ann-button"  @click="$router.push({name: 'homepage'})">
             Cancel
