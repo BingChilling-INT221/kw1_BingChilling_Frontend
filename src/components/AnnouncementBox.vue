@@ -111,7 +111,7 @@ const deleteAnnouncement = async (id) => {
             <div
                 :class="data.announcementDisplay === 'Y' ? 'bg-green-500' : 'bg-red-500'"
                 class="flex justify-center w-24 text-center text-white bg-green-500 rounded-lg ann-display"
-            >{{ data.announcementDisplay === 'Y' ? 'Open' : 'Closed' }}
+            >{{ data.announcementDisplay  }}
 
             </div>
           </div>
