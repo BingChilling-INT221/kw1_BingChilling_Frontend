@@ -2,12 +2,7 @@
 import {onMounted, ref, computed, watch} from "vue";
 import { useRouter } from "vue-router";
 
-const props =defineProps({
-  id: {
-    type: String,
-  },
 
-})
 
 
 const category = ref([])
@@ -78,8 +73,6 @@ const publishDatePlueTime = computed(() => {
 });
 
 
-
-
 const closeDatePlueTime = computed(() => {
   if (!closeDate.value || !closeTime.value) return null
   if (closeTime.value.length < 5) return null
@@ -118,6 +111,7 @@ const isDateFormat = (date) => {
   }
   return true
 } 
+
 const isTimeFormat = (time) => {
   if(!checkTime.test(time)){
     alert("Please enter correct time format")
@@ -270,7 +264,7 @@ const sendSubmit = async (event) => {
      
 
         <p class="text-white">
-        {{publishDatePlueTime }}
+        {{ publishDatePlueTime }}
         {{ closeDatePlueTime }}
         {{ announcementDisplay }}
         {{ categoryId }}

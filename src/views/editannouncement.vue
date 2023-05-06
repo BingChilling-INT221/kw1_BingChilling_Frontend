@@ -45,6 +45,7 @@ onMounted(async () => {
     if (result.status === 200) {
       const response = await result.json();
       announcement.value = response;
+      announcement.value.announcementDisplay = announcement.value.announcementDisplay == 'Y' ? true : false
       console.log(announcement.value);
     }
   } catch (err) {
@@ -91,8 +92,6 @@ const publishDatePlueTime = computed(() => {
   if (!time || !date) return null
   return new Date(`${date}T${time}:00`).toISOString()
 });
-
-
 
 
 const closeDatePlueTime = computed(() => {
@@ -187,9 +186,9 @@ const sendSubmit = async (event) => {
     closeDate: announcement.value.closeDatePlueTime,
     announcementCategory: announcement.value.categoryId,
   }
-  if (closeDatePlueTime.value !== null) sendPackage.closeDate = closeDatePlueTime.value
+  if (closeDatePlueTime.value !== null) newPackage.closeDate = closeDatePlueTime.value
   try {
-    console.log(JSON.stringify(sendPackage))
+    console.log(JSON.stringify(newPackage))
     const result = await fetch(
       `${import.meta.env.VITE_BASE_URL}/${route.params.id}`,
       {
@@ -220,7 +219,7 @@ const sendSubmit = async (event) => {
 
   <div class="p-2">
     <div class="p-4 m-auto border-2 rounded-lg">
-      <p class="text-3xl font-bold text-white">Edit Announcement Detail: {{ route.params.id }}</p>
+      <p class="text-3xl font-bold text-white">Edit Announcement Detail</p>
       <form action="" >
         <p class="py-2 font-bold text-white">Title</p>
         <input type="text" class="w-full py-1 border-2 rounded-md ann-title" v-model="announcement.announcementTitle" required />
