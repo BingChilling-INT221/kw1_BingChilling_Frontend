@@ -38,9 +38,9 @@ const changeTime = (time) => {
 
   }`;
 };
-const deleteAnnouncement = async(id)=>{
+const deleteAnnouncement = async (id) => {
   if (
-  confirm("Are you sure you want to delete this announcement?") === false
+      confirm("Are you sure you want to delete this announcement?") === false
   ) {
     return;
   }
@@ -58,16 +58,13 @@ const deleteAnnouncement = async(id)=>{
     if (result.status === 200) {
       alert("Announcement deleted")
       window.location.reload()
-    }
-    else if (result.status === 404 || result.status === 400) {
+    } else if (result.status === 404 || result.status === 400) {
       console.log("404")
       alert("The request page is not available")
-    }
-    else {
+    } else {
       console.log("Something went wrong")
     }
-  }
-  catch (err) {
+  } catch (err) {
     console.log(err)
   }
 }
@@ -80,15 +77,21 @@ const deleteAnnouncement = async(id)=>{
     </p>
     <div v-for="(data,index) in announce" v-else :key="data.id" class="pb-5 ann-item">
 
-        <div class="flex h-auto p-3 m-auto bg-white rounded-md ">
-            <div class="text-black w-[8%] flex break-all items-center justify-center border-r-2 font-semibold ">No.{{ index+1 }}</div>
-          <div class="h-full pl-4 grow">
+      <div class="flex h-auto p-3 m-auto bg-white rounded-md ">
+        <div class="text-black w-[8%] flex break-all items-center justify-center border-r-2 font-semibold ">
+          No.{{ index + 1 }}
+        </div>
+        <div class="h-full pl-4 grow">
           <div class="flex justify-between font-bold">
             <p class="pt-1 text-xl text-black ann-title">{{ data.announcementTitle }}</p>
 
             <div class="flex ">
-                <button class="px-2 py-1 ml-2 text-black rounded-lg hover:bg-green-500 hover:text-white ann-button" @click="$router.push({name: 'announcementdetail', params: {id: data.id}})">view</button>
-              <button class="px-2 py-1 ml-2 text-black rounded-lg hover:bg-red-500 hover:text-white ann-button" @click="deleteAnnouncement(data.id)">delete</button>
+              <button class="px-2 py-1 ml-2 text-black rounded-lg hover:bg-green-500 hover:text-white ann-button"
+                      @click="$router.push({name: 'announcementdetail', params: {id: data.id}})">view
+              </button>
+              <button class="px-2 py-1 ml-2 text-black rounded-lg hover:bg-red-500 hover:text-white ann-button"
+                      @click="deleteAnnouncement(data.id)">delete
+              </button>
             </div>
           </div>
           <div class="flex mt-2">
@@ -108,12 +111,12 @@ const deleteAnnouncement = async(id)=>{
             <div
                 :class="data.announcementDisplay === 'Y' ? 'bg-green-500' : 'bg-red-500'"
                 class="flex justify-center w-24 text-center text-white bg-green-500 rounded-lg ann-display"
-            >{{ data.announcementDisplay === 'Y' ? 'Open' : 'Closed'}}
+            >{{ data.announcementDisplay === 'Y' ? 'Open' : 'Closed' }}
 
             </div>
           </div>
         </div>
-        </div>
+      </div>
     </div>
   </div>
 </template>

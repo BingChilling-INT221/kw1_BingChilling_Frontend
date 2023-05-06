@@ -66,7 +66,7 @@ const changeTime = (time) => {
 <template>
   <div class="">
     <div class="">
-          <button class="text-2xl font-bold text-white ann-button " @click="$router.back()"><span>&lt;</span> Back</button>
+      <button class="text-2xl font-bold text-white ann-button " @click="$router.back()"><span>&lt;</span> Back</button>
     </div>
     <div class="mt-2 ">
       <div class="w-full px-8 pt-4 pb-4 bg-white rounded-lg ">
@@ -75,27 +75,28 @@ const changeTime = (time) => {
             Title:
             {{ queryAnnounce.announcementTitle }}
           </p>
-           
+
           <div
-                :class="
+              :class="
               queryAnnounce.announcementDisplay === 'Y' ? 'bg-green-500' : 'bg-red-500'
             "
-                class="flex justify-center w-20 p-2 text-white bg-green-500 rounded-lg ann-display"
-            >{{ queryAnnounce.announcementDisplay }}</div
-            >
+              class="flex justify-center w-20 p-2 text-white bg-green-500 rounded-lg ann-display"
+          >{{ queryAnnounce.announcementDisplay }}
+          </div
+          >
         </div>
         <div class="flex justify-between">
-        <div class="flex">
-          <p class="pt-1 text-[#4E6FE2] font-bold ann-publish-date">
-            Publishdate: {{ changeTime(queryAnnounce.publishDate) }}
-          </p>
-          <p class="pl-20 pt-1 text-[#A649A2] font-bold ann-close-date">
-            Close Date: {{ changeTime(queryAnnounce.closeDate) }}
-          </p>
+          <div class="flex">
+            <p class="pt-1 text-[#4E6FE2] font-bold ann-publish-date">
+              Publishdate: {{ changeTime(queryAnnounce.publishDate) }}
+            </p>
+            <p class="pl-20 pt-1 text-[#A649A2] font-bold ann-close-date">
+              Close Date: {{ changeTime(queryAnnounce.closeDate) }}
+            </p>
+          </div>
+
         </div>
-   
-      </div>
-       
+
         <div class="py-5 ann-category">
           <a
               class="text-white bg-[#628FB8] px-5 text-sm rounded-lg py-1"
@@ -113,7 +114,8 @@ const changeTime = (time) => {
           <button class="px-2 py-1 mt-2 ml-6 text-black border-2 rounded-lg ann-button hover:bg-gray-300" @click="$router.push({
             name: 'editannouncement',
             params: { id: queryAnnounce.id}
-          })">edit</button>
+          })">edit
+          </button>
         </div>
       </div>
     </div>
