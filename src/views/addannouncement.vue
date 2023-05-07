@@ -228,9 +228,11 @@ const sendSubmit = async (event) => {
         await router.push({name: "homepage"})
       } else {
         console.log(result)
+        alert("update announcement fail")
         alert(result)
       }
     } catch (err) {
+      
       alert(err)
     }
   } else {
@@ -250,6 +252,7 @@ const sendSubmit = async (event) => {
         alert("Create announcement success")
         await router.push({name: "homepage"})
       } else {
+        alert("Create announcement fail")
         console.log(result)
         alert(result)
       }
