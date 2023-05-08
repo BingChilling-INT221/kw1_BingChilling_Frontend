@@ -20,6 +20,8 @@ onMounted(async () => {
         }
 
     } catch (err) {
+        alert("ยังหาข้อมูลไม่พบโปรดรีเฟรชหน้าอีกครั้งครับ")
+        window.location.reload()
         console.log(err);
     }
 });
@@ -61,7 +63,7 @@ const deleteAnnouncement = async (id) => {
         );
         if (response.status === 200) {
             alert("Announcement deleted")
-            // window.location.reload()
+            window.location.reload()
         } else if (response.status === 404 || response.status === 400) {
             console.log("404")
             alert("The request page is not available")
