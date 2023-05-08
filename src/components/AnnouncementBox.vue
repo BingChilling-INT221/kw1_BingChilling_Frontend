@@ -16,6 +16,7 @@ onMounted(async () => {
             if (announce.value.length === 0) {
                 notFound.value = true
             }
+            window.location.reload()
         }
 
     } catch (err) {

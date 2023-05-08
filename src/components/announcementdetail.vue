@@ -16,6 +16,7 @@ onMounted(async () => {
             queryAnnounce.value = await response.json();
             console.log(queryAnnounce.value);
             loading.value = false
+            window.location.reload()
         } else if (response.status === 404 || response.status === 400) {
             console.log("404")
             alert("The request page is not available")

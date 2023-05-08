@@ -44,6 +44,7 @@ onMounted(async () => {
                 newCloseTime.value = time ?? ''
 
             }
+            window.location.reload()
         } else if (response.status === 404) {
             alert("The request page is not available")
             await router.push(`/admin/announcement/`)
