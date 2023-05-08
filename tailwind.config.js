@@ -5,9 +5,6 @@ module.exports = {
         "./index.html",
         "./src/**/*.{vue,js,ts,jsx,tsx}",
     ],
-    theme: {
-        extend: {},
-    },
     plugins: [],
     theme: {
 
@@ -22,7 +19,7 @@ module.exports = {
             },
             fontFamily: {
 
-                'sans': ['supermarketregular', ...defaultTheme.fontFamily.sans],
+                // 'sans': ['supermarketregular', ...defaultTheme.fontFamily.sans],
             },
         },
 

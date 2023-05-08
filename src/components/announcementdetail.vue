@@ -9,24 +9,23 @@ const role = inject('role')
 const loading = ref(true)
 onMounted(async () => {
     try {
-        const result = await fetch(
+        const response = await fetch(
             `${import.meta.env.VITE_BASE_URL}/${route.params.id}`
         );
-        if (result.status === 200) {
-            const response = await result.json();
-            queryAnnounce.value = response;
+        if (response.status === 200) {
+            queryAnnounce.value = await response.json();
             console.log(queryAnnounce.value);
             loading.value = false
-        } else if (result.status === 404 || result.status === 400) {
+        } else if (response.status === 404 || response.status === 400) {
             console.log("404")
             alert("The request page is not available")
-            router.push(`/admin/announcement/`)
+            await router.push(`/admin/announcement/`)
         } else {
             console.log("Something went wrong")
         }
     } catch (err) {
         alert("The request page is not available")
-        router.push(`/admin/announcement/`)
+        await router.push(`/admin/announcement/`)
     }
 });
 
@@ -57,7 +56,7 @@ const changeTime = (time) => {
         month: "short",
         year: "numeric",
     };
-    return `${newDate.toLocaleDateString("en-GB", options).replace(/[,]/gi, '') +
+    return `${newDate.toLocaleDateString("en-GB", options).replace(/,/gi, '') +
     ", " +
     newDate.toLocaleTimeString([], {hour: "2-digit", minute: "2-digit", hour12: false})
 
@@ -74,7 +73,7 @@ const changeTime = (time) => {
             </button>
         </div>
         <div v-show="loading" class="flex justify-center min-w-full min-h-full text-center bg-slate-400">
-            <div class="absolute mt-2 mr-2" wire:loading>
+            <div class="absolute mt-2 mr-2" >
                 <svg class="w-20 h-20 bg-transparent border-2 border-transparent border-opacity-50 rounded-full animate-spin"
                      style="border-right-color: white; border-top-color: white;" viewBox="0 0 24 24"></svg>
             </div>

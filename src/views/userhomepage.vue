@@ -9,7 +9,6 @@ provide(/* key */ 'role', /* value */ 'user')
 
 <template>
     <div>
-        <!-- <div class="text-white">{{  role.currentRole }}</div> -->
         <Homepage></Homepage>
     </div>
 </template>

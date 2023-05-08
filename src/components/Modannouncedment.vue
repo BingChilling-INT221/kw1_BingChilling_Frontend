@@ -1,5 +1,5 @@
 <script setup>
-import {computed, onMounted, ref, watch} from "vue";
+import {computed, onMounted, ref, watch , inject} from "vue";
 import {useRoute, useRouter} from "vue-router";
 
 const route = useRoute();
@@ -35,6 +35,7 @@ const announcementDisplay = ref("")
 const checkDate = /^(0?[1-9]|[12]\d|3[01])\/(0?[1-9]|1[0-2])\/(19|20)\d{2}$/g
 const checkTime = /([01]?[0-9]|2[0-3]):[0-5][0-9]?/g
 const router = useRouter()
+const role = inject('role')
 const updateInit = () => {
     announcementTitle.value = props.updatePackage.announcementTitle
     categoryId.value = props.updatePackage.categoryId
@@ -72,12 +73,11 @@ watch(() => compObj, () => {
 }, {deep: true})
 onMounted(async () => {
     try {
-        const result = await fetch(
+        const response = await fetch(
             `http://intproj22.sit.kmutt.ac.th:8080/kw1/api/categories`
         );
-        if (result.status === 200) {
-            const response = await result.json();
-            category.value = response;
+        if (response.status === 200) {
+            category.value = await response.json();
             categoryId.value = category.value[0].category_Id
         }
     } catch (err) {
@@ -213,7 +213,7 @@ const sendSubmit = async (event) => {
     if (updateCheck.value) {
         try {
             console.log(JSON.stringify(sendPackage))
-            const result = await fetch(
+            const response = await fetch(
                 `${import.meta.env.VITE_BASE_URL}/${route.params.id}`,
                 {
                     method: "PUT",
@@ -223,13 +223,13 @@ const sendSubmit = async (event) => {
                     body: JSON.stringify(sendPackage),
                 }
             );
-            if (result.status === 200) {
+            if (response.status === 200) {
                 alert("update announcement success")
-                await router.push({name: "homepage"})
+                await router.push({name: `${role}homepage`})
             } else {
-                console.log(result)
+                console.log(response)
                 alert("update announcement fail")
-                alert(result)
+                alert(response)
             }
         } catch (err) {
 
@@ -238,7 +238,7 @@ const sendSubmit = async (event) => {
     } else {
         try {
             console.log(JSON.stringify(sendPackage))
-            const result = await fetch(
+            const response = await fetch(
                 `http://intproj22.sit.kmutt.ac.th:8080/kw1/api/announcements`,
                 {
                     method: "POST",
@@ -248,13 +248,13 @@ const sendSubmit = async (event) => {
                     body: JSON.stringify(sendPackage),
                 }
             );
-            if (result.status === 200) {
+            if (response.status === 200) {
                 alert("Create announcement success")
-                await router.push({name: "homepage"})
+                await router.push({name: `${role}homepage`})
             } else {
                 alert("Create announcement fail")
-                console.log(result)
-                alert(result)
+                console.log(response)
+                alert(response)
             }
         } catch (err) {
             alert(err)
