@@ -65,7 +65,7 @@ watch(() => compObj, () => {
     change.value = false
     for (const property in compObj.value) {
         if (compObj.value[property] !== props.updatePackage[property]) {
-
+            console.log(compObj.value[property], props.updatePackage[property],property)
             change.value = true;
             break;
         }
@@ -78,7 +78,9 @@ onMounted(async () => {
         );
         if (response.status === 200) {
             category.value = await response.json();
-            categoryId.value = category.value[0].category_Id
+            if (!updateCheck.value) {
+                categoryId.value = category.value[0].category_Id
+            }
         }
     } catch (err) {
         console.log(err);
