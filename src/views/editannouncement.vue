@@ -44,6 +44,7 @@ onMounted(async () => {
                 newCloseTime.value = time ?? ''
 
             }
+
         } else if (response.status === 404) {
             alert("The request page is not available")
             await router.push(`/admin/announcement/`)
@@ -100,13 +101,13 @@ const updatePackage = computed(() => {
 
 <template>
   <!-- {{ updatePackage }} -->
-    <div v-show="loading" class="flex justify-center min-w-full min-h-full text-center bg-slate-400">
+    <div v-if="loading" class="flex justify-center min-w-full min-h-full text-center bg-slate-400">
         <div class="absolute mt-2 mr-2">
             <svg class="w-20 h-20 bg-transparent border-2 border-transparent border-opacity-50 rounded-full animate-spin"
                  style="border-right-color: white; border-top-color: white;" viewBox="0 0 24 24"></svg>
         </div>
     </div>
-    <Cuannouncedment v-show="!loading" :updatePackage="updatePackage"></Cuannouncedment>
+    <Cuannouncedment v-else :updatePackage="updatePackage"></Cuannouncedment>
 
 </template>
 

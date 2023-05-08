@@ -16,9 +16,12 @@ onMounted(async () => {
             if (announce.value.length === 0) {
                 notFound.value = true
             }
+
         }
 
     } catch (err) {
+        alert("ยังหาข้อมูลไม่พบโปรดรีเฟรชหน้าอีกครั้งครับ")
+        window.location.reload()
         console.log(err);
     }
 });
@@ -75,13 +78,13 @@ const deleteAnnouncement = async (id) => {
 </script>
 
 <template>
-    <div v-show="loading" class="flex justify-center min-w-full min-h-full text-center bg-slate-400">
+    <div v-if="loading" class="flex justify-center min-w-full min-h-full text-center bg-slate-400">
         <div class="absolute mt-2 mr-2">
             <svg class="w-20 h-20 bg-transparent border-2 border-transparent border-opacity-50 rounded-full animate-spin"
                  style="border-right-color: white; border-top-color: white;" viewBox="0 0 24 24"></svg>
         </div>
     </div>
-    <div v-show="!loading" class="">
+    <div v-else class="">
         <p v-if="notFound" class="flex justify-center text-5xl text-center text-gray-400">
             No Announcement
         </p>
