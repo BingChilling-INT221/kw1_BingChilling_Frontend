@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    <teleport to="App">
+    <teleport to="app">
     <div class="bg-white inset-0 bg-white m-auto p-3 flex flex-auto">
         <p class="text-black"> NOT FOUND!!!</p>
         <button @click="$router.push({name: 'userhomepage'})" class="bg-green-500">Go to Homepage</button>
