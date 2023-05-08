@@ -93,9 +93,9 @@ const deleteAnnouncement = async (id) => {
                 </div>
                 <div class="h-full pl-4 w-[92%]">
                     <div class="flex justify-between font-bold">
-                        <p class="pt-1 text-xl text-black ann-title">{{ data.announcementTitle }}</p>
+                        <p class="w-4/5 break-words pt-1 text-xl text-black ann-title">{{ data.announcementTitle }}</p>
 
-                        <div class="flex ">
+                        <div class="">
                             <button class="px-2 py-1 ml-2 text-black rounded-lg hover:bg-green-500 hover:text-white ann-button"
                                     @click="$router.push({name: `${role}announcementdetail`, params: {id: data.id}})">view
                             </button>
