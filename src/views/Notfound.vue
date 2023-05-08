@@ -3,12 +3,13 @@
 </script>
 
 <template>
-    <div class="bg-white h-auto w-11/12 m-auto p-3">
+    <teleport to="App">
+    <div class="bg-white inset-0 bg-white m-auto p-3 flex flex-auto">
         <p class="text-black"> NOT FOUND!!!</p>
-        <router-link to="adminhomepage">Go to admin home</router-link>
-        <router-link to="userhomepage">Go to user home</router-link>
+        <button @click="$router.push({name: 'userhomepage'})" class="bg-green-500">Go to Homepage</button>
+        <button @click="$router.push({name: 'adminhomepage'})" class="bg-red-500">Go to Admin Homepage</button>
     </div>
-
+    </teleport>
 </template>
 
 <style scoped>

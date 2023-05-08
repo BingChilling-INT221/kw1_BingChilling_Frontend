@@ -20,11 +20,11 @@ const router = createRouter({
             name: 'adminannouncementdetail',
             component: adminannouncementdetail,
         },
-        {
-            path: '/',
-            name: 'Chair',
-            redirect: '/admin/announcement'
-        },
+        // {
+        //     path: '/',
+        //     name: 'Chair',
+        //     redirect: '/admin/announcement'
+        // },
         {
             path: '/admin/announcement/add',
             name: 'addannouncement',
