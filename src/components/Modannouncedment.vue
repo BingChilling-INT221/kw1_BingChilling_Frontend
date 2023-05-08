@@ -350,7 +350,7 @@ const sendSubmit = async (event) => {
                             {{ updateCheck ? "edit" : "submit" }}
                         </button>
                         <button class="px-4 py-1 bg-gray-300 rounded-md ann-button"
-                                @click="$router.push({name: 'homepage'})">
+                                @click="$router.push({name: `${role}homepage`})">
                             Cancel
                         </button>
                     </div>
