@@ -1,14 +1,14 @@
 <script setup>
-
+import Announcementdetail from '../components/announcementdetail.vue';
 import {provide} from 'vue';
-import Modannouncedment from "@/components/Modannouncedment.vue";
 
 provide(/* key */ 'role', /* value */ 'admin')
+
 </script>
 
 <template>
     <div>
-        <Modannouncedment></Modannouncedment>
+        <Announcementdetail></Announcementdetail>
     </div>
 </template>
 
