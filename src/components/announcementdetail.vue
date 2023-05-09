@@ -10,7 +10,7 @@ const loading = ref(true)
 onMounted(async () => {
     try {
         const response = await fetch(
-            `${import.meta.env.VITE_BASE_URL}/${route.params.id}`
+            `${import.meta.env.VITE_BASE_URL}/announcements/${route.params.id}`
         );
         if (response.status === 200) {
             queryAnnounce.value = await response.json();

@@ -67,10 +67,11 @@ watch(() => compObj, () => {
 onMounted(async () => {
     try {
         const response = await fetch(
-            `http://intproj22.sit.kmutt.ac.th:8080/kw1/api/categories`
+            `${import.meta.env.VITE_BASE_URL}categories`
         );
         if (response.status === 200) {
             category.value = await response.json();
+            console.log(response);
             if (!updateCheck.value) {
                 categoryId.value = category.value[0].category_Id
             }
@@ -203,7 +204,7 @@ const sendSubmit = async (event) => {
         try {
             console.log(JSON.stringify(sendPackage))
             const response = await fetch(
-                `${import.meta.env.VITE_BASE_URL}/${route.params.id}`,
+                `${import.meta.env.VITE_BASE_URL}announcements/${route.params.id}`,
                 {
                     method: "PUT",
                     headers: {
@@ -228,7 +229,7 @@ const sendSubmit = async (event) => {
         try {
             console.log(JSON.stringify(sendPackage))
             const response = await fetch(
-                `http://intproj22.sit.kmutt.ac.th:8080/kw1/api/announcements`,
+                `${import.meta.env.VITE_BASE_URL}announcements`,
                 {
                     method: "POST",
                     headers: {

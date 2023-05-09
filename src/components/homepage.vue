@@ -1,9 +1,10 @@
 <script setup>
-import {inject} from "vue";
+import {inject,ref} from "vue";
 import AnnouncementBox from "./AnnouncementBox.vue";
 
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 const role = inject('role')
+const isOpen = ref(false)
 </script>
 <template>
 
@@ -18,10 +19,11 @@ const role = inject('role')
                     @click="$router.push({name: 'addannouncement'})">Add
                 Announcement
             </button>
-            <button v-show="role === 'user'"
-                    class="px-2 py-1 text-black bg-white rounded-md ann-button">Closed
-                Announcements
+            <button v-show ="role === 'user'"
+            @click="isOpen = !isOpen"
+                    class="px-2 py-1 text-black bg-white rounded-md ann-button">{{ isOpen ? 'Closed announments' : 'Open announments' }}>
             </button>
+
         </div>
         <div class="mt-10 ">
             <AnnouncementBox></AnnouncementBox>

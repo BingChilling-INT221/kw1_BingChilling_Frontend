@@ -8,9 +8,11 @@ const loading = ref(true)
 onMounted(async () => {
     try {
         const response = await fetch(
-            `${import.meta.env.VITE_BASE_URL}`
+            `${import.meta.env.VITE_BASE_URL}announcements`
         );
+
         if (response.status === 200) {
+            
             announce.value = await response.json();
             loading.value = false
             if (announce.value.length === 0) {
@@ -53,7 +55,7 @@ const deleteAnnouncement = async (id) => {
 
     try {
         const response = await fetch(
-            `${import.meta.env.VITE_BASE_URL}/${id}`,
+            `${import.meta.env.VITE_BASE_URL}announcements/${id}`,
             {
                 method: 'DELETE',
                 headers: {
