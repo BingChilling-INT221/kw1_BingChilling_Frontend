@@ -16,6 +16,10 @@ const role = inject('role')
                     class="px-2 py-1 text-black bg-white rounded-md ann-button" @click="$router.push({name: 'addannouncement'})">Add
                 Announcement
             </button>
+            <button v-show="role === 'user'"
+                    class="px-2 py-1 text-black bg-white rounded-md ann-button">Closed
+                Announcements
+            </button>
         </div>
         <div class="mt-10 ">
             <AnnouncementBox></AnnouncementBox>
