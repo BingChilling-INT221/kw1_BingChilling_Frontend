@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import {createRouter, createWebHistory} from 'vue-router'
 import addannouncement from '../views/addannouncement.vue'
 import editannouncement from '../views/editannouncement.vue'
 import userhomepage from '../views/userhomepage.vue'

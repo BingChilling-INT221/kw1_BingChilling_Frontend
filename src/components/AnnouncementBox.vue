@@ -1,4 +1,4 @@
-<script setup >
+<script setup>
 import {inject, onMounted, ref} from "vue";
 
 const announce = ref([]);
@@ -100,7 +100,8 @@ const deleteAnnouncement = async (id) => {
 
                         <div class="">
                             <button class="px-2 py-1 ml-2 text-black rounded-lg hover:bg-green-500 hover:text-white ann-button"
-                                    @click="$router.push({name: `${role}announcementdetail`, params: {id: data.id}})">view
+                                    @click="$router.push({name: `${role}announcementdetail`, params: {id: data.id}})">
+                                view
                             </button>
                             <button v-show="role === 'admin'"
                                     class="px-2 py-1 ml-2 text-black rounded-lg hover:bg-red-500 hover:text-white ann-button"
