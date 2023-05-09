@@ -82,7 +82,7 @@ const changeTime = (time) => {
         <div v-else class="mt-2 ">
             <div class="w-full px-8 pt-4 pb-4 bg-white rounded-lg ">
                 <div class="flex justify-between font-bold">
-                    <p class="w-4/5 text-2xl text-black ann-title">
+                    <p class="w-4/5 text-2xl break-words text-black ann-title">
                         Title:
                         {{ queryAnnounce.announcementTitle }}
                     </p>
