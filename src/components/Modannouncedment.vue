@@ -95,7 +95,7 @@ const checkDisableTime = (date) => {
     if (date === null) return true
     return date.length !== 10
 }
-const comeDateTime = new Date().toISOString()
+
 const comeTime = new Date().toLocaleTimeString([], {hour: "2-digit", minute: "2-digit", hour12: false})
 const comeDate = new Date().toLocaleDateString("en-Us")
 const sixhour = new Date('August 19, 1975 00:00:00');
@@ -107,8 +107,11 @@ const compareDates = (d1, d2) => {
     if (!d1 || !d2) {
         return false;
     }
+    console.log(d1, d2)
     const date1 = new Date(d1);
+    date1.setHours(0, 0, 0, 0);
     const date2 = new Date(d2);
+    console.log(date1, date2)
     return date1 < date2 ? -1 : date1 > date2 ? 1 : 0;
 };
 const compareTimes = (t1, t2) => {
@@ -127,7 +130,7 @@ const checkPublishDate = () => {
     if (publishDate.value.length > 10) {
         return false;
     }
-    if (compareDates(publishDate.value, comeDateTime) < 0) {
+    if (compareDates(publishDate.value, comeDate) < 0) {
         alert("Please enter a correct publish date.");
         return false;
     }
@@ -135,7 +138,7 @@ const checkPublishDate = () => {
 };
 const checkPublishTime = () => {
     if (!publishTime.value && publishDate.value) {
-        publishTime.value = sixHoursLater;
+        publishTime.value = sixhour.toLocaleTimeString([], {hour: "2-digit", minute: "2-digit", hour12: false});
     }
     if (!publishTime.value) {
         return true;
@@ -143,7 +146,7 @@ const checkPublishTime = () => {
     if (publishTime.value.length > 5) {
         return false;
     }
-    if (compareDates(publishDate.value, comeDateTime) === 0 && compareTimes(publishTime.value, comeDateTime.slice(11, 16)) < 0) {
+    if (compareDates(publishDate.value, comeDate) === 0 && compareTimes(publishTime.value, comeTime) < 0) {
         alert("Please enter a correct publish time.");
         return false;
     }
