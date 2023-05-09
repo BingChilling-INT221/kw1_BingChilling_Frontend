@@ -1,4 +1,4 @@
-import {createRouter, createWebHistory} from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import addannouncement from '../views/addannouncement.vue'
 import editannouncement from '../views/editannouncement.vue'
 import userhomepage from '../views/userhomepage.vue'
@@ -37,12 +37,12 @@ const router = createRouter({
             props: true
         },
         {
-            path: '/user/announcement',
+            path: '/announcement',
             name: 'userhomepage',
             component: userhomepage
         },
         {
-            path: '/user/announcement/:id',
+            path: '/announcement/:id',
             name: 'userannouncementdetail',
             component: userannouncementdetail
         },
