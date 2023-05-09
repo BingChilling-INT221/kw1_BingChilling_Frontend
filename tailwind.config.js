@@ -19,7 +19,7 @@ module.exports = {
             },
             fontFamily: {
 
-                // 'sans': ['supermarketregular', ...defaultTheme.fontFamily.sans],
+                'sans': ['manwin-webfont', ...defaultTheme.fontFamily.sans],
             },
         },
 

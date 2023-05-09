@@ -74,7 +74,7 @@ const changeTime = (time) => {
             </button>
         </div>
         <div v-if="loading" class="flex justify-center min-w-full min-h-full text-center bg-slate-400">
-            <div class="absolute mt-2 mr-2" >
+            <div class="absolute mt-2 mr-2">
                 <svg class="w-20 h-20 bg-transparent border-2 border-transparent border-opacity-50 rounded-full animate-spin"
                      style="border-right-color: white; border-top-color: white;" viewBox="0 0 24 24"></svg>
             </div>
@@ -82,7 +82,7 @@ const changeTime = (time) => {
         <div v-else class="mt-2 ">
             <div class="w-full px-8 pt-4 pb-4 bg-white rounded-lg ">
                 <div class="flex justify-between font-bold">
-                    <p class="w-4/5 text-2xl text-black ann-title">
+                    <p class="w-4/5 text-2xl break-words text-black ann-title">
                         Title:
                         {{ queryAnnounce.announcementTitle }}
                     </p>

@@ -1,6 +1,7 @@
 <script setup>
 import {inject} from "vue";
 import AnnouncementBox from "./AnnouncementBox.vue";
+
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 const role = inject('role')
 </script>
@@ -13,7 +14,8 @@ const role = inject('role')
                 }}</span>
             </p>
             <button v-show="role === 'admin'"
-                    class="px-2 py-1 text-black bg-white rounded-md ann-button" @click="$router.push({name: 'addannouncement'})">Add
+                    class="px-2 py-1 text-black bg-white rounded-md ann-button"
+                    @click="$router.push({name: 'addannouncement'})">Add
                 Announcement
             </button>
             <button v-show="role === 'user'"

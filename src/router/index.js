@@ -37,12 +37,12 @@ const router = createRouter({
             props: true
         },
         {
-            path: '/user/announcement',
+            path: '/announcement',
             name: 'userhomepage',
             component: userhomepage
         },
         {
-            path: '/user/announcement/:id',
+            path: '/announcement/:id',
             name: 'userannouncementdetail',
             component: userannouncementdetail
         },

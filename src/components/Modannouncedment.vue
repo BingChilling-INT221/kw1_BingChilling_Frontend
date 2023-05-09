@@ -1,9 +1,7 @@
 <script setup>
-import {computed, onMounted, ref, watch , inject} from "vue";
+import {computed, inject, onMounted, ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
-
 const route = useRoute();
-
 const props = defineProps(
     {
         updatePackage: {
@@ -11,10 +9,8 @@ const props = defineProps(
         }
     }
 )
-
 const updateCheck = ref(false)
 watch(() => props.updatePackage, (newv) => {
-    console.log(newv)
     if (JSON.stringify(newv).length > 0) {
         updateCheck.value = true
         updateInit();
@@ -32,8 +28,6 @@ const publishTime = ref("")
 const closeDate = ref("")
 const closeTime = ref("")
 const announcementDisplay = ref("")
-const checkDate = /^(0?[1-9]|[12]\d|3[01])\/(0?[1-9]|1[0-2])\/(19|20)\d{2}$/g
-const checkTime = /([01]?[0-9]|2[0-3]):[0-5][0-9]?/g
 const router = useRouter()
 const role = inject('role')
 const updateInit = () => {
@@ -65,7 +59,6 @@ watch(() => compObj, () => {
     change.value = false
     for (const property in compObj.value) {
         if (compObj.value[property] !== props.updatePackage[property]) {
-
             change.value = true;
             break;
         }
@@ -78,7 +71,9 @@ onMounted(async () => {
         );
         if (response.status === 200) {
             category.value = await response.json();
-            categoryId.value = category.value[0].category_Id
+            if (!updateCheck.value) {
+                categoryId.value = category.value[0].category_Id
+            }
         }
     } catch (err) {
         console.log(err);
@@ -86,115 +81,109 @@ onMounted(async () => {
 })
 
 
-const changeStringToDate = (date) => {
-    if (!date) return null
-    let [day, month, year] = date.split("/");
-    if (day === undefined || month === undefined || year === undefined) return null
-    if (day > 31 || month > 12 || day < 1 || month < 1) return null
-
-    if (year.length === 2) year = `20${year}`
-
-    if (month === 2 && day > checkFeb(year)) return null
-    if (month.length === 1) month = `0${month}`
-    if (day.length === 1) day = `0${day}`
-    if (day.length < 2 || month.length < 2 || year.length < 4) return null
-
-    return `${year}-${month}-${day}`
-};
-
-
-const changeStringToTime = (time) => {
-    if (!time) return null
-    console.log(time)
-    let [hour, minute] = time.split(":");
-    if (hour < 0 || hour > 23 || minute < 0 || minute > 59) return null
-    if (hour === undefined || minute === undefined) return null
-    if (hour.length === 1) hour = `0${hour}`
-    if (minute.length === 1) minute = `0${minute}`
-    if (hour.length < 2 || minute.length < 2) return null
-    return `${hour}:${minute}`
-};
-
-
 const publishDatePlusTime = computed(() => {
     if (!publishDate.value || !publishTime.value) return null
-    // if (publishTime.value.length < 5) return null
-    // const time = changeStringToTime(publishTime.value)
-    // const date = changeStringToDate(publishDate.value)
-    // if (!time || !date) return null
     return new Date(`${publishDate.value}T${publishTime.value}:00`).toISOString()
 });
 
 
 const closeDatePlusTime = computed(() => {
     if (!closeDate.value || !closeTime.value) return null
-    // if (closeTime.value.length < 5) return null
-    // const time = changeStringToTime(closeTime.value)
-    // const date = changeStringToDate(closeDate.value)
-    // if (!time || !date) return null
     return new Date(`${closeDate.value}T${closeTime.value}:00`).toISOString()
 });
-
-
-const checkFeb = (year) => {
-    if (year % 4 === 0) {
-        if (year % 100 === 0) {
-            if (year % 400 === 0) {
-                return 29
-            }
-            return 28
-        }
-        return 29
-    }
-    return 28
+const checkDisableTime = (date) => {
+    if (date === null) return true
+    return date.length !== 10
 }
 
+const comeTime = ref(new Date().toLocaleTimeString([], {hour: "2-digit", minute: "2-digit", hour12: false}))
+const comeDate = ref(new Date().toLocaleDateString("en-Us"))
+const sixhour = new Date('August 19, 1975 00:00:00');
+sixhour.setHours(sixhour.getHours() + 6);
+const eighteenth = new Date('August 19, 1975 00:00:00');
+eighteenth.setHours(eighteenth.getHours() + 18);
 
-const comeTime = new Date().toLocaleTimeString([], {hour: "2-digit", minute: "2-digit", hour12: false})
-const comeDate = new Date().toLocaleDateString("en-GB")
-
-
-const isDateFormat = (date) => {
-    if (!checkDate.test(date)) {
-        alert("Please enter correct date format")
+const compareDates = (d1, d2) => {
+    if (!d1 || !d2) {
+        return false;
+    }
+    console.log(d1, d2)
+    const date1 = new Date(d1);
+    date1.setHours(0, 0, 0, 0);
+    const date2 = new Date(d2);
+    date2.setHours(0, 0, 0, 0);
+    console.log(date1, date2)
+    return date1 < date2 ? -1 : date1 > date2 ? 1 : 0;
+};
+const compareTimes = (t1, t2) => {
+    if (!t1 || !t2) {
+        return false;
+    }
+    const date1 = new Date(`1970-01-01 ${t1}`);
+    const date2 = new Date(`1970-01-01 ${t2}`);
+    return date1 < date2 ? -1 : date1 > date2 ? 1 : 0;
+};
+const checkPublishDate = () => {
+    if (!publishDate.value) {
+        publishTime.value = null;
+        return true;
+    }
+    if (publishDate.value.length > 10) {
+        return false;
+    }
+    if (compareDates(publishDate.value, comeDate.value) < 0) {
+        alert("Please enter a correct publish date.");
+        return false;
+    }
+    return true;
+};
+const checkPublishTime = () => {
+    if (!publishTime.value && publishDate.value) {
+        publishTime.value = sixhour.toLocaleTimeString([], {hour: "2-digit", minute: "2-digit", hour12: false});
+    }
+    if (!publishTime.value) {
+        return true;
+    }
+    if (publishTime.value.length > 5) {
+        return false;
+    }
+    if (compareDates(publishDate.value, comeDate.value) === 0 && compareTimes(publishTime.value, comeTime.value) < 0) {
+        alert("Please enter a correct publish time.");
+        return false;
+    }
+    return true;
+};
+const checkCloseDate = () => {
+    if (closeDate.value === null || closeDate.value === "") {
+        closeTime.value = null;
+        return true
+    }
+    if (closeDate.value.length > 10) return false
+    if (publishDate.value !== null || publishDate.value !== "")
+    {
+    if ((compareDates(closeDate.value, publishDate.value) < 0) ){
+        alert("Please enter correct date format close")
+        return false
+    }}
+    return true
+}
+const checkCloseTime = () => {
+    if ((closeTime.value === null || closeTime.value === "") && (closeDate.value !== null && closeDate.value !== "")) {
+        closeTime.value = eighteenth.toLocaleTimeString([], {hour: "2-digit", minute: "2-digit", hour12: false})
+    }
+    if (closeTime.value === null || closeTime.value === "") return true
+    if (closeTime.value.length > 5) return false
+    if (compareDates(closeDate.value, publishDate.value) === 0 && compareTimes(closeTime.value, publishTime.value) <= 0) {
+        alert("Please enter correct time format close")
         return false
     }
     return true
 }
-
-const isTimeFormat = (time) => {
-    if (!checkTime.test(time)) {
-        alert("Please enter correct time format")
-        return false
-    }
-    return true
-}
-
 const sendSubmit = async (event) => {
-    // console.log(event)
-    // if (publishDate.value !== "") {
-    //   if (isDateFormat(publishDate.value) === false) return false
-
-    // }
-    // if (publishTime.value !== "") {
-    //   if (isTimeFormat(publishTime.value) === false) return false
-    // }
-    // if (closeDate.value !== "") {
-    //   if (isDateFormat(closeDate.value) === false) return false
-    // }
-    // if (closeTime.value !== "") {
-    //   if (isTimeFormat(closeTime.value) === false) return false
-    // }
-    // if (publishDate.value !== "" && publishTime.value !== "" && closeDate.value !== "" && closeTime.value !== "") {
-    //   if (publishDatePlusTime.value >= closeDatePlusTime.value) {
-    //     alert("Please enter correct date and time")
-    //     return false
-    //   }
-    // }
-    // if (publishDatePlusTime.value < new Date().toISOString() || publishDatePlusTime.value === null) {
-    //   publishDate.value = comeDate
-    //   publishTime.value = comeTime
-    // }
+    if (!(checkPublishDate() && checkPublishTime() && checkCloseDate() && checkCloseTime())) {
+        event.preventDefault();
+        return
+    }
     event.preventDefault();
     if (announcementDisplay.value) {
         announcementDisplay.value = "Y"
@@ -205,10 +194,10 @@ const sendSubmit = async (event) => {
         announcementTitle: announcementTitle.value,
         announcementDescription: announcementDescription.value,
         announcementDisplay: announcementDisplay.value,
-        publishDate: publishDatePlusTime.value,
         closeDate: closeDatePlusTime.value,
         categoryId: categoryId.value,
     }
+    if (publishDatePlusTime.value !== null) sendPackage.publishDate = publishDatePlusTime.value
     if (closeDatePlusTime.value !== null) sendPackage.closeDate = closeDatePlusTime.value
     if (updateCheck.value) {
         try {
@@ -303,10 +292,11 @@ const sendSubmit = async (event) => {
                             />
                             <input
                                     v-model="publishTime"
+                                    :class="checkDisableTime(publishDate) ? 'opacity-50' : ''"
+                                    :disabled="checkDisableTime(publishDate)"
                                     :placeholder="'  '+comeTime+''"
                                     class="w-1/4 py-1 ml-2 bg-gray-200 border-2 rounded-md ann-publish-time"
                                     type="time"
-
                             />
                         </div>
                     </div>
@@ -322,10 +312,11 @@ const sendSubmit = async (event) => {
                             />
                             <input
                                     v-model="closeTime"
+                                    :class="checkDisableTime(closeDate) ? 'opacity-50' : ''"
+                                    :disabled="checkDisableTime(closeDate)"
                                     :placeholder="'  '+comeTime+''"
                                     class="w-1/4 py-1 ml-2 bg-gray-200 border-2 rounded-md ann-close-time"
                                     type="time"
-
                             />
                         </div>
                     </div>
