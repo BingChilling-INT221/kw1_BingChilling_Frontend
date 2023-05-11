@@ -1,11 +1,18 @@
 /** @type {import('tailwindcss').Config} */
 const defaultTheme = require('tailwindcss/defaultTheme')
+const plugin = require('tailwindcss/plugin');
 module.exports = {
     content: [
         "./index.html",
         "./src/**/*.{vue,js,ts,jsx,tsx}",
     ],
-    plugins: [],
+    plugins: [
+        plugin(function({ addBase }) {
+            addBase({
+                'html': { fontSize: "20px" },
+            })
+        }),
+    ],
     theme: {
 
         extend: {
@@ -19,7 +26,7 @@ module.exports = {
             },
             fontFamily: {
 
-                'sans': ['manwin-webfont', ...defaultTheme.fontFamily.sans],
+                // 'sans': ['manwin-webfont', ...defaultTheme.fontFamily.sans],
             },
         },
 
