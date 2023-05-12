@@ -10,12 +10,15 @@ export const useAnnouncerStore = defineStore('announcer ', () => {
     function setMode(setMode) {
         mode.value = setMode
     }
+
     function setCategory(setCategory) {
         category.value = setCategory
     }
+
     function setPage(setPage) {
         page.value = setPage
     }
+
     function setDarkMode() {
         console.log('darkMode.value', darkMode.value)
         darkMode.value = !darkMode.value

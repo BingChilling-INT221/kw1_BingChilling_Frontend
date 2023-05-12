@@ -1,17 +1,15 @@
 <script setup>
-import {inject,ref,computed,onMounted} from "vue";
+import {inject, onMounted, ref} from "vue";
 import AnnouncementBox from "./AnnouncementBox.vue";
-import { useAnnouncerStore } from "../stores/announcer.js";
+import {useAnnouncerStore} from "@/stores/announcer";
 
 const category = ref([])
 const announces = ref([])
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 const role = inject('role')
 const isOpen = ref(false)
-const announcerStore = useAnnouncerStore()
+useAnnouncerStore();
 const selectedCategory = ref('');
-
-
 
 
 onMounted(async () => {
@@ -51,13 +49,9 @@ onMounted(async () => {
 });
 
 
-
-
-
-
 </script>
 <template>
-    
+
 
     <div class="text-white mx-[10%] w-[80%] pt-10">
         <div class="flex justify-between w-full ">
@@ -70,27 +64,28 @@ onMounted(async () => {
                     @click="$router.push({name: 'addannouncement'})">Add
                 Announcement
             </button>
-            <button v-show ="role === 'user'"
-            @click="isOpen = !isOpen"
-                    class="px-2 py-1 text-black bg-white rounded-md ann-button">{{ isOpen ? 'Closed announments' : 'Open announments' }}
+            <button v-show="role === 'user'"
+                    class="px-2 py-1 text-black bg-white rounded-md ann-button"
+                    @click="isOpen = !isOpen">
+                {{ isOpen ? 'Closed announments' : 'Open announments' }}
             </button>
 
         </div>
         <div class="flex w-full mt-6 text-black">
-                        <p class="py-2 text-xl text-white">Choose Category:</p>
-                        <select
-                                class="w-1/12 ml-2 shadow-md shadow-slate-300 ann-category-filter"
-                                required v-model="selectedCategory">
-                                <option v-for="(data) in category" :key="data.id" :value="data.category_Id">{{
-                                data.categoryName
-                                }}
-                            </option>
-                        </select>
-                    </div>
+            <p class="py-2 text-xl text-white">Choose Category:</p>
+            <select
+                    v-model="selectedCategory"
+                    class="w-1/12 ml-2 shadow-md shadow-slate-300 ann-category-filter" required>
+                <option v-for="(data) in category" :key="data.id" :value="data.category_Id">{{
+                    data.categoryName
+                    }}
+                </option>
+            </select>
+        </div>
         <div class="mt-10 ">
             <AnnouncementBox :selectedCategory="selectedCategory"></AnnouncementBox>
         </div>
-        
+
     </div>
 
 

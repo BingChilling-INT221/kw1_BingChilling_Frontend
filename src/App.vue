@@ -16,7 +16,7 @@ const colorText = computed(() => {
 </script>
 <template>
 
-    <div class="w-full h-auto ">
+    <div class="w-full min-h-screen ">
         <router-view/>
     </div>
 </template>

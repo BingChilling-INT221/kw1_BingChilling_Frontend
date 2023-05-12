@@ -1,13 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 const defaultTheme = require('tailwindcss/defaultTheme')
-const plugin = require('tailwindcss/plugin');
 module.exports = {
     content: [
         "./index.html",
         "./src/**/*.{vue,js,ts,jsx,tsx}",
     ],
     plugins: [
-        require('tailwind-scrollbar'),
+        // require('tailwind-scrollbar'),
     ],
     theme: {
 
@@ -25,6 +24,15 @@ module.exports = {
             fontFamily: {
 
                 'sans': ['Maehongson', ...defaultTheme.fontFamily.sans],
+            },
+            animation: {
+                marquee: 'marquee 5s linear ',
+            },
+            keyframes: {
+                marquee: {
+                    '0%': { transform: 'translateX(0%)' },
+                    '100%': { transform: 'translateX(-100%)' },
+                },
             },
         },
 

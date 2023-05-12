@@ -1,6 +1,6 @@
 <script setup>
-import Homepage from '../components/homepage.vue';
 import {provide} from 'vue'
+import AnnHomePageView from "@/components/AnnHomePageView.vue";
 // import { useRoleStore } from '@/stores/role'
 // const role = useRoleStore()
 // role.setRole('user')
@@ -9,7 +9,7 @@ provide(/* key */ 'role', /* value */ 'user')
 
 <template>
     <div>
-        <Homepage></Homepage>
+        <AnnHomePageView/>
     </div>
 </template>
 

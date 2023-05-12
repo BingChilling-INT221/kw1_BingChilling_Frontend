@@ -5,7 +5,7 @@ import userhomepage from '../views/userhomepage.vue'
 import userannouncementdetail from '../views/userannouncementdetail.vue'
 import adminannouncementdetail from '../views/adminannouncementdetail.vue'
 import Notfound from "@/views/Notfound.vue";
-import AnnHomePageView from "@/views/AnnHomePageView.vue";
+import adminhomepage from "@/views/adminhomepage.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,7 +18,7 @@ const router = createRouter({
         {
             path: '/admin/announcement',
             name: 'adminhomepage',
-            component: AnnHomePageView,
+            component: adminhomepage,
         },
         {
             path: '/admin/announcement/:id',

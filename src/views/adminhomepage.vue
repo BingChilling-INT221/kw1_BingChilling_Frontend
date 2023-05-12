@@ -1,14 +1,14 @@
 <script setup>
-import Homepage from '../components/homepage.vue';
+
 import {provide} from 'vue'
+import AnnHomePageView from "@/components/AnnHomePageView.vue";
 
 provide(/* key */ 'role', /* value */ 'admin')
 </script>
 
 <template>
     <div>
-        <Homepage>
-        </Homepage>
+        <AnnHomePageView/>
     </div>
 </template>
 
