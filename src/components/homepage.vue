@@ -4,6 +4,7 @@ import AnnouncementBox from "./AnnouncementBox.vue";
 import { useAnnouncerStore } from "../stores/announcer.js";
 
 const category = ref([])
+const announces = ref([])
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 const role = inject('role')
 const isOpen = ref(false)
@@ -27,11 +28,36 @@ onMounted(async () => {
     }
 })
 
+onMounted(async () => {
+    try {
+        const response = await fetch(
+            `${import.meta.env.VITE_BASE_URL}announcements`
+        );
+
+        if (response.status === 200) {
+
+            announces.value = await response.json();
+            loading.value = false
+            if (announces.value.length === 0) {
+                notFound.value = true
+            }
+        }
+
+    } catch (err) {
+        alert("ยังหาข้อมูลไม่พบโปรดรีเฟรชหน้าอีกครั้งครับ")
+        window.location.reload()
+        console.log(err);
+    }
+});
+
+
+
 
 
 
 </script>
 <template>
+    
 
     <div class="text-white mx-[10%] w-[80%] pt-10">
         <div class="flex justify-between w-full ">

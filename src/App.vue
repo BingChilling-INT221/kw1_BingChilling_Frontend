@@ -27,6 +27,6 @@ const colorText = computed(() => {
     scroll-behavior: smooth;
     background: v-bind(colorBg);
     color: v-bind(colorText);
-//background: #282828;
+    font-weight: normal;
 }
 </style>

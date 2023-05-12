@@ -7,6 +7,7 @@ module.exports = {
         "./src/**/*.{vue,js,ts,jsx,tsx}",
     ],
     plugins: [
+        require('tailwind-scrollbar'),
     ],
     theme: {
 
