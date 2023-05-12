@@ -2,7 +2,9 @@
 import {useRoute} from "vue-router";
 import {computed, onMounted, ref} from "vue";
 import AnnBox from "@/components/AnnBox.vue";
+import { useAnnouncerStore } from "../stores/announcer.js"
 
+const store = useAnnouncerStore()
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 const route = useRoute();
 const loading = ref(true)
@@ -11,7 +13,7 @@ const checkAdmin = computed(() => {
 })
 const announces = ref([{}]);
 const category = ref([]);
-const selectedCategory = ref('');
+const isOpen = ref(false)
 onMounted(async () => {
     try {
         const response = await fetch(
@@ -25,15 +27,50 @@ onMounted(async () => {
         console.log(err);
     }
 })
-onMounted(async () => {
+// onMounted(async () => {
+//     if(category.value !== ''){
+//     try {
+//         const response = await fetch(
+//             `${import.meta.env.VITE_BASE_URL}announcements`
+//         );
+
+//         if (response.status === 200) {
+
+//             announces.value = await response.json();
+//             loading.value = false
+//             if (announces.value.length === 0) {
+//                 notFound.value = true
+//             }
+
+//         }
+
+//     } catch (err) {
+//         alert("ยังหาข้อมูลไม่พบโปรดรีเฟรชหน้าอีกครั้งครับ")
+//         window.location.reload()
+//         console.log(err);
+//     }
+// }
+// });
+
+const fetches = async() =>{
+    if(!isOpen.value){
+        store.setMode('active')
+        isOpen.value = isOpen
+    }
+    else{
+        store.setMode('closed')
+        isOpen.value = !isOpen
+    }
+    console.log(`${import.meta.env.VITE_BASE_URL}announcements/pages?mode=${store.mode}&page=${store.page}&pageSize=2`)
     try {
         const response = await fetch(
-            `${import.meta.env.VITE_BASE_URL}announcements`
+            `${import.meta.env.VITE_BASE_URL}announcements/pages?mode=${store.mode}&page=${store.page}&pageSize=5`
         );
 
         if (response.status === 200) {
 
             announces.value = await response.json();
+            announces.value = announces.value.content
             loading.value = false
             if (announces.value.length === 0) {
                 notFound.value = true
@@ -46,8 +83,10 @@ onMounted(async () => {
         window.location.reload()
         console.log(err);
     }
-});
-const isOpen = ref(false)
+}
+
+
+
 </script>
 
 <template>
@@ -57,10 +96,10 @@ const isOpen = ref(false)
             <div class="lg:basis-4/6 ">
                 <div>
                     <p class="text-xl font-semibold">Latest  Announcement</p>
-                    <button   @click="isOpen = !isOpen"
+                    <button   @click="fetches()"
                     class="px-2 py-1 text-black bg-white rounded-md ann-button">{{ isOpen ? 'Closed announments' : 'Open announments' }}
             </button>
-                    <div class="max-h-screen min-w-full min-h-full overflow-auto scrollbar scrollbar-thumb-gray-100 ">
+                    <div class="max-h-screen min-w-full min-h-full overflow-auto scrollbar-thin scrollbar-thumb-gray-100 scrollbar-track-slate-950">
                     <div class="flex flex-col justify-center text-center ">
                         <!-- <div class="absolute mt-2 mr-2 ">
                             <svg class="w-20 h-20 bg-transparent border-2 border-transparent border-opacity-50 rounded-full animate-spin"
@@ -75,7 +114,17 @@ const isOpen = ref(false)
                     </div>
                     </div>
                 </div>
-              
+                <div class="py-5 flex justify-center text-2xl">
+        <div class="flex items-center space-x-2">
+            <button>Prev</button>
+            <ul class="flex flex-row space-x-2">
+                <li v-if="store.page-1 >= 0" >{{ store.page }}</li>
+                <li >{{ store.page+1 }}</li>
+                <li >{{ store.page+2 }}</li>
+            </ul>
+            <button>Next</button>
+        </div>
+    </div>
             </div>
             <div class="lg:basis-2/6">
                 <p class="py-1 text-2xl font-bold">Date/Time shown in Timezone: <span class="font-normal">{{
@@ -85,7 +134,7 @@ const isOpen = ref(false)
                   <p class="py-2 text-xl ">Choose Category:</p>
                         <select
                                 class="text-black shadow-md shadow-slate-300 ann-category-filter"
-                                required v-model="selectedCategory">
+                                required v-model="store.category">
                                 <option v-for="(data) in category" :key="data.id" :value="data.category_Id" class="text-black">{{
                                 data.categoryName
                                 }}
@@ -93,7 +142,7 @@ const isOpen = ref(false)
                         </select></div>
             </p>
             <div>
-
+                
                 <p>Top Announcement</p>
                 <div class="w-full">
                     <div class="flex flex-col justify-center text-center ">
@@ -111,7 +160,9 @@ const isOpen = ref(false)
             </div>
             </div>
         </div>
+
     </div>
+    
 </template>
 
 <style scoped>
