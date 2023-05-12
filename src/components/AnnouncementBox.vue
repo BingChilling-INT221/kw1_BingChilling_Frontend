@@ -184,17 +184,7 @@ const deleteAnnouncement = async (id) => {
         </div>
       </div>
     </div>
-    <div class="py-5 flex justify-center text-2xl">
-        <div class="flex items-center space-x-2">
-            <button>Prev</button>
-            <ul class="flex flex-row space-x-2">
-                <li>1</li>
-                <li>2</li>
-                <li>3</li>
-            </ul>
-            <button>Next</button>
-        </div>
-    </div>
+    
     
   </div>
 </template>

@@ -4,21 +4,18 @@ import {defineStore} from 'pinia'
 export const useAnnouncerStore = defineStore('announcer ', () => {
     const mode = ref('Active')
     const category = ref('')
-    const page = ref(1)
+    const page = ref(0)
     const darkMode = ref(true)
 
-    function setMode(mode) {
-        mode.value = mode
+    function setMode(setMode) {
+        mode.value = setMode
     }
-
     function setCategory(setCategory) {
         category.value = setCategory
     }
-
     function setPage(setPage) {
         page.value = setPage
     }
-
     function setDarkMode() {
         console.log('darkMode.value', darkMode.value)
         darkMode.value = !darkMode.value

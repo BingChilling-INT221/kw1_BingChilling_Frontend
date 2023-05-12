@@ -90,6 +90,7 @@ onMounted(async () => {
         <div class="mt-10 ">
             <AnnouncementBox :selectedCategory="selectedCategory"></AnnouncementBox>
         </div>
+        
     </div>
 
 
