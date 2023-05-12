@@ -123,7 +123,7 @@ const deleteAnnouncement = async (id) => {
         </div>
         <div class="h-full pl-4 w-[92%]">
           <div class="flex justify-between font-bold">
-            <p class="w-4/5 break-words pt-1 text-xl text-black ann-title">
+            <p class="w-4/5 pt-1 text-xl text-black break-words ann-title">
               {{ data.announcementTitle }}
             </p>
 
