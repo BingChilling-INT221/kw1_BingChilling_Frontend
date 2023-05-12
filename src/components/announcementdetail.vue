@@ -86,7 +86,7 @@ const changeTime = (time) => {
                         Title:
                         {{ queryAnnounce.announcementTitle }}
                     </p>
-                    <div class="flex justify-end" v-show="role === 'admin'">
+                    <div v-show="role === 'admin'" class="flex justify-end">
                         <div
                                 :class="
               queryAnnounce.announcementDisplay === 'Y' ? 'bg-green-500' : 'bg-red-500'

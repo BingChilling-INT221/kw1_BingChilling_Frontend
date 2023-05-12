@@ -1,37 +1,32 @@
 <script setup>
-import Announcement from './components/Announcementbanner.vue';
-import { RouterView } from "vue-router";
-import {computed,watch} from "vue";
+import {RouterView} from "vue-router";
+import {computed} from "vue";
 import {useAnnouncerStore} from "@/stores/announcer.js";
+
 const announcer = useAnnouncerStore();
-const {  setDarkMode } = announcer;
+const {setDarkMode} = announcer;
 
 const colorBg = computed(() => {
-    return announcer.darkMode ? 'bg-blackCustom' : 'bg-white'
+    return announcer.darkMode ? '#181818' : 'white'
 })
 const colorText = computed(() => {
-    return announcer.darkMode ? 'text-white' : 'text-black'
+    return announcer.darkMode ? 'white' : 'black'
 })
 
 </script>
 <template>
 
-<!--    <div class="w-full min-h-screen bg-blackCustom">-->
-<!--        <Announcement class="bg-purpleCustom1"/>-->
-<!--        <div class="w-full h-auto ">-->
-<!--            <RouterView/>-->
-<!--        </div>-->
-<!--    </div>-->
-    <button @click="setDarkMode">a</button>
-    {{ announcer?.darkMode  }}
-    <RouterView :class="[colorBg,colorText]" ></RouterView>
-
+    <div class="w-full h-auto ">
+        <router-view/>
+    </div>
 </template>
 
 <style scoped>
 
-html {
+* {
     scroll-behavior: smooth;
-
+    background: v-bind(colorBg);
+    color: v-bind(colorText);
+//background: #282828;
 }
 </style>

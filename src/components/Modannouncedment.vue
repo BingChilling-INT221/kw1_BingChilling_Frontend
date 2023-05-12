@@ -1,6 +1,7 @@
 <script setup>
 import {computed, inject, onMounted, ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
+
 const route = useRoute();
 const props = defineProps(
     {
@@ -160,12 +161,12 @@ const checkCloseDate = () => {
         return true
     }
     if (closeDate.value.length > 10) return false
-    if (publishDate.value !== null || publishDate.value !== "")
-    {
-    if ((compareDates(closeDate.value, publishDate.value) < 0) ){
-        alert("Please enter correct date format close")
-        return false
-    }}
+    if (publishDate.value !== null || publishDate.value !== "") {
+        if ((compareDates(closeDate.value, publishDate.value) < 0)) {
+            alert("Please enter correct date format close")
+            return false
+        }
+    }
     return true
 }
 const checkCloseTime = () => {

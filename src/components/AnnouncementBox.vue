@@ -12,7 +12,7 @@ onMounted(async () => {
         );
 
         if (response.status === 200) {
-            
+
             announce.value = await response.json();
             loading.value = false
             if (announce.value.length === 0) {

@@ -1,5 +1,5 @@
 <script setup>
-import {inject,ref} from "vue";
+import {inject, ref} from "vue";
 import AnnouncementBox from "./AnnouncementBox.vue";
 
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
@@ -19,9 +19,10 @@ const isOpen = ref(false)
                     @click="$router.push({name: 'addannouncement'})">Add
                 Announcement
             </button>
-            <button v-show ="role === 'user'"
-            @click="isOpen = !isOpen"
-                    class="px-2 py-1 text-black bg-white rounded-md ann-button">{{ isOpen ? 'Closed announments' : 'Open announments' }}>
+            <button v-show="role === 'user'"
+                    class="px-2 py-1 text-black bg-white rounded-md ann-button"
+                    @click="isOpen = !isOpen">
+                {{ isOpen ? 'Closed announments' : 'Open announments' }}>
             </button>
 
         </div>
