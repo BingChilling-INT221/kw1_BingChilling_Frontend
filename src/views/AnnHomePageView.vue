@@ -93,7 +93,7 @@ const isOpen = ref(false)
                         </select></div>
             </p>
             <div>
-                {{ calendar.value  }}
+
                 <p>Top Announcement</p>
                 <div class="w-full">
                     <div class="flex flex-col justify-center text-center ">
