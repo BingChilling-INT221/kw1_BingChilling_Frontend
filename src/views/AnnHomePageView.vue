@@ -2,9 +2,7 @@
 import {useRoute} from "vue-router";
 import {computed, onMounted, ref} from "vue";
 import AnnBox from "@/components/AnnBox.vue";
-import { useCalendar } from "vue3-calendar-composable";
 
-const calendar = useCalendar();
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 const route = useRoute();
 const loading = ref(true)
