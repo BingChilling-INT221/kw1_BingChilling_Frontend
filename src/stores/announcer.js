@@ -15,5 +15,4 @@ export const useAnnouncerStore = defineStore('announcer ', () => {
         page.value = page
     }
     return { mode, category, page, setMode, setCategory, setPage }
-
 })

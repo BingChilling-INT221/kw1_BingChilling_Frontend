@@ -1,10 +1,35 @@
 <script setup>
-import {inject,ref} from "vue";
+import {inject,ref,computed,onMounted} from "vue";
 import AnnouncementBox from "./AnnouncementBox.vue";
+import { useAnnouncerStore } from "../stores/announcer.js";
 
+const category = ref([])
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 const role = inject('role')
 const isOpen = ref(false)
+const announcerStore = useAnnouncerStore()
+const selectedCategory = ref('');
+
+
+
+
+onMounted(async () => {
+    try {
+        const response = await fetch(
+            `${import.meta.env.VITE_BASE_URL}categories`
+        );
+        if (response.status === 200) {
+            category.value = await response.json();
+            console.log(response);
+        }
+    } catch (err) {
+        console.log(err);
+    }
+})
+
+
+
+
 </script>
 <template>
 
@@ -21,12 +46,23 @@ const isOpen = ref(false)
             </button>
             <button v-show ="role === 'user'"
             @click="isOpen = !isOpen"
-                    class="px-2 py-1 text-black bg-white rounded-md ann-button">{{ isOpen ? 'Closed announments' : 'Open announments' }}>
+                    class="px-2 py-1 text-black bg-white rounded-md ann-button">{{ isOpen ? 'Closed announments' : 'Open announments' }}
             </button>
 
         </div>
+        <div class="flex w-full mt-6 text-black">
+                        <p class="py-2 text-xl text-white">Choose Category:</p>
+                        <select
+                                class="w-1/12 ml-2 shadow-md shadow-slate-300 ann-category-filter"
+                                required v-model="selectedCategory">
+                                <option v-for="(data) in category" :key="data.id" :value="data.category_Id">{{
+                                data.categoryName
+                                }}
+                            </option>
+                        </select>
+                    </div>
         <div class="mt-10 ">
-            <AnnouncementBox></AnnouncementBox>
+            <AnnouncementBox :selectedCategory="selectedCategory"></AnnouncementBox>
         </div>
     </div>
 
