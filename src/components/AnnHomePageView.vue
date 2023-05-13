@@ -21,17 +21,17 @@ const loading = computed(() => {
 });
 
 const wantPage = computed(() => {
-  const newArray = [];
-  const page = store.page + 1;
-  const totalPages = Math.ceil(data.value.totalElements / store.pageSize)
-  const startLength = page - 9 > 1 ? page - 9 : 1;
-  const endLength = startLength + 9 <= totalPages ? startLength + 9 : totalPages
+    const newArray = [];
+    const page = store.page + 1;
+    const totalPages = Math.ceil(data.value.totalElements / store.pageSize)
+    const startLength = page - 9 > 1 ? page - 9 : 1;
+    const endLength = startLength + 9 <= totalPages ? startLength + 9 : totalPages
 
-  for (let i = startLength; i <= endLength; i++) {
-    newArray.push(i);
-  }
+    for (let i = startLength; i <= endLength; i++) {
+        newArray.push(i);
+    }
 
-  return newArray;
+    return newArray;
 });
 
 
@@ -118,7 +118,7 @@ const fetched = async () => {
 
         if (response.status === 200) {
             fetchDate.value = true;
-            
+
             data.value = await response.json();
             announces.value = data.value.content
 
@@ -151,41 +151,47 @@ const goToNextPage = () => {
 </script>
 
 <template>
-    <div class="h-auto min-w-full min-h-screen pt-5 sm:px-36 sm:pt-12">
-        <p class="hidden m-auto text-4xl font-bold sm:block">SIT Announcement System</p>
-        <div class="flex w-1/3 m-auto text-2xl font-semibold text-center sm:hidden">
+    <div class="h-auto min-w-full min-h-screen pt-5 md:px-12 xl:px-36 md:pt-12">
+        <p class="hidden m-auto text-4xl font-bold md:block"> <img src="../assets/annou.png" alt=""
+                class="inline-block w-20 h-12 mr-4" />SIT Announcement System</p>
+        <div class="flex w-1/3 m-auto text-2xl font-semibold text-center md:hidden">
             <img src="../assets/annou.png" alt="" class="w-20 h-12 mr-4" /><span class="m-auto">SAS</span>
         </div>
         <div v-if="!loading" class="absolute mt-2 mr-2 ">
             <svg class="w-20 h-20 bg-transparent border-2 border-transparent border-opacity-50 rounded-full animate-spin"
                 style="border-right-color: white; border-top-color: white;" viewBox="0 0 24 24"></svg>
         </div>
-        <div v-else class="flex flex-col pt-16 sm:flex-row ">
-            <div class="flex flex-col sm:hidden basis-full">
-                <div class="flex ">
-                    <img src="../assets/1845948.png" alt="" class="w-6 h-6 my-auto" />
-                    <p class="h-8 py-1 my-auto text-xl font-normal">{{
-                        timezone
-                    }}</p>
-                </div>
-                <div class="flex">
-                    <p class="my-auto text-xl ">Choose Category:</p>
-                    <div class="">
-                        <select v-model="store.category"
-                            class="w-24 my-auto ml-2 text-black shadow-md shadow-slate-300 ann-category-filter">
-                            <option v-for="(data) in category" :key="data.id" :value="data.category_Id" class="text-black">
-                                {{
-                                    data.categoryName
-                                }}
-                            </option>
-                            a
-                        </select>
+        <div v-else class="flex flex-col pt-16 md:flex-row ">
+
+            <div class="flex flex-col md:basis-4/6 ">
+                <div class="flex flex-col lg:hidden basis-full ">
+                    <div class="flex ">
+                        <img src="../assets/1845948.png" alt="" class="w-6 h-6 my-auto md:hidden" />
+                        <p class="h-8 py-1 my-auto text-xl font-normal"><span class="hidden md:inline-block"> Date/Time
+                                shown in
+                                Timezone:</span>{{
+                                    timezone
+                                }}</p>
+                    </div>
+                    <div class="flex">
+                        <p class="my-auto text-xl ">Choose Category:</p>
+                        <div class="">
+                            <div class="flex font-normal ">
+                                <p class="py-2 text-xl ">Category:</p>
+                                <select v-model="store.category" class="pl-10 ml-2 text-black ann-category-filter select ">
+                                    <option disabled selected value="">Pick category </option>
+                                    <option v-for="(data) in category" :key="data.id" :value="data.category_Id"
+                                        class="text-black">{{
+                                            data.categoryName
+                                        }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="flex flex-col sm:basis-4/6 ">
-                <div class="flex justify-between ">
-                    <p class="pl-5 text-2xl font-semibold sm:max-h-16 sm:min-h-16">Announcement</p>
+                <div class="flex justify-between pt-10 lg:pt-0">
+                    <p class="pl-5 text-2xl font-semibold md:max-h-16 md:min-h-16">Announcement</p>
                     <div v-if="!checkAdmin()" class="flex ">
                         <button class="px-2 py-1 rounded-md ann-button " @click="fetches()">
                             {{ isOpen ? 'Closed announments' : 'Open announments' }}
@@ -212,7 +218,8 @@ const goToNextPage = () => {
 
                 <div class="flex justify-center py-5 text-2xl">
                     <div class="flex items-center space-x-2">
-                        <button :disabled="data.first" @click="goToPreviousPage" :class="store.page ===0 ?'opacity-25':''">
+                        <button :disabled="data.first" @click="goToPreviousPage"
+                            :class="store.page === 0 ? 'opacity-25' : ''">
                             Prev
                         </button>
                         <ul class="flex flex-row space-x-2">
@@ -221,18 +228,19 @@ const goToNextPage = () => {
                                 {{ pageNumber }}
                             </li>
                         </ul>
-                        <button @click="goToNextPage" :disabled="data.last" :class="data.last ?'opacity-25':''">Next</button>
+                        <button @click="goToNextPage" :disabled="data.last"
+                            :class="data.last ? 'opacity-25' : ''">Next</button>
                     </div>
                 </div>
             </div>
-            <div class="hidden pl-32 sm:basis-1/3 sm:block">
+            <div class="hidden lg:pl-20 md:basis-1/2 lg:block">
                 <p class="py-1 text-xl font-normal ">Date/Time shown in Timezone: <span class="font-normal">{{
                     timezone
                 }}</span></p>
-                <div class="flex justify-between font-normal ">
-                    <p class="py-2 text-xl ">Choose Category:</p>
-                    <select v-model="store.category"
-                        class="pl-10 text-black shadow-md shadow-slate-300 ann-category-filter " required>
+                <div class="flex font-normal ">
+                    <p class="py-2 text-xl ">Category:</p>
+                    <select v-model="store.category" class="pl-10 ml-2 text-black ann-category-filter select ">
+                        <option disabled selected value="">Pick category </option>
                         <option v-for="(data) in category" :key="data.id" :value="data.category_Id" class="text-black">{{
                             data.categoryName
                         }}

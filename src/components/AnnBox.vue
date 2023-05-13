@@ -76,7 +76,7 @@ const role = computed(() => {
 
 <template>
     <div class="my-2 text-xl font-semibold">
-        <div class="flex flex-col p-2 m-auto rounded-md min-h-20 bg-black2Cus sm:min-w-sm sm:flex-row">
+        <div class="flex flex-col p-2 m-auto rounded-md min-h-20 bg-black2Cus md:min-w-sm md:flex-row md:max-w-2xl">
             <div class="flex flex-row ">
                 <div class="flex items-center justify-center w-16 my-auto font-semibold break-all border-r-2">
                     {{ padStart(index + 1, 2) }}
@@ -87,11 +87,11 @@ const role = computed(() => {
                         {{ annData.announcementTitle }}</p>
                 </div>
                 <div
-                    class=" bg-[#25B881] w-24 px-2 h-6 text-sm my-auto sm:m-auto font-normal rounded-lg py-1 ann-category ">
+                    class=" bg-[#25B881] w-24 px-2 h-6 text-sm my-auto md:m-auto font-normal rounded-lg py-1 ann-category ">
                     {{ annData.announcementCategory }}
                 </div>
             </div>
-            <div class="flex flex-col w-64 sm:ml-20 ">
+            <div class="flex flex-col w-64 md:ml-20 ">
                 <div class="text-left">
                     <p class="pt-1 text-[#545454] text-m ann-publish-date">
                         Publishdate: {{
@@ -111,7 +111,7 @@ const role = computed(() => {
                 </div>
 
 
-                <div class="flex flex-row m-auto sm:flex-col ">
+                <div class="flex flex-row m-auto md:flex-col ">
                     <button class="px-2 py-1 ml-2 text-sm font-medium rounded-lg hover:bg-green-500 ann-button"
                         @click="$router.push({ name: `${role}announcementdetail`, params: { id: annData.id } })">
                         view
