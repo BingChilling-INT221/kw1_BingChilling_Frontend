@@ -154,14 +154,15 @@ const goToNextPage = () => {
                  style="border-right-color: white; border-top-color: white;" viewBox="0 0 24 24"></svg>
         </div>
         <div v-else class="flex flex-col pt-16 lg:flex-row ">
-            <div class="flex flex-col h-8 min-w-full lg:hidden">
-                <p class="py-1 text-xl font-normal ">Date/Time shown in Timezone: <span class="font-normal">{{
+            <div class="flex flex-col min-w-full lg:hidden">
+
+                <p class="h-8 py-1 text-xl font-normal">Date/Time shown in Timezone: <span class="font-normal">{{
                     timezone
                     }}</span></p>
-
-                <div class="flex flex-row">
+           
+                <div class="flex">
                     <p class="w-1/2 my-auto text-xl ">Choose Category:</p>
-                    <div class="flex flex-col">
+                    <div class="">
                         <select
                                 v-model="store.category"
                                 class="w-24 my-auto ml-2 text-black shadow-md shadow-slate-300 ann-category-filter">
@@ -170,10 +171,10 @@ const goToNextPage = () => {
                                 data.categoryName
                                 }}
                             </option>
+                            a
                         </select></div>
                 </div>
             </div>
-            <br>
             <div class="flex flex-col lg:basis-4/6 ">
                 <div class="flex justify-between ">
                     <p class="pl-5 text-2xl font-semibold md:max-h-16 md:min-h-16">Announcement</p>
