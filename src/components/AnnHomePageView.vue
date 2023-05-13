@@ -1,7 +1,7 @@
 <script setup>
-import {computed, inject, onMounted, ref} from "vue";
+import { computed, inject, onMounted, ref } from "vue";
 import AnnBox from "@/components/AnnBox.vue";
-import {useAnnouncerStore} from "@/stores/announcer";
+import { useAnnouncerStore } from "@/stores/announcer";
 
 const store = useAnnouncerStore();
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -85,8 +85,7 @@ const fetches = async () => {
     }
     try {
         const response = await fetch(
-            `${import.meta.env.VITE_BASE_URL}announcements/pages?mode=${
-                store.mode
+            `${import.meta.env.VITE_BASE_URL}announcements/pages?mode=${store.mode
             }&page=${store.page}&size=${store.pageSize}`
         );
         // const response2 = await fetch(
@@ -113,8 +112,7 @@ const fetches = async () => {
 const fetched = async () => {
     try {
         const response = await fetch(
-            `${import.meta.env.VITE_BASE_URL}announcements/pages?mode=${
-                store.mode
+            `${import.meta.env.VITE_BASE_URL}announcements/pages?mode=${store.mode
             }&page=${store.page}&size=${store.pageSize}`
         );
 
@@ -153,50 +151,49 @@ const goToNextPage = () => {
 </script>
 
 <template>
-  {{ data.totalElements }}
-    <div class="h-auto min-w-full min-h-screen pt-5 lg:px-36 lg:pt-12">
-        <p class="hidden text-4xl font-bold lg:block">SIT Announcement System (SAS)</p>
-        <p class="flex justify-center text-2xl font-semibold text-center lg:hidden">SIT Announcement System <br> (SAS)
-        </p>
+    <div class="h-auto min-w-full min-h-screen pt-5 sm:px-36 sm:pt-12">
+        <p class="hidden m-auto text-4xl font-bold sm:block">SIT Announcement System</p>
+        <div class="flex w-1/3 m-auto text-2xl font-semibold text-center sm:hidden">
+            <img src="../assets/annou.png" alt="" class="w-20 h-12 mr-4" /><span class="m-auto">SAS</span>
+        </div>
         <div v-if="!loading" class="absolute mt-2 mr-2 ">
             <svg class="w-20 h-20 bg-transparent border-2 border-transparent border-opacity-50 rounded-full animate-spin"
-                 style="border-right-color: white; border-top-color: white;" viewBox="0 0 24 24"></svg>
+                style="border-right-color: white; border-top-color: white;" viewBox="0 0 24 24"></svg>
         </div>
-        <div v-else class="flex flex-col pt-16 lg:flex-row ">
-            <div class="flex flex-col min-w-full lg:hidden">
-
-                <p class="h-8 py-1 text-xl font-normal">Date/Time shown in Timezone: <span class="font-normal">{{
-                    timezone
-                    }}</span></p>
-           
+        <div v-else class="flex flex-col pt-16 sm:flex-row ">
+            <div class="flex flex-col sm:hidden basis-full">
+                <div class="flex ">
+                    <img src="../assets/1845948.png" alt="" class="w-6 h-6 my-auto" />
+                    <p class="h-8 py-1 my-auto text-xl font-normal">{{
+                        timezone
+                    }}</p>
+                </div>
                 <div class="flex">
-                    <p class="w-1/2 my-auto text-xl ">Choose Category:</p>
+                    <p class="my-auto text-xl ">Choose Category:</p>
                     <div class="">
-                        <select
-                                v-model="store.category"
-                                class="w-24 my-auto ml-2 text-black shadow-md shadow-slate-300 ann-category-filter">
-                            <option v-for="(data) in category" :key="data.id" :value="data.category_Id"
-                                    class="text-black">{{
-                                data.categoryName
+                        <select v-model="store.category"
+                            class="w-24 my-auto ml-2 text-black shadow-md shadow-slate-300 ann-category-filter">
+                            <option v-for="(data) in category" :key="data.id" :value="data.category_Id" class="text-black">
+                                {{
+                                    data.categoryName
                                 }}
                             </option>
                             a
-                        </select></div>
+                        </select>
+                    </div>
                 </div>
             </div>
-            <div class="flex flex-col lg:basis-4/6 ">
+            <div class="flex flex-col sm:basis-4/6 ">
                 <div class="flex justify-between ">
-                    <p class="pl-5 text-2xl font-semibold md:max-h-16 md:min-h-16">Announcement</p>
+                    <p class="pl-5 text-2xl font-semibold sm:max-h-16 sm:min-h-16">Announcement</p>
                     <div v-if="!checkAdmin()" class="flex ">
-                        <button class="px-2 py-1 rounded-md ann-button "
-                                @click="fetches()">
+                        <button class="px-2 py-1 rounded-md ann-button " @click="fetches()">
                             {{ isOpen ? 'Closed announments' : 'Open announments' }}
                         </button>
-                        <div :class="isOpen?'bg-green-400':'bg-red-400'" class="w-3 h-3 m-auto rounded-full"></div>
+                        <div :class="isOpen ? 'bg-green-400' : 'bg-red-400'" class="w-3 h-3 m-auto rounded-full"></div>
                     </div>
-                    <button v-else
-                            class="px-2 py-1 rounded-md bg-black2Cus hover:bg-black3Cus ann-button"
-                            @click="$router.push({name: 'addannouncement'})">Add
+                    <button v-else class="px-2 py-1 rounded-md bg-black2Cus hover:bg-black3Cus ann-button"
+                        @click="$router.push({ name: 'addannouncement' })">Add
                         Announcement
                     </button>
                 </div>
@@ -204,10 +201,10 @@ const goToNextPage = () => {
                 <div class="min-w-full ">
                     <div class="flex flex-col justify-center text-center ">
 
-                        <p v-if="announces.length<=0" class="flex justify-center text-5xl text-center text-gray-400">
+                        <p v-if="announces.length <= 0" class="flex justify-center text-5xl text-center text-gray-400">
                             No Announcement
                         </p>
-                        <div v-for="(announce,index) in announces " v-else class="h-auto">
+                        <div v-for="(announce, index) in announces " v-else class="h-auto">
                             <AnnBox :ann-data="announce" :index="index"></AnnBox>
                         </div>
                     </div>
@@ -220,7 +217,7 @@ const goToNextPage = () => {
                         </button>
                         <ul class="flex flex-row space-x-2">
                             <li v-for="pageNumber in wantPage" :key="pageNumber"
-                                :class="{ 'text-red-500': store.page === pageNumber - 1}">
+                                :class="{ 'text-red-500': store.page === pageNumber - 1 }">
                                 {{ pageNumber }}
                             </li>
                         </ul>
@@ -228,19 +225,17 @@ const goToNextPage = () => {
                     </div>
                 </div>
             </div>
-            <div class="hidden pl-32 lg:basis-1/3 lg:block">
+            <div class="hidden pl-32 sm:basis-1/3 sm:block">
                 <p class="py-1 text-xl font-normal ">Date/Time shown in Timezone: <span class="font-normal">{{
                     timezone
-                    }}</span></p>
+                }}</span></p>
                 <div class="flex justify-between font-normal ">
                     <p class="py-2 text-xl ">Choose Category:</p>
-                    <select
-                            v-model="store.category"
-                            class="pl-10 text-black shadow-md shadow-slate-300 ann-category-filter " required>
-                        <option v-for="(data) in category" :key="data.id" :value="data.category_Id"
-                                class="text-black">{{
+                    <select v-model="store.category"
+                        class="pl-10 text-black shadow-md shadow-slate-300 ann-category-filter " required>
+                        <option v-for="(data) in category" :key="data.id" :value="data.category_Id" class="text-black">{{
                             data.categoryName
-                            }}
+                        }}
                         </option>
                     </select>
                 </div>
