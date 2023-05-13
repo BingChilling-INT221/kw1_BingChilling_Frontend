@@ -5,7 +5,7 @@ export const useAnnouncerStore = defineStore('announcer ', () => {
     const mode = ref('Active')
     const category = ref('')
     const page = ref(0)
-    const pageSize = ref(3)
+    const pageSize = ref(2)
     const darkMode = ref(true)
 
     function setMode(setMode) {

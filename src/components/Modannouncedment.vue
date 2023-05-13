@@ -98,6 +98,7 @@ const checkDisableTime = (date) => {
     return date.length !== 10
 }
 
+
 const comeTime = ref(new Date().toLocaleTimeString([], {hour: "2-digit", minute: "2-digit", hour12: false}))
 const comeDate = ref(new Date().toLocaleDateString("en-Us"))
 const sixhour = new Date('August 19, 1975 00:00:00');
@@ -253,6 +254,18 @@ const sendSubmit = async (event) => {
     }
 
 }
+
+const countTitleCharac = computed(() => {
+  const maxLength = 200;
+  return maxLength - (announcementTitle.value.length || 0);
+});
+
+const countDesCharac = computed(() => {
+  const maxLength = 10000;
+  return maxLength - (announcementDescription.value.length || 0);
+});
+
+
 </script>
 
 <template>
@@ -268,10 +281,14 @@ const sendSubmit = async (event) => {
                     <div class="flex w-full">
                         <p class="w-1/4 py-2 text-2xl font-bold ">Title</p>
                         <input v-model="announcementTitle" class="w-3/4 ml-2 bg-gray-200 border-2 rounded-md ann-title"
-                               required
+                               required maxlength="200"
                                type="text"/>
+                               
                     </div>
-                    <div class="flex w-full mt-6">
+                  
+                        <p class="flex justify-end">Remaining: {{ countTitleCharac }}</p>
+
+                    <div class="flex w-full mt-2">
                         <p class="w-1/4 py-2 text-2xl font-bold">Category</p>
                         <select v-model="categoryId"
                                 class="w-3/4 ml-2 bg-gray-200 shadow-md shadow-slate-300 ann-category"
@@ -334,8 +351,9 @@ const sendSubmit = async (event) => {
                             cols="100"
                             required
                             rows="3"
+                            maxlength="10000"
                     ></textarea>
-
+                    <p class="flex justify-end">Remaining: {{ countDesCharac }}</p>
 
                     <div class="flex justify-end py-5 space-x-2">
                         <button :class="change || !updateCheck ? '' : 'opacity-40'" :disabled="!change && updateCheck"

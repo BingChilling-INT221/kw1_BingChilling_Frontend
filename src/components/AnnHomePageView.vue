@@ -11,6 +11,7 @@ const checkAdmin = () => {
     return role === "admin";
 };
 const announces = ref([]);
+const data = ref({});
 const category = ref([]);
 const isOpen = ref(false);
 const fetchCat = ref(false);
@@ -20,14 +21,17 @@ const loading = computed(() => {
 });
 
 const wantPage = computed(() => {
-    const newArray = [];
-    const page = store.page+1;
-    const startLength = page - 9 > 1 ? page - 9 : 1;
-    const endLength = startLength+9;
-    for (let i = startLength; i <= endLength; i++) {
-            newArray.push(i);
-    }
-    return newArray;
+  const newArray = [];
+  const page = store.page + 1;
+  const totalPages = Math.ceil(data.value.totalElements / store.pageSize)
+  const startLength = page - 9 > 1 ? page - 9 : 1;
+  const endLength = startLength + 9 <= totalPages ? startLength + 9 : totalPages
+
+  for (let i = startLength; i <= endLength; i++) {
+    newArray.push(i);
+  }
+
+  return newArray;
 });
 
 
@@ -73,9 +77,11 @@ const fetches = async () => {
     if (!isOpen.value) {
         store.setMode("active");
         isOpen.value = !isOpen.value;
+        store.setPage(0)
     } else {
-        store.setMode("closed");
+        store.setMode("close");
         isOpen.value = !isOpen.value;
+        store.setPage(0)
     }
     try {
         const response = await fetch(
@@ -90,8 +96,8 @@ const fetches = async () => {
         // );
         if (response.status === 200) {
             fetchDate.value = true;
-            announces.value = await response.json();
-            announces.value = announces.value.content;
+            data.value = await response.json();
+            announces.value = data.value.content
 
             if (announces.value.length === 0) {
                 notFound.value = true;
@@ -114,8 +120,10 @@ const fetched = async () => {
 
         if (response.status === 200) {
             fetchDate.value = true;
-            announces.value = await response.json();
-            announces.value = announces.value.content;
+            
+            data.value = await response.json();
+            announces.value = data.value.content
+
 
             if (announces.value.length === 0) {
                 notFound.value = true;
@@ -145,6 +153,7 @@ const goToNextPage = () => {
 </script>
 
 <template>
+  {{ data.totalElements }}
     <div class="h-auto min-w-full min-h-screen pt-5 lg:px-36 lg:pt-12">
         <p class="hidden text-4xl font-bold lg:block">SIT Announcement System (SAS)</p>
         <p class="flex justify-center text-2xl font-semibold text-center lg:hidden">SIT Announcement System <br> (SAS)
@@ -206,7 +215,7 @@ const goToNextPage = () => {
 
                 <div class="flex justify-center py-5 text-2xl">
                     <div class="flex items-center space-x-2">
-                        <button :disabled="store.page === 0" @click="goToPreviousPage" :class="store.page ===0 ?'opacity-25':''">
+                        <button :disabled="data.first" @click="goToPreviousPage" :class="store.page ===0 ?'opacity-25':''">
                             Prev
                         </button>
                         <ul class="flex flex-row space-x-2">
@@ -215,7 +224,7 @@ const goToNextPage = () => {
                                 {{ pageNumber }}
                             </li>
                         </ul>
-                        <button @click="goToNextPage">Next</button>
+                        <button @click="goToNextPage" :disabled="data.last" :class="data.last ?'opacity-25':''">Next</button>
                     </div>
                 </div>
             </div>
