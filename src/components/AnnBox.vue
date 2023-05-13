@@ -77,7 +77,7 @@ const role = computed(() => {
 <template>
     <div class="my-2 text-xl font-semibold">
         <div
-            class="flex flex-col p-2 m-auto rounded-md min-h-20 bg-black2Cus md:min-w-sm md:flex-row md:max-w-2xl lg:max-w-none">
+            class="flex flex-col p-2 m-auto rounded-md min-h-20 bg-black2Cus md:min-w-sm md:flex-row md:max-w-2xl xl:max-w-none">
             <div class="flex flex-row ">
                 <div class="flex items-center justify-center w-16 my-auto font-semibold break-all border-r-2">
                     {{ padStart(index + 1, 2) }}
