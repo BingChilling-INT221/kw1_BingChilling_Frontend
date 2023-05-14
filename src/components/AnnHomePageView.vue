@@ -1,5 +1,5 @@
 <script setup>
-import { computed, inject, onMounted, ref } from "vue";
+import { computed, inject, onMounted, ref, watch } from "vue";
 import AnnBox from "@/components/AnnBox.vue";
 import { useAnnouncerStore } from "@/stores/announcer";
 
@@ -21,7 +21,7 @@ const fetchDate = ref(false);
 const loading = computed(() => {
     return fetchCat.value && fetchDate.value;
 });
-
+const notFound = ref(false);
 const wantPage = computed(() => {
     const newArray = [];
     const page = store.page + 1;
@@ -73,6 +73,12 @@ onMounted(async () => {
         await fetched();
     }
 });
+watch(
+    () => store.category,
+    async () => {
+        await fetched();
+    }
+);
 const fetches = async () => {
     if (!isOpen.value) {
         store.setMode("active");
@@ -81,33 +87,19 @@ const fetches = async () => {
         store.setMode("close");
         store.setPage(0)
     }
-    try {
-        const response = await fetch(
-            `${import.meta.env.VITE_BASE_URL}announcements/pages?mode=${store.mode
-            }&page=${store.page}&size=${store.pageSize}`
-        );
-        if (response.status === 200) {
-            fetchDate.value = true;
-            data.value = await response.json();
-            announces.value = data.value.content;
-            if (announces.value.length === 0) {
-                notFound.value = true;
-            }
-        }
-    } catch (err) {
-        alert("ยังหาข้อมูลไม่พบโปรดรีเฟรชหน้าอีกครั้งครับ");
-        window.location.reload();
-        console.log(err);
-    }
+    await fetched()
 };
 
 const fetched = async () => {
+
     try {
         const response = await fetch(
             `${import.meta.env.VITE_BASE_URL}announcements/pages?mode=${store.mode
-            }&page=${store.page}&size=${store.pageSize}`
+            }&page=${store.page}&size=${store.pageSize}${store.category !== ""
+                ? `&category=${store.category}`
+                : ""}`
         );
-
+        console.log(response);
         if (response.status === 200) {
             fetchDate.value = true;
 
@@ -173,7 +165,7 @@ const clickPage = (page) => {
                                 <p class="py-2 text-xl ">Category:</p>
                                 <select v-model="store.category" class="pl-10 ml-2 text-black ann-category-filter select ">
                                     <option disabled selected value="">ทั้งหมด</option>
-                                    <option v-for="(data) in category" :key="data.id" :value="data.category_Id"
+                                    <option v-for="(data) in category" :key="data.id" :value="data.categoryId"
                                         class="text-black">{{
                                             data.categoryName
                                         }}
@@ -209,7 +201,7 @@ const clickPage = (page) => {
                     </div>
                 </div>
 
-                <div class="flex justify-center py-5 text-2xl">
+                <div class="flex justify-center py-5 text-2xl" v-if="announces.length > 0">
                     <div class="flex items-center space-x-2 ">
                         <button :disabled="data.first" @click="goToPreviousPage" v-if="data.totalPages !== 1"
                             class="ann-page-prev" :class="data.first ? 'opacity-25' : ''">
@@ -236,7 +228,7 @@ const clickPage = (page) => {
                     <!-- ไม่มี ann fiter เพราะไม่ได้อยู่ในขนาดจอ 1000 -->
                     <select v-model="store.category" class="pl-10 ml-2 text-black select ">
                         <option disabled selected value="">ทั้งหมด</option>
-                        <option v-for="(data) in category" :key="data.id" :value="data.category_Id" class="text-black">{{
+                        <option v-for="(data) in category" :key="data.id" :value="data.categoryId" class="text-black">{{
                             data.categoryName
                         }}
                         </option>
