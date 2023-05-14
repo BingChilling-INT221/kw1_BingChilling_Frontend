@@ -13,7 +13,7 @@ const checkAdmin = () => {
 const announces = ref([]);
 const data = ref({});
 const category = ref([]);
-const isOpen = ref(false);
+const isOpen = ref(true);
 const fetchCat = ref(false);
 const fetchDate = ref(false);
 const loading = computed(() => {

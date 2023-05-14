@@ -2,7 +2,7 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useAnnouncerStore = defineStore('announcer ', () => {
-    const mode = ref('Active')
+    const mode = ref('active')
     const category = ref('')
     const page = ref(0)
     const pageSize = ref(5)
