@@ -13,7 +13,9 @@ const checkAdmin = () => {
 const announces = ref([]);
 const data = ref({});
 const category = ref([]);
-const isOpen = ref(true);
+const isOpen = computed(() => {
+    return store.mode === "active";
+});
 const fetchCat = ref(false);
 const fetchDate = ref(false);
 const loading = computed(() => {
@@ -72,15 +74,12 @@ onMounted(async () => {
         await fetched();
     }
 });
-
 const fetches = async () => {
     if (!isOpen.value) {
         store.setMode("active");
-        isOpen.value = !isOpen.value;
         store.setPage(0)
     } else {
         store.setMode("close");
-        isOpen.value = !isOpen.value;
         store.setPage(0)
     }
     try {
@@ -213,7 +212,7 @@ const clickPage = (page) => {
 
                 <div class="flex justify-center py-5 text-2xl">
                     <div class="flex items-center space-x-2 ">
-                        <button :disabled="data.first" @click="goToPreviousPage" v-if="data.first" class="ann-page-prev">
+                        <button :disabled="data.first" @click="goToPreviousPage" v-if="!data.first" class="ann-page-prev">
                             Prev
                         </button>
                         <ul class="flex flex-row space-x-2">
@@ -224,7 +223,7 @@ const clickPage = (page) => {
                             </li>
                         </ul>
                         <button @click="goToNextPage" :disabled="data.last" class="ann-page-next"
-                            v-if="data.last">Next</button>
+                            v-if="!data.last">Next</button>
                     </div>
                 </div>
             </div>
