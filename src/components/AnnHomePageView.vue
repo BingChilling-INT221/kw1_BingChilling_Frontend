@@ -189,7 +189,7 @@ const clickPage = (page) => {
                     <p class="pl-5 text-2xl font-semibold md:max-h-16 md:min-h-16">Announcement</p>
                     <div v-if="!checkAdmin()" class="flex ">
                         <button class="px-2 py-1 rounded-md ann-button " @click="fetches()">
-                            {{ isOpen ? 'Closed announments' : 'Open announments' }}
+                            {{ isOpen ? 'Closed announments' : 'Active announments' }}
                         </button>
                         <div :class="isOpen ? 'bg-green-400' : 'bg-red-400'" class="w-3 h-3 m-auto rounded-full"></div>
                     </div>
@@ -213,8 +213,7 @@ const clickPage = (page) => {
 
                 <div class="flex justify-center py-5 text-2xl">
                     <div class="flex items-center space-x-2 ">
-                        <button :disabled="data.first" @click="goToPreviousPage"
-                            :class="store.page === 0 ? 'opacity-25' : ''" class="ann-page-prev">
+                        <button :disabled="data.first" @click="goToPreviousPage" v-if="data.first" class="ann-page-prev">
                             Prev
                         </button>
                         <ul class="flex flex-row space-x-2">
@@ -225,7 +224,7 @@ const clickPage = (page) => {
                             </li>
                         </ul>
                         <button @click="goToNextPage" :disabled="data.last" class="ann-page-next"
-                            :class="data.last ? 'opacity-25' : ''">Next</button>
+                            v-if="data.last">Next</button>
                     </div>
                 </div>
             </div>
