@@ -25,9 +25,8 @@ const loading = computed(() => {
 const wantPage = computed(() => {
     const newArray = [];
     const page = store.page + 1;
-    const totalPages = Math.ceil(data.value.totalElements / store.pageSize)
     const startLength = page - 9 > 1 ? page - 9 : 1;
-    const endLength = startLength + 9 <= totalPages ? startLength + 9 : totalPages
+    const endLength = startLength + 9 > data.value.totalPages ? data.value.totalPages : startLength + 9;
 
     for (let i = startLength; i <= endLength; i++) {
         newArray.push(i);
@@ -212,7 +211,8 @@ const clickPage = (page) => {
 
                 <div class="flex justify-center py-5 text-2xl">
                     <div class="flex items-center space-x-2 ">
-                        <button :disabled="data.first" @click="goToPreviousPage" v-if="!data.first" class="ann-page-prev">
+                        <button :disabled="data.first" @click="goToPreviousPage" v-if="data.totalPages !== 1"
+                            class="ann-page-prev" :class="data.first ? 'opacity-25' : ''">
                             Prev
                         </button>
                         <ul class="flex flex-row space-x-2">
@@ -223,7 +223,7 @@ const clickPage = (page) => {
                             </li>
                         </ul>
                         <button @click="goToNextPage" :disabled="data.last" class="ann-page-next"
-                            v-if="!data.last">Next</button>
+                            :class="data.last ? 'opacity-25' : ''" v-if="data.totalPages !== 1">Next</button>
                     </div>
                 </div>
             </div>
