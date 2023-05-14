@@ -75,7 +75,7 @@ const role = computed(() => {
 </script>
 
 <template>
-    <div class="my-2 text-xl font-semibold">
+    <div class="my-2 text-xl font-semibold ann-item">
         <div
             class="flex flex-col p-2 m-auto rounded-md min-h-20 bg-black2Cus md:min-w-sm md:flex-row md:max-w-2xl xl:max-w-none">
             <div class="flex flex-row ">
