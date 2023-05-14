@@ -201,7 +201,7 @@ const clickPage = (page) => {
                     </div>
                 </div>
 
-                <div class="flex justify-center py-5 text-2xl" v-if="announces.length > 0">
+                <div class="flex justify-center py-5 text-2xl" v-if="announces.length > 0 && data.totalPages !== 1">
                     <div class="flex items-center space-x-2 ">
                         <button :disabled="data.first" @click="goToPreviousPage" v-if="data.totalPages !== 1"
                             class="ann-page-prev" :class="data.first ? 'opacity-25' : ''">
