@@ -91,8 +91,7 @@ const fetches = async () => {
         if (response.status === 200) {
             fetchDate.value = true;
             data.value = await response.json();
-            announces.value = data.value.content
-
+            announces.value = data.value.content;
             if (announces.value.length === 0) {
                 notFound.value = true;
             }
@@ -116,8 +115,6 @@ const fetched = async () => {
 
             data.value = await response.json();
             announces.value = data.value.content
-
-
             if (announces.value.length === 0) {
                 notFound.value = true;
             }
@@ -141,7 +138,10 @@ const goToNextPage = () => {
     store.setPage(store.page + 1);
     fetched()
 }
-
+const clickPage = (page) => {
+    store.setPage(page);
+    fetched()
+}
 
 </script>
 
@@ -206,24 +206,25 @@ const goToNextPage = () => {
                             No Announcement
                         </p>
                         <div v-for="(announce, index) in announces " v-else class="h-auto">
-                            <AnnBox :ann-data="announce" :index="index"></AnnBox>
+                            <AnnBox :ann-data="announce" :index="(index + store.pageSize * store.page)"></AnnBox>
                         </div>
                     </div>
                 </div>
 
                 <div class="flex justify-center py-5 text-2xl">
-                    <div class="flex items-center space-x-2">
+                    <div class="flex items-center space-x-2 ">
                         <button :disabled="data.first" @click="goToPreviousPage"
-                            :class="store.page === 0 ? 'opacity-25' : ''">
+                            :class="store.page === 0 ? 'opacity-25' : ''" class="ann-page-prev">
                             Prev
                         </button>
                         <ul class="flex flex-row space-x-2">
                             <li v-for="pageNumber in wantPage" :key="pageNumber"
-                                :class="{ 'text-red-500': store.page === pageNumber - 1 }">
+                                :class="[{ 'text-red-500': store.page === pageNumber - 1 }, `ann-page-${pageNumber - 1}`]"
+                                @click="clickPage(pageNumber - 1)">
                                 {{ pageNumber }}
                             </li>
                         </ul>
-                        <button @click="goToNextPage" :disabled="data.last"
+                        <button @click="goToNextPage" :disabled="data.last" class="ann-page-next"
                             :class="data.last ? 'opacity-25' : ''">Next</button>
                     </div>
                 </div>
