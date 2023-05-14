@@ -218,8 +218,8 @@ const clickPage = (page) => {
                             Prev
                         </button>
                         <ul class="flex flex-row space-x-2">
-                            <li v-for="pageNumber in wantPage" :key="pageNumber"
-                                :class="[{ 'text-red-500': store.page === pageNumber - 1 }, `ann-page-${pageNumber - 1}`]"
+                            <li v-for="(pageNumber, index) in wantPage" :key="pageNumber"
+                                :class="[{ 'text-red-500': store.page === pageNumber - 1 }, `ann-page-${index}`]"
                                 @click="clickPage(pageNumber - 1)">
                                 {{ pageNumber }}
                             </li>
