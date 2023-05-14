@@ -69,17 +69,17 @@ onMounted(async () => {
             console.log(err);
         }
     } else {
-        await fetches();
+        await fetched();
     }
 });
 
 const fetches = async () => {
     if (!isOpen.value) {
-        // store.setMode("active");
+        store.setMode("active");
         isOpen.value = !isOpen.value;
         store.setPage(0)
     } else {
-        // store.setMode("close");
+        store.setMode("close");
         isOpen.value = !isOpen.value;
         store.setPage(0)
     }
