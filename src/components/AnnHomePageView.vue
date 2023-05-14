@@ -233,7 +233,8 @@ const clickPage = (page) => {
                 }}</span></p>
                 <div class="flex font-normal ">
                     <p class="py-2 text-xl ">Category:</p>
-                    <select v-model="store.category" class="pl-10 ml-2 text-black ann-category-filter select ">
+                    <!-- ไม่มี ann fiter เพราะไม่ได้อยู่ในขนาดจอ 1000 -->
+                    <select v-model="store.category" class="pl-10 ml-2 text-black select ">
                         <option disabled selected value="">ทั้งหมด</option>
                         <option v-for="(data) in category" :key="data.id" :value="data.category_Id" class="text-black">{{
                             data.categoryName
