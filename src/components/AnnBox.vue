@@ -1,8 +1,9 @@
 <script setup>
 import { computed } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
+const router = useRouter();
 const props = defineProps({
     annData: {
         type: Object,
@@ -72,10 +73,19 @@ const checkAdmin = computed(() => {
 const role = computed(() => {
     return checkAdmin.value ? 'admin' : 'user'
 })
+const seeDetail = (env) => {
+    console.log(checkAdmin.value)
+
+    if (checkAdmin.value) {
+        env.preventDefault()
+    }
+
+    else { router.push({ name: `${role.value}announcementdetail`, params: { id: `${props.annData.id}` } }) }
+}
 </script>
 
 <template>
-    <div class="my-2 text-xl font-semibold ann-item">
+    <div class="my-2 text-xl font-semibold ann-item " @click="seeDetail">
         <div
             class="flex flex-col p-2 m-auto rounded-md min-h-20 bg-black2Cus md:min-w-sm md:flex-row md:max-w-2xl xl:max-w-none">
             <div class="flex flex-row ">
@@ -112,13 +122,12 @@ const role = computed(() => {
                 </div>
 
 
-                <div class="flex flex-row m-auto md:flex-col ">
+                <div class="flex flex-row m-auto md:flex-col " v-show="checkAdmin">
                     <button class="px-2 py-1 ml-2 text-sm font-medium rounded-lg hover:bg-green-500 ann-button"
                         @click="$router.push({ name: `${role}announcementdetail`, params: { id: annData.id } })">
                         view
                     </button>
-                    <button v-show="checkAdmin"
-                        class="px-2 py-1 ml-2 text-sm font-medium rounded-lg hover:bg-red-500 ann-button"
+                    <button class="px-2 py-1 ml-2 text-sm font-medium rounded-lg hover:bg-red-500 ann-button"
                         @click="deleteAnnouncement(annData.id)">delete
                     </button>
                 </div>

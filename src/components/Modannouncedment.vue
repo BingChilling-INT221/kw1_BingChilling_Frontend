@@ -1,6 +1,6 @@
 <script setup>
-import {computed, inject, onMounted, ref, watch} from "vue";
-import {useRoute, useRouter} from "vue-router";
+import { computed, inject, onMounted, ref, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
 const props = defineProps(
@@ -64,7 +64,7 @@ watch(() => compObj, () => {
             break;
         }
     }
-}, {deep: true})
+}, { deep: true })
 onMounted(async () => {
     try {
         const response = await fetch(
@@ -74,7 +74,7 @@ onMounted(async () => {
             category.value = await response.json();
             console.log(response);
             if (!updateCheck.value) {
-                categoryId.value = category.value[0].category_Id
+                categoryId.value = category.value[0].categoryId
             }
         }
     } catch (err) {
@@ -99,7 +99,7 @@ const checkDisableTime = (date) => {
 }
 
 
-const comeTime = ref(new Date().toLocaleTimeString([], {hour: "2-digit", minute: "2-digit", hour12: false}))
+const comeTime = ref(new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false }))
 const comeDate = ref(new Date().toLocaleDateString("en-Us"))
 const sixhour = new Date('August 19, 1975 00:00:00');
 sixhour.setHours(sixhour.getHours() + 6);
@@ -142,7 +142,7 @@ const checkPublishDate = () => {
 };
 const checkPublishTime = () => {
     if (!publishTime.value && publishDate.value) {
-        publishTime.value = sixhour.toLocaleTimeString([], {hour: "2-digit", minute: "2-digit", hour12: false});
+        publishTime.value = sixhour.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false });
     }
     if (!publishTime.value) {
         return true;
@@ -172,7 +172,7 @@ const checkCloseDate = () => {
 }
 const checkCloseTime = () => {
     if ((closeTime.value === null || closeTime.value === "") && (closeDate.value !== null && closeDate.value !== "")) {
-        closeTime.value = eighteenth.toLocaleTimeString([], {hour: "2-digit", minute: "2-digit", hour12: false})
+        closeTime.value = eighteenth.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false })
     }
     if (closeTime.value === null || closeTime.value === "") return true
     if (closeTime.value.length > 5) return false
@@ -182,6 +182,7 @@ const checkCloseTime = () => {
     }
     return true
 }
+const errm = ref();
 const sendSubmit = async (event) => {
     if (!(checkPublishDate() && checkPublishTime() && checkCloseDate() && checkCloseTime())) {
         event.preventDefault();
@@ -193,11 +194,11 @@ const sendSubmit = async (event) => {
     } else {
         announcementDisplay.value = "N"
     }
+    console.log(categoryId.value)
     const sendPackage = {
         announcementTitle: announcementTitle.value,
         announcementDescription: announcementDescription.value,
         announcementDisplay: announcementDisplay.value,
-        closeDate: closeDatePlusTime.value,
         categoryId: categoryId.value,
     }
     if (publishDatePlusTime.value !== null) sendPackage.publishDate = publishDatePlusTime.value
@@ -217,11 +218,11 @@ const sendSubmit = async (event) => {
             );
             if (response.status === 200) {
                 alert("update announcement success")
-                await router.push({name: `${role}homepage`})
+                await router.push({ name: `${role}homepage` })
             } else {
                 console.log(response)
                 alert("update announcement fail")
-                alert(response)
+                errm.value = response
             }
         } catch (err) {
 
@@ -242,11 +243,12 @@ const sendSubmit = async (event) => {
             );
             if (response.status === 200) {
                 alert("Create announcement success")
-                await router.push({name: `${role}homepage`})
+                await router.push({ name: `${role}homepage` })
             } else {
                 alert("Create announcement fail")
                 console.log(response)
                 alert(response)
+                errm.value = response.errors
             }
         } catch (err) {
             alert(err)
@@ -256,19 +258,20 @@ const sendSubmit = async (event) => {
 }
 
 const countTitleCharac = computed(() => {
-  const maxLength = 200;
-  return maxLength - (announcementTitle.value.length || 0);
+    const maxLength = 200;
+    return maxLength - (announcementTitle.value.length || 0);
 });
 
 const countDesCharac = computed(() => {
-  const maxLength = 10000;
-  return maxLength - (announcementDescription.value.length || 0);
+    const maxLength = 10000;
+    return maxLength - (announcementDescription.value.length || 0);
 });
 
 
 </script>
 
 <template>
+    {{ errm }}
     <div class="flex w-full ">
         <div class=" w-[80%] mx-[10%]   ">
             <div class="mt-5 text-white ">
@@ -281,87 +284,59 @@ const countDesCharac = computed(() => {
                     <div class="flex w-full">
                         <p class="w-1/4 py-2 text-2xl font-bold ">Title</p>
                         <input v-model="announcementTitle" class="w-3/4 ml-2 bg-gray-200 border-2 rounded-md ann-title"
-                               required maxlength="200"
-                               type="text"/>
-                               
+                            required maxlength="200" type="text" />
+
                     </div>
-                  
-                        <p class="flex justify-end">Remaining: {{ countTitleCharac }}</p>
+
+                    <p class="flex justify-end">Remaining: {{ countTitleCharac }}</p>
 
                     <div class="flex w-full mt-2">
                         <p class="w-1/4 py-2 text-2xl font-bold">Category</p>
-                        <select v-model="categoryId"
-                                class="w-3/4 ml-2 bg-gray-200 shadow-md shadow-slate-300 ann-category"
-                                required>
-                            <option v-for="(data) in category" :key="data.id" :value="data.category_Id">{{
+                        <select v-model="categoryId" class="w-3/4 ml-2 bg-gray-200 shadow-md shadow-slate-300 ann-category"
+                            required>
+                            <option v-for="(data) in category" :key="data.id" :value="data.categoryId">{{
                                 data.categoryName
-                                }}
+                            }}
                             </option>
                         </select>
                     </div>
                     <div class="flex w-full mt-6">
                         <p class="w-1/4 py-2 text-2xl font-bold">Publish Date</p>
                         <div class="flex w-3/4 space-x-4 ">
-                            <input
-                                    v-model="publishDate"
-                                    :placeholder="'  '+comeDate+''"
-                                    class="w-1/4 py-1 ml-2 bg-gray-200 border-2 rounded-md ann-publish-date"
-                                    type="date"
-
-                            />
-                            <input
-                                    v-model="publishTime"
-                                    :class="checkDisableTime(publishDate) ? 'opacity-50' : ''"
-                                    :disabled="checkDisableTime(publishDate)"
-                                    :placeholder="'  '+comeTime+''"
-                                    class="w-1/4 py-1 ml-2 bg-gray-200 border-2 rounded-md ann-publish-time"
-                                    type="time"
-                            />
+                            <input v-model="publishDate" :placeholder="'  ' + comeDate + ''"
+                                class="w-1/4 py-1 ml-2 bg-gray-200 border-2 rounded-md ann-publish-date" type="date" />
+                            <input v-model="publishTime" :class="checkDisableTime(publishDate) ? 'opacity-50' : ''"
+                                :disabled="checkDisableTime(publishDate)" :placeholder="'  ' + comeTime + ''"
+                                class="w-1/4 py-1 ml-2 bg-gray-200 border-2 rounded-md ann-publish-time" type="time" />
                         </div>
                     </div>
                     <div class="flex w-full mt-6">
                         <p class="w-1/4 py-2 text-2xl font-bold">Close Date</p>
                         <div class="flex w-3/4 space-x-4">
-                            <input
-                                    v-model="closeDate"
-                                    :placeholder="'  '+comeDate+''"
-                                    class="w-1/4 py-1 ml-2 bg-gray-200 border-2 rounded-md ann-close-date"
-                                    type="date"
-
-                            />
-                            <input
-                                    v-model="closeTime"
-                                    :class="checkDisableTime(closeDate) ? 'opacity-50' : ''"
-                                    :disabled="checkDisableTime(closeDate)"
-                                    :placeholder="'  '+comeTime+''"
-                                    class="w-1/4 py-1 ml-2 bg-gray-200 border-2 rounded-md ann-close-time"
-                                    type="time"
-                            />
+                            <input v-model="closeDate" :placeholder="'  ' + comeDate + ''"
+                                class="w-1/4 py-1 ml-2 bg-gray-200 border-2 rounded-md ann-close-date" type="date" />
+                            <input v-model="closeTime" :class="checkDisableTime(closeDate) ? 'opacity-50' : ''"
+                                :disabled="checkDisableTime(closeDate)" :placeholder="'  ' + comeTime + ''"
+                                class="w-1/4 py-1 ml-2 bg-gray-200 border-2 rounded-md ann-close-time" type="time" />
                         </div>
                     </div>
                     <div class="flex py-2 mt-5">
                         <p class="w-1/4 text-2xl font-bold ">Display</p>
-                        <input v-model="announcementDisplay" class="w-[2%] ann-display" type="checkbox"/>
+                        <input v-model="announcementDisplay" class="w-[2%] ann-display" type="checkbox" />
                         <label class="m-auto ml-2"> Check to show this announcement</label>
                     </div>
                     <p class="py-2 mt-5 text-2xl font-bold ">Description</p>
-                    <textarea
-                            v-model="announcementDescription"
-                            class="w-full border-2 rounded-md ann-description"
-                            cols="100"
-                            required
-                            rows="3"
-                            maxlength="10000"
-                    ></textarea>
+                    <textarea v-model="announcementDescription" class="w-full border-2 rounded-md ann-description"
+                        cols="100" required rows="3" maxlength="10000"></textarea>
                     <p class="flex justify-end">Remaining: {{ countDesCharac }}</p>
 
                     <div class="flex justify-end py-5 space-x-2">
                         <button :class="change || !updateCheck ? '' : 'opacity-40'" :disabled="!change && updateCheck"
-                                class="px-4 py-1 bg-gray-300 rounded-md ann-button submit">
+                            class="px-4 py-1 bg-gray-300 rounded-md ann-button submit">
                             {{ updateCheck ? "edit" : "submit" }}
                         </button>
                         <button class="px-4 py-1 bg-gray-300 rounded-md ann-button"
-                                @click="$router.push({name: `${role}homepage`})">
+                            @click="$router.push({ name: `${role}homepage` })">
                             Cancel
                         </button>
                     </div>
