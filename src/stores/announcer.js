@@ -1,11 +1,11 @@
-import {ref} from 'vue'
-import {defineStore} from 'pinia'
+import { ref } from 'vue'
+import { defineStore } from 'pinia'
 
 export const useAnnouncerStore = defineStore('announcer ', () => {
     const mode = ref('Active')
     const category = ref('')
     const page = ref(0)
-    const pageSize = ref(2)
+    const pageSize = ref(5)
     const darkMode = ref(true)
 
     function setMode(setMode) {
@@ -30,6 +30,6 @@ export const useAnnouncerStore = defineStore('announcer ', () => {
         darkMode.value = !darkMode.value
     }
 
-    return {mode, category, page, pageSize, setMode, setCategory, setPage, darkMode, setDarkMode, setPageSize}
+    return { mode, category, page, pageSize, setMode, setCategory, setPage, darkMode, setDarkMode, setPageSize }
 
 })

@@ -88,11 +88,6 @@ const fetches = async () => {
             `${import.meta.env.VITE_BASE_URL}announcements/pages?mode=${store.mode
             }&page=${store.page}&size=${store.pageSize}`
         );
-        // const response2 = await fetch(
-        //     `${import.meta.env.VITE_BASE_URL}announcements/count?mode=${
-        //         store.mode
-        //     }`
-        // );
         if (response.status === 200) {
             fetchDate.value = true;
             data.value = await response.json();
