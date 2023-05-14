@@ -77,11 +77,11 @@ const fetches = async () => {
     if (!isOpen.value) {
         store.setMode("active");
         isOpen.value = !isOpen.value;
-        store.setPage(0)
+        // store.setPage(0)
     } else {
         store.setMode("close");
         isOpen.value = !isOpen.value;
-        store.setPage(0)
+        // store.setPage(0)
     }
     try {
         const response = await fetch(
