@@ -91,7 +91,7 @@ const changeTime = (time) => {
                                 :class="
               queryAnnounce.announcementDisplay === 'Y' ? 'bg-green-500' : 'bg-red-500'
             "
-                                class="flex justify-center w-24 h-10 p-2 text-white bg-green-500 rounded-lg ann-display"
+                                class="flex justify-center w-24 h-10 p-2 text-white bg-green-500 rounded-lg ann-display sm:w-28 sm:h-12"
                         >{{ queryAnnounce.announcementDisplay }}
                         </div>
                     </div>

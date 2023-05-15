@@ -162,7 +162,7 @@ const clickPage = (page) => {
                         <p class="my-auto text-xl ">Choose Category:</p>
                         <div class="">
                             <div class="flex font-normal ">
-                                <p class="py-2 text-xl ">Category:</p>
+                                <p class="py-2 text-xl hidden md:inline-block">Category:</p>
                                 <select v-model="store.category" class="pl-10 ml-2 text-black ann-category-filter select ">
                                     <option value="">ทั้งหมด</option>
                                     <option v-for="(data) in category" :key="data.id" :value="data.categoryId"
