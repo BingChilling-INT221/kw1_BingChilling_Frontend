@@ -51,27 +51,7 @@ onMounted(async () => {
 
 
 onMounted(async () => {
-    if (checkAdmin()) {
-        try {
-            const response = await fetch(
-                `${import.meta.env.VITE_BASE_URL}announcements`
-            );
-
-            if (response.status === 200) {
-                fetchDate.value = true;
-                announces.value = await response.json();
-                if (announces.value.length === 0) {
-                    notFound.value = true;
-                }
-            }
-        } catch (err) {
-            alert("ยังหาข้อมูลไม่พบโปรดรีเฟรชหน้าอีกครั้งครับ");
-            window.location.reload();
-            console.log(err);
-        }
-    } else {
-        await fetched();
-    }
+    await fetched();
 });
 watch(
     () => store.category,
@@ -91,11 +71,10 @@ const fetches = async () => {
 };
 
 const fetched = async () => {
-
     try {
         const response = await fetch(
-            `${import.meta.env.VITE_BASE_URL}announcements/pages?mode=${store.mode
-            }&page=${store.page}&size=${store.pageSize}${store.category !== ""
+            `${import.meta.env.VITE_BASE_URL}announcements/pages?${checkAdmin() ? "": `mode=${store.mode
+            }`}&page=${store.page}&size=${store.pageSize}${store.category !== ""
                 ? `&category=${store.category}`
                 : ""}`
         );
