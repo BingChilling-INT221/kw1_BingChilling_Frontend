@@ -3,6 +3,7 @@ import {inject, onMounted, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 
 const queryAnnounce = ref({});
+const counter = ref(0);
 const route = useRoute();
 const router = useRouter();
 const role = inject('role')
@@ -29,6 +30,29 @@ onMounted(async () => {
         await router.push(`/admin/announcement/`)
     }
 });
+
+onMounted(async () => {
+    try {
+        const response = await fetch(
+            `${import.meta.env.VITE_BASE_URL}announcements/${route.params.id}/views`,
+            {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(counter.value),
+            }
+        );
+        if (response.status === 200) {
+            counter.value = await response.json();
+            console.log(counter.value);
+        } 
+    } catch (err) {
+       console.log(err);
+    }
+});
+
+
 
 const date = new Date();
 const UTC = date.getTimezoneOffset();
@@ -85,13 +109,15 @@ const changeTime = (time) => {
                     <p class="w-4/5 text-2xl break-words text-black ann-title">
                         Title:
                         {{ queryAnnounce.announcementTitle }}
+                        
                     </p>
+                    
                     <div v-show="role === 'admin'" class="flex justify-end">
                         <div
                                 :class="
               queryAnnounce.announcementDisplay === 'Y' ? 'bg-green-500' : 'bg-red-500'
             "
-                                class="flex justify-center w-24 h-10 p-2 text-white bg-green-500 rounded-lg ann-display sm:w-28 sm:h-12"
+                                class="flex justify-center w-24 h-10 p-2 text-white bg-green-500 rounded-lg ann-display sm:w-28 sm:h-12 py-3"
                         >{{ queryAnnounce.announcementDisplay }}
                         </div>
                     </div>
@@ -107,6 +133,10 @@ const changeTime = (time) => {
                         </p>
                     </div>
 
+                    <div v-show="role === 'admin'" class="flex text-black">
+                        <img src="../assets/eyes.png" alt="" class="inline-block w-10 h-10">
+                        <p class="text-3xl py-1">{{ counter }}</p>
+                    </div>
                 </div>
 
                 <div class="py-5 ann-category">
@@ -119,7 +149,7 @@ const changeTime = (time) => {
                 <div class="pt-5 font-bold text-black border-2 rounded-lg">
                     <p class="pl-5">Description:</p>
                     <div class="h-auto">
-                        <p class="p-5 pl-5 ann-description">{{ queryAnnounce.announcementDescription }}</p>
+                        <p class="p-5 pl-5 ann-description" v-html="queryAnnounce.announcementDescription"></p>
                     </div>
                 </div>
                 <div class="flex justify-end">

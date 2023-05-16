@@ -3,6 +3,9 @@ import { computed, inject, onMounted, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
+
+
+
 const props = defineProps(
     {
         updatePackage: {
@@ -31,6 +34,10 @@ const closeTime = ref("")
 const announcementDisplay = ref("")
 const router = useRouter()
 const role = inject('role')
+const test = ref("testtest")
+watch(()=>props.updatePackage.announcementDescription ,(newC)=>{
+    test.value = newC
+})
 const updateInit = () => {
     announcementTitle.value = props.updatePackage.announcementTitle
     categoryId.value = props.updatePackage.categoryId
@@ -268,10 +275,11 @@ const countDesCharac = computed(() => {
 });
 
 
+
+
 </script>
 
 <template>
-    {{ errm }}
     <div class="flex w-full ">
         <div class=" w-[80%] mx-[10%]   ">
             <div class="mt-5 text-white ">
@@ -326,8 +334,8 @@ const countDesCharac = computed(() => {
                         <label class="m-auto ml-2"> Check to show this announcement</label>
                     </div>
                     <p class="py-2 mt-5 text-2xl font-bold ">Description</p>
-                    <textarea v-model="announcementDescription" class="w-full border-2 rounded-md ann-description"
-                        cols="100" required rows="3" maxlength="10000"></textarea>
+                    <QuillEditor v-model:content="announcementDescription" contentType="html" class="w-full border-2 rounded-md ann-description"
+                        required maxlength="10000" theme="snow" toolbar="full"  />
                     <p class="flex justify-end">Remaining: {{ countDesCharac }}</p>
 
                     <div class="flex justify-end py-5 space-x-2">
