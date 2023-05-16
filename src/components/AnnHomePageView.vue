@@ -117,7 +117,7 @@ const clickPage = (page) => {
 <template>
     <div class="h-auto min-w-full min-h-screen pt-5 md:px-12 xl:px-36 md:pt-12">
         <p class="hidden m-auto text-4xl font-bold md:block"> <img src="../assets/annou.png" alt=""
-                class="inline-block w-20 h-12 mr-4" />SIT Announcement System</p>
+                class="inline-block w-20 h-[13.9] mr-4" />SIT Announcement System</p>
         <div class="flex w-1/3 m-auto text-2xl font-semibold text-center md:hidden">
             <img src="../assets/annou.png" alt="" class="w-20 h-12 mr-4" /><span class="m-auto">SAS</span>
         </div>
