@@ -334,7 +334,7 @@ const countDesCharac = computed(() => {
                         <label class="m-auto ml-2"> Check to show this announcement</label>
                     </div>
                     <p class="py-2 mt-5 text-2xl font-bold ">Description</p>
-                    <QuillEditor v-model:content="announcementDescription" contentType="html" class="w-full border-2 rounded-md ann-description"
+                    <QuillEditor v-if="announcementDescription" v-model:content="announcementDescription" contentType="html" class="w-full border-2 rounded-md ann-description"
                         required maxlength="10000" theme="snow" toolbar="full"  />
                     <p class="flex justify-end">Remaining: {{ countDesCharac }}</p>
 
