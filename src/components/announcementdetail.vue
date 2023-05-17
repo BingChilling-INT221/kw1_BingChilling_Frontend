@@ -1,6 +1,7 @@
 <script setup>
-import { inject, onMounted, ref } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import {inject, onMounted, ref} from "vue";
+import {useRoute, useRouter} from "vue-router";
+
 const queryAnnounce = ref({});
 const counter = ref(0);
 const route = useRoute();
@@ -52,7 +53,6 @@ onMounted(async () => {
 });
 
 
-
 const date = new Date();
 const UTC = date.getTimezoneOffset();
 
@@ -81,10 +81,10 @@ const changeTime = (time) => {
         year: "numeric",
     };
     return `${newDate.toLocaleDateString("en-GB", options).replace(/,/gi, '') +
-        ", " +
-        newDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false })
+    ", " +
+    newDate.toLocaleTimeString([], {hour: "2-digit", minute: "2-digit", hour12: false})
 
-        }`;
+    }`;
 };
 
 </script>
@@ -98,7 +98,7 @@ const changeTime = (time) => {
         <div v-if="loading" class="flex justify-center min-w-full min-h-full text-center bg-slate-400">
             <div class="absolute mt-2 mr-2">
                 <svg class="w-20 h-20 bg-transparent border-2 border-transparent border-opacity-50 rounded-full animate-spin"
-                    style="border-right-color: white; border-top-color: white;" viewBox="0 0 24 24"></svg>
+                     style="border-right-color: white; border-top-color: white;" viewBox="0 0 24 24"></svg>
             </div>
         </div>
         <div v-else class="mt-2 ">
@@ -113,7 +113,7 @@ const changeTime = (time) => {
                     <div v-show="role === 'admin'" class="flex justify-end">
                         <div :class="queryAnnounce.announcementDisplay === 'Y' ? 'bg-green-500' : 'bg-red-500'
                             "
-                            class="flex justify-center w-24 h-10 p-2 py-3 text-white bg-green-500 rounded-lg ann-display sm:w-28 sm:h-12">
+                             class="flex justify-center w-24 h-10 p-2 py-3 text-white bg-green-500 rounded-lg ann-display sm:w-28 sm:h-12">
                             {{ queryAnnounce.announcementDisplay }}
                         </div>
                     </div>
@@ -130,24 +130,27 @@ const changeTime = (time) => {
                     </div>
 
                     <div v-show="role === 'admin'" class="flex text-black">
-                        <img src="../assets/eyes.png" alt="" class="inline-block w-10 h-10">
+                        <img alt="" class="inline-block w-10 h-10" src="../assets/eyes.png">
                         <p class="py-1 text-3xl">{{ counter }}</p>
                     </div>
                 </div>
 
                 <div class="py-5 ann-category">
                     <a class="text-white bg-[#628FB8] px-5 text-sm rounded-lg py-1" href="#">{{
-                        queryAnnounce.announcementCategory }}</a>
+                        queryAnnounce.announcementCategory
+                        }}</a>
                 </div>
                 <div class="pt-5 font-bold text-black border-2 rounded-lg">
                     <p class="pl-5">Description:</p>
                     <div class="h-auto">
-                        <p class="p-5 pl-5 ann-description ql-editor" v-html="queryAnnounce.announcementDescription"></p>
+                        <p class="p-5 pl-5 ann-description ql-editor"
+                           v-html="queryAnnounce.announcementDescription"></p>
                     </div>
                 </div>
                 <div class="flex justify-end">
                     <button v-show="role === 'admin'"
-                        class="px-2 py-1 mt-2 ml-6 text-black border-2 rounded-lg ann-button hover:bg-gray-300" @click="$router.push({
+                            class="px-2 py-1 mt-2 ml-6 text-black border-2 rounded-lg ann-button hover:bg-gray-300"
+                            @click="$router.push({
                             name: 'editannouncement',
                             params: { id: queryAnnounce.id }
                         })">edit

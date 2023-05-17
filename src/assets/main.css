@@ -3,6 +3,6 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: "Maehongson";
-  src: url(/PKMaehongsonMedium.ttf) format("truetype");
+    font-family: "Maehongson";
+    src: url(/PKMaehongsonMedium.ttf) format("truetype");
 }
