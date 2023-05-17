@@ -35,7 +35,7 @@ const announcementDisplay = ref("")
 const router = useRouter()
 const role = inject('role')
 const test = ref("testtest")
-watch(()=>props.updatePackage.announcementDescription ,(newC)=>{
+watch(() => props.updatePackage.announcementDescription, (newC) => {
     test.value = newC
 })
 const updateInit = () => {
@@ -334,8 +334,9 @@ const countDesCharac = computed(() => {
                         <label class="m-auto ml-2"> Check to show this announcement</label>
                     </div>
                     <p class="py-2 mt-5 text-2xl font-bold ">Description</p>
-                    <QuillEditor v-model:content="announcementDescription" contentType="html" class="w-full border-2 rounded-md ann-description"
-                        required maxlength="10000" theme="snow" toolbar="full"  />
+                    <QuillEditor v-if="announcementDescription" v-model:content="announcementDescription" contentType="html"
+                        class="w-full border-2 rounded-md ann-description" required maxlength="10000" theme="snow"
+                        toolbar="full" />
                     <p class="flex justify-end">Remaining: {{ countDesCharac }}</p>
 
                     <div class="flex justify-end py-5 space-x-2">
