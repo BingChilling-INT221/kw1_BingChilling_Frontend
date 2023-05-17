@@ -33,10 +33,7 @@ const closeTime = ref("")
 const announcementDisplay = ref("")
 const router = useRouter()
 const role = inject('role')
-const test = ref("testtest")
-watch(() => props.updatePackage.announcementDescription, (newC) => {
-    test.value = newC
-})
+
 const updateInit = () => {
     announcementTitle.value = props.updatePackage.announcementTitle
     categoryId.value = props.updatePackage.categoryId
@@ -300,8 +297,8 @@ const countDesCharac = computed(() => {
                         <select v-model="categoryId" class="w-3/4 ml-2 bg-gray-200 shadow-md shadow-slate-300 ann-category"
                             required>
                             <option v-for="(data) in category" :key="data.id" :value="data.categoryId">{{
-                                                            data.categoryName
-                                                            }}
+                                data.categoryName
+                            }}
                             </option>
                         </select>
                     </div>
