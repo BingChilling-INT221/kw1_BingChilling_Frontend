@@ -1,7 +1,6 @@
 <script setup>
-import {inject, onMounted, ref} from "vue";
-import {useRoute, useRouter} from "vue-router";
-
+import { inject, onMounted, ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
 const queryAnnounce = ref({});
 const counter = ref(0);
 const route = useRoute();
@@ -36,19 +35,19 @@ onMounted(async () => {
         const response = await fetch(
             `${import.meta.env.VITE_BASE_URL}announcements/${route.params.id}/views`,
             {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(counter.value),
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(counter.value),
             }
         );
         if (response.status === 200) {
             counter.value = await response.json();
             console.log(counter.value);
-        } 
+        }
     } catch (err) {
-       console.log(err);
+        console.log(err);
     }
 });
 
@@ -82,16 +81,15 @@ const changeTime = (time) => {
         year: "numeric",
     };
     return `${newDate.toLocaleDateString("en-GB", options).replace(/,/gi, '') +
-    ", " +
-    newDate.toLocaleTimeString([], {hour: "2-digit", minute: "2-digit", hour12: false})
+        ", " +
+        newDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false })
 
-    }`;
+        }`;
 };
 
 </script>
 
 <template>
-
     <div class="mx-[10%] w-[80%] pt-10">
         <div class="">
             <button class="text-2xl font-bold text-white ann-button " @click="$router.back()"><span>&lt;</span> Back
@@ -100,25 +98,23 @@ const changeTime = (time) => {
         <div v-if="loading" class="flex justify-center min-w-full min-h-full text-center bg-slate-400">
             <div class="absolute mt-2 mr-2">
                 <svg class="w-20 h-20 bg-transparent border-2 border-transparent border-opacity-50 rounded-full animate-spin"
-                     style="border-right-color: white; border-top-color: white;" viewBox="0 0 24 24"></svg>
+                    style="border-right-color: white; border-top-color: white;" viewBox="0 0 24 24"></svg>
             </div>
         </div>
         <div v-else class="mt-2 ">
             <div class="w-full px-8 pt-4 pb-4 bg-white rounded-lg ">
                 <div class="flex justify-between font-bold">
-                    <p class="w-4/5 text-2xl break-words text-black ann-title">
+                    <p class="w-4/5 text-2xl text-black break-words ann-title">
                         Title:
                         {{ queryAnnounce.announcementTitle }}
-                        
+
                     </p>
-                    
+
                     <div v-show="role === 'admin'" class="flex justify-end">
-                        <div
-                                :class="
-              queryAnnounce.announcementDisplay === 'Y' ? 'bg-green-500' : 'bg-red-500'
-            "
-                                class="flex justify-center w-24 h-10 p-2 text-white bg-green-500 rounded-lg ann-display sm:w-28 sm:h-12 py-3"
-                        >{{ queryAnnounce.announcementDisplay }}
+                        <div :class="queryAnnounce.announcementDisplay === 'Y' ? 'bg-green-500' : 'bg-red-500'
+                            "
+                            class="flex justify-center w-24 h-10 p-2 py-3 text-white bg-green-500 rounded-lg ann-display sm:w-28 sm:h-12">
+                            {{ queryAnnounce.announcementDisplay }}
                         </div>
                     </div>
 
@@ -135,30 +131,26 @@ const changeTime = (time) => {
 
                     <div v-show="role === 'admin'" class="flex text-black">
                         <img src="../assets/eyes.png" alt="" class="inline-block w-10 h-10">
-                        <p class="text-3xl py-1">{{ counter }}</p>
+                        <p class="py-1 text-3xl">{{ counter }}</p>
                     </div>
                 </div>
 
                 <div class="py-5 ann-category">
-                    <a
-                            class="text-white bg-[#628FB8] px-5 text-sm rounded-lg py-1"
-                            href="#"
-                    >{{ queryAnnounce.announcementCategory }}</a
-                    >
+                    <a class="text-white bg-[#628FB8] px-5 text-sm rounded-lg py-1" href="#">{{
+                        queryAnnounce.announcementCategory }}</a>
                 </div>
                 <div class="pt-5 font-bold text-black border-2 rounded-lg">
                     <p class="pl-5">Description:</p>
                     <div class="h-auto">
-                        <p class="p-5 pl-5 ann-description" v-html="queryAnnounce.announcementDescription"></p>
+                        <p class="p-5 pl-5 ann-description ql-editor" v-html="queryAnnounce.announcementDescription"></p>
                     </div>
                 </div>
                 <div class="flex justify-end">
-                    <button v-show="role==='admin'"
-                            class="px-2 py-1 mt-2 ml-6 text-black border-2 rounded-lg ann-button hover:bg-gray-300"
-                            @click="$router.push({
-            name: 'editannouncement',
-            params: { id: queryAnnounce.id}
-          })">edit
+                    <button v-show="role === 'admin'"
+                        class="px-2 py-1 mt-2 ml-6 text-black border-2 rounded-lg ann-button hover:bg-gray-300" @click="$router.push({
+                            name: 'editannouncement',
+                            params: { id: queryAnnounce.id }
+                        })">edit
                     </button>
                 </div>
             </div>
