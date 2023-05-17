@@ -3,7 +3,13 @@ import { computed, inject, onMounted, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
+const limit = 10000;
 
+watch(announcementDescription, (newv) => {
+    if (newv.length > limit) {
+        announcementDescription.value = newv.slice(0, limit);
+    }
+});
 
 const props = defineProps(
     {
