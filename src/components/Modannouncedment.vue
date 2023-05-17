@@ -299,8 +299,8 @@ const countDesCharac = computed(() => {
                         <select v-model="categoryId" class="w-3/4 ml-2 bg-gray-200 shadow-md shadow-slate-300 ann-category"
                             required>
                             <option v-for="(data) in category" :key="data.id" :value="data.categoryId">{{
-                                                            data.categoryName
-                                                            }}
+                                data.categoryName
+                            }}
                             </option>
                         </select>
                     </div>
@@ -330,7 +330,7 @@ const countDesCharac = computed(() => {
                         <label class="m-auto ml-2"> Check to show this announcement</label>
                     </div>
                     <p class="py-2 mt-5 text-2xl font-bold ">Description</p>
-                    <QuillEditor v-if="announcementDescription " v-model:content="announcementDescription"
+                    <QuillEditor v-if="announcementDescription && updateCheck" v-model:content="announcementDescription"
                         class="w-full border-2 rounded-md ann-description" contentType="html" maxlength="10000" required
                         theme="snow" toolbar="full" />
                     <p class="flex justify-end">Remaining: {{ countDesCharac }}</p>
