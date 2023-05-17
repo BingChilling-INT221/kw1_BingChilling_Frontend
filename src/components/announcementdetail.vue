@@ -53,22 +53,6 @@ onMounted(async () => {
 });
 
 
-const date = new Date();
-const UTC = date.getTimezoneOffset();
-
-function toHoursAndMinutes(totalMinutes) {
-    const negetive = totalMinutes > 0 ? "UTC-" : "UTC+";
-    if (totalMinutes < 0) {
-        totalMinutes *= -1;
-    }
-    const hours = Math.floor(totalMinutes / 60);
-    const minutes = totalMinutes % 60;
-    return `${negetive + padToTwoDigits(hours)}:${padToTwoDigits(minutes)}`;
-}
-
-function padToTwoDigits(num) {
-    return num.toString().padStart(2, "0");
-}
 
 const changeTime = (time) => {
     if (time === null) {
