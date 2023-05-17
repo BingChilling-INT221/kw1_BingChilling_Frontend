@@ -271,11 +271,7 @@ const countDesCharac = computed(() => {
     const maxLength = 10000;
     return maxLength - (announcementDescription.value.length || 0);
 });
-watch(announcementDescription, (newv) => {
-    if (newv.length > limit) {
-        announcementDescription.value = newv.slice(0, limit);
-    }
-});
+
 
 </script>
 
