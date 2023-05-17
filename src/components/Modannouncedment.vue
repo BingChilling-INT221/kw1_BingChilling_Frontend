@@ -16,10 +16,12 @@ const props = defineProps(
 )
 const updateCheck = ref(false)
 watch(() => props.updatePackage, (newv) => {
+    console.log(JSON.stringify(newv).length)
     if (JSON.stringify(newv).length > 0) {
         updateCheck.value = true
         updateInit();
     } else {
+        console.log("no update")
         updateCheck.value = false
     }
 })
@@ -27,7 +29,7 @@ watch(() => props.updatePackage, (newv) => {
 const category = ref([])
 const announcementTitle = ref("")
 const categoryId = ref(Number)
-const announcementDescription = ref("")
+const announcementDescription = ref(null)
 const publishDate = ref("")
 const publishTime = ref("")
 const closeDate = ref("")
@@ -263,12 +265,15 @@ const sendSubmit = async (event) => {
 }
 
 const countTitleCharac = computed(() => {
+
     const maxLength = 200;
+    if (announcementTitle.value === null) return maxLength
     return maxLength - (announcementTitle.value.length || 0);
 });
 
 const countDesCharac = computed(() => {
     const maxLength = 10000;
+    if (announcementDescription.value === null) return maxLength
     return maxLength - (announcementDescription.value.length || 0);
 });
 
@@ -276,6 +281,8 @@ const countDesCharac = computed(() => {
 </script>
 
 <template>
+    <!-- {{ announcementDescription }}
+    {{ !updateCheck || Boolean(announcementDescription) }} -->
     <div class="flex w-full ">
         <div class=" w-[80%] mx-[10%]   ">
             <div class="mt-5 text-white ">
@@ -330,7 +337,10 @@ const countDesCharac = computed(() => {
                         <label class="m-auto ml-2"> Check to show this announcement</label>
                     </div>
                     <p class="py-2 mt-5 text-2xl font-bold ">Description</p>
-                    <QuillEditor v-if="announcementDescription && updateCheck" v-model:content="announcementDescription"
+                    <QuillEditor v-if="Boolean(announcementDescription)" v-model:content="announcementDescription"
+                        class="w-full border-2 rounded-md ann-description" contentType="html" maxlength="10000" required
+                        theme="snow" toolbar="full" />
+                    <QuillEditor v-else v-model:content="announcementDescription"
                         class="w-full border-2 rounded-md ann-description" contentType="html" maxlength="10000" required
                         theme="snow" toolbar="full" />
                     <p class="flex justify-end">Remaining: {{ countDesCharac }}</p>
