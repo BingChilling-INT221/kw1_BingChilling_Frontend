@@ -1,6 +1,7 @@
 <script setup>
 import {inject, onMounted, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
+import {useAnnouncerStore} from "@/stores/announcer";
 
 const queryAnnounce = ref({});
 const counter = ref(0);
@@ -8,6 +9,8 @@ const route = useRoute();
 const router = useRouter();
 const role = inject('role')
 const loading = ref(true)
+const store = useAnnouncerStore();
+
 onMounted(async () => {
     try {
         const response = await fetch(
@@ -34,18 +37,14 @@ onMounted(async () => {
 onMounted(async () => {
     try {
         const response = await fetch(
-            `${import.meta.env.VITE_BASE_URL}announcements/${route.params.id}/views`,
-            {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(counter.value),
-            }
+            `${import.meta.env.VITE_BASE_URL}announcements/${route.params.id}?count=${store.count}`,
         );
         if (response.status === 200) {
             counter.value = await response.json();
-            console.log(counter.value);
+            store.count = true
+        }
+        if(store.count === true) {
+            counter.value.viewCount++
         }
     } catch (err) {
         console.log(err);
@@ -115,7 +114,7 @@ const changeTime = (time) => {
 
                     <div v-show="role === 'admin'" class="flex text-black">
                         <img alt="" class="inline-block w-10 h-10" src="../assets/eyes.png">
-                        <p class="py-1 text-3xl">{{ counter }}</p>
+                        <p class="py-1 text-3xl">{{ counter.viewCount }}</p>
                     </div>
                 </div>
 

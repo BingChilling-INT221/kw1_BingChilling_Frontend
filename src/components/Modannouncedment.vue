@@ -14,6 +14,7 @@ const props = defineProps(
         }
     }
 )
+
 const updateCheck = ref(false)
 watch(() => props.updatePackage, (newv) => {
     console.log(JSON.stringify(newv).length)
@@ -61,6 +62,7 @@ const compObj = computed(() => {
         "categoryId": categoryId.value
     }
 })
+
 let change = ref(false)
 watch(() => compObj, () => {
     if (!updateCheck.value) return
@@ -72,6 +74,8 @@ watch(() => compObj, () => {
         }
     }
 }, { deep: true })
+
+
 onMounted(async () => {
     try {
         const response = await fetch(
