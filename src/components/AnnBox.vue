@@ -87,7 +87,7 @@ const seeDetail = (env) => {
 <template>
     <div class="my-2 text-xl font-semibold ann-item max-w-full" @click="seeDetail">
         <div
-                class="flex flex-col p-2 m-auto rounded-md min-h-20 bg-black2Cus md:min-w-sm md:flex-row md:max-w-2xl xl:max-w-none ">
+                class="flex flex-col p-2 m-auto rounded-md min-h-20 bg-black2Cus md:min-w-fit md:flex-row md:max-w-2xl xl:max-w-none ">
 
             <div class="flex flex-row  flex-grow">
                 <div class="flex items-center justify-center w-16 my-auto font-semibold break-all border-r-2">
@@ -117,15 +117,13 @@ const seeDetail = (env) => {
                     </p>
                 </div>
             </div>
-            <div class="flex flex-row  ">
+            <div class="flex flex-row">
                 <div :class="annData.announcementDisplay === 'Y' ? 'bg-green-500' : 'bg-red-500'"
                      class="flex justify-center w-10 m-auto text-sm text-center text-white bg-green-500 rounded-lg ann-display">
                     {{ annData.announcementDisplay }}
 
                 </div>
-                <div class="pt-5">views: {{ annData.viewCount }}</div>
-
-
+                <div class="pt-4 ">views: {{ annData.viewCount }}</div>
                 <div v-show="checkAdmin" class="flex flex-row m-auto md:flex-col ">
                     <button class="px-2 py-1 ml-2 text-sm font-medium rounded-lg hover:bg-green-500 ann-button"
                             @click="$router.push({ name: `${role}announcementdetail`, params: { id: annData.id } })">
