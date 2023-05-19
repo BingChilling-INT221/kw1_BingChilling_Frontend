@@ -94,14 +94,14 @@ const seeDetail = (env) => {
                     {{ padStart(index + 1, 2) }}
                 </div>
                 <div class="flex flex-grow overflow-hidden">
-                    <div class="w-40 xl:1/2 pt-1 my-auto ">
+                    <div class="w-52 xl:1/2 pt-1 my-auto ">
                         <p
-                                class="pl-2 my-auto text-left ann-title hover:animate-marquee whitespace-nowrap max-h-16">
+                                class="pl-2 my-auto text-left ann-title hover:animate-marquee  whitespace-nowrap max-h-16">
                             {{ annData.announcementTitle }}</p>
                     </div>
                 </div>
                 <div
-                        class=" bg-[#25B881] w-24 px-2 h-6 text-sm my-auto  font-normal rounded-lg py-1 ann-category ">
+                        class=" bg-[#25B881] w-24 px-2 h-6 text-sm my-auto ml-2  font-normal rounded-lg py-1 ann-category ">
                     {{ annData.announcementCategory }}
                 </div>
             </div>
