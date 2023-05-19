@@ -282,94 +282,81 @@ const countDesCharac = computed(() => {
 
 
 </script>
-
 <template>
-  <!-- {{ announcementDescription }}
-  {{ !updateCheck || Boolean(announcementDescription) }} -->
-    <div class="flex w-full ">
-        <div class=" w-[80%] mx-[10%]   ">
-            <div class="mt-5 text-white ">
-                <button class="text-2xl font-bold ann-button " @click="$router.back()"><span>&lt;</span> Back</button>
-                <p class="pt-5 text-5xl font-bold ">{{ updateCheck ? "Edit" : "Create " }} Announcement</p>
+  <div class="flex flex-col md:flex-row">
+    <div class="w-full md:w-[80%] mx-auto md:mx-[10%]">
+      <div class="mt-5 text-white">
+        <button class="text-2xl font-bold ann-button" @click="$router.back()">
+          <span>&lt;</span> Back
+        </button>
+        <p class="pt-5 text-5xl font-bold">{{ updateCheck ? "Edit" : "Create" }} Announcement</p>
+      </div>
+      <div class="px-5 md:px-20 pt-10 pb-2 m-auto mt-5 bg-white border-2 rounded-lg text-purpleCustom1">
+        <form action="" class="w-full" @submit="sendSubmit">
+          <div class="flex flex-col md:flex-row">
+            <p class="w-full md:w-1/4 py-2 text-2xl font-bold">Title</p>
+            <input v-model="announcementTitle" class="w-full md:w-3/4 ml-2 md:ml-2 bg-gray-200 border-2 rounded-md ann-title"
+                   maxlength="200" required type="text"/>
+          </div>
+          <p class="flex justify-end">Remaining: {{ countTitleCharac }}</p>
+          <div class="flex flex-col md:flex-row mt-2">
+            <p class="w-full md:w-1/4 py-2 text-2xl font-bold">Category</p>
+            <select v-model="categoryId" class="w-full md:w-3/4 ml-2 md:ml-2 bg-gray-200 shadow-md shadow-slate-300 ann-category"
+                    required>
+              <option v-for="data in category" :key="data.id" :value="data.categoryId">
+                {{ data.categoryName }}
+              </option>
+            </select>
+          </div>
+          <div class="flex flex-col md:flex-row mt-6">
+            <p class="w-full md:w-1/4 py-2 text-2xl font-bold">Publish Date</p>
+            <div class="flex w-full md:w-3/4 space-x-4">
+              <input v-model="publishDate" :placeholder="'  ' + comeDate + ''"
+                     class="w-1/2 md:w-1/4 py-1 ml-2 bg-gray-200 border-2 rounded-md ann-publish-date" type="date"/>
+              <input v-model="publishTime" :class="checkDisableTime(publishDate) ? 'opacity-50' : ''"
+                     :disabled="checkDisableTime(publishDate)" :placeholder="'  ' + comeTime + ''"
+                     class="w-1/2 md:w-1/4 py-1 ml-2 bg-gray-200 border-2 rounded-md ann-publish-time" type="time"/>
             </div>
-            <div class="px-20 pt-10 pb-2 m-auto mt-5 bg-white border-2 rounded-lg text-purpleCustom1 ">
-                <!-- <p class="text-2xl font-bold ">Announcement Detail:</p> -->
-                <form action="" class="w-full" @submit="sendSubmit">
-                    <div class="flex w-full">
-                        <p class="w-1/4 py-2 text-2xl font-bold ">Title</p>
-                        <input v-model="announcementTitle" class="w-3/4 ml-2 bg-gray-200 border-2 rounded-md ann-title"
-                               maxlength="200" required type="text"/>
-
-                    </div>
-
-                    <p class="flex justify-end">Remaining: {{ countTitleCharac }}</p>
-
-                    <div class="flex w-full mt-2">
-                        <p class="w-1/4 py-2 text-2xl font-bold">Category</p>
-                        <select v-model="categoryId"
-                                class="w-3/4 ml-2 bg-gray-200 shadow-md shadow-slate-300 ann-category"
-                                required>
-                            <option v-for="(data) in category" :key="data.id" :value="data.categoryId">{{
-                                data.categoryName
-                                }}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="flex w-full mt-6">
-                        <p class="w-1/4 py-2 text-2xl font-bold">Publish Date</p>
-                        <div class="flex w-3/4 space-x-4 ">
-                            <input v-model="publishDate" :placeholder="'  ' + comeDate + ''"
-                                   class="w-1/4 py-1 ml-2 bg-gray-200 border-2 rounded-md ann-publish-date"
-                                   type="date"/>
-                            <input v-model="publishTime" :class="checkDisableTime(publishDate) ? 'opacity-50' : ''"
-                                   :disabled="checkDisableTime(publishDate)" :placeholder="'  ' + comeTime + ''"
-                                   class="w-1/4 py-1 ml-2 bg-gray-200 border-2 rounded-md ann-publish-time"
-                                   type="time"/>
-                        </div>
-                    </div>
-                    <div class="flex w-full mt-6">
-                        <p class="w-1/4 py-2 text-2xl font-bold">Close Date</p>
-                        <div class="flex w-3/4 space-x-4">
-                            <input v-model="closeDate" :placeholder="'  ' + comeDate + ''"
-                                   class="w-1/4 py-1 ml-2 bg-gray-200 border-2 rounded-md ann-close-date" type="date"/>
-                            <input v-model="closeTime" :class="checkDisableTime(closeDate) ? 'opacity-50' : ''"
-                                   :disabled="checkDisableTime(closeDate)" :placeholder="'  ' + comeTime + ''"
-                                   class="w-1/4 py-1 ml-2 bg-gray-200 border-2 rounded-md ann-close-time" type="time"/>
-                        </div>
-                    </div>
-                    <div class="flex py-2 mt-5">
-                        <p class="w-1/4 text-2xl font-bold ">Display</p>
-                        <input v-model="announcementDisplay" class="w-[2%] ann-display" type="checkbox"/>
-                        <label class="m-auto ml-2"> Check to show this announcement</label>
-                    </div>
-                    <p class="py-2 mt-5 text-2xl font-bold ">Description</p>
-                    <QuillEditor v-if="Boolean(announcementDescription)" v-model:content="announcementDescription"
-                                 class="w-full border-2 rounded-md ann-description" contentType="html" maxlength="10000"
-                                 required
-                                 theme="snow" toolbar="full"/>
-                    <QuillEditor v-else v-model:content="announcementDescription"
-                                 class="w-full border-2 rounded-md ann-description" contentType="html" maxlength="10000"
-                                 required
-                                 theme="snow" toolbar="full"/>
-                    <p class="flex justify-end">Remaining: {{ countDesCharac }}</p>
-
-                    <div class="flex justify-end py-5 space-x-2">
-                        <button :class="change || !updateCheck ? '' : 'opacity-40'" :disabled="!change && updateCheck"
-                                class="px-4 py-1 bg-gray-300 rounded-md ann-button submit">
-                            {{ updateCheck ? "edit" : "submit" }}
-                        </button>
-                        <button class="px-4 py-1 bg-gray-300 rounded-md ann-button"
-                                @click="$router.push({ name: `${role}homepage` })">
-                            Cancel
-                        </button>
-                    </div>
-
-                </form>
-
+          </div>
+          <div class="flex flex-col md:flex-row mt-6">
+            <p class="w-full md:w-1/4 py-2 text-2xl font-bold">Close Date</p>
+            <div class="flex w-full md:w-3/4 space-x-4">
+              <input v-model="closeDate" :placeholder="'  ' + comeDate + ''"
+                     class="w-1/2 md:w-1/4 py-1 ml-2 bg-gray-200 border-2 rounded-md ann-close-date" type="date"/>
+              <input v-model="closeTime" :class="checkDisableTime(closeDate) ? 'opacity-50' : ''"
+                     :disabled="checkDisableTime(closeDate)" :placeholder="'  ' + comeTime + ''"
+                     class="w-1/2 md:w-1/4 py-1 ml-2 bg-gray-200 border-2 rounded-md ann-close-time" type="time"/>
             </div>
-        </div>
-
+          </div>
+          <div class="flex flex-col md:flex-row py-2 mt-5 ">
+            <p class="w-full md:w-1/4 text-2xl font-bold">Display</p>
+            <div class="flex w-full md:w-3/4 space-x-4">
+            <input v-model="announcementDisplay" class="w-[2%] md:w-[10%] ann-display" type="checkbox"/>
+            <label class="m-auto ml-2">Check to show this announcement</label></div>
+          </div>
+          <p class="py-2 mt-5 text-2xl font-bold">Description</p>
+          <QuillEditor v-if="Boolean(announcementDescription)" v-model:content="announcementDescription"
+                       class="w-full border-2 rounded-md ann-description" contentType="html" maxlength="10000"
+                       required theme="snow" toolbar="full"/>
+          <QuillEditor v-else v-model:content="announcementDescription"
+                       class="w-full border-2 rounded-md ann-description" contentType="html" maxlength="10000"
+                       required theme="snow" toolbar="full"/>
+          <p class="flex justify-end">Remaining: {{ countDesCharac }}</p>
+          <div class="flex justify-end py-5 space-x-2">
+            <button :class="change || !updateCheck ? '' : 'opacity-40'" :disabled="!change && updateCheck"
+                    class="px-4 py-1 bg-gray-300 rounded-md ann-button submit">
+              {{ updateCheck ? "edit" : "submit" }}
+            </button>
+            <button class="px-4 py-1 bg-gray-300 rounded-md ann-button"
+                    @click="$router.push({ name: `${role}homepage` })">
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
 </template>
+
 
 <style scoped></style>
