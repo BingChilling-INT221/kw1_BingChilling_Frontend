@@ -12,11 +12,18 @@ const loading = ref(true)
 const store = useAnnouncerStore();
 
 onMounted(async () => {
+  console.log("onmounted")
+  if(role === 'user')
+  {
+    console.log(role)
+    store.setCount(true)
+  }
     try {
         const response = await fetch(
-            `${import.meta.env.VITE_BASE_URL}/announcements/${route.params.id}`
+            `${import.meta.env.VITE_BASE_URL}/announcements/${route.params.id}?count=${store.count}`
         );
         if (response.status === 200) {
+            console.log(`${import.meta.env.VITE_BASE_URL}/announcements/${route.params.id}?count=${store.count}`)
             queryAnnounce.value = await response.json();
             console.log(queryAnnounce.value);
             loading.value = false
@@ -34,22 +41,6 @@ onMounted(async () => {
     }
 });
 
-onMounted(async () => {
-    try {
-        const response = await fetch(
-            `${import.meta.env.VITE_BASE_URL}announcements/${route.params.id}?count=${store.count}`,
-        );
-        if (response.status === 200) {
-            counter.value = await response.json();
-            store.count = true
-        }
-        if (store.count === true) {
-            counter.value.viewCount++
-        }
-    } catch (err) {
-        console.log(err);
-    }
-});
 
 
 const changeTime = (time) => {
@@ -113,7 +104,7 @@ const changeTime = (time) => {
 
                     <div v-show="role === 'admin'" class="flex text-black">
                         <img alt="" class="inline-block w-10 h-10" src="../assets/eyes.png">
-                        <p class="py-1 text-3xl">{{ counter.viewCount }}</p>
+                        <p class="py-1 text-3xl">{{ queryAnnounce.viewCount }}</p>
                     </div>
                 </div>
 
