@@ -129,9 +129,9 @@ const clickPage = (page) => {
         <div v-else class="flex flex-col pt-16 md:flex-row ">
 
             <div class="flex flex-col md:basis-11/12 ">
-                <div class="flex flex-col lg:hidden basis-full ">
+                <div class="flex flex-col xl:hidden basis-full ">
                     <div class="flex ">
-                        <img alt="" class="w-6 h-6 my-auto md:hidden" src="../assets/1845948.png"/>
+                        <img alt="" class="w-6 h-6 my-auto " src="../assets/1845948.png"/>
                         <p class="h-8 py-1 my-auto text-xl font-normal"><span class="hidden md:inline-block"> Date/Time
                                 shown in
                                 Timezone:</span>{{
@@ -203,7 +203,7 @@ const clickPage = (page) => {
                     </div>
                 </div>
             </div>
-            <div class="hidden lg:pl-20 md:basis-1/12 lg:block">
+            <div class="hidden pl-20 basis-1/12 xl:block">
                 <p class="py-1 text-xl font-normal ">Date/Time shown in Timezone: <span class="font-normal">{{
                     timezone
                     }}</span></p>
