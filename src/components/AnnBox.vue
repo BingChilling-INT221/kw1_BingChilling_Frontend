@@ -123,7 +123,7 @@ const seeDetail = (env) => {
                     {{ annData.announcementDisplay }}
 
                 </div>
-                <div class="pt-4 ">views: {{ annData.viewCount }}</div>
+                <div class="my-auto w-24">views: {{ annData.viewCount }}</div>
                 <div v-show="checkAdmin" class="flex flex-row m-auto md:flex-col ">
                     <button class="px-2 py-1 ml-2 text-sm font-medium rounded-lg hover:bg-green-500 ann-button"
                             @click="$router.push({ name: `${role}announcementdetail`, params: { id: annData.id } })">
