@@ -43,14 +43,13 @@ onMounted(async () => {
             counter.value = await response.json();
             store.count = true
         }
-        if(store.count === true) {
+        if (store.count === true) {
             counter.value.viewCount++
         }
     } catch (err) {
         console.log(err);
     }
 });
-
 
 
 const changeTime = (time) => {

@@ -1,10 +1,9 @@
 <script setup>
-import { computed, inject, onMounted, ref, watch } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import {computed, inject, onMounted, ref, watch} from "vue";
+import {useRoute, useRouter} from "vue-router";
 
 const route = useRoute();
 const limit = 10000;
-
 
 
 const props = defineProps(
@@ -73,7 +72,7 @@ watch(() => compObj, () => {
             break;
         }
     }
-}, { deep: true })
+}, {deep: true})
 
 
 onMounted(async () => {
@@ -110,7 +109,7 @@ const checkDisableTime = (date) => {
 }
 
 
-const comeTime = ref(new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false }))
+const comeTime = ref(new Date().toLocaleTimeString([], {hour: "2-digit", minute: "2-digit", hour12: false}))
 const comeDate = ref(new Date().toLocaleDateString("en-Us"))
 const sixhour = new Date('August 19, 1975 00:00:00');
 sixhour.setHours(sixhour.getHours() + 6);
@@ -153,7 +152,7 @@ const checkPublishDate = () => {
 };
 const checkPublishTime = () => {
     if (!publishTime.value && publishDate.value) {
-        publishTime.value = sixhour.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false });
+        publishTime.value = sixhour.toLocaleTimeString([], {hour: "2-digit", minute: "2-digit", hour12: false});
     }
     if (!publishTime.value) {
         return true;
@@ -183,7 +182,7 @@ const checkCloseDate = () => {
 }
 const checkCloseTime = () => {
     if ((closeTime.value === null || closeTime.value === "") && (closeDate.value !== null && closeDate.value !== "")) {
-        closeTime.value = eighteenth.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false })
+        closeTime.value = eighteenth.toLocaleTimeString([], {hour: "2-digit", minute: "2-digit", hour12: false})
     }
     if (closeTime.value === null || closeTime.value === "") return true
     if (closeTime.value.length > 5) return false
@@ -229,7 +228,7 @@ const sendSubmit = async (event) => {
             );
             if (response.status === 200) {
                 alert("update announcement success")
-                await router.push({ name: `${role}homepage` })
+                await router.push({name: `${role}homepage`})
             } else {
                 console.log(response)
                 alert("update announcement fail")
@@ -254,7 +253,7 @@ const sendSubmit = async (event) => {
             );
             if (response.status === 200) {
                 alert("Create announcement success")
-                await router.push({ name: `${role}homepage` })
+                await router.push({name: `${role}homepage`})
             } else {
                 alert("Create announcement fail")
                 console.log(response)
@@ -285,8 +284,8 @@ const countDesCharac = computed(() => {
 </script>
 
 <template>
-    <!-- {{ announcementDescription }}
-    {{ !updateCheck || Boolean(announcementDescription) }} -->
+  <!-- {{ announcementDescription }}
+  {{ !updateCheck || Boolean(announcementDescription) }} -->
     <div class="flex w-full ">
         <div class=" w-[80%] mx-[10%]   ">
             <div class="mt-5 text-white ">
@@ -299,7 +298,7 @@ const countDesCharac = computed(() => {
                     <div class="flex w-full">
                         <p class="w-1/4 py-2 text-2xl font-bold ">Title</p>
                         <input v-model="announcementTitle" class="w-3/4 ml-2 bg-gray-200 border-2 rounded-md ann-title"
-                            maxlength="200" required type="text" />
+                               maxlength="200" required type="text"/>
 
                     </div>
 
@@ -307,11 +306,12 @@ const countDesCharac = computed(() => {
 
                     <div class="flex w-full mt-2">
                         <p class="w-1/4 py-2 text-2xl font-bold">Category</p>
-                        <select v-model="categoryId" class="w-3/4 ml-2 bg-gray-200 shadow-md shadow-slate-300 ann-category"
-                            required>
+                        <select v-model="categoryId"
+                                class="w-3/4 ml-2 bg-gray-200 shadow-md shadow-slate-300 ann-category"
+                                required>
                             <option v-for="(data) in category" :key="data.id" :value="data.categoryId">{{
                                 data.categoryName
-                            }}
+                                }}
                             </option>
                         </select>
                     </div>
@@ -319,43 +319,47 @@ const countDesCharac = computed(() => {
                         <p class="w-1/4 py-2 text-2xl font-bold">Publish Date</p>
                         <div class="flex w-3/4 space-x-4 ">
                             <input v-model="publishDate" :placeholder="'  ' + comeDate + ''"
-                                class="w-1/4 py-1 ml-2 bg-gray-200 border-2 rounded-md ann-publish-date" type="date" />
+                                   class="w-1/4 py-1 ml-2 bg-gray-200 border-2 rounded-md ann-publish-date"
+                                   type="date"/>
                             <input v-model="publishTime" :class="checkDisableTime(publishDate) ? 'opacity-50' : ''"
-                                :disabled="checkDisableTime(publishDate)" :placeholder="'  ' + comeTime + ''"
-                                class="w-1/4 py-1 ml-2 bg-gray-200 border-2 rounded-md ann-publish-time" type="time" />
+                                   :disabled="checkDisableTime(publishDate)" :placeholder="'  ' + comeTime + ''"
+                                   class="w-1/4 py-1 ml-2 bg-gray-200 border-2 rounded-md ann-publish-time"
+                                   type="time"/>
                         </div>
                     </div>
                     <div class="flex w-full mt-6">
                         <p class="w-1/4 py-2 text-2xl font-bold">Close Date</p>
                         <div class="flex w-3/4 space-x-4">
                             <input v-model="closeDate" :placeholder="'  ' + comeDate + ''"
-                                class="w-1/4 py-1 ml-2 bg-gray-200 border-2 rounded-md ann-close-date" type="date" />
+                                   class="w-1/4 py-1 ml-2 bg-gray-200 border-2 rounded-md ann-close-date" type="date"/>
                             <input v-model="closeTime" :class="checkDisableTime(closeDate) ? 'opacity-50' : ''"
-                                :disabled="checkDisableTime(closeDate)" :placeholder="'  ' + comeTime + ''"
-                                class="w-1/4 py-1 ml-2 bg-gray-200 border-2 rounded-md ann-close-time" type="time" />
+                                   :disabled="checkDisableTime(closeDate)" :placeholder="'  ' + comeTime + ''"
+                                   class="w-1/4 py-1 ml-2 bg-gray-200 border-2 rounded-md ann-close-time" type="time"/>
                         </div>
                     </div>
                     <div class="flex py-2 mt-5">
                         <p class="w-1/4 text-2xl font-bold ">Display</p>
-                        <input v-model="announcementDisplay" class="w-[2%] ann-display" type="checkbox" />
+                        <input v-model="announcementDisplay" class="w-[2%] ann-display" type="checkbox"/>
                         <label class="m-auto ml-2"> Check to show this announcement</label>
                     </div>
                     <p class="py-2 mt-5 text-2xl font-bold ">Description</p>
                     <QuillEditor v-if="Boolean(announcementDescription)" v-model:content="announcementDescription"
-                        class="w-full border-2 rounded-md ann-description" contentType="html" maxlength="10000" required
-                        theme="snow" toolbar="full" />
+                                 class="w-full border-2 rounded-md ann-description" contentType="html" maxlength="10000"
+                                 required
+                                 theme="snow" toolbar="full"/>
                     <QuillEditor v-else v-model:content="announcementDescription"
-                        class="w-full border-2 rounded-md ann-description" contentType="html" maxlength="10000" required
-                        theme="snow" toolbar="full" />
+                                 class="w-full border-2 rounded-md ann-description" contentType="html" maxlength="10000"
+                                 required
+                                 theme="snow" toolbar="full"/>
                     <p class="flex justify-end">Remaining: {{ countDesCharac }}</p>
 
                     <div class="flex justify-end py-5 space-x-2">
                         <button :class="change || !updateCheck ? '' : 'opacity-40'" :disabled="!change && updateCheck"
-                            class="px-4 py-1 bg-gray-300 rounded-md ann-button submit">
+                                class="px-4 py-1 bg-gray-300 rounded-md ann-button submit">
                             {{ updateCheck ? "edit" : "submit" }}
                         </button>
                         <button class="px-4 py-1 bg-gray-300 rounded-md ann-button"
-                            @click="$router.push({ name: `${role}homepage` })">
+                                @click="$router.push({ name: `${role}homepage` })">
                             Cancel
                         </button>
                     </div>

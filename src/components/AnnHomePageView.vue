@@ -115,7 +115,7 @@ const clickPage = (page) => {
 </script>
 
 <template>
-    <div class="h-auto min-w-full min-h-screen pt-5 md:px-12 xl:px-36 md:pt-12">
+    <div class="h-auto min-w-full min-h-screen pt-5 md:px-12 xl:px-12 md:pt-12">
         <p class="hidden m-auto text-4xl font-bold md:block"><img alt="" class="inline-block w-20 h-[13.9] mr-4"
                                                                   src="../assets/annou.png"/>SIT
             Announcement System</p>
@@ -128,7 +128,7 @@ const clickPage = (page) => {
         </div>
         <div v-else class="flex flex-col pt-16 md:flex-row ">
 
-            <div class="flex flex-col md:basis-4/6 ">
+            <div class="flex flex-col md:basis-11/12 ">
                 <div class="flex flex-col lg:hidden basis-full ">
                     <div class="flex ">
                         <img alt="" class="w-6 h-6 my-auto md:hidden" src="../assets/1845948.png"/>
@@ -142,7 +142,7 @@ const clickPage = (page) => {
                         <p class="my-auto text-xl ">Choose Category:</p>
                         <div class="">
                             <div class="flex font-normal ">
-                                <p class="py-2 text-xl hidden md:inline-block">Category:</p>
+                                <p class="hidden py-2 text-xl md:inline-block">Category:</p>
                                 <select v-model="store.category"
                                         class="pl-10 ml-2 text-black ann-category-filter select ">
                                     <option value="">ทั้งหมด</option>
@@ -184,7 +184,8 @@ const clickPage = (page) => {
 
                 <div v-if="announces.length > 0 && data.totalPages !== 1" class="flex justify-center py-5 text-2xl">
                     <div class="flex items-center space-x-2 ">
-                        <button v-if="data.totalPages !== 1" :class="data.first ? 'opacity-25' : ''" :disabled="data.first"
+                        <button v-if="data.totalPages !== 1" :class="data.first ? 'opacity-25' : ''"
+                                :disabled="data.first"
                                 class="ann-page-prev" @click="goToPreviousPage">
                             Prev
                         </button>
@@ -195,13 +196,14 @@ const clickPage = (page) => {
                                 {{ pageNumber }}
                             </li>
                         </ul>
-                        <button v-if="data.totalPages !== 1" :class="data.last ? 'opacity-25' : ''" :disabled="data.last"
+                        <button v-if="data.totalPages !== 1" :class="data.last ? 'opacity-25' : ''"
+                                :disabled="data.last"
                                 class="ann-page-next" @click="goToNextPage">Next
                         </button>
                     </div>
                 </div>
             </div>
-            <div class="hidden lg:pl-20 md:basis-1/2 lg:block">
+            <div class="hidden lg:pl-20 md:basis-1/12 lg:block">
                 <p class="py-1 text-xl font-normal ">Date/Time shown in Timezone: <span class="font-normal">{{
                     timezone
                     }}</span></p>

@@ -85,20 +85,23 @@ const seeDetail = (env) => {
 </script>
 
 <template>
-    <div class="my-2 text-xl font-semibold ann-item " @click="seeDetail">
+    <div class="my-2 text-xl font-semibold ann-item max-w-full" @click="seeDetail">
         <div
-                class="flex flex-col p-2 m-auto rounded-md min-h-20 bg-black2Cus md:min-w-sm md:flex-row md:max-w-2xl xl:max-w-none">
-            <div class="flex flex-row ">
+                class="flex flex-col p-2 m-auto rounded-md min-h-20 bg-black2Cus md:min-w-sm md:flex-row md:max-w-2xl xl:max-w-none ">
+
+            <div class="flex flex-row  flex-grow">
                 <div class="flex items-center justify-center w-16 my-auto font-semibold break-all border-r-2">
                     {{ padStart(index + 1, 2) }}
                 </div>
-                <div class="w-40 pt-1 my-auto overflow-hidden">
-                    <p
-                            class="pl-2 my-auto text-left break-words ann-title hover:animate-marquee hover:whitespace-nowrap max-h-16">
-                        {{ annData.announcementTitle }}</p>
+                <div class="flex flex-grow overflow-hidden">
+                    <div class="w-40 xl:1/2 pt-1 my-auto ">
+                        <p
+                                class="pl-2 my-auto text-left ann-title hover:animate-marquee whitespace-nowrap max-h-16">
+                            {{ annData.announcementTitle }}</p>
+                    </div>
                 </div>
                 <div
-                        class=" bg-[#25B881] w-24 px-2 h-6 text-sm my-auto md:m-auto font-normal rounded-lg py-1 ann-category ">
+                        class=" bg-[#25B881] w-24 px-2 h-6 text-sm my-auto  font-normal rounded-lg py-1 ann-category ">
                     {{ annData.announcementCategory }}
                 </div>
             </div>
@@ -114,7 +117,7 @@ const seeDetail = (env) => {
                     </p>
                 </div>
             </div>
-            <div class="flex flex-row flex-grow">
+            <div class="flex flex-row  ">
                 <div :class="annData.announcementDisplay === 'Y' ? 'bg-green-500' : 'bg-red-500'"
                      class="flex justify-center w-10 m-auto text-sm text-center text-white bg-green-500 rounded-lg ann-display">
                     {{ annData.announcementDisplay }}
