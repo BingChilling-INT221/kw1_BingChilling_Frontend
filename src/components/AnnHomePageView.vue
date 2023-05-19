@@ -45,7 +45,8 @@ onMounted(async () => {
             console.log(response);
         }
     } catch (err) {
-        console.log(err);
+      const errorResponse = await response.json();
+      alert(errorResponse.message)
     }
 });
 
@@ -87,6 +88,10 @@ const fetched = async () => {
             if (announces.value.length === 0) {
                 notFound.value = true;
             }
+        }
+        else {
+          const errorResponse = await response.json();
+          alert(errorResponse.message)
         }
     } catch (err) {
         alert("ยังหาข้อมูลไม่พบโปรดรีเฟรชหน้าอีกครั้งครับ");

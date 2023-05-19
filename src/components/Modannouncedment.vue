@@ -87,6 +87,10 @@ onMounted(async () => {
                 categoryId.value = category.value[0].categoryId
             }
         }
+        else {
+          const errorResponse = await response.json();
+          alert(errorResponse.message)
+        }
     } catch (err) {
         console.log(err);
     }
@@ -228,11 +232,13 @@ const sendSubmit = async (event) => {
             );
             if (response.status === 200) {
                 alert("update announcement success")
+              console.log(`${role}homepage`)
                 await router.push({name: `${role}homepage`})
             } else {
                 console.log(response)
                 alert("update announcement fail")
-                errm.value = response
+              const errorResponse = await response.json();
+              alert(errorResponse.message)
             }
         } catch (err) {
 
@@ -251,14 +257,13 @@ const sendSubmit = async (event) => {
                     body: JSON.stringify(sendPackage),
                 }
             );
-            if (response.status === 200) {
+            if (response.ok) {
                 alert("Create announcement success")
                 await router.push({name: `${role}homepage`})
             } else {
                 alert("Create announcement fail")
-                console.log(response)
-                alert(response)
-                errm.value = response.errors
+              const errorResponse = await response.json();
+              alert(errorResponse.message)
             }
         } catch (err) {
             alert(err)
