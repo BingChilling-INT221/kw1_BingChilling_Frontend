@@ -123,6 +123,7 @@ const seeDetail = (env) => {
                     {{ annData.announcementDisplay }}
 
                 </div>
+                <div class="pt-5">views: {{ annData.viewCount }}</div>
 
 
                 <div v-show="checkAdmin" class="flex flex-row m-auto md:flex-col ">
