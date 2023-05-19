@@ -3,33 +3,28 @@ import {computed, inject, onMounted, ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
 
 const route = useRoute();
-const limit = 10000;
-
-
 const props = defineProps(
     {
-        updatePackage: {
-            type: Object,
-        }
+      updatePackage: {
+        type: Object,
+      }
     }
 )
 
 const updateCheck = ref(false)
 watch(() => props.updatePackage, (newv) => {
-    console.log(JSON.stringify(newv).length)
-    if (JSON.stringify(newv).length > 0) {
-        updateCheck.value = true
-        updateInit();
-    } else {
-        console.log("no update")
-        updateCheck.value = false
-    }
+  if (JSON.stringify(newv).length > 0) {
+    updateCheck.value = true
+    updateInit();
+  } else {
+    updateCheck.value = false
+  }
 })
 
 const category = ref([])
 const announcementTitle = ref("")
 const categoryId = ref(Number)
-const announcementDescription = ref(null)
+const announcementDescription = ref("")
 const publishDate = ref("")
 const publishTime = ref("")
 const closeDate = ref("")
@@ -39,79 +34,83 @@ const router = useRouter()
 const role = inject('role')
 
 const updateInit = () => {
-    announcementTitle.value = props.updatePackage.announcementTitle
-    categoryId.value = props.updatePackage.categoryId
-    announcementDescription.value = props.updatePackage.announcementDescription
-    publishDate.value = props.updatePackage.newPublishDate
-    publishTime.value = props.updatePackage.newPublishTime
-    closeDate.value = props.updatePackage.newCloseDate
-    closeTime.value = props.updatePackage.newCloseTime
-    announcementDisplay.value = props.updatePackage.announcementDisplay
+  announcementTitle.value = props.updatePackage.announcementTitle
+  categoryId.value = props.updatePackage.categoryId
+  announcementDescription.value = String(props.updatePackage.announcementDescription)
+  publishDate.value = props.updatePackage.newPublishDate
+  publishTime.value = props.updatePackage.newPublishTime
+  closeDate.value = props.updatePackage.newCloseDate
+  closeTime.value = props.updatePackage.newCloseTime
+  announcementDisplay.value = props.updatePackage.announcementDisplay
 }
 
 const compObj = computed(() => {
-    return {
-        "announcementTitle": announcementTitle.value,
-        "announcementDescription": announcementDescription.value,
-        "newPublishDate": publishDate.value,
-        "newPublishTime": publishTime.value,
-        "newCloseDate": closeDate.value,
-        "newCloseTime": closeTime.value,
-        "announcementDisplay": announcementDisplay.value,
-        "categoryId": categoryId.value
-    }
+  return {
+    "announcementTitle": announcementTitle.value,
+    "announcementDescription": announcementDescription.value,
+    "newPublishDate": publishDate.value,
+    "newPublishTime": publishTime.value,
+    "newCloseDate": closeDate.value,
+    "newCloseTime": closeTime.value,
+    "announcementDisplay": announcementDisplay.value,
+    "categoryId": categoryId.value
+  }
 })
 
 let change = ref(false)
 watch(() => compObj, () => {
-    if (!updateCheck.value) return
-    change.value = false
-    for (const property in compObj.value) {
-        if (compObj.value[property] !== props.updatePackage[property]) {
-            change.value = true;
-            break;
-        }
+  if (!updateCheck.value) return
+  change.value = false
+  for (const property in compObj.value) {
+    if (compObj.value[property] !== props.updatePackage[property]) {
+      change.value = true;
+      break;
     }
+  }
 }, {deep: true})
 
 
 onMounted(async () => {
-    try {
-        const response = await fetch(
-            `${import.meta.env.VITE_BASE_URL}categories`
-        );
-        if (response.status === 200) {
-            category.value = await response.json();
-            console.log(response);
-            if (!updateCheck.value) {
-                categoryId.value = category.value[0].categoryId
-            }
-        }
-        else {
-          const errorResponse = await response.json();
-          alert(errorResponse.message)
-        }
-    } catch (err) {
-        console.log(err);
+  try {
+    const response = await fetch(
+        `${import.meta.env.VITE_BASE_URL}categories`
+    );
+    if (response.status === 200) {
+      category.value = await response.json();
+      if (!updateCheck.value) {
+        categoryId.value = category.value[0].categoryId
+      }
+    } else {
+      const errorResponse = await response.json();
+      alert(errorResponse.message);
     }
+  } catch (err) {
+    console.log(err);
+  }
 })
 
 
 const publishDatePlusTime = computed(() => {
-    if (!publishDate.value || !publishTime.value) return null
-    return new Date(`${publishDate.value}T${publishTime.value}:00`).toISOString()
+  if (!publishDate.value || !publishTime.value) return null
+  return new Date(`${publishDate.value}T${publishTime.value}:00`).toISOString()
 });
 
 
 const closeDatePlusTime = computed(() => {
-    if (!closeDate.value || !closeTime.value) return null
-    return new Date(`${closeDate.value}T${closeTime.value}:00`).toISOString()
+  if (!closeDate.value || !closeTime.value) return null
+  return new Date(`${closeDate.value}T${closeTime.value}:00`).toISOString()
 });
 const checkDisableTime = (date) => {
-    if (date === null) return true
-    return date.length !== 10
+  if (date === null) return true
+  return date.length !== 10
 }
-
+const printError = (err) => {
+  let message = "";
+  for (const i in err.detail) {
+    message += `${JSON.stringify(err.detail[i])}\n`;
+  }
+  alert(message);
+}
 
 const comeTime = ref(new Date().toLocaleTimeString([], {hour: "2-digit", minute: "2-digit", hour12: false}))
 const comeDate = ref(new Date().toLocaleDateString("en-Us"))
@@ -121,168 +120,161 @@ const eighteenth = new Date('August 19, 1975 00:00:00');
 eighteenth.setHours(eighteenth.getHours() + 18);
 
 const compareDates = (d1, d2) => {
-    if (!d1 || !d2) {
-        return false;
-    }
-    console.log(d1, d2)
-    const date1 = new Date(d1);
-    date1.setHours(0, 0, 0, 0);
-    const date2 = new Date(d2);
-    date2.setHours(0, 0, 0, 0);
-    console.log(date1, date2)
-    return date1 < date2 ? -1 : date1 > date2 ? 1 : 0;
+  if (!d1 || !d2) {
+    return false;
+  }
+  const date1 = new Date(d1);
+  date1.setHours(0, 0, 0, 0);
+  const date2 = new Date(d2);
+  date2.setHours(0, 0, 0, 0);
+  return date1 < date2 ? -1 : date1 > date2 ? 1 : 0;
 };
 const compareTimes = (t1, t2) => {
-    if (!t1 || !t2) {
-        return false;
-    }
-    const date1 = new Date(`1970-01-01 ${t1}`);
-    const date2 = new Date(`1970-01-01 ${t2}`);
-    return date1 < date2 ? -1 : date1 > date2 ? 1 : 0;
+  if (!t1 || !t2) {
+    return false;
+  }
+  const date1 = new Date(`1970-01-01 ${t1}`);
+  const date2 = new Date(`1970-01-01 ${t2}`);
+  return date1 < date2 ? -1 : date1 > date2 ? 1 : 0;
 };
 const checkPublishDate = () => {
-    if (!publishDate.value) {
-        publishTime.value = null;
-        return true;
-    }
-    if (publishDate.value.length > 10) {
-        return false;
-    }
-    if (compareDates(publishDate.value, comeDate.value) < 0) {
-        alert("Please enter a correct publish date.");
-        return false;
-    }
+  if (!publishDate.value) {
+    publishTime.value = null;
     return true;
+  }
+  if (publishDate.value.length > 10) {
+    return false;
+  }
+  if (compareDates(publishDate.value, comeDate.value) < 0) {
+    alert("Please enter a correct publish date.");
+    return false;
+  }
+  return true;
 };
 const checkPublishTime = () => {
-    if (!publishTime.value && publishDate.value) {
-        publishTime.value = sixhour.toLocaleTimeString([], {hour: "2-digit", minute: "2-digit", hour12: false});
-    }
-    if (!publishTime.value) {
-        return true;
-    }
-    if (publishTime.value.length > 5) {
-        return false;
-    }
-    if (compareDates(publishDate.value, comeDate.value) === 0 && compareTimes(publishTime.value, comeTime.value) < 0) {
-        alert("Please enter a correct publish time.");
-        return false;
-    }
+  if (!publishTime.value && publishDate.value) {
+    publishTime.value = sixhour.toLocaleTimeString([], {hour: "2-digit", minute: "2-digit", hour12: false});
+  }
+  if (!publishTime.value) {
     return true;
+  }
+  if (publishTime.value.length > 5) {
+    return false;
+  }
+  if (compareDates(publishDate.value, comeDate.value) === 0 && compareTimes(publishTime.value, comeTime.value) < 0) {
+    alert("Please enter a correct publish time.");
+    return false;
+  }
+  return true;
 };
 const checkCloseDate = () => {
-    if (closeDate.value === null || closeDate.value === "") {
-        closeTime.value = null;
-        return true
-    }
-    if (closeDate.value.length > 10) return false
-    if (publishDate.value !== null || publishDate.value !== "") {
-        if ((compareDates(closeDate.value, publishDate.value) < 0)) {
-            alert("Please enter correct date format close")
-            return false
-        }
-    }
+  if (closeDate.value === null || closeDate.value === "") {
+    closeTime.value = null;
     return true
+  }
+  if (closeDate.value.length > 10) return false
+  if (publishDate.value !== null || publishDate.value !== "") {
+    if ((compareDates(closeDate.value, publishDate.value) < 0)) {
+      alert("Please enter correct date format close")
+      return false
+    }
+  }
+  return true
 }
 const checkCloseTime = () => {
-    if ((closeTime.value === null || closeTime.value === "") && (closeDate.value !== null && closeDate.value !== "")) {
-        closeTime.value = eighteenth.toLocaleTimeString([], {hour: "2-digit", minute: "2-digit", hour12: false})
-    }
-    if (closeTime.value === null || closeTime.value === "") return true
-    if (closeTime.value.length > 5) return false
-    if (compareDates(closeDate.value, publishDate.value) === 0 && compareTimes(closeTime.value, publishTime.value) <= 0) {
-        alert("Please enter correct time format close")
-        return false
-    }
-    return true
+  if ((closeTime.value === null || closeTime.value === "") && (closeDate.value !== null && closeDate.value !== "")) {
+    closeTime.value = eighteenth.toLocaleTimeString([], {hour: "2-digit", minute: "2-digit", hour12: false})
+  }
+  if (closeTime.value === null || closeTime.value === "") return true
+  if (closeTime.value.length > 5) return false
+  if (compareDates(closeDate.value, publishDate.value) === 0 && compareTimes(closeTime.value, publishTime.value) <= 0) {
+    alert("Please enter correct time format close")
+    return false
+  }
+  return true
 }
-const errm = ref();
+ref();
 const sendSubmit = async (event) => {
-    if (!(checkPublishDate() && checkPublishTime() && checkCloseDate() && checkCloseTime())) {
-        event.preventDefault();
-        return
-    }
+  if (!(checkPublishDate() && checkPublishTime() && checkCloseDate() && checkCloseTime())) {
     event.preventDefault();
-    if (announcementDisplay.value) {
-        announcementDisplay.value = "Y"
-    } else {
-        announcementDisplay.value = "N"
-    }
-    console.log(categoryId.value)
-    const sendPackage = {
-        announcementTitle: announcementTitle.value,
-        announcementDescription: announcementDescription.value,
-        announcementDisplay: announcementDisplay.value,
-        categoryId: categoryId.value,
-    }
-    if (publishDatePlusTime.value !== null) sendPackage.publishDate = publishDatePlusTime.value
-    if (closeDatePlusTime.value !== null) sendPackage.closeDate = closeDatePlusTime.value
-    if (updateCheck.value) {
-        try {
-            console.log(JSON.stringify(sendPackage))
-            const response = await fetch(
-                `${import.meta.env.VITE_BASE_URL}announcements/${route.params.id}`,
-                {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(sendPackage),
-                }
-            );
-            if (response.status === 200) {
-                alert("update announcement success")
-              console.log(`${role}homepage`)
-                await router.push({name: `${role}homepage`})
-            } else {
-                console.log(response)
-                alert("update announcement fail")
-              const errorResponse = await response.json();
-              alert(errorResponse.message)
-            }
-        } catch (err) {
+    return
+  }
+  event.preventDefault();
+  if (announcementDisplay.value) {
+    announcementDisplay.value = "Y"
+  } else {
+    announcementDisplay.value = "N"
+  }
+  const sendPackage = {
+    announcementTitle: announcementTitle.value,
+    announcementDescription: announcementDescription.value,
+    announcementDisplay: announcementDisplay.value,
+    categoryId: categoryId.value,
+  }
+  if (publishDatePlusTime.value !== null) sendPackage.publishDate = publishDatePlusTime.value
+  if (closeDatePlusTime.value !== null) sendPackage.closeDate = closeDatePlusTime.value
+  if (updateCheck.value) {
+    try {
+      const response = await fetch(
+          `${import.meta.env.VITE_BASE_URL}announcements/${route.params.id}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(sendPackage),
+          }
+      );
+      if (response.status === 200) {
+        alert("update announcement success")
+        await router.push({name: `${role}homepage`})
+      } else {
+        alert("update announcement fail")
+        const errorResponse = await response.json();
+        printError(errorResponse)
+      }
+    } catch (err) {
 
-            alert(err)
-        }
-    } else {
-        try {
-            console.log(JSON.stringify(sendPackage))
-            const response = await fetch(
-                `${import.meta.env.VITE_BASE_URL}announcements`,
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(sendPackage),
-                }
-            );
-            if (response.ok) {
-                alert("Create announcement success")
-                await router.push({name: `${role}homepage`})
-            } else {
-                alert("Create announcement fail")
-              const errorResponse = await response.json();
-              alert(errorResponse.message)
-            }
-        } catch (err) {
-            alert(err)
-        }
+      alert(err)
     }
+  } else {
+    try {
+      const response = await fetch(
+          `${import.meta.env.VITE_BASE_URL}announcements`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(sendPackage),
+          }
+      );
+      if (response.ok) {
+        alert("Create announcement success")
+        await router.push({name: `${role}homepage`})
+      } else {
+        alert("Create announcement fail")
+        const errorResponse = await response.json();
+        printError(errorResponse)
+      }
+    } catch (err) {
+      alert(err)
+    }
+  }
 
 }
 
 const countTitleCharac = computed(() => {
 
-    const maxLength = 200;
-    if (announcementTitle.value === null) return maxLength
-    return maxLength - (announcementTitle.value.length || 0);
+  const maxLength = 200;
+  if (announcementTitle.value === null) return maxLength
+  return maxLength - (announcementTitle.value.length || 0);
 });
 
 const countDesCharac = computed(() => {
-    const maxLength = 10000;
-    if (announcementDescription.value === null) return maxLength
-    return maxLength - (announcementDescription.value.length || 0);
+  const maxLength = 10000;
+  if (announcementDescription.value === null) return maxLength
+  return maxLength - (announcementDescription.value.length || 0);
 });
 
 
@@ -300,13 +292,15 @@ const countDesCharac = computed(() => {
         <form action="" class="w-full" @submit="sendSubmit">
           <div class="flex flex-col md:flex-row">
             <p class="w-full md:w-1/4 py-2 text-2xl font-bold">Title</p>
-            <input v-model="announcementTitle" class="w-full md:w-3/4 ml-2 md:ml-2 bg-gray-200 border-2 rounded-md ann-title"
+            <input v-model="announcementTitle"
+                   class="w-full md:w-3/4 ml-2 md:ml-2 bg-gray-200 border-2 rounded-md ann-title"
                    maxlength="200" required type="text"/>
           </div>
           <p class="flex justify-end">Remaining: {{ countTitleCharac }}</p>
           <div class="flex flex-col md:flex-row mt-2">
             <p class="w-full md:w-1/4 py-2 text-2xl font-bold">Category</p>
-            <select v-model="categoryId" class="w-full md:w-3/4 ml-2 md:ml-2 bg-gray-200 shadow-md shadow-slate-300 ann-category"
+            <select v-model="categoryId"
+                    class="w-full md:w-3/4 ml-2 md:ml-2 bg-gray-200 shadow-md shadow-slate-300 ann-category"
                     required>
               <option v-for="data in category" :key="data.id" :value="data.categoryId">
                 {{ data.categoryName }}
@@ -336,8 +330,8 @@ const countDesCharac = computed(() => {
           <div class="flex flex-col md:flex-row py-2 mt-5 ">
             <p class="w-full md:w-1/4 text-2xl font-bold">Display</p>
             <div class="flex w-full md:w-3/4 space-x-4">
-            <input v-model="announcementDisplay" class="w-[2%] md:w-[10%] ann-display" type="checkbox"/>
-            <label class="m-auto ml-2">Check to show this announcement</label></div>
+              <input v-model="announcementDisplay" class="w-[2%] md:w-[10%] ann-display" type="checkbox"/>
+              <label class="m-auto ml-2">Check to show this announcement</label></div>
           </div>
           <p class="py-2 mt-5 text-2xl font-bold">Description</p>
           <QuillEditor v-if="Boolean(announcementDescription)" v-model:content="announcementDescription"

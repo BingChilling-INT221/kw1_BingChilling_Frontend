@@ -4,5 +4,6 @@
 
 @font-face {
     font-family: "Maehongson";
+    /*noinspection CssUnknownTarget*/
     src: url(/PKMaehongsonMedium.ttf) format("truetype");
 }

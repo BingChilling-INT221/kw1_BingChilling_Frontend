@@ -7,9 +7,9 @@ provide(/* key */ 'role', /* value */ 'admin')
 </script>
 
 <template>
-    <div>
-        <Modannouncedment></Modannouncedment>
-    </div>
+  <div>
+    <Modannouncedment></Modannouncedment>
+  </div>
 </template>
 
 <style scoped>
