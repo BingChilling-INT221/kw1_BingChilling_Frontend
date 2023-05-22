@@ -6,3 +6,28 @@
     font-family: "Maehongson";
     src: url(/PKMaehongsonMedium.ttf) format("truetype");
 }
+@layer base {
+    .ql-editor   h1 {
+        @apply text-4xl;
+        @apply font-bold;
+    }
+    .ql-editor h2 {
+        @apply text-3xl;
+        @apply font-bold;
+    }
+    .ql-editor h3 {
+        @apply text-2xl;
+        @apply font-bold;
+    }
+    .ql-editor h4 {
+        @apply text-xl;
+        @apply font-semibold;
+    }
+    .ql-editor h5 {
+        @apply text-lg;
+        @apply font-semibold;
+    }
+    .ql-editor h6 {
+        @apply text-sm;
+        @apply font-semibold;
+    }}

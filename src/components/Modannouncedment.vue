@@ -279,12 +279,12 @@ const countDesCharac = computed(() => {
     if (announcementDescription.value === null) return maxLength
     return maxLength - (announcementDescription.value.length || 0);
 });
-
-watch(announcementDescription, (newValue,oldValue)=>{
-    if (newValue.length > 10000) {
-      alert("Please enter a description less than 10000 characters.")
+watch(announcementDescription, (newValue,oldValue) => {
+    if (announcementDescription.value.length > 10000) {
+        alert("Please enter a correct description.");
         announcementDescription.value = oldValue
     }
+    console.log(announcementDescription.value.length,newValue,oldValue)
 })
 </script>
 <template>
@@ -340,12 +340,9 @@ watch(announcementDescription, (newValue,oldValue)=>{
             <label class="m-auto ml-2">Check to show this announcement</label></div>
           </div>
           <p class="py-2 mt-5 text-2xl font-bold">Description</p>
-          <QuillEditor v-if="Boolean(announcementDescription)" v-model:content="announcementDescription"
+          <QuillEditor v-model:content="announcementDescription"
                        class="w-full border-2 rounded-md ann-description" contentType="html" maxlength="10000"
-                       required theme="snow" toolbar="full"/>
-          <QuillEditor v-else v-model:content="announcementDescription"
-                       class="w-full border-2 rounded-md ann-description" contentType="html" maxlength="10000"
-                       required theme="snow" toolbar="full"/>
+                        theme="snow" toolbar="full" />
           <p class="flex justify-end">Remaining: {{ countDesCharac }}</p>
           <div class="flex justify-end py-5 space-x-2">
             <button :class="change || !updateCheck ? '' : 'opacity-40'" :disabled="!change && updateCheck"
