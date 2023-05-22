@@ -280,7 +280,12 @@ const countDesCharac = computed(() => {
     return maxLength - (announcementDescription.value.length || 0);
 });
 
-
+watch(announcementDescription, (newValue,oldValue)=>{
+    if (newValue.length > 10000) {
+      alert("Please enter a description less than 10000 characters.")
+        announcementDescription.value = oldValue
+    }
+})
 </script>
 <template>
   <div class="flex flex-col md:flex-row">
