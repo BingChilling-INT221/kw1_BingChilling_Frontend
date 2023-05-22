@@ -75,11 +75,16 @@ const fetched = async () => {
       return store.category !== "" ? `&category=${store.category}` : "";
     });
     const modeFetch = (() => {
+      if(role === "admin")
+      {
+        return ""
+      }
       return store.mode !== "" ? `&mode=${store.mode}` : "";
     });
     const response = await fetch(
         `${import.meta.env.VITE_BASE_URL}announcements/pages?${modeFetch()}&page=${store.page}&size=${store.pageSize}${selectCategory()}`
     );
+    console.log(`${import.meta.env.VITE_BASE_URL}announcements/pages?${modeFetch()}&page=${store.page}&size=${store.pageSize}${selectCategory()}`)
     if (response.status === 200) {
       fetchDate.value = true;
       data.value = await response.json();
