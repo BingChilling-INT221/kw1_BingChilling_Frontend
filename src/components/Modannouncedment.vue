@@ -301,6 +301,8 @@ watch(announcementDescription, (newValue, oldValue) => {
         }
     }
 })
+
+
 </script>
 <template>
     <!--  <div class="h-auto max-w-2xl">  {{announcementDescription}}</div>-->
