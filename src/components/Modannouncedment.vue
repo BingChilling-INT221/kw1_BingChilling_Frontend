@@ -38,21 +38,7 @@ const announcementDisplay = ref("")
 const router = useRouter()
 const role = inject('role')
 const cacheDescription = ref("")
-const updateInit = () => {
-    announcementTitle.value = props.updatePackage.announcementTitle
-    categoryId.value = props.updatePackage.categoryId
-    if (cacheDescription.value === "") {
-        announcementDescription.value = props.updatePackage.announcementDescription
-    }
-    else {
-        announcementDescription.value = cacheDescription.value
-    }
-    publishDate.value = props.updatePackage.newPublishDate
-    publishTime.value = props.updatePackage.newPublishTime
-    closeDate.value = props.updatePackage.newCloseDate
-    closeTime.value = props.updatePackage.newCloseTime
-    announcementDisplay.value = props.updatePackage.announcementDisplay
-}
+
 
 const compObj = computed(() => {
     return {
@@ -88,6 +74,7 @@ onMounted(async () => {
         if (response.status === 200) {
             category.value = await response.json();
             console.log(response);
+            updateInit();
             if (!updateCheck.value) {
                 categoryId.value = category.value[0].categoryId
             }
@@ -96,7 +83,22 @@ onMounted(async () => {
         console.log(err);
     }
 })
-
+const updateInit = () => {
+    const indexcategories =  category.value.findIndex(c => c.categoryName == props.updatePackage.categoryId);
+    announcementTitle.value = props.updatePackage.announcementTitle
+    categoryId.value =  category.value[indexcategories]?.categoryId;
+    if (cacheDescription.value === "") {
+        announcementDescription.value = props.updatePackage.announcementDescription
+    }
+    else {
+        announcementDescription.value = cacheDescription.value
+    }
+    publishDate.value = props.updatePackage.newPublishDate
+    publishTime.value = props.updatePackage.newPublishTime
+    closeDate.value = props.updatePackage.newCloseDate
+    closeTime.value = props.updatePackage.newCloseTime
+    announcementDisplay.value = props.updatePackage.announcementDisplay
+}
 
 const publishDatePlusTime = computed(() => {
     if (!publishDate.value || !publishTime.value) return null

@@ -16,6 +16,7 @@ const newCloseDate = ref("")
 const newCloseTime = ref("")
 const loading = ref(true)
 provide(/* key */ 'role', /* value */ 'admin')
+
 onMounted(async () => {
   try {
     const response = await fetch(
@@ -89,13 +90,13 @@ const updatePackage = computed(() => {
     "newCloseDate": newCloseDate.value,
     "newCloseTime": newCloseTime.value,
     "announcementDisplay": announcement.value.announcementDisplay,
-    "categoryId": 3
+    "categoryId": announcement.value.announcementCategory
   }
 })
 </script>
 
 <template>
-  <!-- {{ updatePackage }} -->
+
   <div v-if="loading" class="flex justify-center min-w-full min-h-full text-center bg-slate-400">
     <div class="absolute mt-2 mr-2">
       <svg class="w-20 h-20 bg-transparent border-2 border-transparent border-opacity-50 rounded-full animate-spin"
