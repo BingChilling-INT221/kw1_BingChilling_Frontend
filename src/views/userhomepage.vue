@@ -8,9 +8,9 @@ provide(/* key */ 'role', /* value */ 'user')
 </script>
 
 <template>
-    <div>
-        <AnnHomePageView/>
-    </div>
+  <div>
+    <AnnHomePageView/>
+  </div>
 </template>
 
 <style scoped>
