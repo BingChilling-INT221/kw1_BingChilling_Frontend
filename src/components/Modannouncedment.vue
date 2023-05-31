@@ -99,13 +99,13 @@ onMounted(async () => {
 
 
 const publishDatePlusTime = computed(() => {
-    if (!publishDate.value || !publishTime.value) return null
+    if (!publishDate.value && !publishTime.value) return nulls
     return new Date(`${publishDate.value}T${publishTime.value}:00`).toISOString()
 });
 
 
 const closeDatePlusTime = computed(() => {
-    if (!closeDate.value || !closeTime.value) return null
+    if (!closeDate.value && !closeTime.value) return null
     return new Date(`${closeDate.value}T${closeTime.value}:00`).toISOString()
 });
 const checkDisableTime = (date) => {
