@@ -103,6 +103,7 @@ const closeDatePlusTime = computed(() => {
     if (!closeDate.value || !closeTime.value) return null
     return new Date(`${closeDate.value}T${closeTime.value}:00`).toISOString()
 });
+
 const checkDisableTime = (date) => {
     if (date === null) return true
     return date.length !== 10
@@ -136,6 +137,7 @@ const compareTimes = (t1, t2) => {
     const date2 = new Date(`1970-01-01 ${t2}`);
     return date1 < date2 ? -1 : date1 > date2 ? 1 : 0;
 };
+
 const checkPublishDate = () => {
     if (!publishDate.value) {
         publishTime.value = null;

@@ -4,7 +4,6 @@ import {useRoute, useRouter} from "vue-router";
 import {useAnnouncerStore} from "@/stores/announcer";
 
 const queryAnnounce = ref({});
-const counter = ref(0);
 const route = useRoute();
 const router = useRouter();
 const role = inject('role')
@@ -114,7 +113,7 @@ const changeTime = (time) => {
                         }}</a>
                 </div>
                 <div class="pt-5 font-bold text-black border-2 rounded-lg">
-                    <p class="pl-5">Description:</p>
+                    <h1 class="pl-5">Description:</h1>
                     <div class="h-auto">
                         <p class="p-5 pl-5 ann-description ql-editor"
                            v-html="queryAnnounce.announcementDescription"></p>
@@ -134,4 +133,8 @@ const changeTime = (time) => {
     </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+
+
+
+</style>

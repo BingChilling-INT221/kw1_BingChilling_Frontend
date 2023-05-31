@@ -30,6 +30,8 @@ const changeTime = (time) => {
 
     }`;
 };
+
+
 const deleteAnnouncement = async (id) => {
     if (
         confirm("Are you sure you want to delete this announcement?") === false
@@ -60,6 +62,8 @@ const deleteAnnouncement = async (id) => {
         console.log(err)
     }
 }
+
+
 const padStart = (number, length) => {
     let str = '' + number;
     while (str.length < length) {
@@ -73,6 +77,8 @@ const checkAdmin = computed(() => {
 const role = computed(() => {
     return checkAdmin.value ? 'admin' : 'user'
 })
+
+
 const seeDetail = (env) => {
     console.log(checkAdmin.value)
 

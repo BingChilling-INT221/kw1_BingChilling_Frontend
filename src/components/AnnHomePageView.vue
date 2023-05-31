@@ -10,6 +10,8 @@ const role = inject("role");
 const checkAdmin = () => {
     return role === "admin";
 };
+
+
 const announces = ref([]);
 const data = ref({});
 const category = ref([]);
