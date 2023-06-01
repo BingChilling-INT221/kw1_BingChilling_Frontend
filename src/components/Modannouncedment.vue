@@ -74,9 +74,12 @@ onMounted(async () => {
         if (response.status === 200) {
             category.value = await response.json();
             console.log(response);
-            updateInit();
+
             if (!updateCheck.value) {
                 categoryId.value = category.value[0].categoryId
+            }
+            else {
+                updateInit();
             }
         }
     } catch (err) {
@@ -84,9 +87,9 @@ onMounted(async () => {
     }
 })
 const updateInit = () => {
-    const indexcategories =  category.value.findIndex(c => c.categoryName == props.updatePackage.categoryId);
+    const indexcategories = category.value.findIndex(c => c.categoryName == props.updatePackage.categoryId);
     announcementTitle.value = props.updatePackage.announcementTitle
-    categoryId.value =  category.value[indexcategories]?.categoryId;
+    categoryId.value = category.value[indexcategories]?.categoryId;
     if (cacheDescription.value === "") {
         announcementDescription.value = props.updatePackage.announcementDescription
     }
