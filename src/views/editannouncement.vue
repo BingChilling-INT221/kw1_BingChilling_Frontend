@@ -2,6 +2,7 @@
 import {computed, onMounted, provide, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import Cuannouncedment from "../components/Modannouncedment.vue";
+import { fecthShowEdit } from "../api.js";
 
 const router = useRouter();
 const route = useRoute();
@@ -19,9 +20,7 @@ provide(/* key */ 'role', /* value */ 'admin')
 
 onMounted(async () => {
   try {
-    const response = await fetch(
-        `${import.meta.env.VITE_BASE_URL}announcements/${route.params.id}`
-    );
+    const response = await fecthShowEdit(route.params.id)
     if (response.status === 200) {
       loading.value = false
       announcement.value = await response.json();

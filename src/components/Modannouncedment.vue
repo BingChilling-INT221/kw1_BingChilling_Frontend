@@ -1,6 +1,7 @@
 <script setup>
 import { computed, inject, onMounted, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { fetchCateForMod, fetchUpdate, fetchCreate } from '../api.js';
 
 const route = useRoute();
 const limit = 10000;
@@ -68,9 +69,7 @@ watch(() => compObj, () => {
 
 onMounted(async () => {
     try {
-        const response = await fetch(
-            `${import.meta.env.VITE_BASE_URL}categories`
-        );
+        const response = await fetchCateForMod()
         if (response.status === 200) {
             category.value = await response.json();
             console.log(response);
@@ -178,6 +177,7 @@ const checkPublishTime = () => {
     }
     return true;
 };
+
 const checkCloseDate = () => {
     if (closeDate.value === null || closeDate.value === "") {
         closeTime.value = null;
@@ -228,16 +228,7 @@ const sendSubmit = async (event) => {
     if (updateCheck.value) {
         try {
             console.log(JSON.stringify(sendPackage))
-            const response = await fetch(
-                `${import.meta.env.VITE_BASE_URL}announcements/${route.params.id}`,
-                {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(sendPackage),
-                }
-            );
+            const response = await fetchUpdate(sendPackage, route)
             if (response.status === 200) {
                 alert("update announcement success")
                 await router.push({ name: `${role}homepage` })
@@ -255,16 +246,7 @@ const sendSubmit = async (event) => {
     } else {
         try {
             console.log(JSON.stringify(sendPackage))
-            const response = await fetch(
-                `${import.meta.env.VITE_BASE_URL}announcements`,
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(sendPackage),
-                }
-            );
+            const response = await fetchCreate(sendPackage)
             if (response.status === 200) {
                 alert("Create announcement success")
                 await router.push({ name: `${role}homepage` })

@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { fetchDelete } from "../api.js";
 
 const route = useRoute();
 const router = useRouter();
@@ -43,17 +44,8 @@ const deleteAnnouncement = async (id) => {
   ) {
     return;
   }
-
   try {
-    const response = await fetch(
-      `${import.meta.env.VITE_BASE_URL}announcements/${id}`,
-      {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-      }
-    );
+    const response = await fetchDelete(id)
     if (response.status === 200) {
       alert("Announcement deleted")
       window.location.reload()

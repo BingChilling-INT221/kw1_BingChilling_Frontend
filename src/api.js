@@ -17,7 +17,7 @@ export const fetched_api = async ( role,category, mode, page, pageSize) => {
     } catch (err) {
         console.log(err);
       alert("ยังหาข้อมูลไม่พบโปรดรีเฟรชหน้าอีกครั้งครับ");
-    //   window.location.reload();
+      window.location.reload();
     }
   };
 
@@ -36,6 +36,62 @@ export const fetched_api = async ( role,category, mode, page, pageSize) => {
     }
   }
 
+  export const fetchCountParam = async(route,count) =>{
+        return await fetch(
+          `${import.meta.env.VITE_BASE_URL}/announcements/${route}?count=${count}`)
+  }
+
+
+  export const fetchCateForMod = async() =>{
+    return fetch(`${import.meta.env.VITE_BASE_URL}categories`);
+  }
+
+  export const fetchCreate = async(sendPackage) =>{
+    return await fetch(
+      `${import.meta.env.VITE_BASE_URL}announcements`,
+      {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json"
+          },
+          body: JSON.stringify(sendPackage),
+      }
+  );
+
+  }
+
+  export const fetchUpdate = async (sendPackage, route) =>{
+    return await etch(
+      `${import.meta.env.VITE_BASE_URL}announcements/${route.params.id}`,
+      {
+          method: "PUT",
+          headers: {
+              "Content-Type": "application/json"
+          },
+          body: JSON.stringify(sendPackage),
+      }
+  );
+  }
+
+
+  export const fecthShowEdit = async(route) =>{
+    return await fetch(
+      `${import.meta.env.VITE_BASE_URL}announcements/${route}`
+  );
+  }
+
+
+  export const fetchDelete = async (id) =>{
+    return await fetch(
+      `${import.meta.env.VITE_BASE_URL}announcements/${id}`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      }
+    );
+  }
   // export default fetched_api;
 
 
