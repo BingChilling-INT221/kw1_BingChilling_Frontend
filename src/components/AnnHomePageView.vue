@@ -2,10 +2,9 @@
 import {computed, inject, onMounted, ref, watch} from "vue";
 import AnnBox from "@/components/AnnBox.vue";
 import {useAnnouncerStore} from "@/stores/announcer";
-
+import fetched_api from "../api.js"; 
 const store = useAnnouncerStore();
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
 const role = inject("role");
 const checkAdmin = () => {
   return role === "admin";
@@ -72,36 +71,18 @@ const fetches = async () => {
 };
 
 const fetched = async () => {
-  try {
-    const selectCategory = (() => {
-      return store.category !== "" ? `&category=${store.category}` : "";
-    });
-    const modeFetch = (() => {
-      if(role === "admin")
-      {
-        return ""
+  const response=await fetched_api(role,store.category, store.mode,store.page,store.pageSize);
+  if (response.status === 200) {
+        fetchDate.value = true;
+        data.value = await response.json();
+        announces.value = data.value.content
+        if (announces.value.length === 0) {
+          notFound.value = true;
+        }
+      } else {
+        const errorResponse = await response.json();
+        alert(errorResponse.message)
       }
-      return store.mode !== "" ? `&mode=${store.mode}` : "";
-    });
-    const response = await fetch(
-        `${import.meta.env.VITE_BASE_URL}announcements/pages?${modeFetch()}&page=${store.page}&size=${store.pageSize}${selectCategory()}`
-    );
-    console.log(`${import.meta.env.VITE_BASE_URL}announcements/pages?${modeFetch()}&page=${store.page}&size=${store.pageSize}${selectCategory()}`)
-    if (response.status === 200) {
-      fetchDate.value = true;
-      data.value = await response.json();
-      announces.value = data.value.content
-      if (announces.value.length === 0) {
-        notFound.value = true;
-      }
-    } else {
-      const errorResponse = await response.json();
-      alert(errorResponse.message)
-    }
-  } catch (err) {
-    alert("ยังหาข้อมูลไม่พบโปรดรีเฟรชหน้าอีกครั้งครับ");
-    window.location.reload();
-  }
 };
 
 
