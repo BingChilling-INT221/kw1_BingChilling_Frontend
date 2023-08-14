@@ -2,6 +2,7 @@
 import {inject, onMounted, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {useAnnouncerStore} from "@/stores/announcer";
+import {fetchCountParam} from "../api.js"; 
 
 const queryAnnounce = ref({});
 const route = useRoute();
@@ -18,18 +19,16 @@ onMounted(async () => {
     store.setCount(true)
   }
     try {
-        const response = await fetch(
-            `${import.meta.env.VITE_BASE_URL}/announcements/${route.params.id}?count=${store.count}`
-        );
+        const response = await fetchCountParam(route.params.id,store.count)
+        
         if (response.status === 200) {
-            console.log(`${import.meta.env.VITE_BASE_URL}/announcements/${route.params.id}?count=${store.count}`)
             queryAnnounce.value = await response.json();
             console.log(queryAnnounce.value);
             loading.value = false
 
         } else if (response.status === 404 || response.status === 400) {
             console.log("404")
-            alert("The request page is not available")
+            alert("The request page is not availables")
             await router.push(`/admin/announcement/`)
         } else {
             console.log("Something went wrong")
