@@ -1,4 +1,4 @@
-const fetched_api = async ( role,category, mode, page, pageSize) => {
+export const fetched_api = async ( role,category, mode, page, pageSize) => {
     console.log("fetched_api")
     try {
       const selectCategory = (() => {
@@ -21,4 +21,22 @@ const fetched_api = async ( role,category, mode, page, pageSize) => {
     }
   };
 
-  export default fetched_api;
+
+  export const fetchCate = async() =>{
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}categories`);
+      if (response.status === 200) {
+        return await response.json();
+      } else {
+        const errorResponse = await response.json();
+        throw new Error(errorResponse.message);
+      }
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  // export default fetched_api;
+
+
+

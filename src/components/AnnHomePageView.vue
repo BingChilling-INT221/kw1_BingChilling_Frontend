@@ -2,7 +2,7 @@
 import {computed, inject, onMounted, ref, watch} from "vue";
 import AnnBox from "@/components/AnnBox.vue";
 import {useAnnouncerStore} from "@/stores/announcer";
-import fetched_api from "../api.js"; 
+import {fetched_api, fetchCate} from "../api.js"; 
 const store = useAnnouncerStore();
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 const role = inject("role");
@@ -38,17 +38,11 @@ const wantPage = computed(() => {
 
 onMounted(async () => {
   try {
-    const response = await fetch(`${import.meta.env.VITE_BASE_URL}categories`);
-    if (response.status === 200) {
-      fetchCat.value = true;
-      category.value = await response.json();
-    } else {
-      const errorResponse = await response.json();
-      alert(errorResponse.message)
-    }
+    const categoryResponse = await fetchCate();
+    fetchCat.value = true;
+    category.value = categoryResponse;
   } catch (err) {
-    const errorResponse = await response.json();
-    alert(errorResponse.message)
+    alert(err.message);
   }
   await fetched();
 });
@@ -59,6 +53,8 @@ watch(
       await fetched();
     }
 );
+
+
 const fetches = async () => {
   if (!isOpen.value) {
     store.setMode("active");
