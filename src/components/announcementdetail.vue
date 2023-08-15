@@ -2,7 +2,7 @@
 import {inject, onMounted, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {useAnnouncerStore} from "@/stores/announcer";
-import {fetchCountParam} from "../api.js";
+import {fetchCountParam} from "../services/api.js";
 
 const queryAnnounce = ref({});
 const route = useRoute();

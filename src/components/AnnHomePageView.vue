@@ -1,16 +1,24 @@
 <script setup>
-import {computed, inject, onMounted, ref, watch} from "vue";
+import { computed, inject, onMounted, ref, watch } from "vue";
 import AnnBox from "@/components/AnnBox.vue";
-import {useAnnouncerStore} from "@/stores/announcer";
-import {fetchCate, fetched_api} from "../api.js";
+import { useAnnouncerStore } from "@/stores/announcer";
+import { fetchCate, fetched_api } from "../services/api.js";
 import Navbar from "./Navbar.vue";
 import AnnBox2 from "./AnnBox2.vue";
 import dateTimeBox from "./DateTimeBox.vue";
 import timeZoneBox from "./TimeZoneBox.vue";
 import Pagination from "./Pagination.vue";
-
+import CategoryBox from "./CategoryBox.vue";
 const store = useAnnouncerStore();
+
+// เวลาและ Time zone
+const datetime = new Intl.DateTimeFormat("en-GB", {
+  dateStyle: "medium",
+  timeStyle: "short",
+}).format();
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+// เวลาและ Time zone
+
 const role = inject("role");
 const checkAdmin = () => {
   return role === "admin";
@@ -114,36 +122,46 @@ const clickPage = (page) => {
 <template>
   <div class="w-full">
     <Navbar></Navbar>
-    <dateTimeBox></dateTimeBox>
-    <timeZoneBox></timeZoneBox>
-    <div>Closed Announcement</div>
-    <AnnBox2></AnnBox2>
-    <Pagination></Pagination>
+    <div class="w-11/12 mx-auto">
+      <div class="flex items-center justify-center my-2">
+        <dateTimeBox :time="datetime"></dateTimeBox>
+        <timeZoneBox :timezone="timezone"></timeZoneBox>
+      </div>
+
+      <div class="flex justify-between">
+        <CategoryBox />
+        <button class="px-2 py-1 rounded-md ann-button" @click="fetches()">
+          {{ isOpen ? "Closed announcements" : "Active announcements" }}
+        </button>
+      </div>
+      <AnnBox2></AnnBox2>
+      <Pagination></Pagination>
+    </div>
   </div>
   <div class="h-auto min-w-full min-h-screen pt-5 md:px-12 xl:px-12 md:pt-12">
-    <p class="hidden m-auto text-4xl font-bold md:block">
+    <!-- <p class="hidden m-auto text-4xl font-bold md:block">
       <img
         alt=""
         class="inline-block w-20 h-[13.9] mr-4"
         src="../assets/annou.png"
       />SIT Announcement System
-    </p>
-    <div class="flex w-1/3 m-auto text-2xl font-semibold text-center md:hidden">
+    </p> -->
+    <!-- <div class="flex w-1/3 m-auto text-2xl font-semibold text-center md:hidden">
       <img alt="" class="w-20 h-12 mr-4" src="../assets/annou.png" /><span
         class="m-auto"
         >SAS</span
       >
-    </div>
+    </div> -->
     <div v-if="!loading" class="absolute mt-2 mr-2">
-      <svg
+      <!-- <svg
         class="w-20 h-20 bg-transparent border-2 border-transparent border-opacity-50 rounded-full animate-spin"
         style="border-right-color: white; border-top-color: white"
         viewBox="0 0 24 24"
-      ></svg>
+      ></svg> -->
     </div>
     <div v-else class="flex flex-col pt-16 md:flex-row">
       <div class="flex flex-col md:basis-11/12">
-        <div class="flex flex-col xl:hidden basis-full">
+        <!-- <div class="flex flex-col xl:hidden basis-full">
           <div class="flex">
             <img alt="" class="w-6 h-6 my-auto" src="../assets/1845948.png" />
             <p class="h-8 py-1 my-auto text-xl font-normal">
@@ -173,8 +191,8 @@ const clickPage = (page) => {
               </div>
             </div>
           </div>
-        </div>
-        <div class="flex justify-between pt-10 lg:pt-0">
+        </div> -->
+        <!-- <div class="flex justify-between pt-10 lg:pt-0">
           <p class="pl-5 text-2xl font-semibold md:max-h-16 md:min-h-16">
             Announcement
           </p>
@@ -194,7 +212,7 @@ const clickPage = (page) => {
           >
             Add Announcement
           </button>
-        </div>
+        </div> -->
 
         <div class="min-w-full">
           <div class="flex flex-col justify-center text-center">
