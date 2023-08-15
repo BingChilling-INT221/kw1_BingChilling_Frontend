@@ -7,12 +7,12 @@ export const useAnnouncerStore = defineStore('announcer ', () => {
     const page = ref(0)
     const pageSize = ref(5)
     const count = ref(false)
-    const darkMode = ref(true)
-    const baseColour = ref(darkMode.value ? 'blackCustom' : 'whiteCustom');
-    const textColour = ref(!darkMode.value ? 'blackCustom' : 'whiteCustom');
-    function setDarkMode() {
-        darkMode.value = !darkMode.value
-    }
+    // const darkMode = ref(true)
+    // const baseColour = ref(darkMode.value ? 'blackCustom' : 'whiteCustom');
+    // const textColour = ref(!darkMode.value ? 'blackCustom' : 'whiteCustom');
+    // function setDarkMode() {
+    //     darkMode.value = !darkMode.value
+    // }
     function setMode(setMode) {
         mode.value = setMode
     }
@@ -43,12 +43,12 @@ export const useAnnouncerStore = defineStore('announcer ', () => {
         setMode,
         setCategory,
         setPage,
-        darkMode,
-        baseColour,
-        textColour,
+        // darkMode,
+        // baseColour,
+        // textColour,
         setPageSize,
         setCount,
-        setDarkMode
+        // setDarkMode
     }
 
 })

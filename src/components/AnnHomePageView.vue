@@ -1,16 +1,19 @@
 <script setup>
-import {computed, inject, onMounted, ref, watch} from "vue";
+import { computed, inject, onMounted, ref, watch } from "vue";
 import AnnBox from "@/components/AnnBox.vue";
-import {useAnnouncerStore} from "@/stores/announcer";
-import {fetched_api, fetchCate} from "../api.js";
-import Navbar from "./Navbar.vue"; 
+import { useAnnouncerStore } from "@/stores/announcer";
+import { fetched_api, fetchCate } from "../api.js";
+import Navbar from "./Navbar.vue";
+import AnnBox2 from "./AnnBox2.vue";
+import dateTimeBox from "./dateTimeBox.vue";
+import timeZoneBox from "./timeZoneBox.vue";
+import Pagination from "./Pagination.vue";
 const store = useAnnouncerStore();
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 const role = inject("role");
 const checkAdmin = () => {
   return role === "admin";
 };
-
 
 const announces = ref([]);
 const data = ref({});
@@ -28,7 +31,10 @@ const wantPage = computed(() => {
   const newArray = [];
   const page = store.page + 1;
   const startLength = page - 9 > 1 ? page - 9 : 1;
-  const endLength = startLength + 9 > data.value.totalPages ? data.value.totalPages : startLength + 9;
+  const endLength =
+    startLength + 9 > data.value.totalPages
+      ? data.value.totalPages
+      : startLength + 9;
 
   for (let i = startLength; i <= endLength; i++) {
     newArray.push(i);
@@ -49,63 +55,70 @@ onMounted(async () => {
 });
 
 watch(
-    () => store.category,
-    async () => {
-      await fetched();
-    }
+  () => store.category,
+  async () => {
+    await fetched();
+  }
 );
-
 
 const fetches = async () => {
   if (!isOpen.value) {
     store.setMode("active");
-    store.setPage(0)
+    store.setPage(0);
   } else {
     store.setMode("close");
-    store.setPage(0)
+    store.setPage(0);
   }
-  await fetched()
+  await fetched();
 };
 
 const fetched = async () => {
-  const response=await fetched_api(role,store.category, store.mode,store.page,store.pageSize);
+  const response = await fetched_api(
+    role,
+    store.category,
+    store.mode,
+    store.page,
+    store.pageSize
+  );
   if (response.status === 200) {
-        fetchDate.value = true;
-        data.value = await response.json();
-        announces.value = data.value.content
-        if (announces.value.length === 0) {
-          notFound.value = true;
-        }
-      } else {
-        const errorResponse = await response.json();
-        alert(errorResponse.message)
-      }
+    fetchDate.value = true;
+    data.value = await response.json();
+    announces.value = data.value.content;
+    if (announces.value.length === 0) {
+      notFound.value = true;
+    }
+  } else {
+    const errorResponse = await response.json();
+    alert(errorResponse.message);
+  }
 };
-
 
 const goToPreviousPage = () => {
   if (store.page > 0) {
     store.setPage(store.page - 1);
-    fetched()
+    fetched();
   }
-}
+};
 
 const goToNextPage = () => {
   store.setPage(store.page + 1);
-  fetched()
-}
+  fetched();
+};
 const clickPage = (page) => {
   store.setPage(page);
-  fetched()
-}
-
+  fetched();
+};
 </script>
 
 <template>
-  <div>
+  <div class="w-full">
     <Navbar></Navbar>
+    <dateTimeBox></dateTimeBox>
+    <timeZoneBox></timeZoneBox>
+    <div>Closed Announcement</div>
+    <AnnBox2></AnnBox2>
+    <Pagination></Pagination>
   </div>
- 
 </template>
 
 <style scoped></style>
