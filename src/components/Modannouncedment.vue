@@ -1,7 +1,7 @@
 <script setup>
-import { computed, inject, onMounted, ref, watch } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { fetchCateForMod, fetchUpdate, fetchCreate } from '../api.js';
+import {computed, inject, onMounted, ref, watch} from "vue";
+import {useRoute, useRouter} from "vue-router";
+import {fetchCateForMod, fetchCreate, fetchUpdate} from '../api.js';
 
 const route = useRoute();
 const limit = 10000;

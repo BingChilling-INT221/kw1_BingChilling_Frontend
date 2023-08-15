@@ -1,7 +1,7 @@
 <script setup>
-import { computed } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { fetchDelete } from "../api.js";
+import {computed} from "vue";
+import {useRoute, useRouter} from "vue-router";
+import {fetchDelete} from "../api.js";
 
 const route = useRoute();
 const router = useRouter();

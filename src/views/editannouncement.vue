@@ -2,7 +2,7 @@
 import {computed, onMounted, provide, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import Cuannouncedment from "../components/Modannouncedment.vue";
-import { fecthShowEdit } from "../api.js";
+import {fecthShowEdit} from "../api.js";
 
 const router = useRouter();
 const route = useRoute();

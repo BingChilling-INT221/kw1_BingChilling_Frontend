@@ -1,7 +1,6 @@
 <script setup>
-import { RouterView } from "vue-router";
-import { computed } from "vue";
-import { useAnnouncerStore } from "@/stores/announcer.js";
+import {RouterView} from "vue-router";
+import {useAnnouncerStore} from "@/stores/announcer.js";
 
 const announcer = useAnnouncerStore();
 
