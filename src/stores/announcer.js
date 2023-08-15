@@ -8,7 +8,11 @@ export const useAnnouncerStore = defineStore('announcer ', () => {
     const pageSize = ref(5)
     const count = ref(false)
     const darkMode = ref(true)
-
+    const baseColour = ref(darkMode.value ? 'blackCustom' : 'whiteCustom');
+    const textColour = ref(!darkMode.value ? 'blackCustom' : 'whiteCustom');
+    function setDarkMode() {
+        darkMode.value = !darkMode.value
+    }
     function setMode(setMode) {
         mode.value = setMode
     }
@@ -40,8 +44,11 @@ export const useAnnouncerStore = defineStore('announcer ', () => {
         setCategory,
         setPage,
         darkMode,
+        baseColour,
+        textColour,
         setPageSize,
-        setCount
+        setCount,
+        setDarkMode
     }
 
 })
