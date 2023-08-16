@@ -1,8 +1,8 @@
 <script setup>
-import {computed, inject, onMounted, ref, watch} from "vue";
+import { computed, inject, onMounted, ref, watch } from "vue";
 import AnnBox from "@/components/AnnBox.vue";
-import {useAnnouncerStore} from "@/stores/announcer";
-import {fetched_api} from "../services/api.js";
+import { useAnnouncerStore } from "@/stores/announcer";
+import { fetched_api } from "../services/api.js";
 import Navbar from "./Navbar.vue";
 import AnnBox2 from "./AnnBox2.vue";
 // import AnnBox2 from './AnnBox2.vue';
@@ -51,11 +51,11 @@ onMounted(async () => {
 });
 
 watch(
-    () => store.category,
-    async () => {
-      store.page = 0;
-      await fetched();
-    }
+  () => store.category,
+  async () => {
+    store.page = 0;
+    await fetched();
+  }
 );
 
 const fetches = async () => {
@@ -71,11 +71,11 @@ const fetches = async () => {
 
 const fetched = async () => {
   const response = await fetched_api(
-      role,
-      store.category,
-      store.mode,
-      store.page,
-      store.pageSize
+    role,
+    store.category,
+    store.mode,
+    store.page,
+    store.pageSize
   );
   if (response.status === 200) {
     fetchDate.value = true;
@@ -102,61 +102,73 @@ const changePage = (page) => {
 <template>
   <div class="h-auto min-w-full min-h-screen">
     <Navbar></Navbar>
-    <div class="mx-6 ">
+    <div class="mx-6">
       <div class="flex items-center justify-center my-2 md:justify-end">
-        <dateTimeBox :time="datetime " class="text-sm"></dateTimeBox>
+        <dateTimeBox :time="datetime" class="text-sm"></dateTimeBox>
         <timeZoneBox :timezone="timezone" class="text-sm"></timeZoneBox>
       </div>
       <div class="flex flex-col gap-y-2">
         <div class="flex justify-around">
-          <CategoryBox/>
-          <button class="py-1 rounded-md ann-button" @click="fetches()">
-            {{ isOpen ? "Closed announcements" : "Active announcements" }}
+          <CategoryBox />
+          <button
+            class="px-2 py-2 rounded-md ann-button"
+            :class="isOpen ? 'bg-green-400' : 'bg-red-400'"
+            @click="fetches()"
+            v-if="!checkAdmin()"
+          >
+            {{ isOpen ? "Closed " : "Active " }}
+            <span class="hidden md:inline-block">announcement</span>
           </button>
-          <!-- <div v-else  class=" ann-button" @click="$router.push({ name: 'addannouncement' })">
-            <button class="px-6 py-3  rounded-md bg-gray-50 dark:bg-gray-700" >Add  announcements</button></div> -->
+          <div
+            v-else
+            class="ann-button"
+            @click="$router.push({ name: 'addannouncement' })"
+          >
+            <button class="px-2 py-2 rounded-md bg-gray-50 dark:bg-gray-700">
+              Add announcements
+            </button>
+          </div>
         </div>
         <div class="min-w-full">
           <div class="flex flex-col justify-center text-center">
             <p
-                v-if="announces.length <= 0"
-                class="flex justify-center text-5xl text-center"
+              v-if="announces.length <= 0"
+              class="flex justify-center text-5xl text-center"
             >
               No Announcement
             </p>
             <div v-for="(announce, index) in announces" v-else class="h-auto">
-<!--              <AnnBox-->
-<!--                  :ann-data="announce"-->
-<!--                  :index="index + store.pageSize * store.page"-->
-<!--              ></AnnBox>-->
+              <!--              <AnnBox-->
+              <!--                  :ann-data="announce"-->
+              <!--                  :index="index + store.pageSize * store.page"-->
+              <!--              ></AnnBox>-->
             </div>
           </div>
         </div>
         <div class="min-w-full">
           <div class="flex flex-col justify-center text-center gap-y-3">
             <p
-                v-if="announces.length <= 0"
-                class="flex justify-center text-5xl text-center text-gray-400"
+              v-if="announces.length <= 0"
+              class="flex justify-center text-5xl text-center text-gray-400"
             >
               No Announcement
             </p>
             <div v-for="(announce, index) in announces" v-else class="h-auto">
               <AnnBox2
-                  :ann-data="announce"
-                  :index="index + store.pageSize * store.page"
+                :ann-data="announce"
+                :index="index + store.pageSize * store.page"
               ></AnnBox2>
             </div>
           </div>
         </div>
       </div>
 
-
       <Pagination
-          :current="store.page"
-          :first="data.first"
-          :last="data.last"
-          :totalPages="data.totalPages"
-          @changePage="changePage"
+        :current="store.page"
+        :first="data.first"
+        :last="data.last"
+        :totalPages="data.totalPages"
+        @changePage="changePage"
       ></Pagination>
     </div>
   </div>
@@ -239,16 +251,16 @@ const changePage = (page) => {
         <div class="min-w-full">
           <div class="flex flex-col justify-center text-center">
             <p
-                v-if="announces.length <= 0"
-                class="flex justify-center text-5xl text-center text-gray-400"
+              v-if="announces.length <= 0"
+              class="flex justify-center text-5xl text-center text-gray-400"
             >
               No Announcement
             </p>
             <div v-for="(announce, index) in announces" v-else class="h-auto">
-<!--              <AnnBox-->
-<!--                  :ann-data="announce"-->
-<!--                  :index="index + store.pageSize * store.page"-->
-<!--              ></AnnBox>-->
+              <!--              <AnnBox-->
+              <!--                  :ann-data="announce"-->
+              <!--                  :index="index + store.pageSize * store.page"-->
+              <!--              ></AnnBox>-->
             </div>
           </div>
         </div>
