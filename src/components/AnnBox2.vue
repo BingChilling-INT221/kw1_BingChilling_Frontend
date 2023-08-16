@@ -94,15 +94,15 @@ const seeDetail = (env) => {
       class="w-72 max-h-full border-[1px] rounded-xl border-blackCustom dark:border-whiteCustom m-auto " @click="seeDetail"
     >
     <div class="ml-2 pt-[0.5rem]">
-      <div class="flex">
-      <div class="flex flex-row gap-x-2 w-48 text-xs my-auto" >
+      <div class="flex flex-row">
+      <div class="flex gap-x-2 w-48 text-xs" >
         No. {{ padStart(index + 1, 2) }}
-        <div class="flex flex-row gap-x-2" v-show="checkAdmin">
+        <div class="flex gap-x-[0.15rem]" v-show="checkAdmin">
           <Eye/>{{ annData.viewCount }} 
         </div>
           
       </div>
-      <div class="rounded-lg border border-white w-20 h-full my-auto text-[0.7rem] ">
+      <div class="rounded-lg border border-white w-20 h-full text-[0.7rem] ">
         <p class="">{{ annData.announcementCategory }}</p>
       </div>
     </div>  
