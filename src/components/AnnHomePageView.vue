@@ -1,34 +1,34 @@
 <script setup>
-import { computed, inject, onMounted, ref, watch } from "vue";
-import AnnBox from "@/components/AnnBox.vue";
-import { useAnnouncerStore } from "@/stores/announcer";
-import { fetchCate, fetched_api } from "../services/api.js";
-import Navbar from "./Navbar.vue";
-import AnnBox2 from "./AnnBox2.vue";
-import dateTimeBox from "./DateTimeBox.vue";
-import timeZoneBox from "./TimeZoneBox.vue";
-import Pagination from "./Pagination.vue";
-import CategoryBox from "./CategoryBox.vue";
+import { computed, inject, onMounted, ref, watch } from 'vue';
+import AnnBox from '@/components/AnnBox.vue';
+import { useAnnouncerStore } from '@/stores/announcer';
+import { fetchCate, fetched_api } from '../services/api.js';
+import Navbar from './Navbar.vue';
+// import AnnBox2 from './AnnBox2.vue';
+import dateTimeBox from './DateTimeBox.vue';
+import timeZoneBox from './TimeZoneBox.vue';
+import Pagination from './Pagination.vue';
+import CategoryBox from './CategoryBox.vue';
 const store = useAnnouncerStore();
 
 // เวลาและ Time zone
-const datetime = new Intl.DateTimeFormat("en-GB", {
-  dateStyle: "medium",
-  timeStyle: "short",
+const datetime = new Intl.DateTimeFormat('en-GB', {
+  dateStyle: 'medium',
+  timeStyle: 'short'
 }).format();
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 // เวลาและ Time zone
 
-const role = inject("role");
+const role = inject('role');
 const checkAdmin = () => {
-  return role === "admin";
+  return role === 'admin';
 };
 
 const announces = ref([]);
 const data = ref({});
 const category = ref([]);
 const isOpen = computed(() => {
-  return store.mode === "active";
+  return store.mode === 'active';
 });
 const fetchCat = ref(false);
 const fetchDate = ref(false);
@@ -36,46 +36,32 @@ const loading = computed(() => {
   return fetchCat.value && fetchDate.value;
 });
 const notFound = ref(false);
-const wantPage = computed(() => {
-  const newArray = [];
-  const page = store.page + 1;
-  const startLength = page - 9 > 1 ? page - 9 : 1;
-  const endLength =
-    startLength + 9 > data.value.totalPages
-      ? data.value.totalPages
-      : startLength + 9;
-
-  for (let i = startLength; i <= endLength; i++) {
-    newArray.push(i);
-  }
-
-  return newArray;
-});
 
 onMounted(async () => {
-  try {
-    const categoryResponse = await fetchCate();
-    fetchCat.value = true;
-    category.value = categoryResponse;
-  } catch (err) {
-    alert(err.message);
-  }
-  await fetched();
+  // try {
+  //   const categoryResponse = await fetchCate();
+  //   fetchCat.value = true;
+  //   category.value = categoryResponse;
+  // } catch (err) {
+  //   alert(err.message);
+  // }
+  // await fetched();
 });
 
 watch(
   () => store.category,
   async () => {
+    store.page = 0;
     await fetched();
   }
 );
 
 const fetches = async () => {
   if (!isOpen.value) {
-    store.setMode("active");
+    store.setMode('active');
     store.setPage(0);
   } else {
-    store.setMode("close");
+    store.setMode('close');
     store.setPage(0);
   }
   await fetched();
@@ -102,27 +88,19 @@ const fetched = async () => {
   }
 };
 
-const goToPreviousPage = () => {
-  if (store.page > 0) {
-    store.setPage(store.page - 1);
-    fetched();
-  }
-};
-
-const goToNextPage = () => {
-  store.setPage(store.page + 1);
-  fetched();
-};
-const clickPage = (page) => {
+// pagination
+const changePage = (page) => {
+  console.log(page);
   store.setPage(page);
   fetched();
 };
+// pagination
 </script>
 
 <template>
   <div class="w-full">
     <Navbar></Navbar>
-    <div class="w-11/12 mx-auto">
+    <div class="mx-6 bg-gray-700">
       <div class="flex items-center justify-center my-2">
         <dateTimeBox :time="datetime"></dateTimeBox>
         <timeZoneBox :timezone="timezone"></timeZoneBox>
@@ -130,12 +108,18 @@ const clickPage = (page) => {
 
       <div class="flex justify-between">
         <CategoryBox />
-        <button class="px-2 py-1 rounded-md ann-button" @click="fetches()">
-          {{ isOpen ? "Closed announcements" : "Active announcements" }}
+        <button class="py-1 rounded-md ann-button" @click="fetches()">
+          {{ isOpen ? 'Closed announcements' : 'Active announcements' }}
         </button>
       </div>
-      <AnnBox2></AnnBox2>
-      <Pagination></Pagination>
+      <!-- <AnnBox2></AnnBox2> -->
+      <Pagination
+        @changePage="changePage"
+        :totalPages="data.totalPages"
+        :last="data.last"
+        :first="data.first"
+        :current="store.page"
+      ></Pagination>
     </div>
   </div>
   <div class="h-auto min-w-full min-h-screen pt-5 md:px-12 xl:px-12 md:pt-12">
@@ -159,7 +143,7 @@ const clickPage = (page) => {
         viewBox="0 0 24 24"
       ></svg> -->
     </div>
-    <div v-else class="flex flex-col pt-16 md:flex-row">
+    <div class="flex flex-col pt-16 md:flex-row">
       <div class="flex flex-col md:basis-11/12">
         <!-- <div class="flex flex-col xl:hidden basis-full">
           <div class="flex">
@@ -231,7 +215,7 @@ const clickPage = (page) => {
           </div>
         </div>
 
-        <div
+        <!-- <div
           v-if="announces.length > 0 && data.totalPages !== 1"
           class="flex justify-center py-5 text-2xl"
         >
@@ -251,7 +235,7 @@ const clickPage = (page) => {
                 :key="pageNumber"
                 :class="[
                   { 'text-red-500': store.page === pageNumber - 1 },
-                  `ann-page-${index}`,
+                  `ann-page-${index}`
                 ]"
                 @click="clickPage(pageNumber - 1)"
               >
@@ -268,16 +252,16 @@ const clickPage = (page) => {
               Next
             </button>
           </div>
-        </div>
+        </div> -->
       </div>
-      <div class="hidden pl-20 basis-1/12 xl:block">
+      <!-- <div class="hidden pl-20 basis-1/12 xl:block">
         <p class="py-1 text-xl font-normal">
           Date/Time shown in Timezone:
           <span class="font-normal">{{ timezone }}</span>
         </p>
         <div class="flex font-normal">
           <p class="py-2 text-xl">Category:</p>
-          <!-- ไม่มี ann fiter เพราะไม่ได้อยู่ในขนาดจอ 1000 -->
+
           <select v-model="store.category" class="pl-10 ml-2 text-black select">
             <option value="">ทั้งหมด</option>
             <option
@@ -292,7 +276,7 @@ const clickPage = (page) => {
         </div>
 
         <div></div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
