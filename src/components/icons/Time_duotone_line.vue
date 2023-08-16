@@ -3,12 +3,10 @@
 <template>
   <div>
     <svg
-      width="100%"
-      height="100%"
       viewBox="0 0 20 22"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      class="w-full stroke-blackCustom dark:stroke-whiteCustom"
+      class="w-full stroke-blackCustom dark:stroke-whiteCustom w-5 h-5 md:w-10 md:h-10"
     >
       <path
         d="M9.99967 18.3343C14.0186 18.3343 17.2663 15.0449 17.2663 11C17.2663 6.95509 14.0186 3.66569 9.99967 3.66569C5.98071 3.66569 2.73301 6.95509 2.73301 11C2.73301 15.0449 5.98071 18.3343 9.99967 18.3343Z"

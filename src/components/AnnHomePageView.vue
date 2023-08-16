@@ -1,34 +1,34 @@
 <script setup>
-import { computed, inject, onMounted, ref, watch } from 'vue';
-import AnnBox from '@/components/AnnBox.vue';
-import { useAnnouncerStore } from '@/stores/announcer';
-import { fetchCate, fetched_api } from '../services/api.js';
-import Navbar from './Navbar.vue';
+import { computed, inject, onMounted, ref, watch } from "vue";
+import AnnBox from "@/components/AnnBox.vue";
+import { useAnnouncerStore } from "@/stores/announcer";
+import { fetchCate, fetched_api } from "@/services/api";
+import Navbar from "./Navbar.vue";
 // import AnnBox2 from './AnnBox2.vue';
-import dateTimeBox from './DateTimeBox.vue';
-import timeZoneBox from './TimeZoneBox.vue';
-import Pagination from './Pagination.vue';
-import CategoryBox from './CategoryBox.vue';
+import dateTimeBox from "./DateTimeBox.vue";
+import timeZoneBox from "./TimeZoneBox.vue";
+import Pagination from "./Pagination.vue";
+import CategoryBox from "./CategoryBox.vue";
 const store = useAnnouncerStore();
 
 // เวลาและ Time zone
-const datetime = new Intl.DateTimeFormat('en-GB', {
-  dateStyle: 'medium',
-  timeStyle: 'short'
+const datetime = new Intl.DateTimeFormat("en-GB", {
+  dateStyle: "medium",
+  timeStyle: "short",
 }).format();
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 // เวลาและ Time zone
 
-const role = inject('role');
+const role = inject("role");
 const checkAdmin = () => {
-  return role === 'admin';
+  return role === "admin";
 };
 
 const announces = ref([]);
 const data = ref({});
 const category = ref([]);
 const isOpen = computed(() => {
-  return store.mode === 'active';
+  return store.mode === "active";
 });
 const fetchCat = ref(false);
 const fetchDate = ref(false);
@@ -58,10 +58,10 @@ watch(
 
 const fetches = async () => {
   if (!isOpen.value) {
-    store.setMode('active');
+    store.setMode("active");
     store.setPage(0);
   } else {
-    store.setMode('close');
+    store.setMode("close");
     store.setPage(0);
   }
   await fetched();
@@ -98,19 +98,38 @@ const changePage = (page) => {
 </script>
 
 <template>
-  <div class="w-full">
+  <div class="h-auto min-w-full min-h-screen">
     <Navbar></Navbar>
-    <div class="mx-6 bg-gray-700">
-      <div class="flex items-center justify-center my-2">
-        <dateTimeBox :time="datetime"></dateTimeBox>
-        <timeZoneBox :timezone="timezone"></timeZoneBox>
+    <div class="mx-6 "  >
+      <div class="flex items-center justify-center my-2 md:justify-end">
+        <dateTimeBox :time="datetime " class="text-sm"></dateTimeBox>
+        <timeZoneBox :timezone="timezone" class="text-sm"></timeZoneBox>
       </div>
 
-      <div class="flex justify-between">
-        <CategoryBox />
-        <button class="py-1 rounded-md ann-button" @click="fetches()">
-          {{ isOpen ? 'Closed announcements' : 'Active announcements' }}
+      <div class="flex justify-between text-sm">
+        <CategoryBox  />
+        <button  v-if="!checkAdmin()" class="py-1 rounded-md ann-button" :class="!isOpen ? 'text-greenCustom':'text-redCustom'" @click="fetches()">
+          {{ isOpen ? "Closed " : "Active " }}
+          <span class="hidden md:inline-block">announcements</span>
         </button>
+        <div v-else  class=" ann-button" @click="$router.push({ name: 'addannouncement' })">
+          <button class="px-6 py-3  rounded-md bg-gray-50 dark:bg-gray-700" >Add  announcements</button></div>
+      </div>
+      <div class="min-w-full">
+        <div class="flex flex-col justify-center text-center">
+          <p
+            v-if="announces.length <= 0"
+            class="flex justify-center text-5xl text-center"
+          >
+            No Announcement
+          </p>
+          <div v-for="(announce, index) in announces" v-else class="h-auto">
+            <AnnBox
+              :ann-data="announce"
+              :index="index + store.pageSize * store.page"
+            ></AnnBox>
+          </div>
+        </div>
       </div>
       <!-- <AnnBox2></AnnBox2> -->
       <Pagination
@@ -197,23 +216,6 @@ const changePage = (page) => {
             Add Announcement
           </button>
         </div> -->
-
-        <div class="min-w-full">
-          <div class="flex flex-col justify-center text-center">
-            <p
-              v-if="announces.length <= 0"
-              class="flex justify-center text-5xl text-center text-gray-400"
-            >
-              No Announcement
-            </p>
-            <div v-for="(announce, index) in announces" v-else class="h-auto">
-              <AnnBox
-                :ann-data="announce"
-                :index="index + store.pageSize * store.page"
-              ></AnnBox>
-            </div>
-          </div>
-        </div>
 
         <!-- <div
           v-if="announces.length > 0 && data.totalPages !== 1"

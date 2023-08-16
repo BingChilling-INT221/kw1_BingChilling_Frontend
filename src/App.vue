@@ -1,6 +1,6 @@
 <script setup>
-import {RouterView} from "vue-router";
-import {useAnnouncerStore} from "@/stores/announcer.js";
+import { RouterView } from "vue-router";
+import { useAnnouncerStore } from "@/stores/announcer.js";
 
 const announcer = useAnnouncerStore();
 
@@ -25,7 +25,7 @@ if (
 </script>
 <template>
   <div
-    class="w-full min-h-screen bg-whiteCustom dark:bg-blackCustom text-blackCustom dark:text-whiteCustom"
+    class="w-full min-h-screen transition-colors duration-[350ms] bg-whiteCustom dark:bg-blackCustom text-blackCustom dark:text-whiteCustom"
   >
     <router-view />
   </div>

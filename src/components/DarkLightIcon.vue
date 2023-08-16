@@ -15,8 +15,14 @@ const toggleDarkMode = () => {
 
 <template>
   <button>
-    <moonlight class="dark:hidden" @click="toggleDarkMode" />
-    <sunlight class="hidden dark:block" @click="toggleDarkMode" />
+    <label class="swap swap-rotate">
+      <!-- this hidden checkbox controls the state -->
+      <input type="checkbox" />
+
+      <!-- sun icon -->
+      <moonlight class="swap-on" @click="toggleDarkMode" />
+      <sunlight class="swap-off" @click="toggleDarkMode" />
+    </label>
   </button>
 </template>
 
