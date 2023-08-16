@@ -3,7 +3,7 @@
 <template>
   <div>
     <svg
-      width="24"
+      width="12"
       height="24"
       viewBox="0 0 24 24"
       fill="none"

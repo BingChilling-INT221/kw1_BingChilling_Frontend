@@ -102,7 +102,7 @@ const seeDetail = (env) => {
               {{ annData.announcementTitle }}</p>
           </div>
         </div>
-        <div class=" bg-[#25B881] w-24 px-2 h-6 text-sm my-auto ml-2  font-normal rounded-lg py-1 ann-category ">
+        <div class=" bg-[#25B881] w-24 px-2 h-6 text-sm my-auto ml-2 font-normal rounded-lg py-1 ann-category ">
           {{ annData.announcementCategory }}
         </div>
       </div>
@@ -126,7 +126,6 @@ const seeDetail = (env) => {
         </div>
         <div class="w-24 my-auto" v-show="checkAdmin">views: {{ annData.viewCount }}</div>
         <div v-show="checkAdmin" class="flex flex-row m-auto lg:flex-col ">
-
           <button class="px-2 py-1 ml-2 text-sm font-medium rounded-lg hover:bg-green-500 ann-button"
             @click="$router.push({ name: `${role}announcementdetail`, params: { id: annData.id } })">
             view

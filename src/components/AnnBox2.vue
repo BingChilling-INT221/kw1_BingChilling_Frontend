@@ -1,11 +1,145 @@
-<script setup></script>
+<script setup>
+import {computed} from "vue";
+import {useRoute, useRouter} from "vue-router";
+import {fetchDelete} from "../services/api.js";
+import Eye from "./icons/Eye.vue"
+
+const route = useRoute();
+const router = useRouter();
+const props = defineProps({
+  annData: {
+    type: Object,
+    required: true,
+  },
+  index: {
+    type: Number,
+    required: true
+  }
+})
+const changeTime = (time) => {
+  if (time === null) {
+    return "-"
+  }
+  const newDate = new Date(time);
+  const options = {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  };
+  return `${newDate.toLocaleDateString("en-GB", options).replace(/,/gi, '') +
+    ", " +
+    newDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false })
+
+    }`;
+};
+const printError = (err) => {
+  let message = "";
+  for (const i in err.detail) {
+    message += `${JSON.stringify(err.detail[i])}\n`;
+  }
+  alert(message);
+}
+const deleteAnnouncement = async (id) => {
+  if (
+    confirm("Are you sure you want to delete this announcement?") === false
+  ) {
+    return;
+  }
+  try {
+    const response = await fetchDelete(id)
+    if (response.status === 200) {
+      alert("Announcement deleted")
+      window.location.reload()
+    } else if (response.status === 404 || response.status === 400) {
+      const errorResponse = await response.json();
+      alert(errorResponse.message)
+      window.location.reload()
+    } else {
+      const errorResponse = await response.json();
+      printError(errorResponse)
+    }
+  } catch (err) {
+    console.log(err)
+  }
+}
+
+
+const padStart = (number, length) => {
+  let str = '' + number;
+  while (str.length < length) {
+    str = '0' + str;
+  }
+  return str;
+}
+const checkAdmin = computed(() => {
+  return route.path.includes('admin')
+})
+const role = computed(() => {
+  return checkAdmin.value ? 'admin' : 'user'
+})
+
+
+const seeDetail = (env) => {
+  if (checkAdmin.value) {
+    env.preventDefault()
+  } else {
+    router.push({ name: `${role.value}announcementdetail`, params: { id: `${props.annData.id}` } })
+  }
+}
+</script>
 
 <template>
   <div>
     <div
-      class="w-72 h-[6.5rem] border-[1px] rounded-xl border-blackCustom dark:border-whiteCustom m-auto"
+      class="w-72 max-h-full border-[1px] rounded-xl border-blackCustom dark:border-whiteCustom m-auto " @click="seeDetail"
     >
-      s
+    <div class="ml-2">
+      <div class="flex">
+      <div class="flex flex-row gap-x-2 w-48" >
+        No. {{ padStart(index + 1, 2) }}
+          <Eye/>{{ annData.viewCount }} 
+      </div>
+      <div class="rounded-lg border border-white w-20 h-[0.8rem] my-auto text-[0.5rem] ">
+        <p class="">{{ annData.announcementCategory }}</p>
+      </div>
+    </div>  
+    <div class="flex gap-x-[4.2rem]">
+      <div class="flex text-left w-44">
+        <p>{{ annData.announcementTitle }}</p>
+      </div>
+      <div>
+        <div :class="annData.announcementDisplay === 'Y' ? 'bg-green-500' : 'bg-red-500'"
+        class="rounded-xl w-6 ">
+        <p class="text-black">{{ annData.announcementDisplay }}</p>
+      </div>
+      </div>
+    </div>
+    <div class="flex flex-row justify-between">
+      <div class="flex flex-col">
+        <div class="text-left">
+          <p class="text-[#545454] text-xs ann-publish-date">
+            Publishdate: {{
+              changeTime(annData.publishDate) !== null ? changeTime(annData.publishDate) : '-'
+            }}
+          </p>
+          <p class=" text-[#545454] text-xs  ann-close-date">
+            Close Date: {{ changeTime(annData.closeDate) !== null ? changeTime(annData.closeDate) : '-' }}
+          </p>
+        </div>
+      </div>
+      <div>
+          <button class="px-2 py-1 ml-2 text-sm font-medium rounded-lg hover:bg-green-500 ann-button"
+            @click="$router.push({ name: `${role}announcementdetail`, params: { id: annData.id } })">
+            view
+          </button>
+          <button class="px-2 py-1 ml-2 text-sm font-medium rounded-lg hover:bg-red-500 ann-button"
+            @click="deleteAnnouncement(annData.id)">delete
+          </button>
+        </div>
+    </div>
+    </div>
+    
+      
     </div>
   </div>
 </template>
