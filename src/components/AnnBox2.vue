@@ -93,17 +93,20 @@ const seeDetail = (env) => {
     <div
       class="w-72 max-h-full border-[1px] rounded-xl border-blackCustom dark:border-whiteCustom m-auto " @click="seeDetail"
     >
-    <div class="ml-2">
+    <div class="ml-2 pt-[0.5rem]">
       <div class="flex">
-      <div class="flex flex-row gap-x-2 w-48" >
+      <div class="flex flex-row gap-x-2 w-48 text-xs my-auto" >
         No. {{ padStart(index + 1, 2) }}
+        <div class="flex flex-row gap-x-2" v-show="checkAdmin">
           <Eye/>{{ annData.viewCount }} 
+        </div>
+          
       </div>
-      <div class="rounded-lg border border-white w-20 h-[0.8rem] my-auto text-[0.5rem] ">
+      <div class="rounded-lg border border-white w-20 h-full my-auto text-[0.7rem] ">
         <p class="">{{ annData.announcementCategory }}</p>
       </div>
     </div>  
-    <div class="flex gap-x-[4.2rem]">
+    <div class="flex gap-x-[4.2rem] pt-[0.5rem]">
       <div class="flex text-left w-44">
         <p>{{ annData.announcementTitle }}</p>
       </div>
@@ -114,27 +117,31 @@ const seeDetail = (env) => {
       </div>
       </div>
     </div>
-    <div class="flex flex-row justify-between">
-      <div class="flex flex-col">
+    <div class="flex flex-col pt-[0.2rem]">
+      <div class="flex">
         <div class="text-left">
-          <p class="text-[#545454] text-xs ann-publish-date">
+          <p class="text-gray-400 text-xs ann-publish-date">
             Publishdate: {{
               changeTime(annData.publishDate) !== null ? changeTime(annData.publishDate) : '-'
             }}
           </p>
-          <p class=" text-[#545454] text-xs  ann-close-date">
-            Close Date: {{ changeTime(annData.closeDate) !== null ? changeTime(annData.closeDate) : '-' }}
-          </p>
+          
         </div>
       </div>
-      <div>
-          <button class="px-2 py-1 ml-2 text-sm font-medium rounded-lg hover:bg-green-500 ann-button"
+      <div class="flex flex-row justify-between">
+        <p class=" text-gray-400 text-xs  ann-close-date pb-1">
+            Close Date: {{ changeTime(annData.closeDate) !== null ? changeTime(annData.closeDate) : '-' }}
+          </p>
+          <div class="flex" v-show="checkAdmin">
+            <button class="ml-2 text-xs font-medium rounded-lg hover:bg-green-500 ann-button"
             @click="$router.push({ name: `${role}announcementdetail`, params: { id: annData.id } })">
             view
           </button>
-          <button class="px-2 py-1 ml-2 text-sm font-medium rounded-lg hover:bg-red-500 ann-button"
+          <button class="pr-2 ml-2 text-xs font-medium rounded-lg hover:bg-red-500 ann-button"
             @click="deleteAnnouncement(annData.id)">delete
           </button>
+          </div>
+          
         </div>
     </div>
     </div>

@@ -111,7 +111,7 @@ const changePage = (page) => {
         <div class="flex justify-around">
           <CategoryBox />
           <button
-            class="px-2 py-2 rounded-md ann-button"
+            class="px-4 py-[px] text-xs rounded-md ann-button"
             :class="isOpen ? 'bg-green-400' : 'bg-red-400'"
             @click="fetches()"
             v-if="!checkAdmin()"
