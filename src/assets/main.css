@@ -7,6 +7,21 @@
     /*noinspection CssUnknownTarget*/
     src: url(/PKMaehongsonMedium.ttf) format("truetype");
 }
+@font-face {
+    font-family: "poppins";
+    /*noinspection CssUnknownTarget*/
+    src: url(/Poppins-Regular.ttf) format("truetype");
+}
+@font-face {
+    font-family: "poppins_semibold";
+    /*noinspection CssUnknownTarget*/
+    src: url(/Poppins-SemiBold.ttf.ttf) format("truetype");
+}
+@font-face {
+    font-family: "poppins_bold";
+    /*noinspection CssUnknownTarget*/
+    src: url(/Poppins-Bold.ttf.ttf) format("truetype");
+}
 @layer base {
     .ql-editor   h1 {
         @apply text-4xl;

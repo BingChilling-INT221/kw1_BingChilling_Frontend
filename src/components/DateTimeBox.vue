@@ -11,7 +11,7 @@ const props = defineProps({
 <template>
   <div>
     <div class="flex items-center">
-      <TimeIcon class="w-[1.25rem] mr-2"></TimeIcon>
+      <TimeIcon class="mr-1"></TimeIcon>
       <span> {{ time }}</span>
     </div>
   </div>

@@ -11,7 +11,7 @@ const props = defineProps({
 <template>
   <div>
     <div class="flex items-center">
-      <globe class="w-[1.25rem] mx-2" />
+      <globe class="mx-1" />
       <span>{{ timezone }}</span>
     </div>
   </div>

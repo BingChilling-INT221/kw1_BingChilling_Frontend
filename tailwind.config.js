@@ -27,7 +27,7 @@ module.exports = {
             },
             fontFamily: {
 
-                'sans': ['Maehongson', ...defaultTheme.fontFamily.sans],
+                'sans': ['poppins', ...defaultTheme.fontFamily.sans],
             },
             animation: {
                 marquee: 'marquee 5s linear ',

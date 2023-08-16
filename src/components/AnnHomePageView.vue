@@ -10,6 +10,10 @@ import dateTimeBox from "./DateTimeBox.vue";
 import timeZoneBox from "./TimeZoneBox.vue";
 import Pagination from "./Pagination.vue";
 import CategoryBox from "./CategoryBox.vue";
+import dateTimeBox from "./DateTimeBox.vue";
+import timeZoneBox from "./TimeZoneBox.vue";
+import Pagination from "./Pagination.vue";
+import CategoryBox from "./CategoryBox.vue";
 const store = useAnnouncerStore();
 
 // เวลาและ Time zone
@@ -99,12 +103,12 @@ const changePage = (page) => {
 </script>
 
 <template>
-  <div class="w-full">
+  <div class="h-auto min-w-full min-h-screen">
     <Navbar></Navbar>
-    <div class="mx-6 bg-gray-700">
-      <div class="flex items-center justify-center my-2">
-        <dateTimeBox :time="datetime"></dateTimeBox>
-        <timeZoneBox :timezone="timezone"></timeZoneBox>
+    <div class="mx-6 "  >
+      <div class="flex items-center justify-center my-2 md:justify-end">
+        <dateTimeBox :time="datetime " class="text-sm"></dateTimeBox>
+        <timeZoneBox :timezone="timezone" class="text-sm"></timeZoneBox>
       </div>
       <div class="flex flex-col gap-y-2">
         <div class="flex justify-around">
@@ -112,6 +116,24 @@ const changePage = (page) => {
         <button class="py-1 rounded-md ann-button" @click="fetches()">
           {{ isOpen ? "Closed announcements" : "Active announcements" }}
         </button>
+        <!-- <div v-else  class=" ann-button" @click="$router.push({ name: 'addannouncement' })">
+          <button class="px-6 py-3  rounded-md bg-gray-50 dark:bg-gray-700" >Add  announcements</button></div> -->
+      </div>
+      <div class="min-w-full">
+        <div class="flex flex-col justify-center text-center">
+          <p
+            v-if="announces.length <= 0"
+            class="flex justify-center text-5xl text-center"
+          >
+            No Announcement
+          </p>
+          <div v-for="(announce, index) in announces" v-else class="h-auto">
+            <AnnBox
+              :ann-data="announce"
+              :index="index + store.pageSize * store.page"
+            ></AnnBox>
+          </div>
+        </div>
       </div>
       <div class="min-w-full">
         <div class="flex flex-col justify-center text-center gap-y-3">
@@ -217,7 +239,7 @@ const changePage = (page) => {
           </button>
         </div> -->
 
-        <!-- <div class="min-w-full">
+        <div class="min-w-full">
           <div class="flex flex-col justify-center text-center">
             <p
               v-if="announces.length <= 0"
@@ -232,7 +254,7 @@ const changePage = (page) => {
               ></AnnBox>
             </div>
           </div>
-        </div> -->
+        </div>
 
         <!-- <div
           v-if="announces.length > 0 && data.totalPages !== 1"

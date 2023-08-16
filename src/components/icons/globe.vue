@@ -3,12 +3,11 @@
 <template>
   <div>
     <svg
-      width="100%"
-      height="100%"
+
       viewBox="0 0 25 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      class="stroke-blackCustom dark:stroke-whiteCustom"
+      class="stroke-blackCustom dark:stroke-whiteCustom w-5 h-5 md:w-10 md:h-10"
     >
       <circle cx="12" cy="12" r="8" stroke-width="2" />
       <ellipse cx="12" cy="12" rx="3" ry="8" stroke-width="2" />
