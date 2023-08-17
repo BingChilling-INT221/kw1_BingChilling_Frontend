@@ -89,38 +89,44 @@ const seeDetail = (env) => {
 </script>
 
 <template>
-  <div class="lg:w-[512px]">
+  <div class="xl:w-full ">
     <div
-      class="lg:w-full w-72 max-h-full border-[1px] rounded-xl border-blackCustom dark:border-whiteCustom m-auto " @click="seeDetail"
+      class="xl:w-full w-72 max-h-full border-[1px] rounded-xl border-blackCustom dark:border-whiteCustom m-auto " @click="seeDetail"
     >
     <div class="ml-2 pt-[0.5rem]">
       <div class="flex flex-row">
-      <div class="flex gap-x-2 w-48 text-xs" >
+      <div class="flex gap-x-2 w-48 text-xs xl:text-lg" >
         No. {{ padStart(index + 1, 2) }}
-        <div class="flex gap-x-[0.15rem]" v-show="checkAdmin">
+        <div class="flex gap-x-[0.15rem] xl:gap-x-[0.5rem]" v-show="checkAdmin">
           <Eye/>{{ annData.viewCount }} 
         </div>
           
       </div>
-      <div class="rounded-lg border border-white w-20 h-full text-[0.7rem] ">
+      <div class="xl:flex xl:justify-end xl:w-full xl:pr-5">
+        <div class="rounded-lg border border-white w-20 h-full text-[0.7rem] xl:text-lg xl:h-9 xl:w-28 xl:pt-[0.15rem] ">
         <p class="">{{ annData.announcementCategory }}</p>
       </div>
+      </div>
+      
     </div>  
     <div class="flex gap-x-[4.2rem] pt-[0.5rem]">
-      <div class="flex text-left w-44">
+      <div class="flex text-left w-44 xl:text-lg xl:w-full">
         <p>{{ annData.announcementTitle }}</p>
       </div>
-      <div>
-        <div :class="annData.announcementDisplay === 'Y' ? 'bg-green-500' : 'bg-red-500'"
-        class="rounded-xl w-6 ">
+      <div class="xl:w-full">
+        <div class="xl:flex xl:justify-end xl:w-full xl:pr-5">
+          <div :class="annData.announcementDisplay === 'Y' ? 'bg-green-500' : 'bg-red-500'"
+        class="rounded-xl w-6 xl:w-14 xl:text-xl">
         <p class="text-black">{{ annData.announcementDisplay }}</p>
       </div>
+        </div>
+        
       </div>
     </div>
     <div class="flex flex-col pt-[0.2rem]">
       <div class="flex">
         <div class="text-left">
-          <p class="text-gray-400 text-xs ann-publish-date">
+          <p class="text-gray-400 text-xs xl:text-xl ann-publish-date">
             Publishdate: {{
               changeTime(annData.publishDate) !== null ? changeTime(annData.publishDate) : '-'
             }}
@@ -129,15 +135,15 @@ const seeDetail = (env) => {
         </div>
       </div>
       <div class="flex flex-row justify-between">
-        <p class=" text-gray-400 text-xs  ann-close-date pb-1">
+        <p class=" text-gray-400 text-xs xl:text-xl ann-close-date pb-1">
             Close Date: {{ changeTime(annData.closeDate) !== null ? changeTime(annData.closeDate) : '-' }}
           </p>
           <div class="flex" v-show="checkAdmin">
-            <button class="ml-2 text-xs font-medium rounded-lg hover:bg-green-500 ann-button"
+            <button class="ml-2 text-xs xl:text-xl font-medium rounded-lg hover:bg-green-500 ann-button"
             @click="$router.push({ name: `${role}announcementdetail`, params: { id: annData.id } })">
             view
           </button>
-          <button class="pr-2 ml-2 text-xs font-medium rounded-lg hover:bg-red-500 ann-button"
+          <button class="pr-2 ml-2 text-xs xl:text-xl font-medium rounded-lg hover:bg-red-500 ann-button"
             @click="deleteAnnouncement(annData.id)">delete
           </button>
           </div>

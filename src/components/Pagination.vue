@@ -51,8 +51,8 @@ const wantPage = computed(() => {
 </script>
 
 <template>
-  <div class="justify-center flex">
-    <div class="flex items-center space-x-2 basis-4/5">
+  <div class="justify-center flex xl:text-xl">
+    <div class="flex items-center space-x-2 basis-4/5 xl:basis-2/5">
       <button
         v-if="totalPages !== 1"
         :class="first ? 'opacity-25' : ''"

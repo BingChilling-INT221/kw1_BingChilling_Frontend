@@ -19,12 +19,13 @@ onMounted(async () => {
 
 <template>
   <div>
-    <div class="">
+    <div class="lg:w-[200px]">
       <!-- <p class="hidden py-2 text-xl md:inline-block">Category:</p> -->
       <select
         v-model="store.category"
         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 
         dark:bg-blackCustom dark:border-white dark:placeholder-gray-400 dark:text-white ann-category-filter"
+        
       >
         <option value="">All</option>
         <option
