@@ -100,8 +100,7 @@ const changePage = (page) => {
 </script>
 
 <template>
-  <div class="h-auto min-w-full min-h-screen">
-    
+  <div class="h-auto min-w-full">
     <div class="mx-6">
       <div class="flex items-center justify-center my-2 md:justify-end">
         <dateTimeBox :time="datetime" class="text-sm"></dateTimeBox>
