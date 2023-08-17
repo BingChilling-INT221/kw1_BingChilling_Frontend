@@ -5,8 +5,7 @@ import Search_light from "./icons/Search_light.vue";
 </script>
 
 <template>
-  <div class="bg-yellow-300">
-    aaa
+  <div class="">
     <div
       class="h-[3.75rem] border-b-[1px] dark:border-whiteCustom border-blackCustom flex basis-full bg-whiteCustom dark:bg-blackCustom"
     >
