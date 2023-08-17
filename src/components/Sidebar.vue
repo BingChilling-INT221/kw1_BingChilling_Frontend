@@ -19,6 +19,7 @@ const checkPath = (path) => {
               ? ' bg-whitesecondCustom dark:bg-darksecondCustom '
               : ''
           "
+          @click="$router.push({ name: 'adminhomepage' })"
         >
           <Ann /><span>Announcer</span>
         </button>
@@ -29,6 +30,7 @@ const checkPath = (path) => {
               ? ' bg-whitesecondCustom dark:bg-darksecondCustom '
               : ''
           "
+          @click="$router.push({ name: 'adminusers' })"
         >
           <Groups /><span>Users</span>
         </button>
