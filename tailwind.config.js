@@ -20,6 +20,8 @@ module.exports = {
                 // black2Cus: '#212121',
                 // black3Cus: '#171717',
                 blackCustom: '#2A2A2A',
+                darksecondCustom: '#414558',
+                whitesecondCustom: '#F5F5F5',
                 whiteCustom: '#FFFFFF',
                 grayCustom: '#9F9F9F',
                 redCustom: '#D72121',

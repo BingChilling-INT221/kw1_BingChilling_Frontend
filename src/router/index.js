@@ -47,6 +47,11 @@ const router = createRouter({
             component: userannouncementdetail
         },
         {
+            path: '/admin/users',
+            name: 'adminusers',
+            component: () => import('../views/adminusers.vue')
+        },
+        {
             path: "/:pathMatch(.*)*",
             component: Notfound,
         }
