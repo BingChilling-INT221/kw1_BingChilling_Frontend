@@ -29,9 +29,9 @@ if (
   >
     <div class="flex">
       <div class="border-2 w-[320px]">a</div>
-      <div class="flex max-w-full bg-green-300">
-        <Navbar class="fixed top-0 w-full max"></Navbar>
-        <router-view class="mt-[3.75rem]" />
+      <div class="flex max-w-full basis-full">
+        <Navbar class="fixed top-0 left-0 w-full max"></Navbar>
+        <router-view class="mt-[3.75rem] w-full" />
       </div>
     </div>
   </div>
