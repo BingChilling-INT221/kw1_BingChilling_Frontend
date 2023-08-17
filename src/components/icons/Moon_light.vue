@@ -1,9 +1,9 @@
 <script setup></script>
 
 <template>
-  <div>
+  <div class="flex items-center justify-center w-12 h-12">
     <svg
-      class="w-5 h-5 md:w-10 md:h-10 fill-current swap-off"
+      class="w-6 h-6 fill-current swap-off"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
     >
