@@ -89,9 +89,9 @@ const seeDetail = (env) => {
 </script>
 
 <template>
-  <div>
+  <div class="lg:w-[512px]">
     <div
-      class="w-72 max-h-full border-[1px] rounded-xl border-blackCustom dark:border-whiteCustom m-auto " @click="seeDetail"
+      class="lg:w-full w-72 max-h-full border-[1px] rounded-xl border-blackCustom dark:border-whiteCustom m-auto " @click="seeDetail"
     >
     <div class="ml-2 pt-[0.5rem]">
       <div class="flex flex-row">
@@ -148,6 +148,8 @@ const seeDetail = (env) => {
     
       
     </div>
+
+    
   </div>
 </template>
 
