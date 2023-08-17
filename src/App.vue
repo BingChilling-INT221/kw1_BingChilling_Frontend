@@ -1,7 +1,7 @@
 <script setup>
 import { RouterView } from "vue-router";
 import { useAnnouncerStore } from "@/stores/announcer.js";
-
+import Navbar from "./components/Navbar.vue";
 const announcer = useAnnouncerStore();
 
 /// ref form https://tailwindcss.com/docs/dark-mode
@@ -25,10 +25,20 @@ if (
 </script>
 <template>
   <div
-    class="w-full min-h-screen transition-colors duration-[350ms] bg-whiteCustom dark:bg-blackCustom text-blackCustom dark:text-whiteCustom"
+    class="w-full min-h-screen top-0 absolute duration-[350ms] bg-whiteCustom dark:bg-blackCustom text-blackCustom dark:text-whiteCustom"
   >
-    <router-view />
+    <div class="flex">
+      <div class="border-2 w-[320px]">a</div>
+      <div class="flex max-w-full bg-green-300">
+        <Navbar class="fixed top-0 w-full max"></Navbar>
+        <router-view class="mt-[3.75rem]" />
+      </div>
+    </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+* {
+  margin: 0;
+}
+</style>
