@@ -102,15 +102,17 @@ const changePage = (page) => {
 <template>
   <div class="h-auto min-w-full">
     <div class="mx-6">
-      <div class="flex items-center justify-center my-2 md:justify-end lg:hidden">
+      <div
+        class="flex items-center justify-center my-2 md:justify-end xl:hidden"
+      >
         <dateTimeBox :time="datetime" class="text-sm"></dateTimeBox>
         <timeZoneBox :timezone="timezone" class="text-sm"></timeZoneBox>
       </div>
       <div class="flex flex-col gap-y-2">
-        <div class="flex justify-around lg:hidden">
+        <div class="flex justify-around xl:hidden">
           <CategoryBox />
           <button
-            class="px-4 py-[px] text-xs rounded-md ann-button"
+            class="px-4 py-2 text-xs rounded-md ann-button"
             :class="isOpen ? 'bg-green-400' : 'bg-red-400'"
             @click="fetches()"
             v-if="!checkAdmin()"
@@ -136,70 +138,84 @@ const changePage = (page) => {
           </div>
         </div>
 
-        <div class="lg:flex lg:flex-row lg:justify-center lg:pt-5 lg:gap-x-24">  
-        <div class="min-w-full lg:min-w-[512px]">
-          <div class="flex flex-col justify-center text-center gap-y-3 lg:w-[512px]">
-            <p
-              v-if="announces.length <= 0"
-              class="flex justify-center text-5xl text-center text-gray-400"
-            >
-              No Announcement
-            </p>
-            <div v-for="(announce, index) in announces" v-else class="lg:w-[512px] h-auto">
-              <AnnBox2
-                :ann-data="announce"
-                :index="index + store.pageSize * store.page"
-              ></AnnBox2>
+        <div class="xl:flex xl:flex-row xl:gap-x-24 pt-2 xl:w-full">
+          <div class="min-w-full xl:min-w-full">
+            <div class="xl:flex xl:flex-row xl:gap-x-5">
+              <div
+                class="flex flex-col justify-center text-center gap-y-3 xl:w-full"
+              >
+                <p
+                  v-if="announces.length <= 0"
+                  class="flex justify-center text-5xl text-center text-gray-400"
+                >
+                  No Announcement
+                </p>
+                <div
+                  v-for="(announce, index) in announces"
+                  v-else
+                  class="xl:w-full h-auto"
+                >
+                  <AnnBox2
+                    :ann-data="announce"
+                    :index="index + store.pageSize * store.page"
+                  ></AnnBox2>
+                </div>
+                <Pagination
+                  :current="store.page"
+                  :first="data.first"
+                  :last="data.last"
+                  :totalPages="data.totalPages"
+                  @changePage="changePage"
+                  class="xl:flex xl:justify-center"
+                ></Pagination>
+              </div>
+              <div class="xl:flex xl:flex-col hidden">
+                <div class="xl:flex xl:justify-end xl:pb-2">
+                  <button
+                    class="px-4 py-2 text-xs rounded-md ann-button xl:py-2 xl:text-base"
+                    :class="isOpen ? 'bg-green-400' : 'bg-red-400'"
+                    @click="fetches()"
+                    v-if="!checkAdmin()"
+
+                  >
+                    {{ isOpen ? "Closed " : "Active " }}
+                    <span class="hidden md:inline-block">announcement</span>
+                  </button>
+                  <div
+                    v-else
+                    class="ann-button"
+                    @click="$router.push({ name: 'addannouncement' })"
+                  >
+                    <button
+                      class="hidden px-2 py-2 rounded-md bg-gray-50 dark:bg-gray-700 md:inline-block xl:py-2 xl:text-base"
+                    >
+                      Add announcements
+                    </button>
+                    <button
+                      class="fixed bottom-0 right-0 px-2 py-2 rounded-md bg-black2Cus hover:bg-black3Cus md:hidden bg-gray-50 dark:bg-gray-700"
+                    >
+                      Add
+                    </button>
+                  </div>
+                </div>
+                <div
+                  class="flex items-center justify-center my-2 md:justify-end"
+                >
+                  <dateTimeBox :time="datetime" class="text-sm"></dateTimeBox>
+                  <timeZoneBox
+                    :timezone="timezone"
+                    class="text-sm"
+                  ></timeZoneBox>
+                </div>
+                <div class="flex xl:gap-x-4">
+                  <p class="xl:my-auto xl:text-xl">Category:</p>
+                  <CategoryBox />
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <div class="lg:flex lg:flex-col hidden">
-        <div class="flex items-center justify-center my-2 md:justify-end">
-          <dateTimeBox :time="datetime" class="text-sm"></dateTimeBox>
-          <timeZoneBox :timezone="timezone" class="text-sm"></timeZoneBox>
-        </div>
-        <div class="flex justify-end">
-          <CategoryBox />
-          <button
-            class="px-4 py-[px] text-xs rounded-md ann-button"
-            :class="isOpen ? 'bg-green-400' : 'bg-red-400'"
-            @click="fetches()"
-            v-if="!checkAdmin()"
-          >
-            {{ isOpen ? "Closed " : "Active " }}
-            <span class="hidden md:inline-block">announcement</span>
-          </button>
-          <div
-            v-else
-            class="ann-button"
-            @click="$router.push({ name: 'addannouncement' })"
-          >
-            <button
-              class="hidden px-2 py-2 rounded-md bg-gray-50 dark:bg-gray-700 md:inline-block"
-            >
-              Add announcements
-            </button>
-            <button
-              class="fixed bottom-0 right-0 px-2 py-2 rounded-md bg-black2Cus hover:bg-black3Cus md:hidden bg-gray-50 dark:bg-gray-700"
-            >
-              Add
-            </button>
-          </div>
-        </div>
       </div>
-      </div>
-        </div>
-       
-
-      
-
-      <Pagination
-        :current="store.page"
-        :first="data.first"
-        :last="data.last"
-        :totalPages="data.totalPages"
-        @changePage="changePage"
-      ></Pagination>
     </div>
   </div>
 </template>

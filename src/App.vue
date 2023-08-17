@@ -28,7 +28,7 @@ if (
     class="w-full min-h-screen top-0 absolute duration-[350ms] text-sm bg-whiteCustom dark:bg-blackCustom text-blackCustom dark:text-whiteCustom"
   >
     <div class="flex">
-      <div class="absolute w-[320px] pt-[3.75rem] min-h-screen lg:block hidden">
+      <div class="border-2 absolute w-[320px] pt-[3.75rem] min-h-screen lg:block hidden">
         a
       </div>
       <div class="flex max-w-full basis-full">
