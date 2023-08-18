@@ -1,7 +1,7 @@
 <script setup>
 import { useRoute } from "vue-router";
-import Ann from "./icons/Ann.vue";
-import Groups from "./icons/Groups.vue";
+import Ann from "../icons/Ann.vue";
+import Groups from "../icons/Groups.vue";
 const route = useRoute();
 const checkPath = (path) => {
   return route.path.includes(path);

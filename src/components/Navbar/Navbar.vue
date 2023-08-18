@@ -1,7 +1,7 @@
 <script setup>
 import DarkLightIcon from "./DarkLightIcon.vue";
-import Menu from "./icons/Menu.vue";
-import SearchBox from "./SearchBox.vue";
+import Menu from "../icons/Menu.vue";
+import SearchBox from "../SearchBox.vue";
 </script>
 
 <template>

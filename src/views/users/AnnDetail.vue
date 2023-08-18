@@ -1,5 +1,5 @@
 <script setup>
-import announcementdetail from '../components/Announcementdetail.vue';
+import announcementdetail from '@/components/announcementdetail.vue';
 import {provide} from 'vue';
 
 provide(/* key */ 'role', /* value */ 'user')

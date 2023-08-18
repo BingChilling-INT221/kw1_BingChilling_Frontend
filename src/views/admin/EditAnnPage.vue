@@ -1,8 +1,8 @@
 <script setup>
 import {computed, onMounted, provide, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
-import Cuannouncedment from "../components/Modannouncedment.vue";
-import {fecthShowEdit} from "../services/api.js";
+import Cuannouncedment from "@/components/Modannouncedment.vue";
+import {fecthShowEdit} from "@/services/api.js";
 
 const router = useRouter();
 const route = useRoute();

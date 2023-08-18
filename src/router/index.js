@@ -1,11 +1,11 @@
 import {createRouter, createWebHistory} from 'vue-router'
-import addannouncement from '../views/addannouncement.vue'
-import editannouncement from '../views/editannouncement.vue'
-import userhomepage from '../views/userhomepage.vue'
-import userannouncementdetail from '../views/userannouncementdetail.vue'
-import adminannouncementdetail from '../views/adminannouncementdetail.vue'
+import addannouncement from '../views/admin/AddAnnPage.vue'
+import editannouncement from '../views/admin/EditAnnPage.vue'
+import userhomepage from '../views/users/AnnPage.vue'
+import userannouncementdetail from '../views/users/AnnDetail.vue'
+import adminannouncementdetail from '../views/admin/AnnDetail.vue'
 import Notfound from "@/views/Notfound.vue";
-import adminhomepage from "@/views/adminhomepage.vue";
+import adminhomepage from "@/views/admin/AnnPage.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -49,7 +49,7 @@ const router = createRouter({
         {
             path: '/admin/users',
             name: 'adminusers',
-            component: () => import('../views/adminusers.vue')
+            component: () => import('../views/admin/UsersPage.vue')
         },
         {
             path: "/:pathMatch(.*)*",
