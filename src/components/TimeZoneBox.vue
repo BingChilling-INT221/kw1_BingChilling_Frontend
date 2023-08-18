@@ -12,7 +12,7 @@ const props = defineProps({
   <div>
     <div class="flex items-center">
       <globe class="mx-1" />
-      <span>{{ timezone }}</span>
+      <span class="ann-timezone">{{ timezone }}</span>
     </div>
   </div>
 </template>
