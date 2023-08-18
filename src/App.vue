@@ -2,7 +2,6 @@
 import { RouterView } from "vue-router";
 import { useAnnouncerStore } from "@/stores/announcer.js";
 
-
 const announcer = useAnnouncerStore();
 
 /// ref form https://tailwindcss.com/docs/dark-mode
@@ -31,8 +30,8 @@ if (
     <!-- <div class="flex">
       <Sidebar />
       <div class="flex max-w-full basis-full">
-        <Navbar class="fixed top-0 left-0 w-full max"></Navbar> -->
-    <router-view class="" />
+        <navbar class="fixed top-0 left-0 w-full max"></navbar> -->
+    <router-view />
     <!-- </div>
     </div> -->
   </div>

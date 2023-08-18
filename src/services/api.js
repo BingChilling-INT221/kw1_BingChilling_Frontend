@@ -74,7 +74,7 @@ export const fetched_api = async ( role,category, mode, page, pageSize) => {
   }
 
 
-  export const fecthShowEdit = async(route) =>{
+  export const fetchShowEdit = async(route) =>{
     return await fetch(
       `${import.meta.env.VITE_BASE_URL}announcements/${route}`
   );

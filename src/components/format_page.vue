@@ -1,6 +1,6 @@
 <script setup>
-import Navbar from "./Navbar/Navbar.vue";
-import Sidebar from "./Navbar/Sidebar.vue";
+import Navbar from "./navbar/Navbar.vue";
+import Sidebar from "./navbar/Sidebar.vue";
 import { inject } from "vue";
 const role = inject("role");
 const checkAdmin = () => {
