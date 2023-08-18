@@ -335,10 +335,6 @@ watch(announcementDescription, (newValue, oldValue) => {
 });
 </script>
 <template>
-  <!-- {{ change }} -->
-  <!--  <div class="h-auto max-w-2xl">  {{announcementDescription}}</div>-->
-  {{ updateCheck }}
-  <p>{{ change }}</p>
   <div class="flex flex-col h-auto md:flex-row">
     <div class="w-full md:w-[80%] mx-auto md:mx-[10%]">
       <div class="mt-5">

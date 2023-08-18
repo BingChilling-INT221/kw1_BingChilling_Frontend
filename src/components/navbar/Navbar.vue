@@ -1,7 +1,12 @@
 <script setup>
+import { inject } from "vue";
 import DarkLightIcon from "./DarkLightIcon.vue";
 import Menu from "../icons/Menu.vue";
 import SearchBox from "../SearchBox.vue";
+const role = inject("role");
+const checkAdmin = () => {
+  return role === "admin";
+};
 </script>
 
 <template>
@@ -10,11 +15,13 @@ import SearchBox from "../SearchBox.vue";
       class="h-[3.75rem] h-16 flex basis-full bg-whiteCustom dark:bg-blackCustom p-2"
     >
       <div class="flex items-center basis-full">
+        <button class="flex" v-show="checkAdmin()">
+          <Menu class="lg:hidden" />
+        </button>
         <div
           class="flex w-[200px] lg:w-[312px] space-x-2"
           @click="$router.push({ name: 'Notfound' })"
         >
-          <button class="flex"><Menu class="lg:hidden" /></button>
           <div class="flex items-center cursor-pointer">
             <div class="rounded-full w-[16px] h-[16px] bg-green-500"></div>
             <button

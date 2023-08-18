@@ -1,17 +1,16 @@
 <script setup>
-
-import {provide} from 'vue';
+import { provide } from "vue";
 import Modannouncedment from "@/components/Modannouncedment.vue";
-
-provide(/* key */ 'role', /* value */ 'admin')
+import format_page from "@/components/format_page.vue";
+provide(/* key */ "role", /* value */ "admin");
 </script>
 
 <template>
   <div>
-    <Modannouncedment></Modannouncedment>
+    <format_page>
+      <Modannouncedment></Modannouncedment>
+    </format_page>
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -14,7 +14,10 @@ const checkAdmin = () => {
       <Sidebar v-show="checkAdmin()" />
       <div class="flex max-w-full basis-full">
         <Navbar class="fixed top-0 left-0 w-full max"></Navbar>
-        <div class="pt-[3.75rem] w-full lg:ml-[320px] pl-6">
+        <div
+          class="pt-[3.75rem] w-full"
+          :class="checkAdmin() ? 'lg:ml-[320px] pl-6' : ''"
+        >
           <slot />
         </div>
       </div>
