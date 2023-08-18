@@ -10,7 +10,7 @@ const checkPath = (path) => {
 
 <template>
   <div>
-    <div class="absolute w-[320px] pt-[3.75rem] min-h-screen lg:block hidden ">
+    <div class="absolute w-[320px] pt-[3.75rem] min-h-screen lg:block hidden">
       <div class="w-10/12 mt-1 ml-4 space-y-2">
         <button
           class="flex items-center w-full px-4 py-2 optionSidebar rounded-xl"
@@ -30,7 +30,7 @@ const checkPath = (path) => {
               ? ' bg-whitesecondCustom dark:bg-darksecondCustom '
               : ''
           "
-          @click="$router.push({ name: 'adminusers' })"
+          @click="$router.push({ name: 'adminuserpage' })"
         >
           <Groups /><span>Users</span>
         </button>
