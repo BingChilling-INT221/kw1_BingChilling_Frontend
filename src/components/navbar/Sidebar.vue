@@ -1,7 +1,7 @@
 <script setup>
 import { useRoute } from "vue-router";
-import Ann from "./icons/Ann.vue";
-import Groups from "./icons/Groups.vue";
+import Ann from "../icons/Ann.vue";
+import Groups from "../icons/Groups.vue";
 const route = useRoute();
 const checkPath = (path) => {
   return route.path.includes(path);
@@ -30,7 +30,7 @@ const checkPath = (path) => {
               ? ' bg-whitesecondCustom dark:bg-darksecondCustom '
               : ''
           "
-          @click="$router.push({ name: 'adminusers' })"
+          @click="$router.push({ name: 'adminuserpage' })"
         >
           <Groups /><span>Users</span>
         </button>

@@ -1,12 +1,12 @@
 <script setup></script>
 
 <template>
-  <div>
+  <div class="flex items-center justify-center w-8 h-8">
     <svg
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      class="stroke-blackCustom dark:stroke-whiteCustom w-5 h-5 md:w-10 md:h-10"
+      class="w-6 h-6 stroke-blackCustom dark:stroke-whiteCustom"
     >
       <path
         d="M4.16699 5.83331H15.8337"

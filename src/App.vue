@@ -1,8 +1,6 @@
 <script setup>
 import { RouterView } from "vue-router";
 import { useAnnouncerStore } from "@/stores/announcer.js";
-import Navbar from "./components/Navbar.vue";
-import Sidebar from "./components/Sidebar.vue";
 
 const announcer = useAnnouncerStore();
 
@@ -32,8 +30,8 @@ if (
     <!-- <div class="flex">
       <Sidebar />
       <div class="flex max-w-full basis-full">
-        <Navbar class="fixed top-0 left-0 w-full max"></Navbar> -->
-    <router-view class="" />
+        <navbar class="fixed top-0 left-0 w-full max"></navbar> -->
+    <router-view />
     <!-- </div>
     </div> -->
   </div>

@@ -1,11 +1,12 @@
 import {createRouter, createWebHistory} from 'vue-router'
-import addannouncement from '../views/addannouncement.vue'
-import editannouncement from '../views/editannouncement.vue'
-import userhomepage from '../views/userhomepage.vue'
-import userannouncementdetail from '../views/userannouncementdetail.vue'
-import adminannouncementdetail from '../views/adminannouncementdetail.vue'
+import AddAnnPage from '../views/admin/AddAnnPage.vue'
+import EditAnnPage from '../views/admin/EditAnnPage.vue'
+import AnnPage from '../views/users/AnnPage.vue'
+import AnnDetailPage from '../views/users/AnnDetailPage.vue'
+import AdminAnnPage from '../views/admin/AdminAnnPage.vue'
+import AdminAnnDetail from '../views/admin/AdminAnnDetailPage.vue'
 import Notfound from "@/views/Notfound.vue";
-import adminhomepage from "@/views/adminhomepage.vue";
+import UsersPage from "@/views/admin/UsersPage.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,38 +19,37 @@ const router = createRouter({
         {
             path: '/admin/announcement',
             name: 'adminhomepage',
-            component: adminhomepage,
+            component: AdminAnnPage,
         },
         {
             path: '/admin/announcement/:id',
             name: 'adminannouncementdetail',
-            component: adminannouncementdetail,
+            component: AdminAnnDetail,
         },
         {
             path: '/admin/announcement/add',
             name: 'addannouncement',
-            component: addannouncement
+            component: AddAnnPage
         },
         {
             path: '/admin/announcement/:id/edit',
             name: 'editannouncement',
-            component: editannouncement,
-            props: true
+            component: EditAnnPage,
         },
         {
             path: '/announcement',
             name: 'userhomepage',
-            component: userhomepage
+            component: AnnPage
         },
         {
             path: '/announcement/:id',
             name: 'userannouncementdetail',
-            component: userannouncementdetail
+            component: AnnDetailPage
         },
         {
             path: '/admin/users',
-            name: 'adminusers',
-            component: () => import('../views/adminusers.vue')
+            name: 'adminuserpage',
+            component: UsersPage
         },
         {
             path: "/:pathMatch(.*)*",

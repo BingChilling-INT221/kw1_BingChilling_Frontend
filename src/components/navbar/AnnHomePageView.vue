@@ -1,15 +1,12 @@
 <script setup>
 import { computed, inject, onMounted, ref, watch } from "vue";
-import AnnBox from "@/components/AnnBox.vue";
 import { useAnnouncerStore } from "@/stores/announcer";
-import { fetched_api } from "../services/api.js";
-import Navbar from "./Navbar.vue";
-import AnnBox2 from "./AnnBox2.vue";
-// import AnnBox2 from './AnnBox2.vue';
-import dateTimeBox from "./DateTimeBox.vue";
-import timeZoneBox from "./TimeZoneBox.vue";
-import Pagination from "./Pagination.vue";
-import CategoryBox from "./CategoryBox.vue";
+import { fetched_api } from "@/services/api.js";
+import AnnBox2 from "../AnnBox2.vue";
+import dateTimeBox from "../DateTimeBox.vue";
+import timeZoneBox from "../TimeZoneBox.vue";
+import Pagination from "../Pagination.vue";
+import CategoryBox from "../CategoryBox.vue";
 
 const store = useAnnouncerStore();
 

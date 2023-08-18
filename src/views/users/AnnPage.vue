@@ -1,7 +1,7 @@
 <script setup>
 import { provide } from "vue";
-import AnnHomePageView from "@/components/AnnHomePageView.vue";
-import format_page from "../components/format_page.vue";
+import AnnHomePageView from "@/components/navbar/AnnHomePageView.vue";
+import format_page from "@/components/format_page.vue";
 // import { useRoleStore } from '@/stores/role'
 // const role = useRoleStore()
 // role.setRole('user')
