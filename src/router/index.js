@@ -7,6 +7,7 @@ import AdminAnnPage from '../views/admin/AdminAnnPage.vue'
 import AdminAnnDetail from '../views/admin/AdminAnnDetailPage.vue'
 import Notfound from "@/views/Notfound.vue";
 import UsersPage from "@/views/admin/UsersPage.vue";
+import AddUserPage from "@/views/admin/AddUserPage.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -50,6 +51,11 @@ const router = createRouter({
             path: '/admin/users',
             name: 'adminuserpage',
             component: UsersPage
+        },
+        {
+            path: '/admin/user/add',
+            name: 'adduser',
+            component: AddUserPage
         },
         {
             path: "/:pathMatch(.*)*",

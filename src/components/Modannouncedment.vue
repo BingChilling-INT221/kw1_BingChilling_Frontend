@@ -24,7 +24,7 @@ watch(
     } else {
       console.log("no update");
       updateCheck.value = false;
-    }
+    }ละ
   }
 );
 

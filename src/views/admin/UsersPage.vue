@@ -26,6 +26,7 @@ provide(/* key */ "role", /* value */ "admin");
           <div class="flex w-1/5 justify-end pr-4">
             <button
               class="px-4 py-2 rounded-md bg-gray-50 dark:bg-gray-700 ann-button"
+              @click="$router.push({ name: 'adduser' })"
             >
               Add user
             </button>
