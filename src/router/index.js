@@ -51,10 +51,10 @@ const router = createRouter({
             name: 'adminuserpage',
             component: UsersPage
         },
-        {
-            path: "/:pathMatch(.*)*",
-            component: Notfound,
-        }
+        // {
+        //     path: "/:pathMatch(.*)*",
+        //     component: Notfound,
+        // }
 
     ]
 })
