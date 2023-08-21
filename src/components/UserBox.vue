@@ -89,10 +89,10 @@ const deleteUser = async (id) => {
                 params: { id: annItem.id },
               })
             ">
-            Edit
+            edit
           </button>
           <button class="px-4 py-2 rounded-r bg-gray-50 dark:bg-gray-700 ann-button" @click="deleteUser(annItem.id)">
-            Delete
+            delete
           </button>
         </div>
       </td>
