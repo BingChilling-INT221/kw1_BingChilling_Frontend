@@ -173,7 +173,6 @@ const changePage = (page) => {
                     :class="isOpen ? 'bg-green-400' : 'bg-red-400'"
                     @click="fetches()"
                     v-if="!checkAdmin()"
-
                   >
                     {{ isOpen ? "Closed " : "Active " }}
                     <span class="hidden md:inline-block">announcement</span>
