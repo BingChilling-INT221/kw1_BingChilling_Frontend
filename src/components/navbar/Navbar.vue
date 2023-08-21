@@ -16,7 +16,7 @@ const checkAdmin = () => {
     >
       <div class="flex items-center basis-full">
         <button class="flex" v-show="checkAdmin()">
-          <Menu class="lg:hidden" />
+          <Menu class="lg:hidden"/>
         </button>
         <div
           class="flex w-[200px] lg:w-[312px] space-x-2"
@@ -25,7 +25,7 @@ const checkAdmin = () => {
           <div class="flex items-center cursor-pointer">
             <div class="rounded-full w-[16px] h-[16px] bg-green-500"></div>
             <button
-              class="pl-[0.31rem] text-lg cursor-pointer font-semibold lg:hidden"
+              class="pl-[0.31rem] text-lg cursor-pointer font-semibold lg:hidden ann-app-title"
             >
               SAS
             </button>

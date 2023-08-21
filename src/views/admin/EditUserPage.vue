@@ -34,6 +34,8 @@ const updatePackage = computed(() => {
     name: user.value.name,
     email: user.value.email,
     role: user.value.role,
+    createdOn: user.value.createdOn,
+    updatedOn: user.value.updatedOn
   };
 });
 
