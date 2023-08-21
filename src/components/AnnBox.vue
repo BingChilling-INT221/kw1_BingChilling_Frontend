@@ -85,6 +85,8 @@ const seeDetail = (env) => {
     router.push({ name: `${role.value}announcementdetail`, params: { id: `${props.annData.id}` } })
   }
 }
+
+
 </script>
 
 <template>

@@ -24,7 +24,7 @@ watch(
     } else {
       console.log("no update");
       updateCheck.value = false;
-    }ละ
+    }
   }
 );
 
@@ -53,6 +53,8 @@ const compObj = computed(() => {
     categoryId: categoryId.value,
   };
 });
+
+
 
 let change = ref(false);
 watch(
@@ -102,6 +104,7 @@ onMounted(async () => {
     console.log(err);
   }
 });
+
 const updateInit = () => {
   const indexcategories = category.value.findIndex(
     (c) => c.categoryName == props.updatePackage.categoryId
@@ -333,6 +336,8 @@ watch(announcementDescription, (newValue, oldValue) => {
     }
   }
 });
+
+
 </script>
 <template>
   <div class="flex flex-col h-auto md:flex-row">

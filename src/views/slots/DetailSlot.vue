@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-  <div class="flex flex-col items-center text-xl space-y-8">
+  <div class="flex flex-col text-lg w-full">
     <slot/>
   </div>
 </template>

@@ -57,12 +57,37 @@ export const fetched_api = async ( role,category, mode, page, pageSize) => {
           body: JSON.stringify(sendPackage),
       }
   );
+  }
 
+  export const fetchCreateUser = async(sendPackage) =>{
+    return await fetch(
+      `${import.meta.env.VITE_BASE_URL}users`,
+      {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json"
+          },
+          body: JSON.stringify(sendPackage),
+      }
+  );
   }
 
   export const fetchUpdate = async (sendPackage, route) =>{
-    return await etch(
+    return await fetch(
       `${import.meta.env.VITE_BASE_URL}announcements/${route.params.id}`,
+      {
+          method: "PUT",
+          headers: {
+              "Content-Type": "application/json"
+          },
+          body: JSON.stringify(sendPackage),
+      }
+  );
+  }
+
+  export const fetchUpdateUser = async (sendPackage, route) =>{
+    return await fetch(
+      `${import.meta.env.VITE_BASE_URL}users/${route.params.id}`,
       {
           method: "PUT",
           headers: {
@@ -91,6 +116,32 @@ export const fetched_api = async ( role,category, mode, page, pageSize) => {
         },
       }
     );
+  }
+
+
+  export const fetchDeleteUser = async (id) =>{
+    return await fetch(
+      `${import.meta.env.VITE_BASE_URL}users/${id}`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      }
+    );
+  }
+
+
+  export const fetchUser = async () =>{
+    return await fetch(
+      `${import.meta.env.VITE_BASE_URL}users`
+  );
+  }
+
+  export const fetchUserEdit = async(route) =>{
+    return await fetch(
+      `${import.meta.env.VITE_BASE_URL}users/${route}`
+  );
   }
   // export default fetched_api;
 

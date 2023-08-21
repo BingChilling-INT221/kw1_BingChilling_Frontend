@@ -31,9 +31,9 @@ const checkAdmin = () => {
             </button>
 
             <button
-              class="pl-[0.31rem] text-2xl cursor-pointer font-semibold hidden lg:block"
+              class="pl-[0.31rem] text-2xl cursor-pointer font-semibold hidden lg:block ann-app-title"
             >
-              SIT Announcement
+              SAS
             </button>
           </div>
         </div>

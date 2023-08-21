@@ -8,6 +8,7 @@ import AdminAnnDetail from '../views/admin/AdminAnnDetailPage.vue'
 import Notfound from "@/views/Notfound.vue";
 import UsersPage from "@/views/admin/UsersPage.vue";
 import AddUserPage from "@/views/admin/AddUserPage.vue";
+import EditUserPage from "@/views/admin/EditUserPage.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -48,7 +49,7 @@ const router = createRouter({
             component: AnnDetailPage
         },
         {
-            path: '/admin/users',
+            path: '/admin/user',
             name: 'adminuserpage',
             component: UsersPage
         },
@@ -58,9 +59,15 @@ const router = createRouter({
             component: AddUserPage
         },
         {
+            path: '/admin/user/:id/edit',
+            name: 'edituser',
+            component: EditUserPage,
+        },
+        {
             path: "/:pathMatch(.*)*",
             component: Notfound,
         }
+        
 
     ]
 })

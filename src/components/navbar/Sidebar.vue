@@ -21,7 +21,7 @@ const checkPath = (path) => {
           "
           @click="$router.push({ name: 'adminhomepage' })"
         >
-          <Ann /><span>Announcer</span>
+          <Ann /><span class="ann-menu">Announcement</span>
         </button>
         <button
           class="flex items-center w-full px-4 py-2 optionSidebar rounded-xl"
@@ -32,7 +32,7 @@ const checkPath = (path) => {
           "
           @click="$router.push({ name: 'adminuserpage' })"
         >
-          <Groups /><span>Users</span>
+          <Groups /><span class="ann-menu">User</span>
         </button>
       </div>
     </div>
