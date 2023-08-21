@@ -1,6 +1,4 @@
 <script setup>
-import DetailSlot from "../views/slots/DetailSlot.vue";
-import BoxofColSlot from "../views/slots/BoxofColSlot.vue";
 import { fetchDeleteUser } from "../services/api.js";
 
 const props = defineProps({
@@ -65,27 +63,27 @@ const deleteUser = async (id) => {
       <th scope="row" class="py-4 px-6 whitespace-nowrap">
         {{ index+1 }}
       </th>
-      <td class="py-4 px-6">
+      <td class="py-4 px-6 ann-username">
         {{ annItem.username}}
       </td>
-      <td class="py-4 px-6">
+      <td class="py-4 px-6 ann-name">
         {{ annItem.name}}
       </td>
-      <td class="py-4 px-6">
+      <td class="py-4 px-6 ann-email">
         {{ annItem.email}}
       </td>
-      <td  class="py-4 px-6">
+      <td  class="py-4 px-6 ann-role">
         {{ annItem.role}}
       </td>
-      <td class="py-4 px-6">
+      <td class="py-4 px-6 ann-created-on">
         {{ changeTime(annItem.createdOn) }}
       </td>
-      <td  class="py-4 px-6">
+      <td  class="py-4 px-6 ann-updated-on">
         {{ changeTime(annItem.updatedOn) }}
       </td>
       <td class="py-4 px-6 text-right">
         <div class="inline-flex">
-          <button class="px-4 py-2 rounded-l bg-gray-50 dark:bg-gray-700" @click="
+          <button class="px-4 py-2 rounded-l bg-gray-50 dark:bg-gray-700 ann-button" @click="
               $router.push({
                 name: 'edituser',
                 params: { id: annItem.id },
@@ -93,7 +91,7 @@ const deleteUser = async (id) => {
             ">
             Edit
           </button>
-          <button class="px-4 py-2 rounded-r bg-gray-50 dark:bg-gray-700" @click="deleteUser(annItem.id)">
+          <button class="px-4 py-2 rounded-r bg-gray-50 dark:bg-gray-700 ann-button" @click="deleteUser(annItem.id)">
             Delete
           </button>
         </div>

@@ -67,7 +67,7 @@ provide(/* key */ "role", /* value */ "admin");
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(user, index) in users" class="w-full h-auto ann-item">
+              <tr v-for="(user, index) in users" class="w-full h-auto">
                 <userBox :ann-item="user" :index="index"></userBox>
               </tr>
             </tbody>

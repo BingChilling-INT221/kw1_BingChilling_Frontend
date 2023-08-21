@@ -10,6 +10,9 @@ const props = defineProps({
   },
 });
 
+const checkAddOrEdit = ref(false)
+
+
 const router = useRouter();
 
 const updateCheck = ref(false);
@@ -19,10 +22,12 @@ watch(
     console.log(JSON.stringify(newv).length);
     if (JSON.stringify(newv).length > 0) {
       updateCheck.value = true;
+      checkAddOrEdit.value = true;
       updateInit();
     } else {
       console.log("no update");
       updateCheck.value = false;
+      checkAddOrEdit.value = false;
     }
   }
 );
@@ -31,12 +36,16 @@ const role = ref("");
 const username = ref("");
 const name = ref("");
 const email = ref("");
+const createdOn = ref("");
+const updatedOn = ref("");
 
 const updateInit = () => {
   username.value = props.updatePackage.username;
   name.value = props.updatePackage.name;
   email.value = props.updatePackage.email;
   role.value = props.updatePackage.role;
+  createdOn.value = props.updatePackage.createdOn;
+  updatedOn.value = props.updatePackage.updatedOn
 };
 
 const errm = ref();
@@ -114,6 +123,24 @@ watch(
 );
 
 
+const changeTime = (time) => {
+  if (time === null) {
+    return "-"
+  }
+  const newDate = new Date(time);
+  const options = {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  };
+  return `${newDate.toLocaleDateString("en-GB", options).replace(/,/gi, '') +
+    ", " +
+    newDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false })
+
+    }`;
+};
+
+
 
 
 provide(/* key */ "role", /* value */ "admin");
@@ -131,7 +158,7 @@ provide(/* key */ "role", /* value */ "admin");
             <p>Username</p>
             <input
               v-model="username"
-              class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2"
+              class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2 ann-username"
               type="text"
             />
           </div>
@@ -139,7 +166,7 @@ provide(/* key */ "role", /* value */ "admin");
             <p>Name</p>
             <input
               v-model="name"
-              class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2"
+              class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2 ann-name"
               type="text"
             />
           </div>
@@ -147,7 +174,7 @@ provide(/* key */ "role", /* value */ "admin");
             <p>Email</p>
             <input
               v-model="email"
-              class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2"
+              class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2 ann-email"
               type="text"
             />
           </div>
@@ -155,17 +182,23 @@ provide(/* key */ "role", /* value */ "admin");
             <p>Role</p>
             <select
               v-model="role"
-              class="w-1/4 bg-whitesecondCustom dark:bg-darksecondCustom rounded-md py-2 px-2"
+              class="w-1/4 bg-whitesecondCustom dark:bg-darksecondCustom rounded-md py-2 px-2 ann-role"
             >
               <option>admin</option>
               <option>announcer</option>
             </select>
           </div>
+          <div v-show="checkAddOrEdit" class="flex flex-row space-x-2">
+            <p class="font-bold">Created On</p>
+            <p class="ann-created-on">{{ changeTime(createdOn) }}</p>
+            <p class="font-bold">Updated On</p>
+            <p class="ann-updated-on">{{ changeTime(updatedOn) }}</p>
+          </div>
           <div class="flex flex-row space-x-4">
-            <button class="px-4 py-2 rounded-md bg-gray-50 dark:bg-gray-700 submit" :class="change || !updateCheck ? 'dark:bg-gray-700' : 'opacity-40 '" :disabled="!change && updateCheck">
+            <button class="px-4 py-2 rounded-md bg-gray-50 dark:bg-gray-700 submit ann-button" :class="change || !updateCheck ? 'dark:bg-gray-700' : 'opacity-40 '" :disabled="!change && updateCheck">
               save
             </button>
-            <button class="px-4 py-2 rounded-md bg-gray-50 dark:bg-gray-700" @click="$router.push({ name: 'adminuserpage' })">
+            <button class="px-4 py-2 rounded-md bg-gray-50 dark:bg-gray-700 ann-button" @click="$router.push({ name: 'adminuserpage' })">
               cancel
             </button>
           </div>
