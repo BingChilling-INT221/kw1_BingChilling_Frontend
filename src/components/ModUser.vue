@@ -32,7 +32,7 @@ watch(
   }
 );
 
-const role = ref("");
+const role = ref("announcer");
 const username = ref("");
 const name = ref("");
 const email = ref("");
@@ -102,7 +102,6 @@ const compObj = computed(() => {
     role: role.value,
   };
 });
-
 
 let change = ref(false);
 
