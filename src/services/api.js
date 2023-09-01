@@ -17,7 +17,7 @@ export const fetched_api = async ( role,category, mode, page, pageSize) => {
     } catch (err) {
         console.log(err);
       alert("ยังหาข้อมูลไม่พบโปรดรีเฟรชหน้าอีกครั้งครับ");
-      window.location.reload();
+      // window.location.reload();
     }
   };
 
