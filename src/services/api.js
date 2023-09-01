@@ -38,7 +38,7 @@ export const fetched_api = async ( role,category, mode, page, pageSize) => {
 
   export const fetchCountParam = async(route,count) =>{
         return await fetch(
-          `${import.meta.env.VITE_BASE_URL}/announcements/${route}?count=${count}`)
+          `${import.meta.env.VITE_BASE_URL}announcements/${route}?count=${count}`)
   }
 
 
