@@ -1,7 +1,11 @@
 <script setup>
-import { provide, ref, watch,computed } from "vue";
+import { provide, ref, watch, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { fetchUpdateUser, fetchCreateUser, fetchDeleteUser } from "../services/api.js";
+import {
+  fetchUpdateUser,
+  fetchCreateUser,
+  fetchDeleteUser,
+} from "../services/api.js";
 const route = useRoute();
 
 const props = defineProps({
@@ -10,8 +14,7 @@ const props = defineProps({
   },
 });
 
-const checkAddOrEdit = ref(false)
-
+const checkAddOrEdit = ref(false);
 
 const router = useRouter();
 
@@ -38,6 +41,7 @@ const name = ref("");
 const email = ref("");
 const createdOn = ref("");
 const updatedOn = ref("");
+const msg = ref([]);
 
 const updateInit = () => {
   username.value = props.updatePackage.username;
@@ -45,7 +49,7 @@ const updateInit = () => {
   email.value = props.updatePackage.email;
   role.value = props.updatePackage.role;
   createdOn.value = props.updatePackage.createdOn;
-  updatedOn.value = props.updatePackage.updatedOn
+  updatedOn.value = props.updatePackage.updatedOn;
 };
 
 const errm = ref();
@@ -54,7 +58,7 @@ const sendSubmit = async (event) => {
   const sendPackage = {
     username: username.value,
     name: name.value,
-    email:  email.value,
+    email: email.value,
     role: role.value,
   };
   if (updateCheck.value) {
@@ -92,17 +96,14 @@ const sendSubmit = async (event) => {
   }
 };
 
-
-
 const compObj = computed(() => {
   return {
     username: username.value,
     name: name.value,
-    email:  email.value,
+    email: email.value,
     role: role.value,
   };
 });
-
 
 let change = ref(false);
 
@@ -111,6 +112,7 @@ watch(
   () => {
     if (!updateCheck.value) return;
     change.value = false;
+    msg.value["email"] = "";
     for (const property in compObj.value) {
       if (compObj.value[property] === undefined) continue;
       if (compObj.value[property] !== props.updatePackage[property]) {
@@ -122,10 +124,9 @@ watch(
   { deep: true }
 );
 
-
 const changeTime = (time) => {
   if (time === null) {
-    return "-"
+    return "-";
   }
   const newDate = new Date(time);
   const options = {
@@ -133,15 +134,71 @@ const changeTime = (time) => {
     month: "short",
     year: "numeric",
   };
-  return `${newDate.toLocaleDateString("en-GB", options).replace(/,/gi, '') +
+  return `${
+    newDate.toLocaleDateString("en-GB", options).replace(/,/gi, "") +
     ", " +
-    newDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false })
+    newDate.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    })
+  }`;
+};
 
-    }`;
+const checkEmail = (value) => {
+  if (/^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/.test(value)) {
+    msg.value["email"] = "";
+    return false;
+  } else if (email.value === "") {
+    msg.value["email"] = "";
+    return false;
+  } else {
+    msg.value["email"] = "please type the email form in this box";
+    return true;
+  }
+};
+
+const checkPassword = (value) => {
+  if (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/) {
+    msg.value["password"] = "";
+  }
+  else {
+    msg.value["password"] =
+      "Must be at least 8 characters! ";
+  }
 };
 
 
+const allFieldsEmpty = computed(() => {
+  return username.value === ""  ? true
+    : checkEmail(email.value) || name.value === "" || email.value === ""
+    || role.value === "";
+});
 
+
+const countusernameCharac = computed(() => {
+  const maxLength = 45;
+  if (username.value === null) return maxLength;
+  return maxLength - (username.value.length || 0);
+});
+
+const countpasswordCharac = computed(() => {
+  const maxLength = 14;
+  if (username.value === null) return maxLength;
+  return maxLength - (username.value.length || 0);
+});
+
+const countnameCharac = computed(() => {
+  const maxLength = 100;
+  if (name.value === null) return maxLength;
+  return maxLength - (name.value.length || 0);
+});
+
+const countemailCharac = computed(() => {
+  const maxLength = 150;
+  if (email.value === null) return maxLength;
+  return maxLength - (email.value.length || 0);
+});
 
 provide(/* key */ "role", /* value */ "admin");
 </script>
@@ -155,28 +212,79 @@ provide(/* key */ "role", /* value */ "admin");
       <div class="flex flex-row rounded-lg w-3/4">
         <div class="flex flex-col space-y-5 w-full p-5">
           <div class="text-lg flex flex-col space-y-2">
-            <p>Username</p>
+            <div class="flex flex-row w-3/4">
+              <p>Username</p>
+              <div class="flex w-full justify-end">
+                <p class="text-sm my-auto">
+                  Remaining: {{ countusernameCharac }}
+                </p>
+              </div>
+            </div>
             <input
               v-model="username"
               class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2 ann-username"
               type="text"
+              maxlength="45"
+              required
+            />
+          </div>
+          <div v-show="!checkAddOrEdit" class="text-lg flex flex-col space-y-2">
+            <p>Password</p>
+            <input
+              v-model="username"
+              class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2 ann-password"
+              type="password"
+              maxlength="14"
+              required
+            />
+            <span v-if="msg.password" class="text-red-400">{{
+              msg.password
+            }}</span>
+          </div>
+          <div v-show="!checkAddOrEdit" class="text-lg flex flex-col space-y-2">
+            <p>Confirm password</p>
+            <input
+              v-model="username"
+              class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2 ann-confirm-password"
+              type="password"
+              maxlength="14"
+              required
             />
           </div>
           <div class="text-lg flex flex-col space-y-2">
-            <p>Name</p>
+            <div class="flex flex-row w-3/4">
+              <p>Name</p>
+              <div class="flex w-full justify-end">
+                <p class="text-sm my-auto">
+                  Remaining: {{ countnameCharac }}
+                </p>
+              </div>
+            </div>
             <input
               v-model="name"
               class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2 ann-name"
               type="text"
+              maxlength="100"
+              required
             />
           </div>
           <div class="text-lg flex flex-col space-y-2">
-            <p>Email</p>
+            <div class="flex flex-row w-3/4">
+              <p>Email</p>
+              <div class="flex w-full justify-end">
+                <p class="text-sm my-auto">
+                  Remaining: {{ countemailCharac }}
+                </p>
+              </div>
+            </div>
             <input
               v-model="email"
               class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2 ann-email"
               type="text"
+              maxlength="150"
+              required
             />
+            <span v-if="msg.email" class="text-red-400">{{ msg.email }}</span>
           </div>
           <div class="text-lg flex flex-col space-y-2">
             <p>Role</p>
@@ -194,11 +302,23 @@ provide(/* key */ "role", /* value */ "admin");
             <p class="font-bold">Updated On</p>
             <p class="ann-updated-on">{{ changeTime(updatedOn) }}</p>
           </div>
+
           <div class="flex flex-row space-x-4">
-            <button class="px-4 py-2 rounded-md bg-gray-50 dark:bg-gray-700 submit ann-button" :class="change || !updateCheck ? 'dark:bg-gray-700' : 'opacity-40 '" :disabled="!change && updateCheck">
+            <button
+              class="px-4 py-2 rounded-md bg-gray-50 dark:bg-gray-700 submit ann-button"
+              :class="
+                change || (!updateCheck && !allFieldsEmpty)
+                  ? 'dark:bg-gray-700'
+                  : 'opacity-40 '
+              "
+              :disabled="(!change && updateCheck) || allFieldsEmpty"
+            >
               save
             </button>
-            <button class="px-4 py-2 rounded-md bg-gray-50 dark:bg-gray-700 ann-button" @click="$router.push({ name: 'adminuserpage' })">
+            <button
+              class="px-4 py-2 rounded-md bg-gray-50 dark:bg-gray-700 ann-button"
+              @click="$router.push({ name: 'adminuserpage' })"
+            >
               cancel
             </button>
           </div>
