@@ -34,6 +34,17 @@ const checkPath = (path) => {
         >
           <Groups /><span class="ann-menu">User</span>
         </button>
+        <button
+          class="flex items-center w-full px-4 py-2 optionSidebar rounded-xl"
+          :class="
+            checkPath('/match')
+              ? ' bg-whitesecondCustom dark:bg-darksecondCustom '
+              : ''
+          "
+          @click="$router.push({ name: 'matchpassword' })"
+        >
+          <Groups /><span class="ann-menu">Match Password</span>
+        </button>
       </div>
     </div>
   </div>

@@ -143,6 +143,17 @@ export const fetched_api = async ( role,category, mode, page, pageSize) => {
       `${import.meta.env.VITE_BASE_URL}users/${route}`
   );
   }
+
+  export const fetchMatch = async (sendData) =>{
+    return await fetch(`${import.meta.env.VITE_BASE_URL}users/match`,
+    {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json"
+      },
+      body: JSON.stringify(sendData),
+  })
+  }
   // export default fetched_api;
 
 

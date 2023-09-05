@@ -9,6 +9,7 @@ import Notfound from "@/views/Notfound.vue";
 import UsersPage from "@/views/admin/UsersPage.vue";
 import AddUserPage from "@/views/admin/AddUserPage.vue";
 import EditUserPage from "@/views/admin/EditUserPage.vue";
+import MatchPassword from "@/views/admin/MatchPassword.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -66,6 +67,11 @@ const router = createRouter({
             path: '/admin/user/:id/edit',
             name: 'edituser',
             component: EditUserPage,
+        },
+        {
+            path: '/admin/user/match',
+            name: 'matchpassword',
+            component: MatchPassword,
         },
         {
             path: "/:pathMatch(.*)*",
