@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-  <div class="inset-0 min-h-screen bg-white">
+  <div class="inset-0 min-h-screen  bg-whiteCustom dark:bg-blackCustom ">
     <div class="flex flex-col p-3 m-auto">
       <p class="text-black">NOT FOUND!!!</p>
       <button
