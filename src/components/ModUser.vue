@@ -1,5 +1,5 @@
 <script setup>
-import { provide, ref, watch, computed } from "vue";
+import { provide, ref, watch, computed, watchEffect } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import {
   fetchUpdateUser,
@@ -37,11 +37,18 @@ watch(
 
 const role = ref("");
 const username = ref("");
+const password = ref("");
+const conpassword = ref("");
 const name = ref("");
 const email = ref("");
 const createdOn = ref("");
 const updatedOn = ref("");
 const msg = ref([]);
+const pwdIsMatch = ref(true);
+
+// const validPwd = () => {
+//   pwdIsValid.value = conpassword.value.trim() !== "";
+// }
 
 const updateInit = () => {
   username.value = props.updatePackage.username;
@@ -52,46 +59,70 @@ const updateInit = () => {
   updatedOn.value = props.updatePackage.updatedOn;
 };
 
+// const validPwdMatch = () => {
+//   pwdIsMatch.value = password.value === conpassword.value;
+// };
+
 const errm = ref();
 const sendSubmit = async (event) => {
   event.preventDefault();
+
   const sendPackage = {
     username: username.value,
     name: name.value,
     email: email.value,
     role: role.value,
+    password: password.value,
   };
-  if (updateCheck.value) {
-    try {
-      console.log(JSON.stringify(sendPackage));
-      const response = await fetchUpdateUser(sendPackage, route);
-      if (response.status === 200) {
-        alert("update announcement success");
-        await router.push({ name: `adminuserpage` });
-      } else {
-        console.log(response);
-        alert("update announcement fail");
-        errm.value = await response.json();
-        alert(errm.value.message);
-        // console.log(errm.value.message)
+  if (password.value !== conpassword.value) {
+    alert("Passwords do not match. Please make sure your passwords match.");
+  } else if(!updateCheck && password.value === "" && conpassword.value === "") {
+    alert("Please enter a password");
+  }else {
+    if (updateCheck.value) {
+      try {
+        delete sendPackage["password"];
+        console.log(JSON.stringify(sendPackage));
+        const response = await fetchUpdateUser(sendPackage, route);
+        if (response.status === 200) {
+          alert("update user success");
+          await router.push({ name: `adminuserpage` });
+        } else {
+          console.log(response);
+          alert("update user fail");
+          errm.value = await response.json();
+          if (errm.value.detail && errm.value.detail.length > 0) {
+            errm.value.detail.forEach((error) => {
+              alert(error.errorMessage);
+            });
+          }
+          // console.log(errm.value.message)
+        }
+      } catch (err) {
+        alert(err);
       }
-    } catch (err) {
-      alert(err);
-    }
-  } else {
-    try {
-      console.log(JSON.stringify(sendPackage));
-      const response = await fetchCreateUser(sendPackage);
-      if (response.status === 200) {
-        alert("Create announcement success");
-        await router.push({ name: `adminuserpage` });
-      } else {
-        alert("Create announcement fail");
-        errm.value = await response.json();
-        alert(errm.value.message);
+    } else {
+      try {
+        console.log(JSON.stringify(sendPackage));
+        const response = await fetchCreateUser(sendPackage);
+        if (response.status === 200) {
+          alert("Create user success");
+          await router.push({ name: `adminuserpage` });
+        } else {
+          alert("Create user fail");
+          errm.value = await response.json();
+          if (errm.value.detail && errm.value.detail.length > 0) {
+            errm.value.detail.forEach((error) => {
+              if (error.errorMessage.includes("unique")) {
+                alert(error.errorMessage);
+              }
+            });
+          }
+          // console.log(errm.value.detail[0].errorMessage);
+        }
+      } catch (err) {
+        alert(err);
       }
-    } catch (err) {
-      alert(err);
     }
   }
 };
@@ -159,22 +190,64 @@ const checkEmail = (value) => {
 };
 
 const checkPassword = (value) => {
-  if (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/) {
+  if (
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
+      value
+    )
+  ) {
     msg.value["password"] = "";
-  }
-  else {
-    msg.value["password"] =
-      "Must be at least 8 characters! ";
+    return false;
+  } else if (password.value === "") {
+    msg.value["password"] = "";
+    return false;
+  } else {
+    msg.value["password"] = "Password must be at least 8 character and must contain 1 special character, 1 digit and Uppercase,Lowercase Character";
+    return true;
   }
 };
 
+const checkpwdMatch = () => {
+  if (
+    password.value === conpassword.value
+  ) {
+    msg.value["conpassword"] = "";
+    return false;
+  } else if (conpassword.value === "") {
+    msg.value["conpassword"] = "";
+    return false;
+  } else {
+    msg.value["conpassword"] = "Password not match!!";
+    return true;
+  }
+}
 
 const allFieldsEmpty = computed(() => {
-  return username.value === ""  ? true
-    : checkEmail(email.value) || name.value === "" || email.value === ""
-    || role.value === "";
+  return (
+    username.value === "" ||
+    name.value === "" ||
+    email.value === "" ||
+    checkEmail(email.value) ||
+    role.value === "" || (!checkAddOrEdit ? false : password.value === "" || checkPassword(password.value) || conpassword.value === "" || checkpwdMatch(conpassword.value) ) 
+  );
 });
 
+watchEffect(() => {
+  if (email.value !== "") {
+    checkEmail(email.value);
+  } else if (email.value === "") {
+    msg.value["email"] = "";
+  }
+  if (password.value !== "") {
+    checkPassword(password.value);
+  } else if (password.value === "") {
+    msg.value["password"] = "";
+  }
+  if (conpassword.value !== "") {
+    checkpwdMatch(conpassword.value);
+  } else if (conpassword.value === "") {
+    msg.value["conpassword"] = "";
+  }
+});
 
 const countusernameCharac = computed(() => {
   const maxLength = 45;
@@ -199,6 +272,7 @@ const countemailCharac = computed(() => {
   if (email.value === null) return maxLength;
   return maxLength - (email.value.length || 0);
 });
+
 
 provide(/* key */ "role", /* value */ "admin");
 </script>
@@ -229,13 +303,19 @@ provide(/* key */ "role", /* value */ "admin");
             />
           </div>
           <div v-show="!checkAddOrEdit" class="text-lg flex flex-col space-y-2">
-            <p>Password</p>
+            <div class="flex flex-row w-3/4">
+              <p>Password</p>
+              <div class="flex w-full justify-end">
+                <p class="text-sm my-auto">
+                  Remaining: {{ countpasswordCharac }}
+                </p>
+              </div>
+            </div>
             <input
-              v-model="username"
+              v-model="password"
               class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2 ann-password"
               type="password"
               maxlength="14"
-              required
             />
             <span v-if="msg.password" class="text-red-400">{{
               msg.password
@@ -244,20 +324,20 @@ provide(/* key */ "role", /* value */ "admin");
           <div v-show="!checkAddOrEdit" class="text-lg flex flex-col space-y-2">
             <p>Confirm password</p>
             <input
-              v-model="username"
+              v-model="conpassword"
               class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2 ann-confirm-password"
               type="password"
               maxlength="14"
-              required
             />
+            <span v-if="msg.conpassword" class="text-red-400">{{
+              msg.conpassword
+            }}</span>
           </div>
           <div class="text-lg flex flex-col space-y-2">
             <div class="flex flex-row w-3/4">
               <p>Name</p>
               <div class="flex w-full justify-end">
-                <p class="text-sm my-auto">
-                  Remaining: {{ countnameCharac }}
-                </p>
+                <p class="text-sm my-auto">Remaining: {{ countnameCharac }}</p>
               </div>
             </div>
             <input
@@ -272,9 +352,7 @@ provide(/* key */ "role", /* value */ "admin");
             <div class="flex flex-row w-3/4">
               <p>Email</p>
               <div class="flex w-full justify-end">
-                <p class="text-sm my-auto">
-                  Remaining: {{ countemailCharac }}
-                </p>
+                <p class="text-sm my-auto">Remaining: {{ countemailCharac }}</p>
               </div>
             </div>
             <input
@@ -311,7 +389,9 @@ provide(/* key */ "role", /* value */ "admin");
                   ? 'dark:bg-gray-700'
                   : 'opacity-40 '
               "
-              :disabled="(!change && updateCheck) || allFieldsEmpty"
+              :disabled="
+                !(change || (!updateCheck && !allFieldsEmpty))
+              "
             >
               save
             </button>
