@@ -68,9 +68,9 @@ const updateInit = () => {
 
 const errm = ref();
 const sendSubmit = async (event) => {
-  trim(); 
+  
   event.preventDefault();
-
+  trim(); 
   const sendPackage = {
     username: username.value,
     name: name.value,
@@ -88,7 +88,8 @@ const sendSubmit = async (event) => {
     conpassword.value === ""
   ) {
     alert("Please enter a password");
-  }else if(password.value.length<  8 || password.value.length > 14) {
+  }else if((password.value.length < 8 || password.value.length > 14) &&
+    !updateCheck.value) {
     errorPassword.value ="Password size must be between 8 and 14"
     password.value = ""
     conpassword.value = ""
@@ -341,6 +342,7 @@ provide(/* key */ "role", /* value */ "admin");
 
 <template>
   {{ errorMessages }}
+  {{ status }}
   <form class="w-full" @submit="sendSubmit">
     <div class="flex flex-col space-y-5">
       <div class="text-4xl ml-4">
