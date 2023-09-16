@@ -4,7 +4,7 @@ import Ann from "../icons/Ann.vue";
 import Groups from "../icons/Groups.vue";
 const route = useRoute();
 const checkPath = (path) => {
-  return route.path.includes(path);
+  return route.path.endsWith(path);
 };
 </script>
 
