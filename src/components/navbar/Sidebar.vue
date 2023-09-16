@@ -4,7 +4,8 @@ import Ann from "../icons/Ann.vue";
 import Groups from "../icons/Groups.vue";
 const route = useRoute();
 const checkPath = (path) => {
-  return route.path.includes(path);
+  console.log(route.path, path, route.path.endsWith(path));
+  return route.path.endsWith(path);
 };
 </script>
 
@@ -26,7 +27,7 @@ const checkPath = (path) => {
         <button
           class="flex items-center w-full px-4 py-2 optionSidebar rounded-xl"
           :class="
-            checkPath('/users')
+            checkPath('/user')
               ? ' bg-whitesecondCustom dark:bg-darksecondCustom '
               : ''
           "
