@@ -37,7 +37,7 @@ provide(/* key */ "role", /* value */ "admin");
         
     <form class="w-full" @submit="sendSubmit">
       <div class="flex flex-col space-y-5 items-center pt-20">
-        <div class="flex w-3/4">
+        <div class="flex w-3/4 ann-message">
             <div v-if="status == 200" class="p-6  text-green-500 bg-green-200 border-green-500 rounded-xl">
             <p class="text-2xl">Password Matched</p>
         </div>

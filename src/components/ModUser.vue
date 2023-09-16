@@ -44,6 +44,9 @@ const email = ref("");
 const createdOn = ref("");
 const updatedOn = ref("");
 const msg = ref([]);
+const errorMessages = ref([]);
+const status = ref("");
+
 const pwdIsMatch = ref(true);
 
 // const validPwd = () => {
@@ -65,6 +68,7 @@ const updateInit = () => {
 
 const errm = ref();
 const sendSubmit = async (event) => {
+  trim(); 
   event.preventDefault();
 
   const sendPackage = {
@@ -75,10 +79,21 @@ const sendSubmit = async (event) => {
     password: password.value,
   };
   if (password.value !== conpassword.value) {
-    alert("Passwords do not match. Please make sure your passwords match.");
-  } else if(!updateCheck && password.value === "" && conpassword.value === "") {
+    // alert("Passwords do not match. Please make sure your passwords match.");
+    errorConfirm.value = "The password DOES NOT match";
+    conpassword.value =""
+  } else if (
+    !updateCheck &&
+    password.value === "" &&
+    conpassword.value === ""
+  ) {
     alert("Please enter a password");
-  }else {
+  }else if(password.value.length<  8 || password.value.length > 14) {
+    errorPassword.value ="Password size must be between 8 and 14"
+    password.value = ""
+    conpassword.value = ""
+  }
+   else {
     if (updateCheck.value) {
       try {
         delete sendPackage["password"];
@@ -90,11 +105,16 @@ const sendSubmit = async (event) => {
         } else {
           console.log(response);
           alert("update user fail");
+          if (response.status === 400) {
+            status.value = 400;
+          }
           errm.value = await response.json();
           if (errm.value.detail && errm.value.detail.length > 0) {
-            errm.value.detail.forEach((error) => {
-              alert(error.errorMessage);
-            });
+            const extractedErrors = [];
+            for (const error of errm.value.detail) {
+              extractedErrors.push(error);
+            }
+            errorMessages.value = extractedErrors;
           }
           // console.log(errm.value.message)
         }
@@ -110,13 +130,16 @@ const sendSubmit = async (event) => {
           await router.push({ name: `adminuserpage` });
         } else {
           alert("Create user fail");
+          if (response.status === 400) {
+            status.value = 400;
+          }
           errm.value = await response.json();
           if (errm.value.detail && errm.value.detail.length > 0) {
-            errm.value.detail.forEach((error) => {
-              if (error.errorMessage.includes("unique")) {
-                alert(error.errorMessage);
-              }
-            });
+            const extractedErrors = [];
+            for (const error of errm.value.detail) {
+              extractedErrors.push(error);
+            }
+            errorMessages.value = extractedErrors;
           }
           // console.log(errm.value.detail[0].errorMessage);
         }
@@ -201,15 +224,14 @@ const checkPassword = (value) => {
     msg.value["password"] = "";
     return false;
   } else {
-    msg.value["password"] = "Password must be at least 8 character and must contain 1 special character, 1 digit and Uppercase,Lowercase Character";
+    msg.value["password"] =
+      "Password must be at least 8 character and must contain 1 special character, 1 digit and Uppercase,Lowercase Character";
     return true;
   }
 };
 
 const checkpwdMatch = () => {
-  if (
-    password.value === conpassword.value
-  ) {
+  if (password.value === conpassword.value) {
     msg.value["conpassword"] = "";
     return false;
   } else if (conpassword.value === "") {
@@ -219,34 +241,37 @@ const checkpwdMatch = () => {
     msg.value["conpassword"] = "Password not match!!";
     return true;
   }
-}
+};
 
-const allFieldsEmpty = computed(() => {
-  return (
-    username.value === "" ||
-    name.value === "" ||
-    email.value === "" ||
-    checkEmail(email.value) ||
-    role.value === "" || (!checkAddOrEdit ? false : password.value === "" || checkPassword(password.value) || conpassword.value === "" || checkpwdMatch(conpassword.value) ) 
-  );
-});
+// const allFieldsEmpty = computed(() => {
+//   return (
+//     // checkEmail(email.value) ||
+//     (!checkAddOrEdit
+//       ? false : 
+//         checkpwdMatch(conpassword.value))
+//       // : password.value === "" ||
+//       //   checkPassword(password.value) ||
+//       // conpassword.value === "" ||
+        
+//   );
+// });
 
 watchEffect(() => {
-  if (email.value !== "") {
-    checkEmail(email.value);
-  } else if (email.value === "") {
-    msg.value["email"] = "";
-  }
-  if (password.value !== "") {
-    checkPassword(password.value);
-  } else if (password.value === "") {
-    msg.value["password"] = "";
-  }
-  if (conpassword.value !== "") {
-    checkpwdMatch(conpassword.value);
-  } else if (conpassword.value === "") {
-    msg.value["conpassword"] = "";
-  }
+  // if (email.value !== "") {
+  //   checkEmail(email.value);
+  // } else if (email.value === "") {
+  //   msg.value["email"] = "";
+  // }
+  // if (password.value !== "") {
+  //   checkPassword(password.value);
+  // } else if (password.value === "") {
+  //   msg.value["password"] = "";
+  // }
+  // if (conpassword.value !== "") {
+  //   checkpwdMatch(conpassword.value);
+  // } else if (conpassword.value === "") {
+  //   msg.value["conpassword"] = "";
+  // }
 });
 
 const countusernameCharac = computed(() => {
@@ -258,7 +283,7 @@ const countusernameCharac = computed(() => {
 const countpasswordCharac = computed(() => {
   const maxLength = 14;
   if (username.value === null) return maxLength;
-  return maxLength - (username.value.length || 0);
+  return maxLength - (password.value.length || 0);
 });
 
 const countnameCharac = computed(() => {
@@ -273,11 +298,49 @@ const countemailCharac = computed(() => {
   return maxLength - (email.value.length || 0);
 });
 
+const trim = () => {
+  if (username.value !== username.value.trim()) {
+    username.value = username.value.trim();
+  }
+  // if (password.value !== password.value.trim()) {
+  //   password.value = password.value.trim();
+  // }
+  if (name.value !== name.value.trim()) {
+    name.value = name.value.trim();
+  }
+  if (email.value !== email.value.trim()) {
+    email.value = email.value.trim();
+  }
+};
+let errorUsername = ref("");
+let errorPassword = ref("");
+let errorEmail = ref("");
+let errorName = ref("");
+let errorConfirm = ref("");
+watchEffect(() => {
+  // arrayError.value = ref([username, email, name])
+  for (const error of errorMessages.value) {
+    console.log(error);
+    if (error.field === "username") {
+      errorUsername.value = error.errorMessage;
+    } else if (error.field === "email") {
+      errorEmail.value = error.errorMessage;
+    }else  if (error.field === "name") {
+      errorName.value = error.errorMessage;
+    }
+    else if (error.field === "password") {
+      password.value = "";
+      conpassword.value="";
+      errorPassword.value = error.errorMessage;
+    }
+  }
+});
 
 provide(/* key */ "role", /* value */ "admin");
 </script>
 
 <template>
+  {{ errorMessages }}
   <form class="w-full" @submit="sendSubmit">
     <div class="flex flex-col space-y-5">
       <div class="text-4xl ml-4">
@@ -301,8 +364,14 @@ provide(/* key */ "role", /* value */ "admin");
               maxlength="45"
               required
             />
+            <div
+              v-if="status == 400 && errorUsername"
+              class="text-red-500 my-auto pr-5"
+            >
+              <p class="text-base ann-error-username">{{ errorUsername }}</p>
+            </div>
           </div>
-          <div v-show="!checkAddOrEdit" class="text-lg flex flex-col space-y-2">
+          <div v-if="!checkAddOrEdit" class="text-lg flex flex-col space-y-2">
             <div class="flex flex-row w-3/4">
               <p>Password</p>
               <div class="flex w-full justify-end">
@@ -316,21 +385,29 @@ provide(/* key */ "role", /* value */ "admin");
               class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2 ann-password"
               type="password"
               maxlength="14"
+              required
             />
-            <span v-if="msg.password" class="text-red-400">{{
+            <div
+              v-if="errorPassword"
+              class="text-red-500 my-auto pr-5"
+            >
+              <p class="text-base ann-error-password">{{ errorPassword }}</p>
+            </div>
+            <span v-if="msg.password" class="text-red-400 ">{{
               msg.password
             }}</span>
           </div>
-          <div v-show="!checkAddOrEdit" class="text-lg flex flex-col space-y-2">
+          <div v-if="!checkAddOrEdit" class="text-lg flex flex-col space-y-2">
             <p>Confirm password</p>
             <input
               v-model="conpassword"
               class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2 ann-confirm-password"
               type="password"
               maxlength="14"
+              required
             />
-            <span v-if="msg.conpassword" class="text-red-400">{{
-              msg.conpassword
+            <span v-if="errorConfirm" class="text-red-400 ann-error-password">{{
+              errorConfirm
             }}</span>
           </div>
           <div class="text-lg flex flex-col space-y-2">
@@ -347,6 +424,12 @@ provide(/* key */ "role", /* value */ "admin");
               maxlength="100"
               required
             />
+            <div
+              v-if="status == 400 && errorName"
+              class="text-red-500 my-auto pr-5"
+            >
+              <p class="text-base ann-error-name">{{ errorName }}</p>
+            </div>
           </div>
           <div class="text-lg flex flex-col space-y-2">
             <div class="flex flex-row w-3/4">
@@ -358,11 +441,17 @@ provide(/* key */ "role", /* value */ "admin");
             <input
               v-model="email"
               class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2 ann-email"
-              type="text"
+              type="email"
               maxlength="150"
               required
             />
-            <span v-if="msg.email" class="text-red-400">{{ msg.email }}</span>
+            <div
+              v-if="status == 400 && errorEmail"
+              class="text-red-500 my-auto pr-5"
+            >
+              <p class="text-base ann-error-email">{{ errorEmail }}</p>
+            </div>
+            <!-- <span v-if="msg.email" class="text-red-400">{{ msg.email }}</span> -->
           </div>
           <div class="text-lg flex flex-col space-y-2">
             <p>Role</p>
@@ -385,13 +474,11 @@ provide(/* key */ "role", /* value */ "admin");
             <button
               class="px-4 py-2 rounded-md bg-gray-50 dark:bg-gray-700 submit ann-button"
               :class="
-                change || (!updateCheck && !allFieldsEmpty)
+                change || !updateCheck
                   ? 'dark:bg-gray-700'
                   : 'opacity-40 '
               "
-              :disabled="
-                !(change || (!updateCheck && !allFieldsEmpty))
-              "
+              :disabled="!(change || !updateCheck)" 
             >
               save
             </button>
