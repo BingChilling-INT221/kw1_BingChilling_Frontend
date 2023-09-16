@@ -26,7 +26,7 @@ const checkPath = (path) => {
         <button
           class="flex items-center w-full px-4 py-2 optionSidebar rounded-xl"
           :class="
-            checkPath('/users')
+            checkPath('/user')
               ? ' bg-whitesecondCustom dark:bg-darksecondCustom '
               : ''
           "
