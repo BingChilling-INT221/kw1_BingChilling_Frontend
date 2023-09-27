@@ -33,7 +33,12 @@ export const fetched_api = async ( role,category, mode, page, pageSize) => {
 
   export const fetchCate = async() =>{
     try {
-      const response = await fetch(`${import.meta.env.VITE_BASE_URL}categories`);
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}categories`,
+      {
+        headers: {
+          Authorization: `${accesstoken}`,
+        },
+      });
       if (response.status === 200) {
         return await response.json();
       } else {
@@ -47,12 +52,22 @@ export const fetched_api = async ( role,category, mode, page, pageSize) => {
 
   export const fetchCountParam = async(route,count) =>{
         return await fetch(
-          `${import.meta.env.VITE_BASE_URL}announcements/${route}?count=${count}`)
+          `${import.meta.env.VITE_BASE_URL}announcements/${route}?count=${count}`,
+          {
+            headers: {
+              Authorization: `${accesstoken}`,
+            },
+          })
   }
 
 
   export const fetchCateForMod = async() =>{
-    return fetch(`${import.meta.env.VITE_BASE_URL}categories`);
+    return fetch(`${import.meta.env.VITE_BASE_URL}categories`,
+    {
+      headers: {
+        Authorization: `${accesstoken}`,
+      },
+    });
   }
 
   export const fetchCreate = async(sendPackage) =>{
