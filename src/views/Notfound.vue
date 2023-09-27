@@ -15,12 +15,6 @@
       >
         Go to Admin Homepage
       </button>
-      <button
-        class="px-2 py-4 m-4 text-white rounded-xl bg-redCustom"
-        @click="goTo('login')"
-      >
-        Go to login
-      </button>
     </div>
   </div>
 </template>
