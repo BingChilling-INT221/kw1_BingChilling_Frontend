@@ -10,6 +10,7 @@ import UsersPage from "@/views/admin/UsersPage.vue";
 import AddUserPage from "@/views/admin/AddUserPage.vue";
 import EditUserPage from "@/views/admin/EditUserPage.vue";
 import MatchPassword from "@/views/admin/MatchPassword.vue";
+import Login from "@/views/admin/loginPage.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -72,6 +73,11 @@ const router = createRouter({
             path: '/admin/user/match',
             name: 'matchpassword',
             component: MatchPassword,
+        },
+        {
+            path: '/login',
+            name: 'login',
+            component: Login,
         },
         {
             path: "/:pathMatch(.*)*",

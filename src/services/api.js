@@ -1,3 +1,5 @@
+const accesstoken = localStorage.getItem('accesstoken');
+const refreshtoken = localStorage.getItem('refreshtoken');
 export const fetched_api = async ( role,category, mode, page, pageSize) => {
     console.log("fetched_api")
     try {
@@ -11,9 +13,16 @@ export const fetched_api = async ( role,category, mode, page, pageSize) => {
         }
         return mode !== "" ? `&mode=${mode}` : "";
       });
+      console.log(accesstoken)
       return await fetch(
-          `${import.meta.env.VITE_BASE_URL}announcements/pages?${modeFetch()}&page=${page}&size=${pageSize}${selectCategory()}`
+        `${import.meta.env.VITE_BASE_URL}announcements/pages?${modeFetch()}&page=${page}&size=${pageSize}${selectCategory()}`,
+        {
+          headers: {
+            Authorization: `${accesstoken}`,
+          },
+        }
       );
+         
     } catch (err) {
         console.log(err);
       alert("ยังหาข้อมูลไม่พบโปรดรีเฟรชหน้าอีกครั้งครับ");
@@ -146,6 +155,16 @@ export const fetched_api = async ( role,category, mode, page, pageSize) => {
 
   export const fetchMatch = async (sendData) =>{
     return await fetch(`${import.meta.env.VITE_BASE_URL}users/match`,
+    {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json"
+      },
+      body: JSON.stringify(sendData),
+  })
+  }
+  export const fetchCreateToken = async (sendData) =>{
+    return await fetch(`${import.meta.env.VITE_BASE_URL}token`,
     {
       method: "POST",
       headers: {
