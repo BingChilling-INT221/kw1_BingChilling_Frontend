@@ -33,6 +33,7 @@ export const fetched_api = async ( role,category, mode, page, pageSize) => {
 
   export const fetchCate = async() =>{
     try {
+      console.log(accesstoken)
       const response = await fetch(`${import.meta.env.VITE_BASE_URL}categories`,
       {
         headers: {
@@ -158,13 +159,22 @@ export const fetched_api = async ( role,category, mode, page, pageSize) => {
 
   export const fetchUser = async () =>{
     return await fetch(
-      `${import.meta.env.VITE_BASE_URL}users`
+      `${import.meta.env.VITE_BASE_URL}users`,{
+        headers: {
+          Authorization: `${accesstoken}`,
+        },
+      }
+      
   );
   }
 
   export const fetchUserEdit = async(route) =>{
     return await fetch(
-      `${import.meta.env.VITE_BASE_URL}users/${route}`
+      `${import.meta.env.VITE_BASE_URL}users/${route}`,{
+        headers: {
+          Authorization: `${accesstoken}`,
+        },
+      }
   );
   }
 
