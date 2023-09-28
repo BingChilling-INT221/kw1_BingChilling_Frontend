@@ -1,7 +1,7 @@
 <script setup>
 import AnnDetail from "@/components/AnnDetail.vue";
 import format_page from "@/components/format_page.vue";
-import { provide } from "vue";
+import {provide} from "vue";
 
 provide(/* key */ "role", /* value */ "admin");
 </script>

@@ -26,10 +26,10 @@ const changeTime = (time) => {
     year: "numeric",
   };
   return `${newDate.toLocaleDateString("en-GB", options).replace(/,/gi, '') +
-    ", " +
-    newDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false })
+  ", " +
+  newDate.toLocaleTimeString([], {hour: "2-digit", minute: "2-digit", hour12: false})
 
-    }`;
+  }`;
 };
 const printError = (err) => {
   let message = "";
@@ -40,7 +40,7 @@ const printError = (err) => {
 }
 const deleteAnnouncement = async (id) => {
   if (
-    confirm("Are you sure you want to delete this announcement?") === false
+      confirm("Are you sure you want to delete this announcement?") === false
   ) {
     return;
   }
@@ -82,7 +82,7 @@ const seeDetail = (env) => {
   if (checkAdmin.value) {
     env.preventDefault()
   } else {
-    router.push({ name: `${role.value}announcementdetail`, params: { id: `${props.annData.id}` } })
+    router.push({name: `${role.value}announcementdetail`, params: {id: `${props.annData.id}`}})
   }
 }
 
@@ -92,7 +92,7 @@ const seeDetail = (env) => {
 <template>
   <div class="max-w-full my-2 text-xl font-semibold ann-item" @click="seeDetail">
     <div
-      class="flex flex-col p-2 m-auto rounded-md min-h-20 bg-black2Cus lg:min-w-fit lg:flex-row lg:max-w-2xl xl:max-w-none ">
+        class="flex flex-col p-2 m-auto rounded-md min-h-20 bg-black2Cus lg:min-w-fit lg:flex-row lg:max-w-2xl xl:max-w-none ">
 
       <div class="flex flex-row flex-grow">
         <div class="flex items-center justify-center w-16 my-auto font-semibold break-all border-r-2">
@@ -122,18 +122,18 @@ const seeDetail = (env) => {
       </div>
       <div class="flex flex-row">
         <div :class="annData.announcementDisplay === 'Y' ? 'bg-green-500' : 'bg-red-500'"
-          class="flex justify-center w-10 m-auto text-sm text-center text-white bg-green-500 rounded-lg ann-display">
+             class="flex justify-center w-10 m-auto text-sm text-center text-white bg-green-500 rounded-lg ann-display">
           {{ annData.announcementDisplay }}
 
         </div>
         <div class="w-24 my-auto" v-show="checkAdmin">views: {{ annData.viewCount }}</div>
         <div v-show="checkAdmin" class="flex flex-row m-auto lg:flex-col ">
           <button class="px-2 py-1 ml-2 text-sm font-medium rounded-lg hover:bg-green-500 ann-button"
-            @click="$router.push({ name: `${role}announcementdetail`, params: { id: annData.id } })">
+                  @click="$router.push({ name: `${role}announcementdetail`, params: { id: annData.id } })">
             view
           </button>
           <button class="px-2 py-1 ml-2 text-sm font-medium rounded-lg hover:bg-red-500 ann-button"
-            @click="deleteAnnouncement(annData.id)">delete
+                  @click="deleteAnnouncement(annData.id)">delete
           </button>
         </div>
       </div>

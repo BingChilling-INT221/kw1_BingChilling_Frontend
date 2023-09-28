@@ -1,5 +1,5 @@
 <script setup>
-import { provide } from "vue";
+import {provide} from "vue";
 import AnnHomePageView from "@/components/navbar/AnnHomePageView.vue";
 import format_page from "@/components/format_page.vue";
 // import { useRoleStore } from '@/stores/role'
@@ -11,7 +11,7 @@ provide(/* key */ "role", /* value */ "user");
 <template>
   <div>
     <format_page>
-      <AnnHomePageView />
+      <AnnHomePageView/>
     </format_page>
   </div>
 </template>

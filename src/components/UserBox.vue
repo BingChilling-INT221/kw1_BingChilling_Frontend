@@ -1,5 +1,5 @@
 <script setup>
-import { fetchDeleteUser } from "../services/api.js";
+import {fetchDeleteUser} from "../services/api.js";
 
 const props = defineProps({
   annItem: {
@@ -24,15 +24,15 @@ const changeTime = (time) => {
     year: "numeric",
   };
   return `${newDate.toLocaleDateString("en-GB", options).replace(/,/gi, '') +
-    ", " +
-    newDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false })
+  ", " +
+  newDate.toLocaleTimeString([], {hour: "2-digit", minute: "2-digit", hour12: false})
 
-    }`;
+  }`;
 };
 
 const deleteUser = async (id) => {
   if (
-    confirm("Are you sure you want to delete this User?") === false
+      confirm("Are you sure you want to delete this User?") === false
   ) {
     return;
   }
@@ -58,70 +58,70 @@ const deleteUser = async (id) => {
 
 <template>
   <!-- <div class="ann-item"> -->
-    <!-- <tbody>
-      <tr> -->
-      <th scope="row" class="py-4 px-6 whitespace-nowrap">
-        {{ index+1 }}
-      </th>
-      <td class="py-4 px-6 ann-username">
-        {{ annItem.username}}
-      </td>
-      <td class="py-4 px-6 ann-name">
-        {{ annItem.name}}
-      </td>
-      <td class="py-4 px-6 ann-email">
-        {{ annItem.email}}
-      </td>
-      <td  class="py-4 px-6 ann-role">
-        {{ annItem.role}}
-      </td>
-      <td class="py-4 px-6 ann-created-on">
-        {{ changeTime(annItem.createdOn) }}
-      </td>
-      <td  class="py-4 px-6 ann-updated-on">
-        {{ changeTime(annItem.updatedOn) }}
-      </td>
-      <td class="py-4 px-6 text-right">
-        <div class="inline-flex">
-          <button class="px-4 py-2 rounded-l bg-gray-50 dark:bg-gray-700 ann-button" @click="
+  <!-- <tbody>
+    <tr> -->
+  <th scope="row" class="py-4 px-6 whitespace-nowrap">
+    {{ index + 1 }}
+  </th>
+  <td class="py-4 px-6 ann-username">
+    {{ annItem.username }}
+  </td>
+  <td class="py-4 px-6 ann-name">
+    {{ annItem.name }}
+  </td>
+  <td class="py-4 px-6 ann-email">
+    {{ annItem.email }}
+  </td>
+  <td class="py-4 px-6 ann-role">
+    {{ annItem.role }}
+  </td>
+  <td class="py-4 px-6 ann-created-on">
+    {{ changeTime(annItem.createdOn) }}
+  </td>
+  <td class="py-4 px-6 ann-updated-on">
+    {{ changeTime(annItem.updatedOn) }}
+  </td>
+  <td class="py-4 px-6 text-right">
+    <div class="inline-flex">
+      <button class="px-4 py-2 rounded-l bg-gray-50 dark:bg-gray-700 ann-button" @click="
               $router.push({
                 name: 'edituser',
                 params: { id: annItem.id },
               })
             ">
-            edit
-          </button>
-          <button class="px-4 py-2 rounded-r bg-gray-50 dark:bg-gray-700 ann-button" @click="deleteUser(annItem.id)">
-            delete
-          </button>
-        </div>
-      </td>
-    <!-- </tr>
-    </tbody> -->
-    
-    <!-- <table class="w-full">
-      
-      <tbody>
-        <tr>
-          <td class="text-left">{{ annItem.id}}</td>
-          <td class="text-left">{{annItem.username }}</td>
-          <td class="">{{annItem.name}}</td>
-          <td class="">{{ annItem.email }}</td>
-          <td class="">{{ annItem.role }}</td>
-          <td class="">{{ annItem.createdOn }}</td>
-          <td class="">{{ annItem.updatedOn }}</td>
-          <div class="flex flex-row space-x-3 my-a">
-            <button class="px-4 py-1 rounded-md bg-gray-50 dark:bg-gray-700">
-            Edit
-          </button>
-          <button class="px-4 py-1 rounded-md bg-gray-50 dark:bg-gray-700">
-            Delete
-          </button>
-          </div>
+        edit
+      </button>
+      <button class="px-4 py-2 rounded-r bg-gray-50 dark:bg-gray-700 ann-button" @click="deleteUser(annItem.id)">
+        delete
+      </button>
+    </div>
+  </td>
+  <!-- </tr>
+  </tbody> -->
 
-        </tr>
-      </tbody>
-    </table> -->
+  <!-- <table class="w-full">
+
+    <tbody>
+      <tr>
+        <td class="text-left">{{ annItem.id}}</td>
+        <td class="text-left">{{annItem.username }}</td>
+        <td class="">{{annItem.name}}</td>
+        <td class="">{{ annItem.email }}</td>
+        <td class="">{{ annItem.role }}</td>
+        <td class="">{{ annItem.createdOn }}</td>
+        <td class="">{{ annItem.updatedOn }}</td>
+        <div class="flex flex-row space-x-3 my-a">
+          <button class="px-4 py-1 rounded-md bg-gray-50 dark:bg-gray-700">
+          Edit
+        </button>
+        <button class="px-4 py-1 rounded-md bg-gray-50 dark:bg-gray-700">
+          Delete
+        </button>
+        </div>
+
+      </tr>
+    </tbody>
+  </table> -->
   <!-- </div> -->
 
   <!-- <div class="w-full">

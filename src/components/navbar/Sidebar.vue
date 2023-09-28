@@ -1,7 +1,8 @@
 <script setup>
-import { useRoute } from "vue-router";
+import {useRoute} from "vue-router";
 import Ann from "../icons/Ann.vue";
 import Groups from "../icons/Groups.vue";
+
 const route = useRoute();
 const checkPath = (path) => {
   console.log(route.path, path, route.path.endsWith(path));
@@ -14,37 +15,40 @@ const checkPath = (path) => {
     <div class="absolute w-[320px] pt-[3.75rem] min-h-screen lg:block hidden">
       <div class="w-10/12 mt-1 ml-4 space-y-2">
         <button
-          class="flex items-center w-full px-4 py-2 optionSidebar rounded-xl"
-          :class="
+            class="flex items-center w-full px-4 py-2 optionSidebar rounded-xl"
+            :class="
             checkPath('/announcement')
               ? ' bg-whitesecondCustom dark:bg-darksecondCustom '
               : ''
           "
-          @click="$router.push({ name: 'adminhomepage' })"
+            @click="$router.push({ name: 'adminhomepage' })"
         >
-          <Ann /><span class="ann-menu">Announcement</span>
+          <Ann/>
+          <span class="ann-menu">Announcement</span>
         </button>
         <button
-          class="flex items-center w-full px-4 py-2 optionSidebar rounded-xl"
-          :class="
+            class="flex items-center w-full px-4 py-2 optionSidebar rounded-xl"
+            :class="
             checkPath('/user')
               ? ' bg-whitesecondCustom dark:bg-darksecondCustom '
               : ''
           "
-          @click="$router.push({ name: 'adminuserpage' })"
+            @click="$router.push({ name: 'adminuserpage' })"
         >
-          <Groups /><span class="ann-menu">User</span>
+          <Groups/>
+          <span class="ann-menu">User</span>
         </button>
         <button
-          class="flex items-center w-full px-4 py-2 optionSidebar rounded-xl"
-          :class="
+            class="flex items-center w-full px-4 py-2 optionSidebar rounded-xl"
+            :class="
             checkPath('/match')
               ? ' bg-whitesecondCustom dark:bg-darksecondCustom '
               : ''
           "
-          @click="$router.push({ name: 'matchpassword' })"
+            @click="$router.push({ name: 'matchpassword' })"
         >
-          <Groups /><span class="ann-menu">Match Password</span>
+          <Groups/>
+          <span class="ann-menu">Match Password</span>
         </button>
       </div>
     </div>

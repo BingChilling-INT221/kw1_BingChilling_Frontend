@@ -1,15 +1,15 @@
 <script setup>
-import { RouterView } from "vue-router";
-import { useAnnouncerStore } from "@/stores/announcer.js";
+import {RouterView} from "vue-router";
+import {useAnnouncerStore} from "@/stores/announcer.js";
 
 const announcer = useAnnouncerStore();
 
 /// ref form https://tailwindcss.com/docs/dark-mode
 // On page load or when changing themes, best to add inline in `head` to avoid FOUC
 if (
-  localStorage.theme === "dark" ||
-  (!("theme" in localStorage) &&
-    window.matchMedia("(prefers-color-scheme: dark)").matches)
+    localStorage.theme === "dark" ||
+    (!("theme" in localStorage) &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
 ) {
   document.documentElement.classList.add("dark");
 } else {
@@ -25,13 +25,13 @@ if (
 </script>
 <template>
   <div
-    class="w-full min-h-screen top-0 absolute duration-[350ms] text-sm bg-whiteCustom dark:bg-blackCustom text-blackCustom dark:text-whiteCustom"
+      class="w-full min-h-screen top-0 absolute duration-[350ms] text-sm bg-whiteCustom dark:bg-blackCustom text-blackCustom dark:text-whiteCustom"
   >
     <!-- <div class="flex">
       <Sidebar />
       <div class="flex max-w-full basis-full">
         <navbar class="fixed top-0 left-0 w-full max"></navbar> -->
-    <router-view />
+    <router-view/>
     <!-- </div>
     </div> -->
   </div>

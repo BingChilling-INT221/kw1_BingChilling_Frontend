@@ -1,10 +1,8 @@
 import {createApp} from 'vue'
 import {createPinia} from 'pinia'
-import { QuillEditor } from '@vueup/vue-quill'
+import {QuillEditor} from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import '@vueup/vue-quill/dist/vue-quill.bubble.css';
-
-// import VueSimplemde from 'vue-simplemde'
 
 
 import App from './App.vue'

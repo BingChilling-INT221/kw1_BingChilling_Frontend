@@ -17,11 +17,11 @@ const toggleDarkMode = () => {
   <button>
     <label class="swap swap-rotate">
       <!-- this hidden checkbox controls the state -->
-      <input type="checkbox" />
+      <input type="checkbox"/>
 
       <!-- sun icon -->
-      <moonlight class="swap-on" @click="toggleDarkMode" />
-      <sunlight class="swap-off" @click="toggleDarkMode" />
+      <moonlight class="swap-on" @click="toggleDarkMode"/>
+      <sunlight class="swap-off" @click="toggleDarkMode"/>
     </label>
   </button>
 </template>

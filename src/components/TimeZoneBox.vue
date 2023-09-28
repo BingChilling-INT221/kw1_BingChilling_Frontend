@@ -1,5 +1,6 @@
 <script setup>
 import globe from "./icons/Globe.vue";
+
 const props = defineProps({
   timezone: {
     type: String,
@@ -11,7 +12,7 @@ const props = defineProps({
 <template>
   <div>
     <div class="flex items-center">
-      <globe class="mx-1" />
+      <globe class="mx-1"/>
       <span class="ann-timezone">{{ timezone }}</span>
     </div>
   </div>

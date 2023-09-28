@@ -1,11 +1,8 @@
 <script setup>
-import { provide, ref, watch, computed, watchEffect } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import {
-  fetchUpdateUser,
-  fetchCreateUser,
-  fetchDeleteUser,
-} from "../services/api.js";
+import {computed, provide, ref, watch, watchEffect} from "vue";
+import {useRoute, useRouter} from "vue-router";
+import {fetchCreateUser, fetchUpdateUser,} from "../services/api.js";
+
 const route = useRoute();
 
 const props = defineProps({
@@ -20,19 +17,19 @@ const router = useRouter();
 
 const updateCheck = ref(false);
 watch(
-  () => props.updatePackage,
-  (newv) => {
-    console.log(JSON.stringify(newv).length);
-    if (JSON.stringify(newv).length > 0) {
-      updateCheck.value = true;
-      checkAddOrEdit.value = true;
-      updateInit();
-    } else {
-      console.log("no update");
-      updateCheck.value = false;
-      checkAddOrEdit.value = false;
+    () => props.updatePackage,
+    (newv) => {
+      console.log(JSON.stringify(newv).length);
+      if (JSON.stringify(newv).length > 0) {
+        updateCheck.value = true;
+        checkAddOrEdit.value = true;
+        updateInit();
+      } else {
+        console.log("no update");
+        updateCheck.value = false;
+        checkAddOrEdit.value = false;
+      }
     }
-  }
 );
 
 const role = ref("announcer");
@@ -68,9 +65,9 @@ const updateInit = () => {
 
 const errm = ref();
 const sendSubmit = async (event) => {
-  
+
   event.preventDefault();
-  trim(); 
+  trim();
   const sendPackage = {
     username: username.value,
     name: name.value,
@@ -81,20 +78,19 @@ const sendSubmit = async (event) => {
   if (password.value !== conpassword.value) {
     // alert("Passwords do not match. Please make sure your passwords match.");
     errorConfirm.value = "The password DOES NOT match";
-    conpassword.value =""
+    conpassword.value = ""
   } else if (
-    !updateCheck &&
-    password.value === "" &&
-    conpassword.value === ""
+      !updateCheck &&
+      password.value === "" &&
+      conpassword.value === ""
   ) {
     alert("Please enter a password");
-  }else if((password.value.length < 8 || password.value.length > 14) &&
-    !updateCheck.value) {
-    errorPassword.value ="Password size must be between 8 and 14"
+  } else if ((password.value.length < 8 || password.value.length > 14) &&
+      !updateCheck.value) {
+    errorPassword.value = "Password size must be between 8 and 14"
     password.value = ""
     conpassword.value = ""
-  }
-   else {
+  } else {
     if (updateCheck.value) {
       try {
         delete sendPackage["password"];
@@ -102,7 +98,7 @@ const sendSubmit = async (event) => {
         const response = await fetchUpdateUser(sendPackage, route);
         if (response.status === 200) {
           alert("update user success");
-          await router.push({ name: `adminuserpage` });
+          await router.push({name: `adminuserpage`});
         } else {
           console.log(response);
           alert("update user fail");
@@ -128,7 +124,7 @@ const sendSubmit = async (event) => {
         const response = await fetchCreateUser(sendPackage);
         if (response.status === 200) {
           alert("Create user success");
-          await router.push({ name: `adminuserpage` });
+          await router.push({name: `adminuserpage`});
         } else {
           alert("Create user fail");
           if (response.status === 400) {
@@ -163,20 +159,20 @@ const compObj = computed(() => {
 let change = ref(false);
 
 watch(
-  () => compObj,
-  () => {
-    if (!updateCheck.value) return;
-    change.value = false;
-    msg.value["email"] = "";
-    for (const property in compObj.value) {
-      if (compObj.value[property] === undefined) continue;
-      if (compObj.value[property] !== props.updatePackage[property]) {
-        change.value = true;
-        break;
+    () => compObj,
+    () => {
+      if (!updateCheck.value) return;
+      change.value = false;
+      msg.value["email"] = "";
+      for (const property in compObj.value) {
+        if (compObj.value[property] === undefined) continue;
+        if (compObj.value[property] !== props.updatePackage[property]) {
+          change.value = true;
+          break;
+        }
       }
-    }
-  },
-  { deep: true }
+    },
+    {deep: true}
 );
 
 const changeTime = (time) => {
@@ -190,13 +186,13 @@ const changeTime = (time) => {
     year: "numeric",
   };
   return `${
-    newDate.toLocaleDateString("en-GB", options).replace(/,/gi, "") +
-    ", " +
-    newDate.toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-    })
+      newDate.toLocaleDateString("en-GB", options).replace(/,/gi, "") +
+      ", " +
+      newDate.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      })
   }`;
 };
 
@@ -215,9 +211,9 @@ const checkEmail = (value) => {
 
 const checkPassword = (value) => {
   if (
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
-      value
-    )
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
+          value
+      )
   ) {
     msg.value["password"] = "";
     return false;
@@ -226,7 +222,7 @@ const checkPassword = (value) => {
     return false;
   } else {
     msg.value["password"] =
-      "Password must be at least 8 character and must contain 1 special character, 1 digit and Uppercase,Lowercase Character";
+        "Password must be at least 8 character and must contain 1 special character, 1 digit and Uppercase,Lowercase Character";
     return true;
   }
 };
@@ -253,7 +249,7 @@ const checkpwdMatch = () => {
 //       // : password.value === "" ||
 //       //   checkPassword(password.value) ||
 //       // conpassword.value === "" ||
-        
+
 //   );
 // });
 
@@ -326,12 +322,11 @@ watchEffect(() => {
       errorUsername.value = error.errorMessage;
     } else if (error.field === "email") {
       errorEmail.value = error.errorMessage;
-    }else  if (error.field === "name") {
+    } else if (error.field === "name") {
       errorName.value = error.errorMessage;
-    }
-    else if (error.field === "password") {
+    } else if (error.field === "password") {
       password.value = "";
-      conpassword.value="";
+      conpassword.value = "";
       errorPassword.value = error.errorMessage;
     }
   }
@@ -360,15 +355,15 @@ provide(/* key */ "role", /* value */ "admin");
               </div>
             </div>
             <input
-              v-model="username"
-              class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2 ann-username"
-              type="text"
-              maxlength="45"
-              required
+                v-model="username"
+                class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2 ann-username"
+                type="text"
+                maxlength="45"
+                required
             />
             <div
-              v-if="status == 400 && errorUsername"
-              class="text-red-500 my-auto pr-5"
+                v-if="status == 400 && errorUsername"
+                class="text-red-500 my-auto pr-5"
             >
               <p class="text-base ann-error-username">{{ errorUsername }}</p>
             </div>
@@ -383,34 +378,34 @@ provide(/* key */ "role", /* value */ "admin");
               </div>
             </div>
             <input
-              v-model="password"
-              class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2 ann-password"
-              type="password"
-              maxlength="14"
-              required
+                v-model="password"
+                class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2 ann-password"
+                type="password"
+                maxlength="14"
+                required
             />
             <div
-              v-if="errorPassword"
-              class="text-red-500 my-auto pr-5"
+                v-if="errorPassword"
+                class="text-red-500 my-auto pr-5"
             >
               <p class="text-base ann-error-password">{{ errorPassword }}</p>
             </div>
             <span v-if="msg.password" class="text-red-400 ">{{
-              msg.password
-            }}</span>
+                msg.password
+              }}</span>
           </div>
           <div v-if="!checkAddOrEdit" class="text-lg flex flex-col space-y-2">
             <p>Confirm password</p>
             <input
-              v-model="conpassword"
-              class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2 ann-confirm-password"
-              type="password"
-              maxlength="14"
-              required
+                v-model="conpassword"
+                class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2 ann-confirm-password"
+                type="password"
+                maxlength="14"
+                required
             />
             <span v-if="errorConfirm" class="text-red-400 ann-error-password">{{
-              errorConfirm
-            }}</span>
+                errorConfirm
+              }}</span>
           </div>
           <div class="text-lg flex flex-col space-y-2">
             <div class="flex flex-row w-3/4">
@@ -420,15 +415,15 @@ provide(/* key */ "role", /* value */ "admin");
               </div>
             </div>
             <input
-              v-model="name"
-              class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2 ann-name"
-              type="text"
-              maxlength="100"
-              required
+                v-model="name"
+                class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2 ann-name"
+                type="text"
+                maxlength="100"
+                required
             />
             <div
-              v-if="status == 400 && errorName"
-              class="text-red-500 my-auto pr-5"
+                v-if="status == 400 && errorName"
+                class="text-red-500 my-auto pr-5"
             >
               <p class="text-base ann-error-name">{{ errorName }}</p>
             </div>
@@ -441,15 +436,15 @@ provide(/* key */ "role", /* value */ "admin");
               </div>
             </div>
             <input
-              v-model="email"
-              class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2 ann-email"
-              type="email"
-              maxlength="150"
-              required
+                v-model="email"
+                class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2 ann-email"
+                type="email"
+                maxlength="150"
+                required
             />
             <div
-              v-if="status == 400 && errorEmail"
-              class="text-red-500 my-auto pr-5"
+                v-if="status == 400 && errorEmail"
+                class="text-red-500 my-auto pr-5"
             >
               <p class="text-base ann-error-email">{{ errorEmail }}</p>
             </div>
@@ -458,8 +453,8 @@ provide(/* key */ "role", /* value */ "admin");
           <div class="text-lg flex flex-col space-y-2">
             <p>Role</p>
             <select
-              v-model="role"
-              class="w-1/4 bg-whitesecondCustom dark:bg-darksecondCustom rounded-md py-2 px-2 ann-role"
+                v-model="role"
+                class="w-1/4 bg-whitesecondCustom dark:bg-darksecondCustom rounded-md py-2 px-2 ann-role"
             >
               <option>admin</option>
               <option>announcer</option>
@@ -474,19 +469,19 @@ provide(/* key */ "role", /* value */ "admin");
 
           <div class="flex flex-row space-x-4">
             <button
-              class="px-4 py-2 rounded-md bg-gray-50 dark:bg-gray-700 submit ann-button"
-              :class="
+                class="px-4 py-2 rounded-md bg-gray-50 dark:bg-gray-700 submit ann-button"
+                :class="
                 change || !updateCheck
                   ? 'dark:bg-gray-700'
                   : 'opacity-40 '
               "
-              :disabled="!(change || !updateCheck)" 
+                :disabled="!(change || !updateCheck)"
             >
               save
             </button>
             <button
-              class="px-4 py-2 rounded-md bg-gray-50 dark:bg-gray-700 ann-button"
-              @click="$router.push({ name: 'adminuserpage' })"
+                class="px-4 py-2 rounded-md bg-gray-50 dark:bg-gray-700 ann-button"
+                @click="$router.push({ name: 'adminuserpage' })"
             >
               cancel
             </button>
