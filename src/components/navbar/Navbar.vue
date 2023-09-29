@@ -3,8 +3,13 @@ import {inject} from "vue";
 import DarkLightIcon from "./DarkLightIcon.vue";
 import Menu from "../icons/Menu.vue";
 import SearchBox from "../SearchBox.vue";
+import { useRouter } from "vue-router";
 
+
+const rou = useRouter();
+const users = ref([])
 const role = inject("role");
+const username = ref("")
 const checkAdmin = () => {
   return role === "admin";
 };
@@ -15,7 +20,21 @@ const checkAdmin = () => {
 const logout = () =>{
   localStorage.removeItem(token.value)
   localStorage.removeItem(refreshToken.value)
+  rou.push({name: "login"});
 }
+
+onMounted(async () => {
+  try {
+    const response = await fetchUser();
+    if (response.status === 200) {
+      users.value = await response.json();
+      username.value = localStorage.getItem("username")
+      console.log(response);
+    }
+  } catch (err) {
+    console.log(err);
+  }
+});
 
 </script>
 
@@ -50,7 +69,7 @@ const logout = () =>{
         <SearchBox class="hidden mx-6 lg:block"/>
         <div class="flex items-center justify-end space-x-4 grow">
           <DarkLightIcon class="mt-1"/>
-          <div class="hidden md:block">Sign in</div>
+          <div class="hidden md:block">{{ username }}</div>
           <div class="hidden md:block"><p @click="logout">Log out</p></div>
         </div>
       </div>

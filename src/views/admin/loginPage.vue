@@ -26,6 +26,7 @@ const sendSubmit = async (event) => {
       console.log("hi", token.value, "\n", refreshToken.value);
       localStorage.setItem("token", `Bearer ${token.value}`);
       localStorage.setItem("refreshToken", `Bearer ${refreshToken.value}`);
+      localStorage.setItem("username",username.value)
       rou.push({name: "adminhomepage"});
     } else if (response.status === 401) {
       status.value = 401;
