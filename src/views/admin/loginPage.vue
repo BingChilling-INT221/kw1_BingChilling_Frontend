@@ -1,7 +1,7 @@
 <script setup>
-import { provide, ref } from "vue";
-import { fetchCreateToken } from "../../services/api.js";
-import { useRouter } from "vue-router";
+import {provide, ref} from "vue";
+import {fetchCreateToken} from "../../services/api.js";
+import {useRouter} from "vue-router";
 
 const username = ref("sanit");
 const password = ref("Sasadmin22*");
@@ -26,7 +26,7 @@ const sendSubmit = async (event) => {
       console.log("hi", token.value, "\n", refreshToken.value);
       localStorage.setItem("token", `Bearer ${token.value}`);
       localStorage.setItem("refreshToken", `Bearer ${refreshToken.value}`);
-      localStorage.setItem("username",username.value)
+      localStorage.setItem("username", username.value)
       rou.push({name: "adminhomepage"});
     } else if (response.status === 401) {
       status.value = 401;
@@ -44,7 +44,6 @@ const sendSubmit = async (event) => {
 };
 
 
-
 provide(/* key */ "role", /* value */ "admin");
 </script>
 
@@ -56,20 +55,20 @@ provide(/* key */ "role", /* value */ "admin");
       <div class="flex flex-col items-center pt-20 space-y-5">
         <div class="flex w-3/4 ann-message">
           <div
-            v-if="status == 200"
-            class="p-6 text-green-500 bg-green-200 border-green-500 rounded-xl"
+              v-if="status == 200"
+              class="p-6 text-green-500 bg-green-200 border-green-500 rounded-xl"
           >
             <p class="text-2xl">Password Matched</p>
           </div>
           <div
-            v-if="status == 401"
-            class="p-6 text-red-500 bg-red-200 border-red-500 rounded-xl"
+              v-if="status == 401"
+              class="p-6 text-red-500 bg-red-200 border-red-500 rounded-xl"
           >
             <p class="text-2xl">Password NOT Matched</p>
           </div>
           <div
-            v-if="status == 404"
-            class="p-6 text-red-500 bg-red-200 border-red-500 rounded-xl"
+              v-if="status == 404"
+              class="p-6 text-red-500 bg-red-200 border-red-500 rounded-xl"
           >
             <p class="text-2xl">The specified username DOES NOT exist</p>
           </div>
@@ -85,11 +84,11 @@ provide(/* key */ "role", /* value */ "admin");
                 <p>Username</p>
               </div>
               <input
-                v-model="username"
-                class="w-3/4 px-2 py-2 rounded-md ann-title bg-whitesecondCustom dark:bg-darksecondCustom ann-username"
-                type="text"
-                maxlength="45"
-                required
+                  v-model="username"
+                  class="w-3/4 px-2 py-2 rounded-md ann-title bg-whitesecondCustom dark:bg-darksecondCustom ann-username"
+                  type="text"
+                  maxlength="45"
+                  required
               />
             </div>
             <div class="flex flex-col space-y-2 text-lg">
@@ -97,16 +96,16 @@ provide(/* key */ "role", /* value */ "admin");
                 <p>Password</p>
               </div>
               <input
-                v-model="password"
-                class="w-3/4 px-2 py-2 rounded-md ann-title bg-whitesecondCustom dark:bg-darksecondCustom ann-password"
-                type="password"
-                maxlength="14"
-                required
+                  v-model="password"
+                  class="w-3/4 px-2 py-2 rounded-md ann-title bg-whitesecondCustom dark:bg-darksecondCustom ann-password"
+                  type="password"
+                  maxlength="14"
+                  required
               />
             </div>
             <div class="flex">
               <button
-                class="px-4 py-2 rounded-md ann-button bg-gray-50 dark:bg-gray-700 submit"
+                  class="px-4 py-2 rounded-md ann-button bg-gray-50 dark:bg-gray-700 submit"
               >
                 Login
               </button>

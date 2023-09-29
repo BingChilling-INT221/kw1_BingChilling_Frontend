@@ -1,12 +1,12 @@
 <script setup>
-import {computed, inject, onMounted, ref, watch} from "vue";
+import {computed, inject, ref, watch} from "vue";
 import {useAnnouncerStore} from "@/stores/announcer";
 import {fetched_api} from "@/services/api.js";
-import AnnBox2 from "../AnnBox2.vue";
-import dateTimeBox from "../DateTimeBox.vue";
-import timeZoneBox from "../TimeZoneBox.vue";
-import Pagination from "../Pagination.vue";
-import CategoryBox from "../CategoryBox.vue";
+import AnnBox2 from "./AnnBox2.vue";
+import dateTimeBox from "./DateTimeBox.vue";
+import timeZoneBox from "./TimeZoneBox.vue";
+import Pagination from "./Pagination.vue";
+import CategoryBox from "./CategoryBox.vue";
 
 const store = useAnnouncerStore();
 
@@ -36,16 +36,6 @@ const loading = computed(() => {
 });
 const notFound = ref(false);
 
-onMounted(async () => {
-  // try {
-  //   const categoryResponse = await fetchCate();
-  //   fetchCat.value = true;
-  //   category.value = categoryResponse;
-  // } catch (err) {
-  //   alert(err.message);
-  // }
-  // await fetched();
-});
 
 watch(
     () => store.category,
@@ -83,7 +73,7 @@ const fetched = async () => {
     }
   } else {
     const errorResponse = await response.json();
-    alert(errorResponse.message);
+    console.log(errorResponse.message);
   }
 };
 
@@ -135,7 +125,7 @@ const changePage = (page) => {
           </div>
         </div>
 
-        <div class="xl:flex xl:flex-row xl:gap-x-24 pt-2 xl:w-full">
+        <div class="pt-2 xl:flex xl:flex-row xl:gap-x-24 xl:w-full">
           <div class="min-w-full xl:min-w-full">
             <div class="xl:flex xl:flex-row xl:gap-x-5">
               <div
@@ -150,7 +140,7 @@ const changePage = (page) => {
                 <div
                     v-for="(announce, index) in announces"
                     v-else
-                    class="xl:w-full h-auto"
+                    class="h-auto xl:w-full"
                 >
                   <AnnBox2
                       :ann-data="announce"
@@ -166,7 +156,7 @@ const changePage = (page) => {
                     class="xl:flex xl:justify-center"
                 ></Pagination>
               </div>
-              <div class="xl:flex xl:flex-col hidden">
+              <div class="hidden xl:flex xl:flex-col">
                 <div class="xl:flex xl:justify-end xl:pb-2">
                   <button
                       class="px-4 py-2 text-xs rounded-md ann-button xl:py-2 xl:text-base"

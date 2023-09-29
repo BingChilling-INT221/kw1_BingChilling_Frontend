@@ -1,37 +1,35 @@
 <script setup>
-import {inject,ref,onMounted} from "vue";
+import {inject, onMounted, ref} from "vue";
 import DarkLightIcon from "./DarkLightIcon.vue";
 import Menu from "../icons/Menu.vue";
 import SearchBox from "../SearchBox.vue";
-import { useRouter } from "vue-router";
-
+import {useRouter} from "vue-router";
 
 const rou = useRouter();
-const users = ref([])
+const users = ref([]);
 const role = inject("role");
-const username = localStorage.getItem("username")
+const username = localStorage.getItem("username");
 const checkAdmin = () => {
   return role === "admin";
 };
 
-const logout = () =>{
-  localStorage.removeItem("token")
-  localStorage.removeItem("refreshToken")
+const logout = () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("refreshToken");
   rou.push({name: "login"});
-}
+};
 
 onMounted(async () => {
-  try {
-    const response = await fetchUser();
-    if (response.status === 200) {
-      users.value = await response.json();
-      console.log(response);
-    }
-  } catch (err) {
-    console.log(err);
-  }
+  // try {
+  //   const response = await fetchUser();
+  //   if (response.status === 200) { 
+  //     users.value = await response.json();
+  //     console.log(response);
+  //   }
+  // } catch (err) {
+  //   console.log(err);
+  // }
 });
-
 </script>
 
 <template>
@@ -66,7 +64,9 @@ onMounted(async () => {
         <div class="flex items-center justify-end space-x-4 grow">
           <DarkLightIcon class="mt-1"/>
           <div class="hidden md:block">{{ username }}</div>
-          <div class="hidden md:block"><button @click="logout">Log out</button></div>
+          <div class="hidden md:block">
+            <button @click="logout">Log out</button>
+          </div>
         </div>
       </div>
     </div>
