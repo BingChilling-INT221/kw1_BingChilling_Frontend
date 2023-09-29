@@ -14,9 +14,6 @@ const checkAdmin = () => {
   return role === "admin";
 };
 
-
-
-
 const logout = () =>{
   localStorage.removeItem("token")
   localStorage.removeItem("refreshToken")
