@@ -9,7 +9,7 @@ import { useRouter } from "vue-router";
 const rou = useRouter();
 const users = ref([])
 const role = inject("role");
-const username = ref("")
+const username = localStorage.getItem("username")
 const checkAdmin = () => {
   return role === "admin";
 };
@@ -28,7 +28,6 @@ onMounted(async () => {
     const response = await fetchUser();
     if (response.status === 200) {
       users.value = await response.json();
-      username.value = localStorage.getItem("username")
       console.log(response);
     }
   } catch (err) {
@@ -70,7 +69,7 @@ onMounted(async () => {
         <div class="flex items-center justify-end space-x-4 grow">
           <DarkLightIcon class="mt-1"/>
           <div class="hidden md:block">{{ username }}</div>
-          <div class="hidden md:block"><p @click="logout">Log out</p></div>
+          <div class="hidden md:block"><button @click="logout">Log out</button></div>
         </div>
       </div>
     </div>
