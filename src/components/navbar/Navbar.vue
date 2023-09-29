@@ -18,8 +18,8 @@ const checkAdmin = () => {
 
 
 const logout = () =>{
-  localStorage.removeItem(token.value)
-  localStorage.removeItem(refreshToken.value)
+  localStorage.removeItem("token")
+  localStorage.removeItem("refreshToken")
   rou.push({name: "login"});
 }
 
