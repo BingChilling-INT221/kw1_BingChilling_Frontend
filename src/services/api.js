@@ -1,6 +1,6 @@
 export const fetched_api = async (role, category, mode, page, pageSize) => {
-    const accesstoken = localStorage.getItem("accesstoken");
-    const refreshtoken = localStorage.getItem("refreshtoken");
+    const token = localStorage.getItem("token");
+    const refreshToken = localStorage.getItem("refreshToken");
     console.log("fetched_api");
     try {
         const selectCategory = () => {
@@ -12,14 +12,14 @@ export const fetched_api = async (role, category, mode, page, pageSize) => {
             }
             return mode !== "" ? `&mode=${mode}` : "";
         };
-        console.log(accesstoken);
+        console.log(token);
         return await fetch(
             `${
                 import.meta.env.VITE_BASE_URL
             }announcements/pages?${modeFetch()}&page=${page}&size=${pageSize}${selectCategory()}`,
             {
                 headers: {
-                    Authorization: `${accesstoken}`,
+                    Authorization: `${token}`,
                 },
             }
         );
@@ -31,13 +31,13 @@ export const fetched_api = async (role, category, mode, page, pageSize) => {
 };
 
 export const fetchCate = async () => {
-    const accesstoken = localStorage.getItem("accesstoken");
-    const refreshtoken = localStorage.getItem("refreshtoken");
+    const token = localStorage.getItem("token");
+    const refreshToken = localStorage.getItem("refreshToken");
     try {
-        console.log(accesstoken);
+        console.log(token);
         const response = await fetch(`${import.meta.env.VITE_BASE_URL}categories`, {
             headers: {
-                Authorization: `${accesstoken}`,
+                Authorization: `${token}`,
             },
         });
         if (response.status === 200) {
@@ -52,31 +52,31 @@ export const fetchCate = async () => {
 };
 
 export const fetchCountParam = async (route, count) => {
-    const accesstoken = localStorage.getItem("accesstoken");
-    const refreshtoken = localStorage.getItem("refreshtoken");
+    const token = localStorage.getItem("token");
+    const refreshToken = localStorage.getItem("refreshToken");
     return await fetch(
         `${import.meta.env.VITE_BASE_URL}announcements/${route}?count=${count}`,
         {
             headers: {
-                Authorization: `${accesstoken}`,
+                Authorization: `${token}`,
             },
         }
     );
 };
 
 export const fetchCateForMod = async () => {
-    const accesstoken = localStorage.getItem("accesstoken");
-    const refreshtoken = localStorage.getItem("refreshtoken");
+    const token = localStorage.getItem("token");
+    const refreshToken = localStorage.getItem("refreshToken");
     return fetch(`${import.meta.env.VITE_BASE_URL}categories`, {
         headers: {
-            Authorization: `${accesstoken}`,
+            Authorization: `${token}`,
         },
     });
 };
 
 export const fetchCreate = async (sendPackage) => {
-    const accesstoken = localStorage.getItem("accesstoken");
-    const refreshtoken = localStorage.getItem("refreshtoken");
+    const token = localStorage.getItem("token");
+    const refreshToken = localStorage.getItem("refreshToken");
     return await fetch(`${import.meta.env.VITE_BASE_URL}announcements`, {
         method: "POST",
         headers: {
@@ -87,8 +87,8 @@ export const fetchCreate = async (sendPackage) => {
 };
 
 export const fetchCreateUser = async (sendPackage) => {
-    const accesstoken = localStorage.getItem("accesstoken");
-    const refreshtoken = localStorage.getItem("refreshtoken");
+    const token = localStorage.getItem("token");
+    const refreshToken = localStorage.getItem("refreshToken");
     return await fetch(`${import.meta.env.VITE_BASE_URL}users`, {
         method: "POST",
         headers: {
@@ -99,8 +99,8 @@ export const fetchCreateUser = async (sendPackage) => {
 };
 
 export const fetchUpdate = async (sendPackage, route) => {
-    const accesstoken = localStorage.getItem("accesstoken");
-    const refreshtoken = localStorage.getItem("refreshtoken");
+    const token = localStorage.getItem("token");
+    const refreshToken = localStorage.getItem("refreshToken");
     return await fetch(
         `${import.meta.env.VITE_BASE_URL}announcements/${route.params.id}`,
         {
@@ -114,8 +114,8 @@ export const fetchUpdate = async (sendPackage, route) => {
 };
 
 export const fetchUpdateUser = async (sendPackage, route) => {
-    const accesstoken = localStorage.getItem("accesstoken");
-    const refreshtoken = localStorage.getItem("refreshtoken");
+    const token = localStorage.getItem("token");
+    const refreshToken = localStorage.getItem("refreshToken");
     return await fetch(
         `${import.meta.env.VITE_BASE_URL}users/${route.params.id}`,
         {
@@ -129,14 +129,14 @@ export const fetchUpdateUser = async (sendPackage, route) => {
 };
 
 export const fetchShowEdit = async (route) => {
-    const accesstoken = localStorage.getItem("accesstoken");
-    const refreshtoken = localStorage.getItem("refreshtoken");
+    const token = localStorage.getItem("token");
+    const refreshToken = localStorage.getItem("refreshToken");
     return await fetch(`${import.meta.env.VITE_BASE_URL}announcements/${route}`);
 };
 
 export const fetchDelete = async (id) => {
-    const accesstoken = localStorage.getItem("accesstoken");
-    const refreshtoken = localStorage.getItem("refreshtoken");
+    const token = localStorage.getItem("token");
+    const refreshToken = localStorage.getItem("refreshToken");
     return await fetch(`${import.meta.env.VITE_BASE_URL}announcements/${id}`, {
         method: "DELETE",
         headers: {
@@ -146,8 +146,8 @@ export const fetchDelete = async (id) => {
 };
 
 export const fetchDeleteUser = async (id) => {
-    const accesstoken = localStorage.getItem("accesstoken");
-    const refreshtoken = localStorage.getItem("refreshtoken");
+    const token = localStorage.getItem("token");
+    const refreshToken = localStorage.getItem("refreshToken");
     return await fetch(`${import.meta.env.VITE_BASE_URL}users/${id}`, {
         method: "DELETE",
         headers: {
@@ -157,28 +157,28 @@ export const fetchDeleteUser = async (id) => {
 };
 
 export const fetchUser = async () => {
-    const accesstoken = localStorage.getItem("accesstoken");
-    const refreshtoken = localStorage.getItem("refreshtoken");
+    const token = localStorage.getItem("token");
+    const refreshToken = localStorage.getItem("refreshToken");
     return await fetch(`${import.meta.env.VITE_BASE_URL}users`, {
         headers: {
-            Authorization: `${accesstoken}`,
+            Authorization: `${token}`,
         },
     });
 };
 
 export const fetchUserEdit = async (route) => {
-    const accesstoken = localStorage.getItem("accesstoken");
-    const refreshtoken = localStorage.getItem("refreshtoken");
+    const token = localStorage.getItem("token");
+    const refreshToken = localStorage.getItem("refreshToken");
     return await fetch(`${import.meta.env.VITE_BASE_URL}users/${route}`, {
         headers: {
-            Authorization: `${accesstoken}`,
+            Authorization: `${token}`,
         },
     });
 };
 
 export const fetchMatch = async (sendData) => {
-    const accesstoken = localStorage.getItem("accesstoken");
-    const refreshtoken = localStorage.getItem("refreshtoken");
+    const token = localStorage.getItem("token");
+    const refreshToken = localStorage.getItem("refreshToken");
     return await fetch(`${import.meta.env.VITE_BASE_URL}users/match`, {
         method: "POST",
         headers: {
@@ -188,8 +188,8 @@ export const fetchMatch = async (sendData) => {
     });
 };
 export const fetchCreateToken = async (sendData) => {
-    const accesstoken = localStorage.getItem("accesstoken");
-    const refreshtoken = localStorage.getItem("refreshtoken");
+    const token = localStorage.getItem("token");
+    const refreshToken = localStorage.getItem("refreshToken");
     return await fetch(`${import.meta.env.VITE_BASE_URL}token`, {
         method: "POST",
         headers: {

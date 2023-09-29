@@ -8,8 +8,8 @@ const password = ref("");
 
 const status = ref("");
 const rou = useRouter();
-const accesstoken = ref("");
-const refreshtoken = ref("");
+const token = ref("");
+const refreshToken = ref("");
 const sendSubmit = async (event) => {
   event.preventDefault();
   const sendData = {
@@ -21,11 +21,11 @@ const sendSubmit = async (event) => {
     if (response.status === 200) {
       status.value = 200;
       const result = await response.json();
-      accesstoken.value = result.accesstoken;
-      refreshtoken.value = result.refreshtoken;
-      console.log("hi", accesstoken.value, "\n", refreshtoken.value);
-      localStorage.setItem("accesstoken", `Bearer ${accesstoken.value}`);
-      localStorage.setItem("refreshtoken", `Bearer ${refreshtoken.value}`);
+      token.value = result.token;
+      refreshToken.value = result.refreshToken;
+      console.log("hi", token.value, "\n", refreshToken.value);
+      localStorage.setItem("token", `Bearer ${token.value}`);
+      localStorage.setItem("refreshToken", `Bearer ${refreshToken.value}`);
       rou.push({name: "adminhomepage"});
     } else if (response.status === 401) {
       status.value = 401;
@@ -41,6 +41,8 @@ const sendSubmit = async (event) => {
     alert(err);
   }
 };
+
+
 
 provide(/* key */ "role", /* value */ "admin");
 </script>
@@ -75,7 +77,7 @@ provide(/* key */ "role", /* value */ "admin");
         <div class="flex flex-row w-3/4 rounded-lg">
           <div class="flex flex-col w-3/4 p-5 space-y-5 border-2 rounded-md">
             <div class="flex text-4xl">
-              <p>Match password</p>
+              <p>Login</p>
             </div>
             <div class="flex flex-col space-y-2 text-lg">
               <div class="flex flex-row w-3/4">
@@ -105,7 +107,7 @@ provide(/* key */ "role", /* value */ "admin");
               <button
                   class="px-4 py-2 rounded-md ann-button bg-gray-50 dark:bg-gray-700 submit"
               >
-                Go go go Ranger
+                Login
               </button>
             </div>
           </div>

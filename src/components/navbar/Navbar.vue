@@ -8,6 +8,15 @@ const role = inject("role");
 const checkAdmin = () => {
   return role === "admin";
 };
+
+
+
+
+const logout = () =>{
+  localStorage.removeItem(token.value)
+  localStorage.removeItem(refreshToken.value)
+}
+
 </script>
 
 <template>
@@ -42,7 +51,7 @@ const checkAdmin = () => {
         <div class="flex items-center justify-end space-x-4 grow">
           <DarkLightIcon class="mt-1"/>
           <div class="hidden md:block">Sign in</div>
-          <div class="hidden md:block">Sign up</div>
+          <div class="hidden md:block"><p @click="logout">Log out</p></div>
         </div>
       </div>
     </div>
