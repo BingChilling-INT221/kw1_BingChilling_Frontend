@@ -148,7 +148,7 @@ export const fetchCreate = async (sendPackage) => {
     const token = localStorage.getItem("token");
     if (token === null) {
         if (await reToken()) {
-            return await fetchCreate();
+            return await fetchCreate(sendPackage);
         }
     }
     try {
@@ -158,20 +158,20 @@ export const fetchCreate = async (sendPackage) => {
                 method: "POST",
                 headers: {
                     Authorization: `${token}`,
-                    ContentType: "application/json",
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify(sendPackage),
             }
         );
-        if (response.status === 400) {
+        if (response.status === 200) {
             return response;
         }
-        // else if (response.status === 401) {
-        //     if (await reToken()) {
-        //         return await fetchCreate(sendPackage);
-        //     }
-        //     return router.push({name: "login"});
-        // }
+        else if (response.status === 401) {
+            if (await reToken()) {
+                return await fetchCreate(sendPackage);
+            }
+            return router.push({name: "login"});
+        }
         else {
             const errorResponse = await response.json();
             throw new Error(errorResponse.message);
@@ -185,7 +185,7 @@ export const fetchCreateUser = async (sendPackage) => {
     const token = localStorage.getItem("token");
     if (token === null) {
         if (await reToken()) {
-            return await fetchCreateUser();
+            return await fetchCreateUser(sendPackage);
         }
     }
     try {
@@ -193,19 +193,20 @@ export const fetchCreateUser = async (sendPackage) => {
             method: "POST",
             headers: {
                 Authorization: `${token}`,
-                ContentType: "application/json",
+                "Content-Type": "application/json",
             },
             body: JSON.stringify(sendPackage),
         });
-        if (response.status === 400) {
+        if (response.status === 200) {
+            console.log(response);
             return response;
         }
-        // else if (response.status === 401) {
-        //     if (await reToken()) {
-        //         return await fetchCreateUser();
-        //     }
-        //     return router.push({name: "login"});
-        // }
+        else if (response.status === 401) {
+            if (await reToken()) {
+                return await fetchCreateUser(sendPackage);
+            }
+            return router.push({name: "login"});
+        }
         else {
             const errorResponse = await response.json();
             throw new Error(errorResponse.message);
@@ -219,15 +220,16 @@ export const fetchUpdate = async (sendPackage, route) => {
     const token = localStorage.getItem("token");
     if (token === null) {
         if (await reToken()) {
-            return await fetchUpdate();
+            return await fetchUpdate(sendPackage, route); 
         }
     }
     try {
-        const response = fetch(
+        const response = await fetch(
             `${import.meta.env.VITE_BASE_URL}announcements/${route.params.id}`, {
                 method: "PUT",
                 headers: {
                     Authorization: `${token}`,
+                    "Content-Type": "application/json", 
                 },
                 body: JSON.stringify(sendPackage),
             });
@@ -235,9 +237,9 @@ export const fetchUpdate = async (sendPackage, route) => {
             return response;
         } else if (response.status === 401) {
             if (await reToken()) {
-                return await fetchUpdate();
+                return await fetchUpdate(sendPackage, route); 
             }
-            return router.push({name: "login"});
+            return router.push({ name: "login" });
         } else {
             const errorResponse = await response.json();
             throw new Error(errorResponse.message);
@@ -251,7 +253,7 @@ export const fetchUpdateUser = async (sendPackage, route) => {
     const token = localStorage.getItem("token");
     if (token === null) {
         if (await reToken()) {
-            return await fetchUpdateUser();
+            return await fetchUpdateUser(sendPackage, route);
         }
     }
     try {
@@ -260,6 +262,7 @@ export const fetchUpdateUser = async (sendPackage, route) => {
                 method: "PUT",
                 headers: {
                     Authorization: `${token}`,
+                    "Content-Type": "application/json", 
                 },
                 body: JSON.stringify(sendPackage),
             });
@@ -267,7 +270,7 @@ export const fetchUpdateUser = async (sendPackage, route) => {
             return response;
         } else if (response.status === 401) {
             if (await reToken()) {
-                return await fetchUpdateUser();
+                return await fetchUpdateUser(sendPackage, route);
             }
             return router.push({name: "login"});
         } else {
@@ -434,15 +437,15 @@ export const fetchMatch = async (sendData) => {
         },
         body: JSON.stringify(sendData),
     });
-    if (response.status === 400) {
+    if (response.status === 200) {
         return response;
     }
-    // else if (response.status === 401) {
-    //     if (await reToken()) {
-    //         return await fetchMatch(sendData);
-    //     }
-    //     return router.push({name: "login"});
-    // }
+    else if (response.status === 401) {
+        if (await reToken()) {
+            return await fetchMatch(sendData);
+        }
+        return router.push({name: "login"});
+    }
     else {
         const errorResponse = await response.json();
         throw new Error(errorResponse.message);
