@@ -21,12 +21,12 @@ const sendSubmit = async (event) => {
     if (response.status === 200) {
       status.value = 200;
       const result = await response.json();
-      accesstoken.value = result.accesstoken;
-      refreshtoken.value = result.refreshtoken;
+      accesstoken.value = result.token;
+      refreshtoken.value = result.refreshToken;
       console.log("hi", accesstoken.value, "\n", refreshtoken.value);
       localStorage.setItem("accesstoken", `Bearer ${accesstoken.value}`);
       localStorage.setItem("refreshtoken", `Bearer ${refreshtoken.value}`);
-      rou.push({ name: "adminhomepage" });
+      // rou.push({ name: "adminhomepage" });
     } else if (response.status === 401) {
       status.value = 401;
       console.log("hi2", response);
