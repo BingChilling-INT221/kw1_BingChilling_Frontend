@@ -1,5 +1,5 @@
 <script setup>
-import {inject} from "vue";
+import {inject,ref} from "vue";
 import DarkLightIcon from "./DarkLightIcon.vue";
 import Menu from "../icons/Menu.vue";
 import SearchBox from "../SearchBox.vue";
