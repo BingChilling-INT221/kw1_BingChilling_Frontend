@@ -78,7 +78,7 @@ provide(/* key */ "role", /* value */ "admin");
         <div class="flex flex-row w-3/4 rounded-lg">
           <div class="flex flex-col w-3/4 p-5 space-y-5 border-2 rounded-md">
             <div class="flex text-4xl">
-              <p>Login</p>
+              <p>Login zaza kungkung</p>
             </div>
             <div class="flex flex-col space-y-2 text-lg">
               <div class="flex flex-row w-3/4">
