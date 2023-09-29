@@ -182,7 +182,6 @@ export const fetchMatch = async (sendData) => {
     return await fetch(`${import.meta.env.VITE_BASE_URL}users/match`, {
         method: "POST",
         headers: {
-            "Content-Type": "application/json",
             Authorization: `${token}`,
         },
         body: JSON.stringify(sendData),
@@ -194,7 +193,6 @@ export const fetchCreateToken = async (sendData) => {
     return await fetch(`${import.meta.env.VITE_BASE_URL}token`, {
         method: "POST",
         headers: {
-            "Content-Type": "application/json",
             Authorization: `${token}`,
         },
         body: JSON.stringify(sendData),
@@ -203,7 +201,7 @@ export const fetchCreateToken = async (sendData) => {
 
 export const reToken = async () =>{
     const refreshToken = localStorage.getItem("refreshToken");
-    
+
     return await fetch(`${import.meta.env.VITE_BASE_URL}token`, {
         method: "GET",
         headers: {
