@@ -41,7 +41,7 @@ export const fetchCreateToken = async (sendData) => {
 export const reToken = async () => {
     const refreshToken = localStorage.getItem("refreshToken");
     if (refreshToken === null) {
-        router.push({name: "login"});
+        await router.push({name: "login"});
     }
     const response = await fetch(`${import.meta.env.VITE_BASE_URL}token`, {
         method: "GET",
@@ -57,5 +57,5 @@ export const reToken = async () => {
         console.log("token new");
         return true;
     }
-    router.push({name: "login"});
+    await router.push({name: "login"});
 };

@@ -1,7 +1,7 @@
 <script setup>
 import {computed, provide, ref, watch, watchEffect} from "vue";
 import {useRoute, useRouter} from "vue-router";
-import {fetchCreateUser, fetchUpdateUser,} from "../services/api.js";
+import {fetchCreateUser, fetchUpdateUser,} from "@/services/userApi";
 
 const route = useRoute();
 

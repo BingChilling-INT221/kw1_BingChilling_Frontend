@@ -1,6 +1,6 @@
 <script setup>
 import {provide, ref} from "vue";
-import {fetchCreateToken} from "../../services/api.js";
+import {fetchCreateToken} from "@/services/authorizationApi.js";
 import {useRouter} from "vue-router";
 
 const username = ref("sanit");
@@ -27,7 +27,7 @@ const sendSubmit = async (event) => {
       localStorage.setItem("token", `Bearer ${token.value}`);
       localStorage.setItem("refreshToken", `Bearer ${refreshToken.value}`);
       localStorage.setItem("username", username.value)
-      rou.push({name: "adminhomepage"});
+      await rou.push({name: "adminhomepage"});
     } else if (response.status === 401) {
       status.value = 401;
       console.log("hi2", response);

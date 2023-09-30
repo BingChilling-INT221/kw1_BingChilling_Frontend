@@ -1,7 +1,7 @@
 <script setup>
 import {computed} from "vue";
 import {useRoute, useRouter} from "vue-router";
-import {fetchDelete} from "../services/api.js";
+import {fetchDelete} from "@/services/annApi.js";
 import Eye from "./icons/Eye.vue"
 
 const route = useRoute();

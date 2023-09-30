@@ -1,5 +1,5 @@
 <script setup>
-import {fetchDeleteUser} from "../services/api.js";
+import {fetchDeleteUser} from "@/services/userApi";
 
 const props = defineProps({
   annItem: {
@@ -47,7 +47,7 @@ const deleteUser = async (id) => {
       window.location.reload()
     } else {
       const errorResponse = await response.json();
-      printError(errorResponse)
+      // printError(errorResponse)
     }
   } catch (err) {
     console.log(err)

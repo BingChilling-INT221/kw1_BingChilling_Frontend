@@ -1,16 +1,15 @@
 <script setup>
 import {onMounted, ref} from 'vue';
 import {useAnnouncerStore} from '@/stores/announcer';
-import {fetchCate} from '@/services/api.js';
+import {fetchCate} from '@/services/catApi.js';
 
 const store = useAnnouncerStore();
 const category = ref([]);
 store.category = -1;
 onMounted(async () => {
   try {
-    const categoryResponse = await fetchCate();
     // fetchCat.value = true;
-    category.value = categoryResponse;
+    category.value = await fetchCate();
     store.category = '';
   } catch (err) {
     alert(err.message);

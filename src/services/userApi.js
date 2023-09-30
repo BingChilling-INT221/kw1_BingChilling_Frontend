@@ -1,3 +1,6 @@
+import {reToken} from "@/services/authorizationApi";
+import router from "@/router";
+
 export const fetchUpdateUser = async (sendPackage, route) => {
     const token = localStorage.getItem("token");
     if (token === null) {

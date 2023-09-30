@@ -1,7 +1,7 @@
 <script setup>
 import {computed, inject, ref, watch} from "vue";
 import {useAnnouncerStore} from "@/stores/announcer";
-import {fetched_api} from "@/services/api.js";
+import {fetched_api} from "@/services/annApi.js";
 import AnnBox2 from "./AnnBox2.vue";
 import dateTimeBox from "./DateTimeBox.vue";
 import timeZoneBox from "./TimeZoneBox.vue";

@@ -2,7 +2,7 @@
 import {computed, onMounted, provide, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import ModAnn from "@/components/Modannouncedment.vue";
-import {fetchShowEdit} from "@/services/api.js";
+import {fetchShowEdit} from "@/services/annApi.js";
 import format_page from "@/components/format_page.vue";
 
 const router = useRouter();
@@ -27,7 +27,7 @@ onMounted(async () => {
       // console.log(route.params.id);
       // console.log(announcement.value);
       announcement.value.announcementDisplay =
-          announcement.value.announcementDisplay == "Y";
+          announcement.value.announcementDisplay === "Y";
       if (
           announcement.value.publishDate !== null ||
           announcement.value.publishDate

@@ -1,3 +1,6 @@
+import {reToken} from "@/services/authorizationApi";
+import router from "@/router";
+
 export const fetched_api = async (role, category, mode, page, pageSize) => {
   const token = localStorage.getItem("token");
   if (token === null) {
