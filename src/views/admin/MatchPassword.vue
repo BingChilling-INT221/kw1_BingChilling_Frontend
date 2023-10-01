@@ -1,7 +1,7 @@
 <script setup>
 import {provide, ref} from "vue";
 import format_page from "@/components/format_page.vue";
-import {fetchMatch} from "../../services/api.js";
+import {fetchMatch} from "@/services/authorizationApi";
 
 const username = ref("");
 const password = ref("");

@@ -4,7 +4,7 @@ import format_page from "@/components/format_page.vue";
 import dateTimeBox from "../../components/DateTimeBox.vue";
 import timeZoneBox from "../../components/TimeZoneBox.vue";
 import userBox from "../../components/UserBox.vue";
-import {fetchUser} from "../../services/api";
+import {fetchUser} from "@/services/userApi";
 
 const users = ref([]);
 

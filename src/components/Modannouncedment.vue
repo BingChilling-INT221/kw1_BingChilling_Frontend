@@ -1,7 +1,8 @@
 <script setup>
 import {computed, inject, onMounted, ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
-import {fetchCateForMod, fetchCreate, fetchUpdate} from "../services/api.js";
+import {fetchCateForMod} from "@/services/catApi.js";
+import { fetchCreate, fetchUpdate} from "@/services/annApi.js";
 import {QuillEditor} from "@vueup/vue-quill";
 
 const route = useRoute();
@@ -106,7 +107,7 @@ onMounted(async () => {
 
 const updateInit = () => {
   const indexcategories = category.value.findIndex(
-      (c) => c.categoryName == props.updatePackage.categoryId
+      (c) => c.categoryName === props.updatePackage.categoryId
   );
   announcementTitle.value = props.updatePackage.announcementTitle;
   categoryId.value = category.value[indexcategories]?.categoryId;
