@@ -16,6 +16,7 @@ const checkAdmin = () => {
 const logout = () => {
   localStorage.removeItem("token");
   localStorage.removeItem("refreshToken");
+  localStorage.removeItem("username")
   rou.push({name: "login"});
 };
 
@@ -35,7 +36,7 @@ onMounted(async () => {
 <template>
   <div class="">
     <div
-        class="h-[3.75rem] h-16 flex basis-full bg-whiteCustom dark:bg-blackCustom p-2"
+        class="h-[3.75rem] flex basis-full  bg-whiteCustom dark:bg-blackCustom p-2"
     >
       <div class="flex items-center basis-full">
         <button class="flex" v-show="checkAdmin()">

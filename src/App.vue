@@ -25,7 +25,7 @@ if (
 </script>
 <template>
   <div
-      class="w-full min-h-screen top-0 absolute duration-[350ms] text-sm bg-whiteCustom dark:bg-blackCustom text-blackCustom dark:text-whiteCustom"
+      class="min-w-full min-h-screen top-0 absolute duration-[350ms] text-sm bg-whiteCustom dark:bg-blackCustom text-blackCustom dark:text-whiteCustom"
   >
     <!-- <div class="flex">
       <Sidebar />
