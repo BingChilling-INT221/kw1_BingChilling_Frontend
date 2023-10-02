@@ -32,6 +32,8 @@ watch(
     }
 );
 
+
+
 const role = ref("announcer");
 const username = ref("");
 const password = ref("");
@@ -59,6 +61,13 @@ const updateInit = () => {
   updatedOn.value = props.updatePackage.updatedOn;
 };
 
+const usernameCheck = ref(false)
+
+watch(username.value, (newUsername, oldUsername) => {
+  if (newUsername !== oldUsername) {
+    usernameCheck.value = true;
+  }
+})
 // const validPwdMatch = () => {
 //   pwdIsMatch.value = password.value === conpassword.value;
 // };
@@ -99,7 +108,11 @@ const sendSubmit = async (event) => {
         if (response.status === 200) {
           alert("update user success");
           await router.push({name: `adminuserpage`});
-        } else {
+        }
+        else if(response.status === 200 && usernameCheck.value){
+          router.push({name: "login"});
+        }
+        else {
           console.log(response);
           alert("update user fail");
           if (response.status === 400) {

@@ -9,7 +9,7 @@ export const fetchUpdateUser = async (sendPackage, route) => {
         }
     }
     try {
-        const response = fetch(
+        const response = await fetch(
             `${import.meta.env.VITE_BASE_URL}users/${route.params.id}`, {
                 method: "PUT",
                 headers: {
@@ -57,7 +57,10 @@ export const fetchCreateUser = async (sendPackage) => {
             if (await reToken()) {
                 return await fetchCreateUser(sendPackage);
             }
-            return router.push({name: "login"});
+            else{
+                router.push({name: "login"});
+            }
+            return;
         }
         else {
             const errorResponse = await response.json();
