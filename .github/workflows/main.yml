@@ -18,13 +18,13 @@ jobs:
           set -e
 
           # Navigate to the frontend directory
-          cd ${{ vars.frontend_dir }}  # Replace with the actual directory path
+          cd ${{ env.frontend_dir }}  # Replace with the actual directory path
 
           # Pull the latest changes from the repository
           git pull
 
           # Start the Docker services defined in the specified compose file
-          docker compose -f ${{ vars.compose_file }} up -d  # Replace with the actual compose file path
+          docker compose -f ${{ env.compose_file }} up -d  # Replace with the actual compose file path
 
           # Provide feedback that the deployment process has started
           echo "Frontend deployment process initiated."
