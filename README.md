@@ -1,5 +1,5 @@
 # -kw1-bingchilling-frontend-
-
+[![Deploy Frontend to VPN Server](https://github.com/BingChilling-INT221/kw1_BingChilling_Frontend/actions/workflows/main.yml/badge.svg)](https://github.com/BingChilling-INT221/kw1_BingChilling_Frontend/actions/workflows/main.yml)
 This template should help get you started developing with Vue 3 in Vite.
 
 ## Recommended IDE Setup
