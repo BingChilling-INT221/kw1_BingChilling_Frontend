@@ -9,7 +9,7 @@ env:
   frontend_dir: "/home/moniyom/kw1_BingChilling_Frontend/"
   compose_file: "/home/moniyom/kw1_BingChilling_Infrastructure/compose.yaml"
 jobs:
-  deploy:
+  deploy_front:
     runs-on: linux
     steps:
       - name: Run Deployment Script
