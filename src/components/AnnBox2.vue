@@ -89,7 +89,9 @@ const seeDetail = (env) => {
 </script>
 
 <template>
+
   <div class="xl:w-full ">
+
     <div
         class="xl:w-full w-72 max-h-full border-[1px] rounded-xl border-blackCustom dark:border-whiteCustom m-auto "
         @click="seeDetail"
@@ -101,9 +103,10 @@ const seeDetail = (env) => {
             <div class="flex gap-x-[0.15rem] xl:gap-x-[0.5rem]" v-show="checkAdmin">
               <Eye/>
               {{ annData.viewCount }}
-            </div>
+            </div >
 
           </div>
+          <div class=" "> owner:{{annData.announcementOwner}}</div>
           <div class="xl:flex xl:justify-end xl:w-full xl:pr-5">
             <div
                 class="rounded-lg border border-white w-20 h-full text-[0.7rem] xl:text-lg xl:h-9 xl:w-28 xl:pt-[0.15rem] ">

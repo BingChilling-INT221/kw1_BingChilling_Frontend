@@ -46,6 +46,11 @@ export const fetchCreateToken = async (sendData) => {
 
 export const reToken = async () => {
     const refreshToken = localStorage.getItem("refreshToken");
+    const token = localStorage.getItem("token");
+    console.log(jwtDecode(token).exp > Date.now() / 1000 , "jwtDecode(token).exp > Date.now() / 1000");
+    if (jwtDecode(token).exp > Date.now() / 1000) {
+        return false;
+    }
     if (refreshToken === null) {
         await router.push({name: "login"});
     }
@@ -55,7 +60,7 @@ export const reToken = async () => {
             Authorization: `${refreshToken}`,
         },
     });
-
+    console.log(response, "response");
     if (response.status === 200) {
         const data = await response.json();
         console.log(data);
@@ -63,5 +68,6 @@ export const reToken = async () => {
         console.log("token new");
         return true;
     }
-    await router.push({name: "login"});
+
+    // await router.push({name: "login"});
 };

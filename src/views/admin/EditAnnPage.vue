@@ -100,6 +100,7 @@ const updatePackage = computed(() => {
     newCloseTime: newCloseTime.value,
     announcementDisplay: announcement.value.announcementDisplay,
     categoryId: announcement.value.announcementCategory,
+    ownerName: announcement.value.announcementOwner,
   };
 });
 </script>

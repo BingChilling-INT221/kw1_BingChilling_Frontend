@@ -103,13 +103,14 @@ export const fetchCreate = async (sendPackage) => {
         body: JSON.stringify(sendPackage),
       }
     );
+    console.log(response);
     if (response.status === 200) {
       return response;
     } else if (response.status === 401) {
       if (await reToken()) {
         return await fetchCreate(sendPackage);
       }
-      return router.push({ name: "login" });
+      // return router.push({ name: "login" });
     } else {
       const errorResponse = await response.json();
       throw new Error(errorResponse.message);
