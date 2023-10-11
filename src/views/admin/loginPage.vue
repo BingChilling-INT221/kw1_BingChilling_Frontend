@@ -2,6 +2,7 @@
 import { provide, ref, computed, onMounted } from "vue";
 import { fetchCreateToken } from "@/services/authorizationApi.js";
 import { useRouter } from "vue-router";
+import jwtDecode from "jwt-decode";
 
 const username = ref("");
 const password = ref("");
@@ -26,7 +27,11 @@ const sendSubmit = async (event) => {
       console.log("hi", token.value, "\n", refreshToken.value);
       localStorage.setItem("token", `Bearer ${token.value}`);
       localStorage.setItem("refreshToken", `Bearer ${refreshToken.value}`);
-      localStorage.setItem("username", username.value);
+      console.log("token");
+      console.log(token);
+      const payload = jwtDecode(token.value);
+      localStorage.setItem("role", payload.role);
+      localStorage.setItem("username", payload.username);
       setTimeout(() => rou.push({ name: "adminhomepage" }), 1200);
     } else if (response.status === 401) {
       status.value = 401;
@@ -35,8 +40,8 @@ const sendSubmit = async (event) => {
       status.value = 404;
     } 
   } catch (err) {
-    console.log("hi4", response);
-    alert(err);
+    console.log("hi4", err);
+    // alert(err);
   }
 };
 

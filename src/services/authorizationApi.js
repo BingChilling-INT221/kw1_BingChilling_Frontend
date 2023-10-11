@@ -1,4 +1,10 @@
 import router from "../router/index.js";
+import jwtDecode from 'jwt-decode';
+
+// const token = localStorage.getItem('token');
+//
+// const payload = jwtDecode(token);
+
 export const fetchMatch = async (sendData) => {
     const token = localStorage.getItem("token");
     if (token === null) {
