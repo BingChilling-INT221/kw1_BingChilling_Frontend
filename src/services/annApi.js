@@ -3,11 +3,11 @@ import router from "@/router";
 
 export const fetched_api = async (role, category, mode, page, pageSize) => {
   const token = localStorage.getItem("token");
-  if (token === null) {
-    if (await reToken()) {
-      return await fetched_api(role, category, mode, page, pageSize);
-    }
-  }
+  // if (token === null) {
+  //   if (await reToken()) {
+  //     return await fetched_api(role, category, mode, page, pageSize);
+  //   }
+  // }
   try {
     const selectCategory = () => {
       return category !== "" ? `&category=${category}` : "";
@@ -21,12 +21,13 @@ export const fetched_api = async (role, category, mode, page, pageSize) => {
     const response = await fetch(
       `${
         import.meta.env.VITE_BASE_URL
-      }announcements/pages?${modeFetch()}&page=${page}&size=${pageSize}${selectCategory()}`,
-      {
-        headers: {
-          Authorization: `${token}`,
-        },
-      }
+      }announcements/pages?${modeFetch()}&page=${page}&size=${pageSize}${selectCategory()}`
+      //   ,
+      // {
+      //   headers: {
+      //     Authorization: `${token}`,
+      //   },
+      // }
     );
     if (response.status === 200) {
       console.log("200");
@@ -50,20 +51,21 @@ export const fetched_api = async (role, category, mode, page, pageSize) => {
 
 export const fetchCountParam = async (route, count) => {
   const token = localStorage.getItem("token");
-  if (token === null) {
-    if (await reToken()) {
-      return await fetchCountParam(route, count);
-    }
-  }
+  // if (token === null) {
+  //   if (await reToken()) {
+  //     return await fetchCountParam(route, count);
+  //   }
+  // }
   try {
     console.log(token);
     const response = await fetch(
-      `${import.meta.env.VITE_BASE_URL}announcements/${route}?count=${count}`,
-      {
-        headers: {
-          Authorization: `${token}`,
-        },
-      }
+      `${import.meta.env.VITE_BASE_URL}announcements/${route}?count=${count}`
+      //   ,
+      // {
+      //   headers: {
+      //     Authorization: `${token}`,
+      //   },
+      // }
     );
     if (response.status === 200) {
       return response;

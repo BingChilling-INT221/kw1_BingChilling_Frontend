@@ -3,18 +3,20 @@ import router from "@/router";
 
 export const fetchCate = async () => {
     const token = localStorage.getItem("token");
-    if (token === null) {
-        if (await reToken()) {
-            return await fetchCate();
-        }
-    }
+    // if (token === null) {
+    //     if (await reToken()) {
+    //         return await fetchCate();
+    //     }
+    // }
     try {
         console.log("cat", token);
-        const response = await fetch(`${import.meta.env.VITE_BASE_URL}categories`, {
-            headers: {
-                Authorization: `${token}`,
-            },
-        });
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}categories`
+            // , {
+            // headers: {
+            //     Authorization: `${token}`,
+            // },
+        // }
+    );
         console.log(response.status, token);
         if (response.status === 200) {
             console.log("200 cate");
