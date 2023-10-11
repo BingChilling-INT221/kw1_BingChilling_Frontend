@@ -1,5 +1,5 @@
 <script setup>
-import {inject, onMounted, ref} from "vue";
+import {inject, onMounted, ref, computed} from "vue";
 import DarkLightIcon from "./DarkLightIcon.vue";
 import Menu from "../icons/Menu.vue";
 import SearchBox from "../SearchBox.vue";
@@ -8,6 +8,7 @@ import {useRouter} from "vue-router";
 const rou = useRouter();
 const users = ref([]);
 const role = inject("role");
+const token = ref(localStorage.getItem("token") || "");
 const username = localStorage.getItem("username");
 const checkAdmin = () => {
   return role === "admin";
@@ -17,8 +18,17 @@ const logout = () => {
   localStorage.removeItem("token");
   localStorage.removeItem("refreshToken");
   localStorage.removeItem("username")
+  localStorage.removeItem("role")
   rou.push({name: "login"});
 };
+
+const isLogin = computed(() => {
+  if (!token.value) {
+    return false;
+  } else {
+    return true;
+  }
+});
 
 onMounted(async () => {
   // try {
@@ -66,7 +76,7 @@ onMounted(async () => {
           <DarkLightIcon class="mt-1"/>
           <div class="hidden md:block">{{ username }}</div>
           <div class="hidden md:block">
-            <button @click="logout">Log out</button>
+            <button @click="logout" v-if="isLogin">Log out</button>
           </div>
         </div>
       </div>
