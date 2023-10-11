@@ -30,13 +30,10 @@ const sendSubmit = async (event) => {
       setTimeout(() => rou.push({ name: "adminhomepage" }), 1200);
     } else if (response.status === 401) {
       status.value = 401;
-      console.log("hi2", response);
+      password.value = ""
     } else if (response.status === 404) {
       status.value = 404;
-      console.log("hi3", response);
-    } else {
-      console.log("hihi", response);
-    }
+    } 
   } catch (err) {
     console.log("hi4", response);
     alert(err);
