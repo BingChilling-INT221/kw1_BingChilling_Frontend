@@ -20,11 +20,11 @@ export const fetchCate = async () => {
         console.log(response.status, token);
         if (response.status === 200) {
             console.log("200 cate");
-            return response;
+            const data = await response.json();
+            return data;
         } else if (response.status === 401) {
             console.log("401 cate");
             if (await reToken()) {
-
                 return await fetchCate();
             }
             return router.push({name: "login"});

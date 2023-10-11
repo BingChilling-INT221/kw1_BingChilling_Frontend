@@ -62,9 +62,15 @@ const routes = [
         component: () => import('@/views/admin/loginPage.vue')
     },
     {
+        path: '/403',
+        name: '403',
+        component: () => import('@/views/errorpage/403page.vue')
+    },
+    {
         path: '/:pathMatch(.*)*',
         component: () => import('@/views/Notfound.vue')
     }
+    
 ]
 
 const router = createRouter({

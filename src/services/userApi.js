@@ -115,7 +115,10 @@ export const fetchUser = async () => {
             return await fetchUser();
         }
         return router.push({name: "login"});
-    } else {
+    } else if(response.status === 403){
+        router.push({name: "403"});
+    }
+    else {
         const errorResponse = await response.json();
         throw new Error(errorResponse.message);
     }
