@@ -3,9 +3,22 @@ import {computed} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {fetchDelete} from "@/services/annApi.js";
 import Eye from "./icons/Eye.vue"
+import {useAnnouncerStore} from "@/stores/announcer";
 
 const route = useRoute();
 const router = useRouter();
+const currentPath = window.location.pathname;
+
+const store = useAnnouncerStore();
+
+const isAdminPath = computed(() => {
+  if (currentPath.includes('/admin')) {
+    return true
+  } else {
+    return false
+  }
+});
+
 const props = defineProps({
   annData: {
     type: Object,
@@ -77,7 +90,9 @@ const checkAdmin = computed(() => {
 const role = computed(() => {
   return checkAdmin.value ? 'admin' : 'user'
 })
-
+const isClosed = computed(() => {
+  return store.mode === "close";
+});
 
 const seeDetail = (env) => {
   if (checkAdmin.value) {
@@ -106,7 +121,7 @@ const seeDetail = (env) => {
             </div >
 
           </div>
-          <div class=" "> owner:{{annData.announcementOwner}}</div>
+          <div class="" v-if="isAdminPath"> owner:{{annData.announcementOwner}}</div>
           <div class="xl:flex xl:justify-end xl:w-full xl:pr-5">
             <div
                 class="rounded-lg border border-white w-20 h-full text-[0.7rem] xl:text-lg xl:h-9 xl:w-28 xl:pt-[0.15rem] ">
@@ -116,10 +131,10 @@ const seeDetail = (env) => {
 
         </div>
         <div class="flex gap-x-[4.2rem] pt-[0.5rem]">
-          <div class="flex text-left w-44 xl:text-lg xl:w-full">
+          <div class="flex text-left w-44 xl:text-lg xl:w-full" :class="{ 'pb-5': !isAdminPath }">
             <p>{{ annData.announcementTitle }}</p>
           </div>
-          <div class="xl:w-full">
+          <div class="xl:w-full" v-if="isAdminPath">
             <div class="xl:flex xl:justify-end xl:w-full xl:pr-5">
               <div :class="annData.announcementDisplay === 'Y' ? 'bg-green-500' : 'bg-red-500'"
                    class="rounded-xl w-6 xl:w-14 xl:text-xl">
@@ -129,9 +144,9 @@ const seeDetail = (env) => {
 
           </div>
         </div>
-        <div class="flex flex-col pt-[0.2rem]">
+        <div class="flex flex-col pt-[0.2rem]" >
           <div class="flex">
-            <div class="text-left">
+            <div class="text-left" v-if="isAdminPath">
               <p class="text-gray-400 text-xs xl:text-xl ann-publish-date">
                 Publishdate: {{
                   changeTime(annData.publishDate) !== null ? changeTime(annData.publishDate) : '-'
@@ -141,9 +156,11 @@ const seeDetail = (env) => {
             </div>
           </div>
           <div class="flex flex-row justify-between">
-            <p class=" text-gray-400 text-xs xl:text-xl ann-close-date pb-1">
+            <div v-if="isClosed || isAdminPath">
+              <p class=" text-gray-400 text-xs xl:text-xl ann-close-date pb-1">
               Close Date: {{ changeTime(annData.closeDate) !== null ? changeTime(annData.closeDate) : '-' }}
             </p>
+            </div>
             <div class="flex" v-show="checkAdmin">
               <button class="ml-2 text-xs xl:text-xl font-medium rounded-lg hover:bg-green-500 ann-button"
                       @click="$router.push({ name: `${role}announcementdetail`, params: { id: annData.id } })">

@@ -130,15 +130,16 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
     const requiredRole = to.meta.requiredRole;
     const role = localStorage.getItem('role');
+    const token = localStorage.getItem('token');    
     console.log(role);
     console.log(requiredRole);
-    if (requiredRole === undefined) {
+    if (token && to.path === '/login') {
+        next('/admin/announcement');
+    } if (requiredRole === undefined) {
         next();
-    }
-    if (requiredRole.includes(role)) {
+    } if (requiredRole.includes(role)) {
         next();
-    }
-    else {
+    } else {
         next('/login');
     }
 });
