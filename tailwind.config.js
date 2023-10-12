@@ -26,6 +26,10 @@ module.exports = {
                 grayCustom: '#9F9F9F',
                 redCustom: '#D72121',
                 greenCustom: '#19B832',
+                bg: '#0F172A',
+                bgNav: '#1E293B',
+                header: '#4DC0F9',
+                header2: '#A9B4C0',
             },
             fontFamily: {
 
