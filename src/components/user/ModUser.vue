@@ -33,7 +33,6 @@ watch(
 );
 
 
-
 const role = ref("announcer");
 const username = ref("");
 const password = ref("");
@@ -108,11 +107,9 @@ const sendSubmit = async (event) => {
         if (response.status === 200) {
           alert("update user success");
           await router.push({name: `adminuserpage`});
-        }
-        else if(response.status === 200 && usernameCheck.value){
+        } else if (response.status === 200 && usernameCheck.value) {
           router.push({name: "login"});
-        }
-        else {
+        } else {
           console.log(response);
           alert("update user fail");
           if (response.status === 400) {
@@ -370,9 +367,9 @@ provide(/* key */ "role", /* value */ "admin");
             <input
                 v-model="username"
                 class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2 ann-username"
-                type="text"
                 maxlength="45"
                 required
+                type="text"
             />
             <div
                 v-if="status == 400 && errorUsername"
@@ -393,9 +390,9 @@ provide(/* key */ "role", /* value */ "admin");
             <input
                 v-model="password"
                 class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2 ann-password"
-                type="password"
                 maxlength="14"
                 required
+                type="password"
             />
             <div
                 v-if="errorPassword"
@@ -412,9 +409,9 @@ provide(/* key */ "role", /* value */ "admin");
             <input
                 v-model="conpassword"
                 class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2 ann-confirm-password"
-                type="password"
                 maxlength="14"
                 required
+                type="password"
             />
             <span v-if="errorConfirm" class="text-red-400 ann-error-password">{{
                 errorConfirm
@@ -430,9 +427,9 @@ provide(/* key */ "role", /* value */ "admin");
             <input
                 v-model="name"
                 class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2 ann-name"
-                type="text"
                 maxlength="100"
                 required
+                type="text"
             />
             <div
                 v-if="status == 400 && errorName"
@@ -451,9 +448,9 @@ provide(/* key */ "role", /* value */ "admin");
             <input
                 v-model="email"
                 class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2 ann-email"
-                type="email"
                 maxlength="150"
                 required
+                type="email"
             />
             <div
                 v-if="status == 400 && errorEmail"
@@ -482,13 +479,13 @@ provide(/* key */ "role", /* value */ "admin");
 
           <div class="flex flex-row space-x-4">
             <button
-                class="px-4 py-2 rounded-md bg-gray-50 dark:bg-gray-700 submit ann-button"
                 :class="
                 change || !updateCheck
                   ? 'dark:bg-gray-700'
                   : 'opacity-40 '
               "
                 :disabled="!(change || !updateCheck)"
+                class="px-4 py-2 rounded-md bg-gray-50 dark:bg-gray-700 submit ann-button"
             >
               save
             </button>

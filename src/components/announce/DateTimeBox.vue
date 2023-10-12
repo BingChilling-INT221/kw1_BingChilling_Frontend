@@ -1,5 +1,5 @@
 <script setup>
-import TimeIcon from "./icons/Time_duotone_line.vue";
+import TimeIcon from "../icons/Time_duotone_line.vue";
 
 const props = defineProps({
   time: {

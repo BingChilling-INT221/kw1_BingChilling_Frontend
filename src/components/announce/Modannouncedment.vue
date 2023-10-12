@@ -2,7 +2,7 @@
 import {computed, inject, onMounted, ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {fetchCateForMod} from "@/services/catApi.js";
-import { fetchCreate, fetchUpdate} from "@/services/annApi.js";
+import {fetchCreate, fetchUpdate} from "@/services/annApi.js";
 import {QuillEditor} from "@vueup/vue-quill";
 
 const route = useRoute();

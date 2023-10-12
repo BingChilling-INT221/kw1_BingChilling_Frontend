@@ -66,12 +66,12 @@ const wantPage = computed(() => {
       <ul class="flex flex-row basis-full">
         <li
             v-for="(pageNumber, index) in wantPage"
-            class="mx-auto"
             :key="pageNumber"
             :class="[
             { 'text-red-500': current === pageNumber - 1 },
             `ann-page-${index}`
           ]"
+            class="mx-auto"
             @click="$emit('changePage', pageNumber - 1)"
         >
           {{ pageNumber }}

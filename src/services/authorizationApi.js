@@ -22,14 +22,12 @@ export const fetchMatch = async (sendData) => {
     });
     if (response.status === 200) {
         return response;
-    }
-    else if (response.status === 401) {
+    } else if (response.status === 401) {
         if (await reToken()) {
             return await fetchMatch(sendData);
         }
         return router.push({name: "login"});
-    }
-    else {
+    } else {
         const errorResponse = await response.json();
         throw new Error(errorResponse.message);
     }
@@ -47,7 +45,7 @@ export const fetchCreateToken = async (sendData) => {
 export const reToken = async () => {
     const refreshToken = localStorage.getItem("refreshToken");
     const token = localStorage.getItem("token");
-    console.log(jwtDecode(token).exp > Date.now() / 1000 , "jwtDecode(token).exp > Date.now() / 1000");
+    console.log(jwtDecode(token).exp > Date.now() / 1000, "jwtDecode(token).exp > Date.now() / 1000");
     if (jwtDecode(token).exp > Date.now() / 1000) {
         return false;
     }

@@ -15,8 +15,8 @@ export const fetchCate = async () => {
             // headers: {
             //     Authorization: `${token}`,
             // },
-        // }
-    );
+            // }
+        );
         // console.log(response.status, token);
         if (response.status === 200) {
             // console.log("200 cate");

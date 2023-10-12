@@ -60,9 +60,9 @@ provide(/* key */ "role", /* value */ "admin");
                 <input
                     v-model="username"
                     class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2 ann-username"
-                    type="text"
                     maxlength="45"
                     required
+                    type="text"
                 />
               </div>
               <div class="text-lg flex flex-col space-y-2">
@@ -72,9 +72,9 @@ provide(/* key */ "role", /* value */ "admin");
                 <input
                     v-model="password"
                     class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2 ann-password"
-                    type="password"
                     maxlength="14"
                     required
+                    type="password"
                 />
               </div>
               <div class="flex">

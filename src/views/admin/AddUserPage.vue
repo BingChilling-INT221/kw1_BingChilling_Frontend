@@ -1,7 +1,7 @@
 <script setup>
 import {provide} from "vue";
 import format_page from "@/components/format_page.vue";
-import ModUser from "../../components/ModUser.vue";
+import ModUser from "../../components/user/ModUser.vue";
 
 
 provide(/* key */ "role", /* value */ "admin");

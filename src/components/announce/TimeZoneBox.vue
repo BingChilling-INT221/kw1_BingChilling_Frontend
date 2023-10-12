@@ -1,5 +1,5 @@
 <script setup>
-import globe from "./icons/Globe.vue";
+import globe from "../icons/Globe.vue";
 
 const props = defineProps({
   timezone: {

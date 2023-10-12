@@ -1,17 +1,17 @@
 <script setup>
-import {inject, onMounted, ref, computed} from "vue";
-import DarkLightIcon from "./DarkLightIcon.vue";
+import {computed, inject, ref} from "vue";
 import Menu from "../icons/Menu.vue";
-import SearchBox from "../SearchBox.vue";
-import {useRouter} from "vue-router";
+import SearchBox from "./SearchBox.vue";
+import {useRoute} from "vue-router";
+import router from "@/router";
 
-const rou = useRouter();
+const route = useRoute();
 const users = ref([]);
 const role = inject("role");
 const token = ref(localStorage.getItem("token") || "");
 const username = localStorage.getItem("username");
 const checkAdmin = () => {
-  return role === "admin";
+  return route.path.includes("/admin");
 };
 
 const logout = () => {
@@ -20,10 +20,9 @@ const logout = () => {
   localStorage.removeItem("username")
   localStorage.removeItem("role")
   window.location.reload();
-  // rou.push({name: "login"});
 };
 const login = () => {
-  rou.push({name: "login"});
+  router.push({name: "login"});
 };
 const isLogin = computed(() => {
   if (!token.value) {
@@ -33,54 +32,48 @@ const isLogin = computed(() => {
   }
 });
 
-onMounted(async () => {
-  // try {
-  //   const response = await fetchUser();
-  //   if (response.status === 200) { 
-  //     users.value = await response.json();
-  //     console.log(response);
-  //   }
-  // } catch (err) {
-  //   console.log(err);
-  // }
-});
 </script>
 
 <template>
   <div class="">
     <div
-        class="h-[3.75rem] flex basis-full  bg-whiteCustom dark:bg-blackCustom p-2"
+        class="lg:h-[3.75rem] h-14 flex basis-full  bg-bgNav text-header2 px-6 py-3"
     >
-      <div class="flex items-center basis-full">
-        <button class="flex" v-show="checkAdmin()">
-          <Menu class="lg:hidden"/>
-        </button>
+      <div class="flex items-center basis-full justify-between ">
+
         <div
-            class="flex w-[200px] lg:w-[312px] space-x-2"
+            class="flex  space-x-2 items-center cursor-pointer "
             @click="$router.push({ name: 'mainpage' })"
         >
-          <div class="flex items-center cursor-pointer">
-            <div class="rounded-full w-[16px] h-[16px] bg-green-500"></div>
+          <div class="flex items-center cursor-pointer text-white ">
+            <!--            <div class="rounded-full w-[16px] h-[16px] bg-green-500"></div>-->
+            <!--            <button-->
+            <!--                class=" text-2xl cursor-pointer font-semibold lg:hidden ann-app-title"-->
+            <!--            >-->
+            <!--              SAS-->
+            <!--            </button>-->
             <button
-                class="pl-[0.31rem] text-lg cursor-pointer font-semibold lg:hidden ann-app-title"
+                class=" text-xl lg:text-3xl cursor-pointer font-bold  ann-app-title "
             >
-              SAS
-            </button>
-
-            <button
-                class="pl-[0.31rem] text-2xl cursor-pointer font-semibold hidden lg:block ann-app-title"
-            >
-              SAS
+              SIT <span
+                class="bg-gradient-to-r from-indigo-200 via-sky-400 to-indigo-200 bg-clip-text tracking-tight text-transparent ">Announcement System</span>
             </button>
           </div>
         </div>
-        <SearchBox class="hidden mx-6 lg:block"/>
-        <div class="flex items-center justify-end space-x-4 grow">
-          <DarkLightIcon class="mt-1"/>
-          <div class="hidden md:block">{{ username }}</div>
-          <div class="hidden md:block">
-            <button @click="login" v-if="!isLogin">Log in</button>
-            <button @click="logout" v-if="isLogin">Log out</button>
+        <div class="flex justify-center align-middle">
+          <SearchBox class="hidden  lg:block"/>
+          <div v-if="checkAdmin()" class="flex items-center justify-end space-x-4 grow">
+            <div class="hidden md:block">{{ username }}</div>
+            <div class="hidden md:block">
+              <button v-if="!isLogin" @click="login">Log in</button>
+              <button v-if="isLogin" @click="logout">Log out</button>
+            </div>
+          </div>
+          <div v-else class=" flex">
+            <div class="cursor-pointer m-auto hidden lg:inline-block " @click="login">admin page</div>
+            <div class="cursor-pointer">
+              <Menu class="lg:hidden"/>
+            </div>
           </div>
         </div>
       </div>

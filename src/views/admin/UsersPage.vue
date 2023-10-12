@@ -1,9 +1,9 @@
 <script setup>
 import {onMounted, provide, ref} from "vue";
 import format_page from "@/components/format_page.vue";
-import dateTimeBox from "../../components/DateTimeBox.vue";
-import timeZoneBox from "../../components/TimeZoneBox.vue";
-import userBox from "../../components/UserBox.vue";
+import dateTimeBox from "../../components/announce/DateTimeBox.vue";
+import timeZoneBox from "../../components/announce/TimeZoneBox.vue";
+import userBox from "../../components/user/UserBox.vue";
 import {fetchUser} from "@/services/userApi";
 
 const users = ref([]);
@@ -56,14 +56,14 @@ provide(/* key */ "role", /* value */ "admin");
             <table class="min-w-full w-full text-left">
               <thead class="text-xs">
               <tr>
-                <th scope="col" class="px-6 py-3 text-lg">No.</th>
-                <th scope="col" class="px-6 py-3 text-lg">Username</th>
-                <th scope="col" class="px-6 py-3 text-lg">Name</th>
-                <th scope="col" class="px-6 py-3 text-lg">Email</th>
-                <th scope="col" class="px-6 py-3 text-lg">Role</th>
-                <th scope="col" class="px-6 py-3 text-lg">CreatedOn</th>
-                <th scope="col" class="px-6 py-3 text-lg">UpdatedOn</th>
-                <th scope="col" class="px-6 py-3 text-lg text-center">
+                <th class="px-6 py-3 text-lg" scope="col">No.</th>
+                <th class="px-6 py-3 text-lg" scope="col">Username</th>
+                <th class="px-6 py-3 text-lg" scope="col">Name</th>
+                <th class="px-6 py-3 text-lg" scope="col">Email</th>
+                <th class="px-6 py-3 text-lg" scope="col">Role</th>
+                <th class="px-6 py-3 text-lg" scope="col">CreatedOn</th>
+                <th class="px-6 py-3 text-lg" scope="col">UpdatedOn</th>
+                <th class="px-6 py-3 text-lg text-center" scope="col">
                   Action
                 </th>
               </tr>

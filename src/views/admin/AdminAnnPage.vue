@@ -1,6 +1,6 @@
 <script setup>
 import {provide} from "vue";
-import AnnHomePageView from "@/components/AnnHomePageView.vue";
+import AnnHomePageView from "@/components/announce/AnnHomePageView.vue";
 import format_page from "@/components/format_page.vue";
 
 provide(/* key */ "role", /* value */ "admin");

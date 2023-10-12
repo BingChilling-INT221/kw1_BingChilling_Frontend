@@ -1,5 +1,5 @@
 <script setup>
-import AnnDetail from "@/components/AnnDetail.vue";
+import AnnDetail from "@/components/announce/AnnDetail.vue";
 import format_page from "@/components/format_page.vue";
 import {provide} from "vue";
 

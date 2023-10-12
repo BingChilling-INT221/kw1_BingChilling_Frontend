@@ -14,7 +14,7 @@ export const fetchUpdateUser = async (sendPackage, route) => {
                 method: "PUT",
                 headers: {
                     Authorization: `${token}`,
-                    "Content-Type": "application/json", 
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify(sendPackage),
             });
@@ -52,17 +52,14 @@ export const fetchCreateUser = async (sendPackage) => {
         if (response.status === 200) {
             console.log(response);
             return response;
-        }
-        else if (response.status === 401) {
+        } else if (response.status === 401) {
             if (await reToken()) {
                 return await fetchCreateUser(sendPackage);
-            }
-            else{
+            } else {
                 router.push({name: "login"});
             }
-            return;
-        }
-        else {
+
+        } else {
             const errorResponse = await response.json();
             throw new Error(errorResponse.message);
         }
@@ -115,10 +112,9 @@ export const fetchUser = async () => {
             return await fetchUser();
         }
         return router.push({name: "login"});
-    } else if(response.status === 403){
+    } else if (response.status === 403) {
         router.push({name: "403"});
-    }
-    else {
+    } else {
         const errorResponse = await response.json();
         throw new Error(errorResponse.message);
     }

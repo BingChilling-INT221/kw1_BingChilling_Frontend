@@ -2,14 +2,13 @@
 import {computed, inject, ref, watch} from "vue";
 import {useAnnouncerStore} from "@/stores/announcer";
 import {fetched_api} from "@/services/annApi.js";
-import AnnBox2 from "./AnnBox2.vue";
+import AnnBox2 from "./AnnBox.vue";
 import dateTimeBox from "./DateTimeBox.vue";
 import timeZoneBox from "./TimeZoneBox.vue";
 import Pagination from "./Pagination.vue";
 import CategoryBox from "./CategoryBox.vue";
 
 const store = useAnnouncerStore();
-
 
 
 // เวลาและ Time zone
@@ -23,7 +22,7 @@ const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 let role = inject("role");
 const viwe = inject("viwe");
 const checkAdmin = () => {
-  if(viwe === "viewer"){
+  if (viwe === "viewer") {
     return false;
   }
   return role === "admin";
@@ -63,9 +62,9 @@ const fetches = async () => {
 };
 
 const fetched = async () => {
-  const auth =checkAdmin();
-  console.log(auth,"auth");
-  if(viwe === "viewer"){
+  const auth = checkAdmin();
+  console.log(auth, "auth");
+  if (viwe === "viewer") {
     role = "user";
   }
   const response = await fetched_api(
@@ -73,7 +72,7 @@ const fetched = async () => {
       store.category,
       store.mode,
       store.page,
-      store.pageSize,auth
+      store.pageSize, auth
   );
   if (response.status === 200) {
     fetchDate.value = true;
@@ -110,10 +109,10 @@ const changePage = (page) => {
         <div class="flex justify-around xl:hidden">
           <CategoryBox/>
           <button
-              class="px-4 py-2 text-xs rounded-md ann-button"
-              :class="isOpen ? 'bg-green-400' : 'bg-red-400'"
-              @click="fetches()"
               v-if="!checkAdmin()"
+              :class="isOpen ? 'bg-green-400' : 'bg-red-400'"
+              class="px-4 py-2 text-xs rounded-md ann-button"
+              @click="fetches()"
           >
             {{ isOpen ? "Closed " : "Active " }}
             <span class="hidden md:inline-block">announcement</span>
@@ -163,17 +162,17 @@ const changePage = (page) => {
                     :first="data.first"
                     :last="data.last"
                     :totalPages="data.totalPages"
-                    @changePage="changePage"
                     class="xl:flex xl:justify-center"
+                    @changePage="changePage"
                 ></Pagination>
               </div>
               <div class="hidden xl:flex xl:flex-col">
                 <div class="xl:flex xl:justify-end xl:pb-2">
                   <button
-                      class="px-4 py-2 text-xs rounded-md ann-button xl:py-2 xl:text-base"
-                      :class="isOpen ? 'bg-green-400' : 'bg-red-400'"
-                      @click="fetches()"
                       v-if="!checkAdmin()"
+                      :class="isOpen ? 'bg-green-400' : 'bg-red-400'"
+                      class="px-4 py-2 text-xs rounded-md ann-button xl:py-2 xl:text-base"
+                      @click="fetches()"
                   >
                     {{ isOpen ? "Closed " : "Active " }}
                     <span class="hidden md:inline-block">announcement</span>

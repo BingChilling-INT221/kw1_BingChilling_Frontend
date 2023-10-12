@@ -1,15 +1,15 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import {createRouter, createWebHistory} from 'vue-router'
 
 const routes = [
     {
         path: '/',
         name: 'mainpage',
-        component: () => import('@/views/MainPage.vue')
+        redirect: '/announcement'
     },
     {
         path: '/admin',
         name: 'admin',
-        meta: { requiredRole: ['admin', 'announcer'] },
+        meta: {requiredRole: ['admin', 'announcer']},
         children: [
             {
                 path: 'announcement',
@@ -52,7 +52,7 @@ const routes = [
                 component: () => import('@/views/admin/MatchPassword.vue')
             },
             {
-                path:'announcement/viwer' ,
+                path: 'announcement/viwer',
                 name: 'viwer',
                 component: () => import('@/views/admin/ViwerAnnPage.vue')
             }
@@ -121,7 +121,7 @@ const routes = [
     },
     {
         path: '/:pathMatch(.*)*',
-        component: () => import('@/views/Notfound.vue')
+        component: () => import('@/views/errorpage/Notfound.vue')
     }
 
 ]
@@ -135,14 +135,16 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
     const requiredRole = to.meta.requiredRole;
     const role = localStorage.getItem('role');
-    const token = localStorage.getItem('token');    
+    const token = localStorage.getItem('token');
     console.log(role);
     console.log(requiredRole);
     if (token && to.path === '/login') {
         next('/admin/announcement');
-    } if (requiredRole === undefined) {
+    }
+    if (requiredRole === undefined) {
         next();
-    } if (requiredRole.includes(role)) {
+    }
+    if (requiredRole.includes(role)) {
         next();
     } else {
         next('/login');

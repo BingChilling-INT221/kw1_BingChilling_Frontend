@@ -1,7 +1,7 @@
 <script setup>
 import {computed, onMounted, provide, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
-import ModUsers from "../../components/ModUser.vue";
+import ModUsers from "../../components/user/ModUser.vue";
 import {fetchUserEdit} from "@/services/userApi.js";
 import format_page from "@/components/format_page.vue";
 

@@ -4,12 +4,12 @@
   <div>
     <div class="flex items-center justify-center w-8 h-8">
       <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
+          class="stroke-blackCustom dark:stroke-whiteCustom"
+          fill="none"
           height="24"
           viewBox="0 0 24 24"
-          fill="none"
-          class="stroke-blackCustom dark:stroke-whiteCustom"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
       >
         <circle cx="12" cy="8" r="2.5" stroke-linecap="round"/>
         <path
