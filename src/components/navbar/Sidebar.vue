@@ -5,9 +5,13 @@ import Groups from "../icons/Groups.vue";
 
 const route = useRoute();
 const checkPath = (path) => {
-  console.log(route.path, path, route.path.endsWith(path));
+  // console.log(route.path, path, route.path.endsWith(path));
   return route.path.endsWith(path);
 };
+
+const CheckAnnouncer = localStorage.getItem("role") ==="announcer";
+
+
 </script>
 
 <template>
@@ -17,7 +21,19 @@ const checkPath = (path) => {
         <button
             class="flex items-center w-full px-4 py-2 optionSidebar rounded-xl"
             :class="
-            checkPath('/announcement')
+            checkPath('/viwer')
+              ? ' bg-whitesecondCustom dark:bg-darksecondCustom '
+              : ''
+          "
+            @click="$router.push({ name: 'viwer' })"
+        >
+          <Ann/>
+          <span class="ann-menu">Announcement (viewer)</span>
+        </button>
+        <button
+            class="flex items-center w-full px-4 py-2 optionSidebar rounded-xl"
+            :class="
+            checkPath('/admin/announcement')
               ? ' bg-whitesecondCustom dark:bg-darksecondCustom '
               : ''
           "
@@ -27,6 +43,7 @@ const checkPath = (path) => {
           <span class="ann-menu">Announcement</span>
         </button>
         <button
+        v-if="!CheckAnnouncer"
             class="flex items-center w-full px-4 py-2 optionSidebar rounded-xl"
             :class="
             checkPath('/user')
@@ -39,6 +56,7 @@ const checkPath = (path) => {
           <span class="ann-menu">User</span>
         </button>
         <button
+        v-if="!CheckAnnouncer"
             class="flex items-center w-full px-4 py-2 optionSidebar rounded-xl"
             :class="
             checkPath('/match')

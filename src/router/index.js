@@ -3,8 +3,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 const routes = [
     {
         path: '/',
-        name: 'Notfound',
-        component: () => import('@/views/Notfound.vue')
+        name: 'mainpage',
+        component: () => import('@/views/MainPage.vue')
     },
     {
         path: '/admin',
@@ -50,6 +50,11 @@ const routes = [
                 path: 'user/match',
                 name: 'matchpassword',
                 component: () => import('@/views/admin/MatchPassword.vue')
+            },
+            {
+                path:'announcement/viwer' ,
+                name: 'viwer',
+                component: () => import('@/views/admin/ViwerAnnPage.vue')
             }
         ]
     },

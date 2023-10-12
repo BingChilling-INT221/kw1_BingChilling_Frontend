@@ -14,6 +14,7 @@ export const fetched_api = async (role, category, mode, page, pageSize,auth) => 
       return category !== "" ? `&category=${category}` : "";
     };
     const modeFetch = () => {
+      console.log(role);
       if (role === "admin") {
         return "";
       }
@@ -22,6 +23,7 @@ export const fetched_api = async (role, category, mode, page, pageSize,auth) => 
     let response;
     if (auth) {
         console.log("auth");
+        console.log(token);
         response = await fetch(
             `${
                 import.meta.env.VITE_BASE_URL
@@ -33,8 +35,8 @@ export const fetched_api = async (role, category, mode, page, pageSize,auth) => 
                 },
             }
         );
-        console.log(response);
-        console.log(token);
+        console.log(response,"response");
+        // console.log(token);
     }
     else {
         console.log("not auth");

@@ -20,8 +20,12 @@ const datetime = new Intl.DateTimeFormat("en-GB", {
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 // เวลาและ Time zone
 
-const role = inject("role");
+let role = inject("role");
+const viwe = inject("viwe");
 const checkAdmin = () => {
+  if(viwe === "viewer"){
+    return false;
+  }
   return role === "admin";
 };
 
@@ -61,6 +65,9 @@ const fetches = async () => {
 const fetched = async () => {
   const auth =checkAdmin();
   console.log(auth,"auth");
+  if(viwe === "viewer"){
+    role = "user";
+  }
   const response = await fetched_api(
       role,
       store.category,

@@ -19,9 +19,12 @@ const logout = () => {
   localStorage.removeItem("refreshToken");
   localStorage.removeItem("username")
   localStorage.removeItem("role")
+  window.location.reload();
+  // rou.push({name: "login"});
+};
+const login = () => {
   rou.push({name: "login"});
 };
-
 const isLogin = computed(() => {
   if (!token.value) {
     return false;
@@ -54,7 +57,7 @@ onMounted(async () => {
         </button>
         <div
             class="flex w-[200px] lg:w-[312px] space-x-2"
-            @click="$router.push({ name: 'Notfound' })"
+            @click="$router.push({ name: 'mainpage' })"
         >
           <div class="flex items-center cursor-pointer">
             <div class="rounded-full w-[16px] h-[16px] bg-green-500"></div>
@@ -76,6 +79,7 @@ onMounted(async () => {
           <DarkLightIcon class="mt-1"/>
           <div class="hidden md:block">{{ username }}</div>
           <div class="hidden md:block">
+            <button @click="login" v-if="!isLogin">Log in</button>
             <button @click="logout" v-if="isLogin">Log out</button>
           </div>
         </div>

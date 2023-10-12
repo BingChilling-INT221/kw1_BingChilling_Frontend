@@ -85,9 +85,16 @@ const padStart = (number, length) => {
   return str;
 }
 const checkAdmin = computed(() => {
+  if (route.path.includes('viwer')) {
+    return false
+  }
   return route.path.includes('admin')
 })
 const role = computed(() => {
+  console.log(route.path);
+  // if(route.path.includes('viwer')){
+  //   console.log("viwer");
+  //   return 'user'}
   return checkAdmin.value ? 'admin' : 'user'
 })
 const isClosed = computed(() => {
