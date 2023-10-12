@@ -1,13 +1,14 @@
 import {reToken} from "@/services/authorizationApi";
 import router from "@/router";
 
-export const fetched_api = async (role, category, mode, page, pageSize) => {
+export const fetched_api = async (role, category, mode, page, pageSize,auth) => {
   const token = localStorage.getItem("token");
   // if (token === null) {
   //   if (await reToken()) {
   //     return await fetched_api(role, category, mode, page, pageSize);
   //   }
   // }
+
   try {
     const selectCategory = () => {
       return category !== "" ? `&category=${category}` : "";
@@ -18,19 +19,33 @@ export const fetched_api = async (role, category, mode, page, pageSize) => {
       }
       return mode !== "" ? `&mode=${mode}` : "";
     };
-    const response = await fetch(
+    let response;
+    if (auth) {
+        console.log("auth");
+        response = await fetch(
+            `${
+                import.meta.env.VITE_BASE_URL
+            }announcements/pages?${modeFetch()}&page=${page}&size=${pageSize}${selectCategory()}`
+            ,
+            {
+                headers: {
+                    Authorization: `${token}`,
+                },
+            }
+        );
+        console.log(response);
+        console.log(token);
+    }
+    else {
+        console.log("not auth");
+     response = await fetch(
       `${
         import.meta.env.VITE_BASE_URL
       }announcements/pages?${modeFetch()}&page=${page}&size=${pageSize}${selectCategory()}`
-      //   ,
-      // {
-      //   headers: {
-      //     Authorization: `${token}`,
-      //   },
-      // }
     );
+    }
     if (response.status === 200) {
-      console.log("200");
+      // console.log("200");
       return response;
     } else if (response.status === 401) {
       console.log("401");
@@ -80,7 +95,6 @@ export const fetchCountParam = async (route, count) => {
     }
   } catch (err) {
     console.log(err);
-    throw err;
   }
 };
 
@@ -116,7 +130,7 @@ export const fetchCreate = async (sendPackage) => {
       throw new Error(errorResponse.message);
     }
   } catch (err) {
-    throw err;
+    console.log(err);
   }
 };
 export const fetchUpdate = async (sendPackage, route) => {
