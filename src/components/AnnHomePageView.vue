@@ -57,12 +57,14 @@ const fetches = async () => {
 };
 
 const fetched = async () => {
+  const auth =checkAdmin();
+  console.log(auth,"auth");
   const response = await fetched_api(
       role,
       store.category,
       store.mode,
       store.page,
-      store.pageSize
+      store.pageSize,auth
   );
   if (response.status === 200) {
     fetchDate.value = true;

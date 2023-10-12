@@ -9,7 +9,7 @@ export const fetchCate = async () => {
     //     }
     // }
     try {
-        console.log("cat", token);
+        // console.log("cat", token);
         const response = await fetch(`${import.meta.env.VITE_BASE_URL}categories`
             // , {
             // headers: {
@@ -17,9 +17,9 @@ export const fetchCate = async () => {
             // },
         // }
     );
-        console.log(response.status, token);
+        // console.log(response.status, token);
         if (response.status === 200) {
-            console.log("200 cate");
+            // console.log("200 cate");
             const data = await response.json();
             return data;
         } else if (response.status === 401) {
