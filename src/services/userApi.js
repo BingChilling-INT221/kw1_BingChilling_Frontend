@@ -146,23 +146,3 @@ export const fetchUserEdit = async (route) => {
         throw new Error(errorResponse.message);
     }
 };
-export const fetchCreateUserAnnouncer = async (sendPackage) => {
-    try {
-        const response = await fetch(`${import.meta.env.VITE_BASE_URL}users/announcer`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(sendPackage),
-        });
-        if (response.status === 200) {
-            return response;
-        } else {
-            const errorResponse = await response.json();
-            throw new Error(errorResponse.message);
-        }
-    }
-    catch (err) {
-        console.log(err);
-    }
-}

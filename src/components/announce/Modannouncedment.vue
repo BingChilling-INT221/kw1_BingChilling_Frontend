@@ -285,7 +285,7 @@ const sendSubmit = async (event) => {
       const response = await fetchUpdate(sendPackage, route);
       if (response.status === 200) {
         alert("update announcement success");
-        await router.push({name: `adminhomepage`});
+        await router.push({name: `${role}homepage`});
       } else {
         console.log(response);
         alert("update announcement fail");
@@ -303,7 +303,7 @@ const sendSubmit = async (event) => {
       const response = await fetchCreate(sendPackage);
       if (response.status === 200) {
         alert("Create announcement success");
-        await router.push({name: `adminhomepage`});
+        await router.push({name: `${role}homepage`});
       } else {
         alert("Create announcement fail");
         errm.value = await response.json();
