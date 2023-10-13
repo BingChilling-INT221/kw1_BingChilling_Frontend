@@ -141,6 +141,8 @@ export const fetchCreate = async (sendPackage) => {
     console.log(err);
   }
 };
+
+
 export const fetchUpdate = async (sendPackage, route) => {
   const token = localStorage.getItem("token");
   if (token === null) {
