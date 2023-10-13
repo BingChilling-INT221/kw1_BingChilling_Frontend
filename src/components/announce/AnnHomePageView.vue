@@ -64,7 +64,6 @@ const logout = () => {
   localStorage.removeItem("role");
   window.location.reload();
 };
-
 const fetched = async () => {
   const auth = isAdminPath.value;
   console.log(auth, "auth");
@@ -106,26 +105,39 @@ const changePage = (page) => {
 </script>
 
 <template>
-  <div class="h-auto min-w-full" v-if="!isAdminPath">
+  <div class="h-auto min-w-full">
     <div class="mx-6">
-      <div class="flex items-center justify-center my-2 md:justify-end xl:hidden">
+      <div
+        class="flex items-center justify-center my-2 md:justify-end xl:hidden"
+      >
         <dateTimeBox :time="datetime" class="text-sm"></dateTimeBox>
         <timeZoneBox :timezone="timezone" class="text-sm"></timeZoneBox>
       </div>
       <div class="flex flex-col gap-y-2">
         <div class="flex justify-around xl:hidden">
           <CategoryBox />
-          <button v-if="!isAdminPath" :class="isOpen ? 'bg-green-400' : 'bg-red-400'"
-            class="px-4 py-2 text-xs rounded-md ann-button" @click="fetches()">
+          <button
+            v-if="!isAdminPath"
+            :class="isOpen ? 'bg-green-400' : 'bg-red-400'"
+            class="px-4 py-2 text-xs rounded-md ann-button"
+            @click="fetches()"
+          >
             {{ isOpen ? "Closed " : "Active " }}
             <span class="hidden md:inline-block">announcement</span>
           </button>
-          <div v-else class="ann-button" @click="$router.push({ name: 'addannouncement' })">
-            <button class="hidden px-2 py-2 rounded-md bg-gray-50 dark:bg-gray-700 md:inline-block">
+          <div
+            v-else
+            class="ann-button"
+            @click="$router.push({ name: 'addannouncement' })"
+          >
+            <button
+              class="hidden px-2 py-2 rounded-md bg-gray-50 dark:bg-gray-700 md:inline-block"
+            >
               Add announcements
             </button>
             <button
-              class="fixed bottom-0 right-0 px-2 py-2 rounded-md bg-black2Cus hover:bg-black3Cus md:hidden bg-gray-50 dark:bg-gray-700">
+              class="fixed bottom-0 right-0 px-2 py-2 rounded-md bg-black2Cus hover:bg-black3Cus md:hidden bg-gray-50 dark:bg-gray-700"
+            >
               Add
             </button>
           </div>
@@ -134,37 +146,70 @@ const changePage = (page) => {
         <div class="pt-2 xl:flex xl:flex-row xl:gap-x-24 xl:w-full">
           <div class="min-w-full xl:min-w-full">
             <div class="xl:flex xl:flex-row xl:gap-x-5">
-              <div class="flex flex-col justify-center text-center gap-y-3 xl:w-full">
-                <p v-if="announces.length <= 0" class="flex justify-center text-5xl text-center text-gray-400">
+              <div
+                class="flex flex-col justify-center text-center gap-y-3 xl:w-full"
+              >
+                <p
+                  v-if="announces.length <= 0"
+                  class="flex justify-center text-5xl text-center text-gray-400"
+                >
                   No Announcement
                 </p>
-                <div v-for="(announce, index) in announces" v-else class="h-auto xl:w-full">
-                  <AnnBox2 :ann-data="announce" :index="index + store.pageSize * store.page"></AnnBox2>
+                <div
+                  v-for="(announce, index) in announces"
+                  v-else
+                  class="h-auto xl:w-full"
+                >
+                  <AnnBox2
+                    :ann-data="announce"
+                    :index="index + store.pageSize * store.page"
+                  ></AnnBox2>
                 </div>
-                <Pagination :current="store.page" :first="data.first" :last="data.last" :totalPages="data.totalPages"
-                  class="xl:flex xl:justify-center" @changePage="changePage"></Pagination>
+                <Pagination
+                  :current="store.page"
+                  :first="data.first"
+                  :last="data.last"
+                  :totalPages="data.totalPages"
+                  class="xl:flex xl:justify-center"
+                  @changePage="changePage"
+                ></Pagination>
               </div>
               <div class="hidden xl:flex xl:flex-col">
                 <div class="xl:flex xl:justify-end xl:pb-2">
-                  <button v-if="!isAdminPath" :class="isOpen ? 'bg-green-400' : 'bg-red-400'"
-                    class="px-4 py-2 text-xs rounded-md ann-button xl:py-2 xl:text-base" @click="fetches()">
+                  <button
+                    v-if="!isAdminPath"
+                    :class="isOpen ? 'bg-green-400' : 'bg-red-400'"
+                    class="px-4 py-2 text-xs rounded-md ann-button xl:py-2 xl:text-base"
+                    @click="fetches()"
+                  >
                     {{ isOpen ? "Closed " : "Active " }}
                     <span class="hidden md:inline-block">announcement</span>
                   </button>
-                  <div v-else class="ann-button" @click="$router.push({ name: 'addannouncement' })">
+                  <div
+                    v-else
+                    class="ann-button"
+                    @click="$router.push({ name: 'addannouncement' })"
+                  >
                     <button
-                      class="hidden px-2 py-2 rounded-md bg-gray-50 dark:bg-gray-700 md:inline-block xl:py-2 xl:text-base">
+                      class="hidden px-2 py-2 rounded-md bg-gray-50 dark:bg-gray-700 md:inline-block xl:py-2 xl:text-base"
+                    >
                       Add announcements
                     </button>
                     <button
-                      class="fixed bottom-0 right-0 px-2 py-2 rounded-md bg-black2Cus hover:bg-black3Cus md:hidden bg-gray-50 dark:bg-gray-700">
+                      class="fixed bottom-0 right-0 px-2 py-2 rounded-md bg-black2Cus hover:bg-black3Cus md:hidden bg-gray-50 dark:bg-gray-700"
+                    >
                       Add
                     </button>
                   </div>
                 </div>
-                <div class="flex items-center justify-center my-2 md:justify-end">
+                <div
+                  class="flex items-center justify-center my-2 md:justify-end"
+                >
                   <dateTimeBox :time="datetime" class="text-sm"></dateTimeBox>
-                  <timeZoneBox :timezone="timezone" class="text-sm"></timeZoneBox>
+                  <timeZoneBox
+                    :timezone="timezone"
+                    class="text-sm"
+                  ></timeZoneBox>
                 </div>
                 <div class="flex xl:gap-x-4">
                   <p class="xl:my-auto xl:text-xl">Category:</p>
@@ -175,55 +220,6 @@ const changePage = (page) => {
           </div>
         </div>
       </div>
-    </div>
-  </div>
-  <div class="h-auto max-w-full pt-2" v-if="isAdminPath">
-
-    <div class="flex justify-between">
-      <div class="flex">
-      <dateTimeBox :time="datetime" class="text-sm"></dateTimeBox>
-      <timeZoneBox :timezone="timezone" class="text-sm"></timeZoneBox>
-      </div>
-      <div class="flex pr-2">
-        <div class="ann-button" @click="$router.push({ name: 'addannouncement' })">
-            <button class="hidden px-2 py-2 rounded-md bg-bgNav md:inline-block">
-              Add announcements
-            </button>
-        </div>
-      </div>
-    </div>
-
-    <div class="relative overflow-x-auto">
-      <p v-if="announces.length <= 0" class="flex justify-center text-5xl text-center text-gray-400">
-                  No Announcement
-      </p>
-      
-      <table class="min-w-full w-full text-left">
-        
-        <thead class="text-xs">
-              <tr>
-                <th class="px-6 py-3 text-lg" scope="col">No.</th>
-                <th class="px-6 py-3 text-lg" scope="col">Title</th>
-                <th class="px-6 py-3 text-lg" scope="col">Category</th>
-                <th class="px-6 py-3 text-lg" scope="col">Publish Date</th>
-                <th class="px-6 py-3 text-lg" scope="col">CLose Date</th>
-                <th class="px-6 py-3 text-lg" scope="col">Display</th>
-                <th class="px-6 py-3 text-lg" scope="col">Owner</th>
-                <th class="px-6 py-3 text-lg text-center" scope="col">
-                  Action
-                </th>
-              </tr>
-              </thead>
-              <tbody>
-                
-              <tr
-              v-if="announces.length > 0"
-              v-for="(announce, index) in announces"
-              >
-              <AnnBox2 :ann-data="announce" :index="index + store.pageSize * store.page"></AnnBox2>
-              </tr>
-              </tbody>
-      </table>
     </div>
   </div>
 </template>

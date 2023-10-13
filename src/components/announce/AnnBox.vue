@@ -114,7 +114,6 @@ const seeDetail = (env) => {
     <div
         :class="isAdminPath ? 'cursor-default' : 'cursor-pointer'"
         class="xl:w-full w-72 max-h-full border-[1px] rounded-xl border-blackCustom dark:border-whiteCustom m-auto " @click="seeDetail"
-        v-if="!isAdminPath"
     >
       <div class="ml-2 pt-[0.5rem]">
         <div class="flex flex-row">
