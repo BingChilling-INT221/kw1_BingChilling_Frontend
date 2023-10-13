@@ -4,10 +4,12 @@ import Menu from "../icons/Menu.vue";
 import SearchBox from "./SearchBox.vue";
 import {useRoute} from "vue-router";
 import router from "@/router";
+import Search_light from "../icons/Search_light.vue";
 
 const route = useRoute();
 const users = ref([]);
-const role = inject("role");
+const role = inject("role")
+const isSearch = ref(false);
 const token = ref(localStorage.getItem("token") || "");
 const username = localStorage.getItem("username");
 const checkAdmin = () => {
@@ -31,14 +33,11 @@ const isLogin = computed(() => {
     return true;
   }
 });
-
 </script>
 
 <template>
   <div class="">
-    <div
-        class="lg:h-[3.75rem] h-14 flex basis-full  bg-bgNav text-header2 px-6 py-3"
-    >
+    <div class="lg:h-[3.75rem] h-14 flex basis-full  bg-bgNav text-header2 px-6 py-3">
       <div class="flex items-center basis-full justify-between ">
 
         <div
@@ -61,7 +60,7 @@ const isLogin = computed(() => {
           </div>
         </div>
         <div class="flex justify-center align-middle">
-          <SearchBox class="hidden  lg:block"/>
+          <SearchBox class="hidden lg:block" @click="isSearch = true"/>
           <div v-if="checkAdmin()" class="flex items-center justify-end space-x-4 grow">
             <div class="hidden md:block">{{ username }}</div>
             <div class="hidden md:block">
@@ -78,7 +77,36 @@ const isLogin = computed(() => {
         </div>
       </div>
     </div>
+
+    <div class="bg-slate-800 fixed w-full h-full m-auto top-0 search-page" :class="{ 'hidden': !isSearch }">
+      <div class="relative h-full p-4 lg:p-10 max-w-[1000px] m-auto">
+        <div class="flex justify-end">
+          <button class="text-white rounded-lg text-sm px-5 py-2.5 text-center mb-2 bg-red-500" @click="isSearch = false">Close</button>
+        </div>
+        <div>
+          <div class="relative">
+            <div class="absolute flex items-center m-auto">
+              <Search_light/>
+            </div>
+            <input type="search" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-500 rounded-lg bg-gray-700" placeholder="Search For Announcements">
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.search-page {
+  animation: fade-in 0.5s ease-in-out;
+}
+
+@keyframes fade-in {
+  0%    { opacity: 0; }
+  100%  { opacity: 1; }
+}
+
+
+
+</style>

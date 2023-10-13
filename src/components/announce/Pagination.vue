@@ -56,7 +56,7 @@ const wantPage = computed(() => {
     <div class="flex items-center space-x-2 basis-4/5 xl:basis-2/5">
       <button
           v-if="totalPages !== 1"
-          :class="first ? 'opacity-25' : ''"
+          :class="first ? 'text-gray-500' : ''"
           :disabled="first"
           class="ann-page-prev"
           @click="$emit('changePage', current - 1)"
@@ -79,7 +79,7 @@ const wantPage = computed(() => {
       </ul>
       <button
           v-if="totalPages !== 1"
-          :class="last ? 'opacity-25' : ''"
+          :class="last ? 'text-gray-500' : ''"
           :disabled="last"
           class="ann-page-next"
           @click="$emit('changePage', current + 1)"
