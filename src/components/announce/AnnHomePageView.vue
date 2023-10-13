@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, watch } from "vue";
+import { computed, ref, watch ,onMounted} from "vue";
 import { useAnnouncerStore } from "@/stores/announcer";
 import { fetched_api } from "@/services/annApi.js";
 import { useRoute } from "vue-router";
@@ -34,10 +34,16 @@ const loading = computed(() => {
 const notFound = ref(false);
 
 const isAdminPath = computed(() => {
-  if (route.path.includes("viewer")) {
-    return false;
+  if (route.path.includes('viewer')) {
+    console.log(route.path,"viwer")
+    return false
   }
-  return route.path.includes("admin");
+  if(route.path.includes('admin')){
+    console.log(route.path,"admin")
+    return true
+  };
+  console.log(route.path,"free")
+  return false
 });
 watch(
   () => store.category,
@@ -84,7 +90,7 @@ const fetched = async () => {
   if (response.status === 200) {
     fetchDate.value = true;
     data.value = await response.json();
-    console.log(data.value);
+    console.log(data.value,"data");
     announces.value = data.value.content;
     if (announces.value.length === 0) {
       notFound.value = true;
@@ -103,11 +109,14 @@ const changePage = (page) => {
   fetched();
 };
 // pagination
+onMounted(()=>{
+  fetches();
+})
 </script>
 
 <template>
-  <div class="h-auto min-w-full" v-if="!isAdminPath">
-    <div class="mx-6">
+  <div class="min-h-full min-w-full" >
+    <div class="mx-6" v-if="!isAdminPath">
       <div class="flex items-center justify-center my-2 md:justify-end xl:hidden">
         <dateTimeBox :time="datetime" class="text-sm"></dateTimeBox>
         <timeZoneBox :timezone="timezone" class="text-sm"></timeZoneBox>
@@ -176,9 +185,8 @@ const changePage = (page) => {
         </div>
       </div>
     </div>
-  </div>
-  <div class="h-auto max-w-full pt-2" v-if="isAdminPath">
 
+    <div class="h-full max-w-full pt-2" v-else>
     <div class="flex justify-between">
       <div class="flex">
       <dateTimeBox :time="datetime" class="text-sm"></dateTimeBox>
@@ -192,40 +200,35 @@ const changePage = (page) => {
         </div>
       </div>
     </div>
-
-    <div class="relative overflow-x-auto">
-      <p v-if="announces.length <= 0" class="flex justify-center text-5xl text-center text-gray-400">
-                  No Announcement
-      </p>
-      
-      <table class="min-w-full w-full text-left">
-        
+    <div class="overflow-x-auto">
+      <table class="min-w-full w-full text-left mb-0">
         <thead class="text-xs">
               <tr>
                 <th class="px-6 py-3 text-lg" scope="col">No.</th>
                 <th class="px-6 py-3 text-lg" scope="col">Title</th>
                 <th class="px-6 py-3 text-lg" scope="col">Category</th>
                 <th class="px-6 py-3 text-lg" scope="col">Publish Date</th>
-                <th class="px-6 py-3 text-lg" scope="col">CLose Date</th>
-                <th class="px-6 py-3 text-lg" scope="col">Display</th>
+                <th class="px-6 py-3 text-lg" scope="col">Close Date</th>
+                <th class="px-6 py-3 text-lg text-center" scope="col">Display</th>
                 <th class="px-6 py-3 text-lg" scope="col">Owner</th>
+                <th class="px-6 py-3 text-lg text-center" scope="col" >Views</th>
                 <th class="px-6 py-3 text-lg text-center" scope="col">
                   Action
                 </th>
               </tr>
               </thead>
               <tbody>
-                
-              <tr
-              v-if="announces.length > 0"
-              v-for="(announce, index) in announces"
-              >
-              <AnnBox2 :ann-data="announce" :index="index + store.pageSize * store.page"></AnnBox2>
+              <tr v-for="(announcez, index) in announces">
+              <AnnBox2 :ann-data="announcez" :index="index + store.pageSize * store.page"></AnnBox2>
               </tr>
               </tbody>
       </table>
     </div>
   </div>
+  </div>
+
+
+  
 </template>
 
 <style scoped></style>

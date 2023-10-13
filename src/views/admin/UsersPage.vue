@@ -31,7 +31,7 @@ const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 <template>
   <div class="w-full">
     <format_page>
-      <div class="flex flex-col min-w-full space-y-5 ">
+      <div class="flex flex-col min-w-full space-y-5">
         <div class="text-4xl text-center ann-title">
           <p>User Management</p>
         </div>
@@ -51,7 +51,7 @@ const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
               </button>
             </div>
           </div>
-          <div class="relative overflow-x-auto">
+          <div class="overflow-auto">
             <table class="min-w-full w-full text-left">
               <thead class="text-xs">
               <tr>
