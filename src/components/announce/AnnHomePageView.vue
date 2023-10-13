@@ -1,8 +1,8 @@
 <script setup>
-import {computed, ref, watch} from "vue";
-import {useAnnouncerStore} from "@/stores/announcer";
-import {fetched_api} from "@/services/annApi.js";
-import {useRoute} from "vue-router";
+import { computed, ref, watch } from "vue";
+import { useAnnouncerStore } from "@/stores/announcer";
+import { fetched_api } from "@/services/annApi.js";
+import { useRoute } from "vue-router";
 import AnnBox2 from "./AnnBox.vue";
 import dateTimeBox from "./DateTimeBox.vue";
 import timeZoneBox from "./TimeZoneBox.vue";
@@ -12,7 +12,6 @@ import CategoryBox from "./CategoryBox.vue";
 const route = useRoute();
 const store = useAnnouncerStore();
 
-
 // เวลาและ Time zone
 const datetime = new Intl.DateTimeFormat("en-GB", {
   dateStyle: "medium",
@@ -20,7 +19,6 @@ const datetime = new Intl.DateTimeFormat("en-GB", {
 }).format();
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 // เวลาและ Time zone
-
 
 const announces = ref([]);
 const data = ref({});
@@ -36,17 +34,17 @@ const loading = computed(() => {
 const notFound = ref(false);
 
 const isAdminPath = computed(() => {
-  if (route.path.includes('viewer')) {
-    return false
+  if (route.path.includes("viewer")) {
+    return false;
   }
-  return route.path.includes('admin');
+  return route.path.includes("admin");
 });
 watch(
-    () => store.category,
-    async () => {
-      store.page = 0;
-      await fetched();
-    }
+  () => store.category,
+  async () => {
+    store.page = 0;
+    await fetched();
+  }
 );
 
 const fetches = async () => {
@@ -59,21 +57,28 @@ const fetches = async () => {
   }
   await fetched();
 };
-
+const logout = () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("refreshToken");
+  localStorage.removeItem("username");
+  localStorage.removeItem("role");
+  window.location.reload();
+};
 const fetched = async () => {
-  const auth = isAdminPath.value
+  const auth = isAdminPath.value;
   console.log(auth, "auth");
   let role;
   if (route.path.includes("viewer")) {
-    role = "user"
+    role = "user";
     console.log(role, "role");
   }
   const response = await fetched_api(
-      role,
-      store.category,
-      store.mode,
-      store.page,
-      store.pageSize, auth
+    role,
+    store.category,
+    store.mode,
+    store.page,
+    store.pageSize,
+    auth
   );
   if (response.status === 200) {
     fetchDate.value = true;
@@ -83,9 +88,10 @@ const fetched = async () => {
     if (announces.value.length === 0) {
       notFound.value = true;
     }
-  } else {
-    const errorResponse = await response.json();
-    console.log(errorResponse.message);
+  } else if (response.status === 404) {
+    notFound.value = true;
+  } else if (response === 401) {
+    logout();
   }
 };
 
@@ -102,35 +108,35 @@ const changePage = (page) => {
   <div class="h-auto min-w-full">
     <div class="mx-6">
       <div
-          class="flex items-center justify-center my-2 md:justify-end xl:hidden"
+        class="flex items-center justify-center my-2 md:justify-end xl:hidden"
       >
         <dateTimeBox :time="datetime" class="text-sm"></dateTimeBox>
         <timeZoneBox :timezone="timezone" class="text-sm"></timeZoneBox>
       </div>
       <div class="flex flex-col gap-y-2">
         <div class="flex justify-around xl:hidden">
-          <CategoryBox/>
+          <CategoryBox />
           <button
-              v-if="!isAdminPath"
-              :class="isOpen ? 'bg-green-400' : 'bg-red-400'"
-              class="px-4 py-2 text-xs rounded-md ann-button"
-              @click="fetches()"
+            v-if="!isAdminPath"
+            :class="isOpen ? 'bg-green-400' : 'bg-red-400'"
+            class="px-4 py-2 text-xs rounded-md ann-button"
+            @click="fetches()"
           >
             {{ isOpen ? "Closed " : "Active " }}
             <span class="hidden md:inline-block">announcement</span>
           </button>
           <div
-              v-else
-              class="ann-button"
-              @click="$router.push({ name: 'addannouncement' })"
+            v-else
+            class="ann-button"
+            @click="$router.push({ name: 'addannouncement' })"
           >
             <button
-                class="hidden px-2 py-2 rounded-md bg-gray-50 dark:bg-gray-700 md:inline-block"
+              class="hidden px-2 py-2 rounded-md bg-gray-50 dark:bg-gray-700 md:inline-block"
             >
               Add announcements
             </button>
             <button
-                class="fixed bottom-0 right-0 px-2 py-2 rounded-md bg-black2Cus hover:bg-black3Cus md:hidden bg-gray-50 dark:bg-gray-700"
+              class="fixed bottom-0 right-0 px-2 py-2 rounded-md bg-black2Cus hover:bg-black3Cus md:hidden bg-gray-50 dark:bg-gray-700"
             >
               Add
             </button>
@@ -141,73 +147,73 @@ const changePage = (page) => {
           <div class="min-w-full xl:min-w-full">
             <div class="xl:flex xl:flex-row xl:gap-x-5">
               <div
-                  class="flex flex-col justify-center text-center gap-y-3 xl:w-full"
+                class="flex flex-col justify-center text-center gap-y-3 xl:w-full"
               >
                 <p
-                    v-if="announces.length <= 0"
-                    class="flex justify-center text-5xl text-center text-gray-400"
+                  v-if="announces.length <= 0"
+                  class="flex justify-center text-5xl text-center text-gray-400"
                 >
                   No Announcement
                 </p>
                 <div
-                    v-for="(announce, index) in announces"
-                    v-else
-                    class="h-auto xl:w-full"
+                  v-for="(announce, index) in announces"
+                  v-else
+                  class="h-auto xl:w-full"
                 >
                   <AnnBox2
-                      :ann-data="announce"
-                      :index="index + store.pageSize * store.page"
+                    :ann-data="announce"
+                    :index="index + store.pageSize * store.page"
                   ></AnnBox2>
                 </div>
                 <Pagination
-                    :current="store.page"
-                    :first="data.first"
-                    :last="data.last"
-                    :totalPages="data.totalPages"
-                    class="xl:flex xl:justify-center"
-                    @changePage="changePage"
+                  :current="store.page"
+                  :first="data.first"
+                  :last="data.last"
+                  :totalPages="data.totalPages"
+                  class="xl:flex xl:justify-center"
+                  @changePage="changePage"
                 ></Pagination>
               </div>
               <div class="hidden xl:flex xl:flex-col">
                 <div class="xl:flex xl:justify-end xl:pb-2">
                   <button
-                      v-if="!isAdminPath"
-                      :class="isOpen ? 'bg-green-400' : 'bg-red-400'"
-                      class="px-4 py-2 text-xs rounded-md ann-button xl:py-2 xl:text-base"
-                      @click="fetches()"
+                    v-if="!isAdminPath"
+                    :class="isOpen ? 'bg-green-400' : 'bg-red-400'"
+                    class="px-4 py-2 text-xs rounded-md ann-button xl:py-2 xl:text-base"
+                    @click="fetches()"
                   >
                     {{ isOpen ? "Closed " : "Active " }}
                     <span class="hidden md:inline-block">announcement</span>
                   </button>
                   <div
-                      v-else
-                      class="ann-button"
-                      @click="$router.push({ name: 'addannouncement' })"
+                    v-else
+                    class="ann-button"
+                    @click="$router.push({ name: 'addannouncement' })"
                   >
                     <button
-                        class="hidden px-2 py-2 rounded-md bg-gray-50 dark:bg-gray-700 md:inline-block xl:py-2 xl:text-base"
+                      class="hidden px-2 py-2 rounded-md bg-gray-50 dark:bg-gray-700 md:inline-block xl:py-2 xl:text-base"
                     >
                       Add announcements
                     </button>
                     <button
-                        class="fixed bottom-0 right-0 px-2 py-2 rounded-md bg-black2Cus hover:bg-black3Cus md:hidden bg-gray-50 dark:bg-gray-700"
+                      class="fixed bottom-0 right-0 px-2 py-2 rounded-md bg-black2Cus hover:bg-black3Cus md:hidden bg-gray-50 dark:bg-gray-700"
                     >
                       Add
                     </button>
                   </div>
                 </div>
                 <div
-                    class="flex items-center justify-center my-2 md:justify-end"
+                  class="flex items-center justify-center my-2 md:justify-end"
                 >
                   <dateTimeBox :time="datetime" class="text-sm"></dateTimeBox>
                   <timeZoneBox
-                      :timezone="timezone"
-                      class="text-sm"
+                    :timezone="timezone"
+                    class="text-sm"
                   ></timeZoneBox>
                 </div>
                 <div class="flex xl:gap-x-4">
                   <p class="xl:my-auto xl:text-xl">Category:</p>
-                  <CategoryBox/>
+                  <CategoryBox />
                 </div>
               </div>
             </div>

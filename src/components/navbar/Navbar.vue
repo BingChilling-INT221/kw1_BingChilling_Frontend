@@ -8,7 +8,6 @@ import Search_light from "../icons/Search_light.vue";
 
 const route = useRoute();
 const users = ref([]);
-const role = inject("role");
 const isSearch = ref(false);
 const token = ref(localStorage.getItem("token") || "");
 const username = localStorage.getItem("username");
