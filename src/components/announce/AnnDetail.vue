@@ -1,5 +1,5 @@
 <script setup>
-import {inject, onMounted, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {useAnnouncerStore} from "@/stores/announcer";
 import {fetchCountParam} from "@/services/annApi.js";
@@ -8,13 +8,17 @@ import Eye from "@/components/icons/Eye.vue";
 const queryAnnounce = ref({});
 const route = useRoute();
 const router = useRouter();
-const role = inject("role");
 const loading = ref(true);
 const store = useAnnouncerStore();
-
+const isAdminPath = computed(() => {
+  console.log(route.path);
+  if (route.path.includes('viewer')) {
+    return false
+  }
+  return route.path.includes('admin');
+});
 onMounted(async () => {
-  if (role === "user") {
-    console.log(role);
+  if (route.path.includes("admin")) {
     store.setCount(true);
   }
   try {
@@ -86,7 +90,7 @@ const changeTime = (time) => {
             {{ queryAnnounce.announcementTitle }}
           </p>
 
-          <div v-show="role === 'admin'" class="flex justify-end">
+          <div v-show="isAdminPath" class="flex justify-end">
             <div
                 :class="
                 queryAnnounce.announcementDisplay === 'Y'
@@ -109,7 +113,7 @@ const changeTime = (time) => {
             </p>
           </div>
 
-          <div v-show="role === 'admin'" class="flex">
+          <div v-show="isAdminPath" class="flex">
             <Eye></Eye>
             <p class="py-1">{{ queryAnnounce.viewCount }}</p>
           </div>
@@ -131,7 +135,7 @@ const changeTime = (time) => {
         </div>
         <div class="flex justify-end">
           <button
-              v-show="role === 'admin'"
+              v-show="isAdminPath"
               class="px-2 py-1 mt-2 ml-6 border-2 rounded-lg ann-button hover:bg-gray-300"
               @click="
               $router.push({

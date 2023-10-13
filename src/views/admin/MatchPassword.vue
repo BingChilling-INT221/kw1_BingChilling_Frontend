@@ -1,5 +1,5 @@
 <script setup>
-import {provide, ref} from "vue";
+import {ref} from "vue";
 import format_page from "@/components/format_page.vue";
 import {fetchMatch} from "@/services/authorizationApi";
 
@@ -27,7 +27,6 @@ const sendSubmit = async (event) => {
   }
 };
 
-provide(/* key */ "role", /* value */ "admin");
 </script>
 
 <template>

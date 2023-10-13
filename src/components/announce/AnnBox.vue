@@ -7,16 +7,14 @@ import {useAnnouncerStore} from "@/stores/announcer";
 
 const route = useRoute();
 const router = useRouter();
-const currentPath = window.location.pathname;
 
 const store = useAnnouncerStore();
 
 const isAdminPath = computed(() => {
-  if (currentPath.includes('/admin')) {
-    return true
-  } else {
+  if (route.path.includes('viewer')) {
     return false
   }
+  return route.path.includes('admin');
 });
 
 const props = defineProps({
@@ -50,7 +48,7 @@ const printError = (err) => {
   for (const i in err.detail) {
     message += `${JSON.stringify(err.detail[i])}\n`;
   }
-  alert(message);
+  // alert(message);
 }
 const deleteAnnouncement = async (id) => {
   if (
@@ -84,29 +82,28 @@ const padStart = (number, length) => {
   }
   return str;
 }
-const checkAdmin = computed(() => {
-  if (route.path.includes('viwer')) {
-    return false
-  }
-  return route.path.includes('admin')
-})
-const role = computed(() => {
-  console.log(route.path);
-  // if(route.path.includes('viwer')){
-  //   console.log("viwer");
-  //   return 'user'}
-  return checkAdmin.value ? 'admin' : 'user'
-})
+
 const isClosed = computed(() => {
   return store.mode === "close";
 });
-
-const seeDetail = (env) => {
-  if (checkAdmin.value) {
-    env.preventDefault()
-  } else {
-    router.push({name: `${role.value}announcementdetail`, params: {id: `${props.annData.id}`}})
+const role = computed(() => {
+  console.log(route.path)
+  if (route.path.includes("viewer")) {
+    return "viewer"
   }
+
+  if (route.path.includes("admin")) {
+    return "admin"
+  }
+  return "user"
+});
+const seeDetail = (env) => {
+  env.preventDefault()
+  console.log(role.value, "role")
+  console.log(route.path, "route.path")
+  console.log(`${role.value}announcementdetail`)
+  router.push({name: `${role.value}announcementdetail`, params: {id: `${props.annData.id}`}})
+
 }
 </script>
 
@@ -115,14 +112,14 @@ const seeDetail = (env) => {
   <div class="xl:w-full ">
 
     <div
-        class="xl:w-full w-72 max-h-full border-[1px] rounded-xl border-blackCustom dark:border-whiteCustom m-auto "
-        @click="seeDetail"
+        :class="isAdminPath ? 'cursor-default' : 'cursor-pointer'"
+        class="xl:w-full w-72 max-h-full border-[1px] rounded-xl border-blackCustom dark:border-whiteCustom m-auto " @click="seeDetail"
     >
       <div class="ml-2 pt-[0.5rem]">
         <div class="flex flex-row">
           <div class="flex gap-x-2 w-48 text-xs xl:text-lg">
             No. {{ padStart(index + 1, 2) }}
-            <div v-show="checkAdmin" class="flex gap-x-[0.15rem] xl:gap-x-[0.5rem]">
+            <div v-show="isAdminPath" class="flex gap-x-[0.15rem] xl:gap-x-[0.5rem]">
               <Eye/>
               {{ annData.viewCount }}
             </div>
@@ -168,9 +165,9 @@ const seeDetail = (env) => {
                 Close Date: {{ changeTime(annData.closeDate) !== null ? changeTime(annData.closeDate) : '-' }}
               </p>
             </div>
-            <div v-show="checkAdmin" class="flex">
+            <div v-show="isAdminPath" class="flex">
               <button class="ml-2 text-xs xl:text-xl font-medium rounded-lg hover:bg-green-500 ann-button"
-                      @click="$router.push({ name: `${role}announcementdetail`, params: { id: annData.id } })">
+                      @click="seeDetail">
                 view
               </button>
               <button class="pr-2 ml-2 text-xs xl:text-xl font-medium rounded-lg hover:bg-red-500 ann-button"

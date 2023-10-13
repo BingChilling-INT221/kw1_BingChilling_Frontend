@@ -18,6 +18,7 @@ export const fetched_api = async (role, category, mode, page, pageSize, auth) =>
             if (role === "admin") {
                 return "";
             }
+            console.log("modeFetch");
             return mode !== "" ? `&mode=${mode}` : "";
         };
         let response;

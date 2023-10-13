@@ -12,7 +12,7 @@ onMounted(async () => {
     category.value = await fetchCate();
     store.category = '';
   } catch (err) {
-    alert(err.message);
+    // alert(err.message);
   }
 });
 </script>

@@ -30,6 +30,11 @@ module.exports = {
                 bgNav: '#1E293B',
                 header: '#4DC0F9',
                 header2: '#A9B4C0',
+                bgAdmin: '#22252F',
+                bgAdmin2: '#2B2E3B',
+                headerAdmin: '#5B73E8',
+                inputAdmin: '#162a41',
+                borderInputAdmin: '#343747',
             },
             fontFamily: {
 

@@ -1,5 +1,5 @@
 <script setup>
-import {computed, provide, ref, watch, watchEffect} from "vue";
+import {computed, ref, watch, watchEffect} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {fetchCreateUser, fetchUpdateUser,} from "@/services/userApi";
 
@@ -342,7 +342,7 @@ watchEffect(() => {
   }
 });
 
-provide(/* key */ "role", /* value */ "admin");
+
 </script>
 
 <template>

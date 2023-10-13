@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted, provide, ref} from "vue";
+import {onMounted, ref} from "vue";
 import format_page from "@/components/format_page.vue";
 import dateTimeBox from "../../components/announce/DateTimeBox.vue";
 import timeZoneBox from "../../components/announce/TimeZoneBox.vue";
@@ -26,7 +26,6 @@ const datetime = new Intl.DateTimeFormat("en-GB", {
 }).format();
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-provide(/* key */ "role", /* value */ "admin");
 </script>
 
 <template>

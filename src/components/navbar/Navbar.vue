@@ -1,5 +1,5 @@
 <script setup>
-import {computed, inject, ref} from "vue";
+import {computed, ref} from "vue";
 import Menu from "../icons/Menu.vue";
 import SearchBox from "./SearchBox.vue";
 import {useRoute} from "vue-router";
@@ -7,7 +7,6 @@ import router from "@/router";
 
 const route = useRoute();
 const users = ref([]);
-const role = inject("role");
 const token = ref(localStorage.getItem("token") || "");
 const username = localStorage.getItem("username");
 const checkAdmin = () => {

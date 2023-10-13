@@ -1,5 +1,5 @@
 <script setup>
-import {provide, ref} from "vue";
+import {ref} from "vue";
 import {fetchCreateToken} from "@/services/authorizationApi.js";
 import {useRouter} from "vue-router";
 import jwtDecode from "jwt-decode";
@@ -46,79 +46,125 @@ const sendSubmit = async (event) => {
   }
 };
 
-provide(/* key */ "role", /* value */ "admin");
+
 </script>
 
 <template>
-  <div class="w-full">
-    <!-- <format_page> -->
+  <div class="w-full h-screen cursor-default">
+    <div class="my-12 pt-12">
+      <div class="container  m-auto ">
+        <div class="items-center justify-center flex mx-2">
+          <div class="w-[400px]
+       bg-bgNav rounded-md  p-6">
+            <div class="mt-2 text-center">
+              <h5 class="text-headerAdmin text-base">Welcome Back !</h5>
+              <h1 class="text-sm text-header2">Sign in to continue to Admin.</h1>
+            </div>
+            <div class="mt-6 p-2 text-header2">
+              <form class="w-full" @submit="sendSubmit">
+                <div class="flex flex-col space-y-4 text-lg">
+                  <div class="flex flex-row text-sm">
+                    <p>Username</p>
+                  </div>
+                  <input
+                      v-model="username"
+                      autocomplete="username"
+                      class="px-3 py-2 rounded-sm ann-title bg-inputAdmin ann-username border-[1px] border-borderInputAdmin leading-10 text-xs outline-none"
+                      maxlength="45"
+                      placeholder="Enter your username"
+                      required
+                      type="text"
+                  />
+                  <div class="flex flex-col space-y-2 text-lg">
+                    <div class="flex flex-row text-sm justify-between ">
+                      <p>Password</p>
+                      <p>Forgot password?</p>
+                    </div>
+                    <input
+                        v-model="password"
+                        autocomplete="current-password"
+                        class="px-3 py-2 rounded-sm ann-title bg-inputAdmin ann-password border-[1px] border-borderInputAdmin leading-10 text-xs outline-none"
+                        maxlength="14"
+                        placeholder="Enter your password"
+                        required
+                        type="password"
+                    />
+                  </div>
+                </div>
+                <div class="flex mt-4 justify-end">
+                  <button
+                      class="px-4 py-2 rounded-md ann-button leading-6 bg-headerAdmin text-white text-sm"
+                  >
+                    Log In
+                  </button>
 
-    <form class="w-full" @submit="sendSubmit">
-      <div class="flex flex-col items-center pt-20 space-y-5">
-        <div class="flex w-3/4 ann-message">
-          <div
-              v-if="status == 200"
-              class="p-6 text-green-500 bg-green-200 border-green-500 rounded-xl"
-          >
-            <p class="text-2xl">Login Successful</p>
-          </div>
-          <div
-              v-if="status == 401"
-              class="p-6 text-red-500 bg-red-200 border-red-500 rounded-xl"
-          >
-            <p class="text-2xl">Password Incorrect</p>
-          </div>
-          <div
-              v-if="status == 404"
-              class="p-6 text-red-500 bg-red-200 border-red-500 rounded-xl"
-          >
-            <p class="text-2xl">
-              A user with the specified username DOES NOT exist
-            </p>
-          </div>
-        </div>
+                </div>
 
-        <div class="flex flex-row w-3/4 rounded-lg">
-          <div class="flex flex-col w-3/4 p-5 space-y-5 border-2 rounded-md">
-            <div class="flex text-4xl">
-              <p>Login</p>
-            </div>
-            <div class="flex flex-col space-y-2 text-lg">
-              <div class="flex flex-row w-3/4">
-                <p>Username</p>
-              </div>
-              <input
-                  v-model="username"
-                  class="w-3/4 px-2 py-2 rounded-md ann-title bg-whitesecondCustom dark:bg-darksecondCustom ann-username"
-                  maxlength="45"
-                  required
-                  type="text"
-              />
-            </div>
-            <div class="flex flex-col space-y-2 text-lg">
-              <div class="flex flex-row w-3/4">
-                <p>Password</p>
-              </div>
-              <input
-                  v-model="password"
-                  class="w-3/4 px-2 py-2 rounded-md ann-title bg-whitesecondCustom dark:bg-darksecondCustom ann-password"
-                  maxlength="14"
-                  required
-                  type="password"
-              />
-            </div>
-            <div class="flex">
-              <button
-                  class="px-4 py-2 rounded-md ann-button bg-gray-50 dark:bg-gray-700 submit"
-              >
-                Login
-              </button>
+                <div class="flex flex-col items-center space-y-5">
+                  <div class="flex w-3/4 ann-message">
+                    <div
+                        v-if="status == 200"
+
+                    >
+                      <div class="alert alert-success fixed top-0 w-full left-0">
+                        <div>
+                          <svg class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"
+                               xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"/>
+                          </svg>
+                          <span>Login Successful</span>
+                        </div>
+                      </div>
+                      <!--                      <p class="text-2xl">Login Successful</p>-->
+                    </div>
+                    <div
+                        v-if="status == 401"
+
+                    >
+                      <div class="alert alert-error fixed top-0 w-full left-0">
+                        <div>
+                          <svg class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"
+                               xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"/>
+                          </svg>
+                          <span>Password Incorrect</span>
+                        </div>
+                      </div>
+                      <!--                      <p class="text-2xl"></p>-->
+                    </div>
+                    <div
+                        v-if="status == 404"
+
+                    >
+                      <div class="alert alert-error fixed top-0 w-full left-0">
+                        <div>
+                          <svg class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"
+                               xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2"/>
+                          </svg>
+                          <span>A user with the specified username DOES NOT exist</span>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="text-sm text-center mt-4">Don't have an account ? <span class="text-white cursor-pointer">Sign in Here!</span>
+                </div>
+              </form>
+
             </div>
           </div>
         </div>
       </div>
-    </form>
-    <!-- </format_page> -->
+    </div>
+
   </div>
 </template>
 

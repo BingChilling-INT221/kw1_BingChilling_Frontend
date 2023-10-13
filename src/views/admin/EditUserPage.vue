@@ -1,5 +1,5 @@
 <script setup>
-import {computed, onMounted, provide, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import ModUsers from "../../components/user/ModUser.vue";
 import {fetchUserEdit} from "@/services/userApi.js";
@@ -39,7 +39,6 @@ const updatePackage = computed(() => {
 });
 
 
-provide(/* key */ "role", /* value */ "admin");
 </script>
 
 <template>

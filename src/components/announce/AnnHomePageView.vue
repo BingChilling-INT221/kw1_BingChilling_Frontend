@@ -1,13 +1,15 @@
 <script setup>
-import {computed, inject, ref, watch} from "vue";
+import {computed, ref, watch} from "vue";
 import {useAnnouncerStore} from "@/stores/announcer";
 import {fetched_api} from "@/services/annApi.js";
+import {useRoute} from "vue-router";
 import AnnBox2 from "./AnnBox.vue";
 import dateTimeBox from "./DateTimeBox.vue";
 import timeZoneBox from "./TimeZoneBox.vue";
 import Pagination from "./Pagination.vue";
 import CategoryBox from "./CategoryBox.vue";
 
+const route = useRoute();
 const store = useAnnouncerStore();
 
 
@@ -19,14 +21,6 @@ const datetime = new Intl.DateTimeFormat("en-GB", {
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 // เวลาและ Time zone
 
-let role = inject("role");
-const viwe = inject("viwe");
-const checkAdmin = () => {
-  if (viwe === "viewer") {
-    return false;
-  }
-  return role === "admin";
-};
 
 const announces = ref([]);
 const data = ref({});
@@ -41,7 +35,12 @@ const loading = computed(() => {
 });
 const notFound = ref(false);
 
-
+const isAdminPath = computed(() => {
+  if (route.path.includes('viewer')) {
+    return false
+  }
+  return route.path.includes('admin');
+});
 watch(
     () => store.category,
     async () => {
@@ -62,10 +61,12 @@ const fetches = async () => {
 };
 
 const fetched = async () => {
-  const auth = checkAdmin();
+  const auth = isAdminPath.value
   console.log(auth, "auth");
-  if (viwe === "viewer") {
-    role = "user";
+  let role;
+  if (route.path.includes("viewer")) {
+    role = "user"
+    console.log(role, "role");
   }
   const response = await fetched_api(
       role,
@@ -77,6 +78,7 @@ const fetched = async () => {
   if (response.status === 200) {
     fetchDate.value = true;
     data.value = await response.json();
+    console.log(data.value);
     announces.value = data.value.content;
     if (announces.value.length === 0) {
       notFound.value = true;
@@ -109,7 +111,7 @@ const changePage = (page) => {
         <div class="flex justify-around xl:hidden">
           <CategoryBox/>
           <button
-              v-if="!checkAdmin()"
+              v-if="!isAdminPath"
               :class="isOpen ? 'bg-green-400' : 'bg-red-400'"
               class="px-4 py-2 text-xs rounded-md ann-button"
               @click="fetches()"
@@ -169,7 +171,7 @@ const changePage = (page) => {
               <div class="hidden xl:flex xl:flex-col">
                 <div class="xl:flex xl:justify-end xl:pb-2">
                   <button
-                      v-if="!checkAdmin()"
+                      v-if="!isAdminPath"
                       :class="isOpen ? 'bg-green-400' : 'bg-red-400'"
                       class="px-4 py-2 text-xs rounded-md ann-button xl:py-2 xl:text-base"
                       @click="fetches()"

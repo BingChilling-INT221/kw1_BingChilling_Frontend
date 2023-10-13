@@ -1,5 +1,5 @@
 <script setup>
-import {computed, inject, onMounted, ref, watch} from "vue";
+import {computed, onMounted, ref, watch} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {fetchCateForMod} from "@/services/catApi.js";
 import {fetchCreate, fetchUpdate} from "@/services/annApi.js";
@@ -39,7 +39,6 @@ const closeDate = ref("");
 const closeTime = ref("");
 const announcementDisplay = ref("");
 const router = useRouter();
-const role = inject("role");
 const cacheDescription = ref("");
 
 const compObj = computed(() => {

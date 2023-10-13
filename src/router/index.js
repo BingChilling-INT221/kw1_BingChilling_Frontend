@@ -17,7 +17,7 @@ const routes = [
                 component: () => import('@/views/admin/AdminAnnPage.vue')
             },
             {
-                path: '/announcement/:id',
+                path: 'announcement/:id',
                 name: 'adminannouncementdetail',
                 component: () => import('@/views/admin/AdminAnnDetailPage.vue')
             },
@@ -52,10 +52,16 @@ const routes = [
                 component: () => import('@/views/admin/MatchPassword.vue')
             },
             {
-                path: 'announcement/viwer',
-                name: 'viwer',
-                component: () => import('@/views/admin/ViwerAnnPage.vue')
+                path: 'announcement/viewer',
+                name: 'viewer',
+                component: () => import('@/views/admin/ViewerAnnPage.vue')
+            },
+            {
+                path: 'announcement/viewer/:id',
+                name: 'viewerannouncementdetail',
+                component: () => import('@/views/users/AnnDetailPage.vue')
             }
+
         ]
     },
     // {

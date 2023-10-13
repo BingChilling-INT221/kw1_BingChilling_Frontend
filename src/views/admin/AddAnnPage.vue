@@ -1,9 +1,6 @@
 <script setup>
-import {provide} from "vue";
 import Modannouncedment from "@/components/announce/Modannouncedment.vue";
 import format_page from "@/components/format_page.vue";
-
-provide(/* key */ "role", /* value */ "admin");
 </script>
 
 <template>

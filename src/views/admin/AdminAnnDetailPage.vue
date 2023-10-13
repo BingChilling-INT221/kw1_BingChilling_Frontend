@@ -1,9 +1,11 @@
 <script setup>
 import AnnDetail from "@/components/announce/AnnDetail.vue";
 import format_page from "@/components/format_page.vue";
-import {provide} from "vue";
+import {useRoute} from "vue-router";
 
-provide(/* key */ "role", /* value */ "admin");
+let route = useRoute();
+console.log('AdminAnnDetailPage.vue');
+console.log(route.path)
 </script>
 
 <template>

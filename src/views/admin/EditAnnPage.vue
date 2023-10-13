@@ -1,5 +1,5 @@
 <script setup>
-import {computed, onMounted, provide, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import ModAnn from "@/components/announce/Modannouncedment.vue";
 import {fetchShowEdit} from "@/services/annApi.js";
@@ -16,7 +16,6 @@ const newPublishTime = ref("");
 const newCloseDate = ref("");
 const newCloseTime = ref("");
 let loading = ref(true);
-provide(/* key */ "role", /* value */ "admin");
 
 onMounted(async () => {
   try {
