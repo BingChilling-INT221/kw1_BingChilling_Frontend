@@ -346,8 +346,6 @@ watchEffect(() => {
 </script>
 
 <template>
-  {{ errorMessages }}
-  {{ status }}
   <form class="w-full" @submit="sendSubmit">
     <div class="flex flex-col space-y-5">
       <div class="text-4xl ml-4">
