@@ -3,6 +3,7 @@ import {ref} from "vue";
 import {fetchCreateToken} from "@/services/authorizationApi.js";
 import {useRouter} from "vue-router";
 import jwtDecode from "jwt-decode";
+import Router from "@/router";
 
 const username = ref("");
 const password = ref("");
@@ -50,7 +51,7 @@ const sendSubmit = async (event) => {
 </script>
 
 <template>
-  <div class="w-full h-screen cursor-default">
+  <div class="w-full h-screen cursor-default overflow-hidden">
     <div class="my-12 pt-12">
       <div class="container  m-auto ">
         <div class="items-center justify-center flex mx-2">
@@ -155,7 +156,7 @@ const sendSubmit = async (event) => {
                     </div>
                   </div>
                 </div>
-                <div class="text-sm text-center mt-4">Don't have an account ? <span class="text-white cursor-pointer">Sign in Here!</span>
+                <div class="text-sm text-center mt-4">Don't have an account ? <span class="text-white cursor-pointer" @click="Router.push({name: 'register'})">Register here !</span>
                 </div>
               </form>
 
