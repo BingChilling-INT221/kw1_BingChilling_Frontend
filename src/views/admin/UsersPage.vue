@@ -51,8 +51,8 @@ const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
               </button>
             </div>
           </div>
-          <div class="overflow-auto">
-            <table class="min-w-full w-full text-left">
+          <div class="overflow-auto w-72 sm:w-[720px] xl:w-full">
+            <table class="min-w-full w-72 text-left mb-0 xl:w-full">
               <thead class="text-xs">
               <tr>
                 <th class="px-6 py-3 text-lg" scope="col">No.</th>
