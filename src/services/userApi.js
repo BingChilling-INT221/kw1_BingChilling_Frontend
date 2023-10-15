@@ -88,7 +88,10 @@ export const fetchDeleteUser = async (id) => {
             return await fetchDeleteUser(id);
         }
         return router.push({name: "login"});
-    } else {
+    } else if (response.status === 403) {
+        alert("You are not allowed to delete this user");
+    }
+    else {
         const errorResponse = await response.json();
         throw new Error(errorResponse.message);
     }
