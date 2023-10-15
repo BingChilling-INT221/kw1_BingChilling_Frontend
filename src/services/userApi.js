@@ -141,7 +141,15 @@ export const fetchUserEdit = async (route) => {
             return await fetchUserEdit(route);
         }
         return router.push({name: "login"});
+    }
+        else if (response.status === 403) {
+            router.push({name: "403"});
+        }
+        else if (response.status === 404) {
+            await router.push({name: "adminuserpage"});
+
     } else {
+
         const errorResponse = await response.json();
         throw new Error(errorResponse.message);
     }
