@@ -1,9 +1,9 @@
 <script setup>
-import {computed} from "vue";
-import {useRoute, useRouter} from "vue-router";
-import {fetchDelete} from "@/services/annApi.js";
+import { computed } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { fetchDelete } from "@/services/annApi.js";
 import Eye from "../icons/Eye.vue"
-import {useAnnouncerStore} from "@/stores/announcer";
+import { useAnnouncerStore } from "@/stores/announcer";
 
 const route = useRoute();
 const router = useRouter();
@@ -12,9 +12,15 @@ const store = useAnnouncerStore();
 
 const isAdminPath = computed(() => {
   if (route.path.includes('viewer')) {
+    console.log("viwer",route.path)
     return false
   }
-  return route.path.includes('admin');
+  console.log(route.path)
+  if(route.path.includes('admin')){
+    console.log("admin",route.path)
+    return true
+  };
+  return false
 });
 
 const props = defineProps({
@@ -27,6 +33,8 @@ const props = defineProps({
     required: true
   }
 })
+
+
 const changeTime = (time) => {
   if (time === null) {
     return "-"
@@ -38,10 +46,10 @@ const changeTime = (time) => {
     year: "numeric",
   };
   return `${newDate.toLocaleDateString("en-GB", options).replace(/,/gi, '') +
-  ", " +
-  newDate.toLocaleTimeString([], {hour: "2-digit", minute: "2-digit", hour12: false})
+    ", " +
+    newDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false })
 
-  }`;
+    }`;
 };
 const printError = (err) => {
   let message = "";
@@ -52,7 +60,7 @@ const printError = (err) => {
 }
 const deleteAnnouncement = async (id) => {
   if (
-      confirm("Are you sure you want to delete this announcement?") === false
+    confirm("Are you sure you want to delete this announcement?") === false
   ) {
     return;
   }
@@ -102,25 +110,22 @@ const seeDetail = (env) => {
   console.log(role.value, "role")
   console.log(route.path, "route.path")
   console.log(`${role.value}announcementdetail`)
-  router.push({name: `${role.value}announcementdetail`, params: {id: `${props.annData.id}`}})
+  router.push({ name: `${role.value}announcementdetail`, params: { id: `${props.annData.id}` } })
 
 }
 </script>
 
 <template>
-
-  <div class="xl:w-full ">
-
-    <div
-        :class="isAdminPath ? 'cursor-default' : 'cursor-pointer'"
-        class="xl:w-full w-72 max-h-full border-[1px] rounded-xl border-blackCustom dark:border-whiteCustom m-auto " @click="seeDetail"
-    >
+  <div class="xl:w-full" v-if="!isAdminPath">
+    <div :class="isAdminPath ? 'cursor-default' : 'cursor-pointer'"
+      class="xl:w-full w-72 max-h-full border-[1px] rounded-xl border-blackCustom dark:border-whiteCustom m-auto "
+      @click="seeDetail" >
       <div class="ml-2 pt-[0.5rem]">
         <div class="flex flex-row">
           <div class="flex gap-x-2 w-48 text-xs xl:text-lg">
             No. {{ padStart(index + 1, 2) }}
             <div v-show="isAdminPath" class="flex gap-x-[0.15rem] xl:gap-x-[0.5rem]">
-              <Eye/>
+              <Eye />
               {{ annData.viewCount }}
             </div>
 
@@ -128,7 +133,7 @@ const seeDetail = (env) => {
           <div v-if="isAdminPath" class=""> owner:{{ annData.announcementOwner }}</div>
           <div class="xl:flex xl:justify-end xl:w-full xl:pr-5">
             <div
-                class="rounded-lg border border-white w-20 h-full text-[0.7rem] xl:text-lg xl:h-9 xl:w-28 xl:pt-[0.15rem] ">
+              class="rounded-lg border border-white w-20 h-full text-[0.7rem] xl:text-lg xl:h-9 xl:w-28 xl:pt-[0.15rem] ">
               <p class="">{{ annData.announcementCategory }}</p>
             </div>
           </div>
@@ -141,7 +146,7 @@ const seeDetail = (env) => {
           <div v-if="isAdminPath" class="xl:w-full">
             <div class="xl:flex xl:justify-end xl:w-full xl:pr-5">
               <div :class="annData.announcementDisplay === 'Y' ? 'bg-green-500' : 'bg-red-500'"
-                   class="rounded-xl w-6 xl:w-14 xl:text-xl">
+                class="rounded-xl w-6 xl:w-14 xl:text-xl">
                 <p class="text-black">{{ annData.announcementDisplay }}</p>
               </div>
             </div>
@@ -167,23 +172,55 @@ const seeDetail = (env) => {
             </div>
             <div v-show="isAdminPath" class="flex">
               <button class="ml-2 text-xs xl:text-xl font-medium rounded-lg hover:bg-green-500 ann-button"
-                      @click="seeDetail">
+                @click="seeDetail">
                 view
               </button>
               <button class="pr-2 ml-2 text-xs xl:text-xl font-medium rounded-lg hover:bg-red-500 ann-button"
-                      @click="deleteAnnouncement(annData.id)">delete
+                @click="deleteAnnouncement(annData.id)">delete
               </button>
             </div>
 
           </div>
         </div>
       </div>
-
-
     </div>
-
-
-  </div>
+  <!-- <div v-if="isAdminPath"> -->
+    </div>
+      <th class="py-4 px-6 whitespace-nowrap" scope="row" v-if="isAdminPath">
+        {{ index + 1 }}
+      </th>
+      <td class="py-4 px-6 ann-username" v-if="isAdminPath">
+        {{ annData.announcementTitle }}
+      </td>
+      <td class="py-4 px-6 ann-name" v-if="isAdminPath">
+        {{ annData.announcementCategory }}
+      </td>
+      <td class="py-4 px-6 ann-email" v-if="isAdminPath">
+        {{ changeTime(annData.publishDate) !== null ? changeTime(annData.publishDate) : '-' }}
+      </td>
+      <td class="py-4 px-6 ann-role" v-if="isAdminPath">
+        {{ changeTime(annData.closeDate) !== null ? changeTime(annData.closeDate) : '-' }}
+      </td>
+      <td class="py-4 px-6 ann-created-on text-center" v-if="isAdminPath">
+        {{ annData.announcementDisplay }}
+      </td>
+      <td class="py-4 px-6 ann-updated-on" v-if="isAdminPath">
+        {{ annData.announcementOwner }}
+      </td>
+      <td class="py-4 px-6 ann-updated-on text-center" v-if="isAdminPath">
+        {{ annData.viewCount }}
+      </td>
+      <td class="py-4 px-6 text-right" v-if="isAdminPath">
+        <div class="inline-flex">
+          <button class="px-4 py-2 rounded-l bg-gray-50 dark:bg-gray-700 ann-button" @click="seeDetail">
+            view
+          </button>
+          <button class="px-4 py-2 rounded-r bg-gray-50 dark:bg-gray-700 ann-button" @click="deleteAnnouncement(annData.id)">
+            delete
+          </button>
+        </div>
+      </td>
+  <!-- </div> -->
 </template>
 
 <style scoped></style>
