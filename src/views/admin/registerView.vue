@@ -1,7 +1,7 @@
 <script setup>
 import {computed, ref, watch, watchEffect} from "vue";
 import {useRoute, useRouter} from "vue-router";
-import {fetchCreateUser, fetchCreateUserAnnouncer, fetchUpdateUser,} from "@/services/userApi";
+import {fetchCreateUserAnnouncer, fetchUpdateUser,} from "@/services/userApi";
 
 const route = useRoute();
 
@@ -240,7 +240,7 @@ watchEffect(() => {
             <div class="mt-6 p-2 text-header2">
               <form class="w-full" @submit="sendSubmit">
                 <div class="flex flex-col space-y-4 text-lg ">
-                  <div class="flex flex-row text-sm justify-between" >
+                  <div class="flex flex-row text-sm justify-between">
                     <p>Username</p>
                     <p> Remaining: {{ countusernameCharac }}</p>
                   </div>

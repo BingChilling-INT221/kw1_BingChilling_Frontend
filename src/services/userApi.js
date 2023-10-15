@@ -90,8 +90,7 @@ export const fetchDeleteUser = async (id) => {
         return router.push({name: "login"});
     } else if (response.status === 403) {
         alert("You are not allowed to delete this user");
-    }
-    else {
+    } else {
         const errorResponse = await response.json();
         throw new Error(errorResponse.message);
     }
@@ -144,12 +143,10 @@ export const fetchUserEdit = async (route) => {
             return await fetchUserEdit(route);
         }
         return router.push({name: "login"});
-    }
-        else if (response.status === 403) {
-            router.push({name: "403"});
-        }
-        else if (response.status === 404) {
-            await router.push({name: "adminuserpage"});
+    } else if (response.status === 403) {
+        router.push({name: "403"});
+    } else if (response.status === 404) {
+        await router.push({name: "adminuserpage"});
 
     } else {
 
@@ -172,8 +169,7 @@ export const fetchCreateUserAnnouncer = async (sendPackage) => {
             const errorResponse = await response.json();
             throw new Error(errorResponse.message);
         }
-    }
-    catch (err) {
+    } catch (err) {
         console.log(err);
     }
 }
