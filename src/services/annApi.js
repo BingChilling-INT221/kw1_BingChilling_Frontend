@@ -21,11 +21,11 @@ export const fetched_api = async (
             return category !== "" ? `&category=${category}` : "";
         };
         const modeFetch = () => {
-            console.log(role);
+            // console.log(role);
             if (role === "admin") {
                 return "";
             }
-            console.log("modeFetch");
+            // console.log("modeFetch");
             return mode !== "" ? `&mode=${mode}` : "";
         };
         let response;
