@@ -11,7 +11,7 @@ const router = useRouter();
 const loading = ref(true);
 const store = useAnnouncerStore();
 const isAdminPath = computed(() => {
-  console.log(route.path);
+  // console.log(route.path);
   if (route.path.includes('viewer')) {
     return false
   }
@@ -26,7 +26,7 @@ onMounted(async () => {
 
     if (response.status === 200) {
       queryAnnounce.value = await response.json();
-      console.log(queryAnnounce.value);
+      // console.log(queryAnnounce.value);
       loading.value = false;
     } else if (response.status === 404 || response.status === 400) {
       console.log("404");

@@ -30,8 +30,8 @@ export const fetched_api = async (
         };
         let response;
         if (auth) {
-            console.log("auth");
-            console.log(token);
+            // console.log("auth");
+            // console.log(token);
             response = await fetch(
                 `${
                     import.meta.env.VITE_BASE_URL
@@ -42,10 +42,10 @@ export const fetched_api = async (
                     },
                 }
             );
-            console.log(response, "response");
+            // console.log(response, "response");
             // console.log(token);
         } else {
-            console.log("not auth");
+            // console.log("not auth");
             response = await fetch(
                 `${
                     import.meta.env.VITE_BASE_URL
@@ -62,7 +62,7 @@ export const fetched_api = async (
             }
             return 401;
         } else {
-            console.log("else");
+            // console.log("else");
             const errorResponse = await response.json();
             throw new Error(errorResponse.message);
         }
@@ -80,7 +80,7 @@ export const fetchCountParam = async (route, count) => {
     //   }
     // }
     try {
-        console.log(token);
+        // console.log(token);
         const response = await fetch(
             `${import.meta.env.VITE_BASE_URL}announcements/${route}?count=${count}`
             //   ,
@@ -125,7 +125,7 @@ export const fetchCreate = async (sendPackage) => {
                 body: JSON.stringify(sendPackage),
             }
         );
-        console.log(response);
+        // console.log(response);
         if (response.status === 200) {
             return response;
         } else if (response.status === 401) {

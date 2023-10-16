@@ -35,15 +35,15 @@ const notFound = ref(false);
 
 const isAdminPath = computed(() => {
   if (route.path.includes('viewer')) {
-    console.log(route.path, "viwer")
+    // console.log(route.path, "viwer")
     return false
   }
   if (route.path.includes('admin')) {
-    console.log(route.path, "admin")
+    // console.log(route.path, "admin")
     return true
   }
 
-  console.log(route.path, "free")
+  // console.log(route.path, "free")
   return false
 });
 watch(
@@ -74,11 +74,11 @@ const logout = () => {
 
 const fetched = async () => {
   const auth = isAdminPath.value;
-  console.log(auth, "auth");
+  // console.log(auth, "auth");
   let role;
   if (route.path.includes("viewer")) {
     role = "user";
-    console.log(role, "role");
+    // console.log(role, "role");
   }
   const response = await fetched_api(
       role,
@@ -91,7 +91,7 @@ const fetched = async () => {
   if (response.status === 200) {
     fetchDate.value = true;
     data.value = await response.json();
-    console.log(data.value, "data");
+    // console.log(data.value, "data");
     announces.value = data.value.content;
     if (announces.value.length === 0) {
       notFound.value = true;
@@ -105,7 +105,7 @@ const fetched = async () => {
 
 // pagination
 const changePage = (page) => {
-  console.log(page);
+  // console.log(page);
   store.setPage(page);
   fetched();
 };
@@ -116,7 +116,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="min-h-full min-w-full">
+  <div class="min-w-full min-h-full">
     <div v-if="!isAdminPath" class="mx-6">
       <div class="flex items-center justify-center my-2 md:justify-end xl:hidden">
         <dateTimeBox :time="datetime" class="text-sm"></dateTimeBox>
@@ -188,7 +188,7 @@ onMounted(() => {
     </div>
 
     <div class="h-full min-w-full pt-2 " v-else>
-      <div class="text-4xl text-center ann-title pt-2">
+      <div class="pt-2 text-4xl text-center ann-title">
           <p>Announcements</p>
         </div>
       <div class="flex justify-between">
@@ -206,7 +206,7 @@ onMounted(() => {
       </div>
       
       <div class="overflow-x-auto w-72 sm:w-[720px] xl:w-full">
-        <table class=" text-left mb-0 w-72 xl:w-full">
+        <table class="mb-0 text-left w-72 xl:w-full">
           <thead class="text-xs">
           <tr>
             <th class="px-6 py-3 text-lg" scope="col">No.</th>

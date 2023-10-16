@@ -18,7 +18,7 @@ const updateCheck = ref(false);
 watch(
     () => props.updatePackage,
     (newv) => {
-      console.log(JSON.stringify(newv).length);
+      // console.log(JSON.stringify(newv).length);
       if (JSON.stringify(newv).length > 0) {
         updateCheck.value = true;
         updateInit();
@@ -68,10 +68,10 @@ watch(
               category.value[compObj.value[property] - 1]?.categoryName !==
               props.updatePackage.categoryId
           ) {
-            console.log(
-                category.value[compObj.value[property]]?.categoryName,
-                props.updatePackage[property]
-            );
+            // console.log(
+            //     category.value[compObj.value[property]]?.categoryName,
+            //     props.updatePackage[property]
+            // );
             change.value = true;
             break;
           }
@@ -91,7 +91,7 @@ onMounted(async () => {
     const response = await fetchCateForMod();
     if (response.status === 200) {
       category.value = await response.json();
-      console.log(response);
+      // console.log(response);
 
       if (!updateCheck.value) {
         categoryId.value = category.value[0].categoryId;
@@ -154,12 +154,12 @@ const compareDates = (d1, d2) => {
   if (!d1 || !d2) {
     return false;
   }
-  console.log(d1, d2);
+  // console.log(d1, d2);
   const date1 = new Date(d1);
   date1.setHours(0, 0, 0, 0);
   const date2 = new Date(d2);
   date2.setHours(0, 0, 0, 0);
-  console.log(date1, date2);
+  // console.log(date1, date2);
   return date1 < date2 ? -1 : date1 > date2 ? 1 : 0;
 };
 const compareTimes = (t1, t2) => {
@@ -265,7 +265,7 @@ const sendSubmit = async (event) => {
   } else {
     announcementDisplay.value = "N";
   }
-  console.log(categoryId.value);
+  // console.log(categoryId.value);
   const sendPackage = {
     announcementTitle: announcementTitle.value,
     announcementDescription: announcementDescription.value,
