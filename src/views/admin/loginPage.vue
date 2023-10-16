@@ -156,7 +156,8 @@ const sendSubmit = async (event) => {
                     </div>
                   </div>
                 </div>
-                <div class="text-sm text-center mt-4">Don't have an account ? <span class="text-white cursor-pointer" @click="Router.push({name: 'register'})">Register here !</span>
+                <div class="text-sm text-center mt-4">Don't have an account ? <span class="text-white cursor-pointer"
+                                                                                    @click="Router.push({name: 'register'})">Register here !</span>
                 </div>
               </form>
 

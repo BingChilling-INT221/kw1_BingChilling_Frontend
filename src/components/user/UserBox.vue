@@ -96,7 +96,7 @@ const deleteUser = async (id) => {
       </button>
     </div>
   </td>
-  
+
 </template>
 
 <style scoped></style>

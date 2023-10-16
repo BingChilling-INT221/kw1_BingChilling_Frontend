@@ -1,8 +1,8 @@
 <script setup>
-import { computed, ref, watch, onMounted } from "vue";
-import { useAnnouncerStore } from "@/stores/announcer";
-import { fetched_api } from "@/services/annApi.js";
-import { useRoute } from "vue-router";
+import {computed, onMounted, ref, watch} from "vue";
+import {useAnnouncerStore} from "@/stores/announcer";
+import {fetched_api} from "@/services/annApi.js";
+import {useRoute} from "vue-router";
 import AnnBox2 from "./AnnBox.vue";
 import dateTimeBox from "./DateTimeBox.vue";
 import timeZoneBox from "./TimeZoneBox.vue";
@@ -41,16 +41,17 @@ const isAdminPath = computed(() => {
   if (route.path.includes('admin')) {
     console.log(route.path, "admin")
     return true
-  };
+  }
+
   console.log(route.path, "free")
   return false
 });
 watch(
-  () => store.category,
-  async () => {
-    store.page = 0;
-    await fetched();
-  }
+    () => store.category,
+    async () => {
+      store.page = 0;
+      await fetched();
+    }
 );
 
 const fetches = async () => {
@@ -80,12 +81,12 @@ const fetched = async () => {
     console.log(role, "role");
   }
   const response = await fetched_api(
-    role,
-    store.category,
-    store.mode,
-    store.page,
-    store.pageSize,
-    auth
+      role,
+      store.category,
+      store.mode,
+      store.page,
+      store.pageSize,
+      auth
   );
   if (response.status === 200) {
     fetchDate.value = true;
@@ -116,16 +117,16 @@ onMounted(() => {
 
 <template>
   <div class="min-h-full min-w-full">
-    <div class="mx-6" v-if="!isAdminPath">
+    <div v-if="!isAdminPath" class="mx-6">
       <div class="flex items-center justify-center my-2 md:justify-end xl:hidden">
         <dateTimeBox :time="datetime" class="text-sm"></dateTimeBox>
         <timeZoneBox :timezone="timezone" class="text-sm"></timeZoneBox>
       </div>
       <div class="flex flex-col gap-y-2">
         <div class="flex justify-around xl:hidden">
-          <CategoryBox />
+          <CategoryBox/>
           <button v-if="!isAdminPath" :class="isOpen ? 'bg-green-400' : 'bg-red-400'"
-            class="px-4 py-2 text-xs rounded-md ann-button" @click="fetches()">
+                  class="px-4 py-2 text-xs rounded-md ann-button" @click="fetches()">
             {{ isOpen ? "Closed " : "Active " }}
             <span class="hidden md:inline-block">announcement</span>
           </button>
@@ -134,7 +135,7 @@ onMounted(() => {
               Add announcements
             </button>
             <button
-              class="fixed bottom-0 right-0 px-2 py-2 rounded-md bg-black2Cus hover:bg-black3Cus md:hidden bg-gray-50 dark:bg-gray-700">
+                class="fixed bottom-0 right-0 px-2 py-2 rounded-md bg-black2Cus hover:bg-black3Cus md:hidden bg-gray-50 dark:bg-gray-700">
               Add
             </button>
           </div>
@@ -151,22 +152,22 @@ onMounted(() => {
                   <AnnBox2 :ann-data="announce" :index="index + store.pageSize * store.page"></AnnBox2>
                 </div>
                 <Pagination :current="store.page" :first="data.first" :last="data.last" :totalPages="data.totalPages"
-                  class="xl:flex xl:justify-center" @changePage="changePage"></Pagination>
+                            class="xl:flex xl:justify-center" @changePage="changePage"></Pagination>
               </div>
               <div class="hidden xl:flex xl:flex-col">
                 <div class="xl:flex xl:justify-end xl:pb-2">
                   <button v-if="!isAdminPath" :class="isOpen ? 'bg-green-400' : 'bg-red-400'"
-                    class="px-4 py-2 text-xs rounded-md ann-button xl:py-2 xl:text-base" @click="fetches()">
+                          class="px-4 py-2 text-xs rounded-md ann-button xl:py-2 xl:text-base" @click="fetches()">
                     {{ isOpen ? "Closed " : "Active " }}
                     <span class="hidden md:inline-block">announcement</span>
                   </button>
                   <div v-else class="ann-button" @click="$router.push({ name: 'addannouncement' })">
                     <button
-                      class="hidden px-2 py-2 rounded-md bg-gray-50 dark:bg-gray-700 md:inline-block xl:py-2 xl:text-base">
+                        class="hidden px-2 py-2 rounded-md bg-gray-50 dark:bg-gray-700 md:inline-block xl:py-2 xl:text-base">
                       Add announcements
                     </button>
                     <button
-                      class="fixed bottom-0 right-0 px-2 py-2 rounded-md bg-black2Cus hover:bg-black3Cus md:hidden bg-gray-50 dark:bg-gray-700">
+                        class="fixed bottom-0 right-0 px-2 py-2 rounded-md bg-black2Cus hover:bg-black3Cus md:hidden bg-gray-50 dark:bg-gray-700">
                       Add
                     </button>
                   </div>
@@ -177,7 +178,7 @@ onMounted(() => {
                 </div>
                 <div class="flex xl:gap-x-4">
                   <p class="xl:my-auto xl:text-xl">Category:</p>
-                  <CategoryBox />
+                  <CategoryBox/>
                 </div>
               </div>
             </div>
@@ -207,24 +208,24 @@ onMounted(() => {
       <div class="overflow-x-auto w-72 sm:w-[720px] xl:w-full">
         <table class=" text-left mb-0 w-72 xl:w-full">
           <thead class="text-xs">
-            <tr>
-              <th class="px-6 py-3 text-lg" scope="col">No.</th>
-              <th class="px-6 py-3 text-lg" scope="col">Title</th>
-              <th class="px-6 py-3 text-lg" scope="col">Category</th>
-              <th class="px-6 py-3 text-lg" scope="col">Publish Date</th>
-              <th class="px-6 py-3 text-lg" scope="col">Close Date</th>
-              <th class="px-6 py-3 text-lg text-center" scope="col">Display</th>
-              <th class="px-6 py-3 text-lg" scope="col">Owner</th>
-              <th class="px-6 py-3 text-lg text-center" scope="col">Views</th>
-              <th class="px-6 py-3 text-lg text-center" scope="col">
-                Action
-              </th>
-            </tr>
+          <tr>
+            <th class="px-6 py-3 text-lg" scope="col">No.</th>
+            <th class="px-6 py-3 text-lg" scope="col">Title</th>
+            <th class="px-6 py-3 text-lg" scope="col">Category</th>
+            <th class="px-6 py-3 text-lg" scope="col">Publish Date</th>
+            <th class="px-6 py-3 text-lg" scope="col">Close Date</th>
+            <th class="px-6 py-3 text-lg text-center" scope="col">Display</th>
+            <th class="px-6 py-3 text-lg" scope="col">Owner</th>
+            <th class="px-6 py-3 text-lg text-center" scope="col">Views</th>
+            <th class="px-6 py-3 text-lg text-center" scope="col">
+              Action
+            </th>
+          </tr>
           </thead>
           <tbody>
-            <tr v-for="(announcez, index) in announces">
-              <AnnBox2 :ann-data="announcez" :index="index + store.pageSize * store.page"></AnnBox2>
-            </tr>
+          <tr v-for="(announcez, index) in announces">
+            <AnnBox2 :ann-data="announcez" :index="index + store.pageSize * store.page"></AnnBox2>
+          </tr>
           </tbody>
         </table>
       </div>
