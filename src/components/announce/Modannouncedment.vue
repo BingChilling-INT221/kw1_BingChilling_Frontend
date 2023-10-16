@@ -278,10 +278,10 @@ const sendSubmit = async (event) => {
     sendPackage.closeDate = closeDatePlusTime.value;
   if (updateCheck.value) {
     try {
-      sendPackage.ownerName = props.updatePackage.ownerName;
-      console.log(sendPackage);
-      console.log(props.updatePackage);
-      console.log(JSON.stringify(sendPackage));
+      // sendPackage.ownerName = props.updatePackage.ownerName;
+      // console.log(sendPackage);
+      // console.log(props.updatePackage);
+      // console.log(JSON.stringify(sendPackage));
       const response = await fetchUpdate(sendPackage, route);
       if (response.status === 200) {
         alert("update announcement success");
@@ -299,7 +299,7 @@ const sendSubmit = async (event) => {
   } else {
     try {
       console.log(JSON.stringify(sendPackage));
-      sendPackage.ownerName = localStorage.getItem("username");
+      // sendPackage.ownerName = localStorage.getItem("username");
       const response = await fetchCreate(sendPackage);
       if (response.status === 200) {
         alert("Create announcement success");
