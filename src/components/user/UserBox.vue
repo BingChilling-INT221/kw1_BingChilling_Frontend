@@ -60,7 +60,7 @@ const deleteUser = async (id) => {
   <!-- <div class="ann-item"> -->
   <!-- <tbody>
     <tr> -->
-  <th class="py-4 px-6 whitespace-nowrap" scope="row">
+  <th class="py-4 px-6" scope="row">
     {{ index + 1 }}
   </th>
   <td class="py-4 px-6 ann-username">

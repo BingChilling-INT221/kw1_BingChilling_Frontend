@@ -58,7 +58,7 @@ const sendSubmit = async (event) => {
                 </div>
                 <input
                     v-model="username"
-                    class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2 ann-username"
+                    class="rounded-md w-3/4 ann-title bg-bgNav py-2 px-2 ann-username"
                     maxlength="45"
                     required
                     type="text"
@@ -70,7 +70,7 @@ const sendSubmit = async (event) => {
                 </div>
                 <input
                     v-model="password"
-                    class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2 ann-password"
+                    class="rounded-md w-3/4 ann-title bg-bgNav py-2 px-2 ann-password"
                     maxlength="14"
                     required
                     type="password"

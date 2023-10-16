@@ -187,6 +187,9 @@ onMounted(() => {
     </div>
 
     <div class="h-full min-w-full pt-2 " v-else>
+      <div class="text-4xl text-center ann-title pt-2">
+          <p>Announcements</p>
+        </div>
       <div class="flex justify-between">
         <div class="flex">
           <dateTimeBox :time="datetime" class="text-sm"></dateTimeBox>
@@ -200,6 +203,7 @@ onMounted(() => {
           </div>
         </div>
       </div>
+      
       <div class="overflow-x-auto w-72 sm:w-[720px] xl:w-full">
         <table class=" text-left mb-0 w-72 xl:w-full">
           <thead class="text-xs">
