@@ -45,7 +45,7 @@ export const fetchCreateToken = async (sendData) => {
 export const reToken = async () => {
     const refreshToken = localStorage.getItem("refreshToken");
     const token = localStorage.getItem("token");
-    console.log(jwtDecode(token).exp > Date.now() / 1000, "jwtDecode(token).exp > Date.now() / 1000");
+    // console.log(jwtDecode(token).exp > Date.now() / 1000, "jwtDecode(token).exp > Date.now() / 1000");
     if (jwtDecode(token).exp > Date.now() / 1000) {
         return false;
     }
@@ -58,10 +58,10 @@ export const reToken = async () => {
             Authorization: `${refreshToken}`,
         },
     });
-    console.log(response, "response");
+    // console.log(response, "response");
     if (response.status === 200) {
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
         localStorage.setItem("token", `Bearer ${data.token}`);
         console.log("token new");
         return true;

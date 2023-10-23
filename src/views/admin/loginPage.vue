@@ -26,11 +26,11 @@ const sendSubmit = async (event) => {
       const result = await response.json();
       token.value = result.token;
       refreshToken.value = result.refreshToken;
-      console.log("hi", token.value, "\n", refreshToken.value);
+      // console.log("hi", token.value, "\n", refreshToken.value);
       localStorage.setItem("token", `Bearer ${token.value}`);
       localStorage.setItem("refreshToken", `Bearer ${refreshToken.value}`);
-      console.log("token");
-      console.log(token);
+      // console.log("token");
+      // console.log(token);
       const payload = jwtDecode(token.value);
       localStorage.setItem("role", payload.role);
       localStorage.setItem("username", payload.username);
@@ -51,17 +51,17 @@ const sendSubmit = async (event) => {
 </script>
 
 <template>
-  <div class="w-full h-screen cursor-default overflow-hidden">
-    <div class="my-12 pt-12">
-      <div class="container  m-auto ">
-        <div class="items-center justify-center flex mx-2">
+  <div class="w-full h-screen overflow-hidden cursor-default">
+    <div class="pt-12 my-12">
+      <div class="container m-auto ">
+        <div class="flex items-center justify-center mx-2">
           <div class="w-[400px]
        bg-bgNav rounded-md  p-6">
             <div class="mt-2 text-center">
-              <h5 class="text-headerAdmin text-base">Welcome Back !</h5>
+              <h5 class="text-base text-headerAdmin">Welcome Back !</h5>
               <h1 class="text-sm text-header2">Sign in to continue to Admin.</h1>
             </div>
-            <div class="mt-6 p-2 text-header2">
+            <div class="p-2 mt-6 text-header2">
               <form class="w-full" @submit="sendSubmit">
                 <div class="flex flex-col space-y-4 text-lg">
                   <div class="flex flex-row text-sm">
@@ -77,7 +77,7 @@ const sendSubmit = async (event) => {
                       type="text"
                   />
                   <div class="flex flex-col space-y-2 text-lg">
-                    <div class="flex flex-row text-sm justify-between ">
+                    <div class="flex flex-row justify-between text-sm ">
                       <p>Password</p>
                       <p>Forgot password?</p>
                     </div>
@@ -92,9 +92,9 @@ const sendSubmit = async (event) => {
                     />
                   </div>
                 </div>
-                <div class="flex mt-4 justify-end">
+                <div class="flex justify-end mt-4">
                   <button
-                      class="px-4 py-2 rounded-md ann-button leading-6 bg-headerAdmin text-white text-sm"
+                      class="px-4 py-2 text-sm leading-6 text-white rounded-md ann-button bg-headerAdmin"
                   >
                     Log In
                   </button>
@@ -107,9 +107,9 @@ const sendSubmit = async (event) => {
                         v-if="status == 200"
 
                     >
-                      <div class="alert alert-success fixed top-0 w-full left-0">
+                      <div class="fixed top-0 left-0 w-full alert alert-success">
                         <div>
-                          <svg class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"
+                          <svg class="w-6 h-6 stroke-current shrink-0" fill="none" viewBox="0 0 24 24"
                                xmlns="http://www.w3.org/2000/svg">
                             <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
                                   stroke-linejoin="round"
@@ -124,9 +124,9 @@ const sendSubmit = async (event) => {
                         v-if="status == 401"
 
                     >
-                      <div class="alert alert-error fixed top-0 w-full left-0">
+                      <div class="fixed top-0 left-0 w-full alert alert-error">
                         <div>
-                          <svg class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"
+                          <svg class="w-6 h-6 stroke-current shrink-0" fill="none" viewBox="0 0 24 24"
                                xmlns="http://www.w3.org/2000/svg">
                             <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
                                   stroke-linejoin="round"
@@ -141,9 +141,9 @@ const sendSubmit = async (event) => {
                         v-if="status == 404"
 
                     >
-                      <div class="alert alert-error fixed top-0 w-full left-0">
+                      <div class="fixed top-0 left-0 w-full alert alert-error">
                         <div>
-                          <svg class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"
+                          <svg class="w-6 h-6 stroke-current shrink-0" fill="none" viewBox="0 0 24 24"
                                xmlns="http://www.w3.org/2000/svg">
                             <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
                                   stroke-linejoin="round"
@@ -156,7 +156,7 @@ const sendSubmit = async (event) => {
                     </div>
                   </div>
                 </div>
-                <div class="text-sm text-center mt-4">Don't have an account ? <span class="text-white cursor-pointer"
+                <div class="mt-4 text-sm text-center">Don't have an account ? <span class="text-white cursor-pointer"
                                                                                     @click="Router.push({name: 'register'})">Register here !</span>
                 </div>
               </form>

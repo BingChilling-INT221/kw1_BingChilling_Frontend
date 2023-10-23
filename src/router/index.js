@@ -146,8 +146,8 @@ router.beforeEach((to, from, next) => {
     const requiredRole = to.meta.requiredRole;
     const role = localStorage.getItem('role');
     const token = localStorage.getItem('token');
-    console.log(role);
-    console.log(requiredRole);
+    // console.log(role);
+    // console.log(requiredRole);
     if (token && to.path === '/login') {
         next('/admin/announcement');
     }

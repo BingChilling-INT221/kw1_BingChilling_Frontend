@@ -19,7 +19,7 @@ const updateCheck = ref(false);
 watch(
     () => props.updatePackage,
     (newv) => {
-      console.log(JSON.stringify(newv).length);
+      // console.log(JSON.stringify(newv).length);
       if (JSON.stringify(newv).length > 0) {
         updateCheck.value = true;
         checkAddOrEdit.value = true;
@@ -102,7 +102,7 @@ const sendSubmit = async (event) => {
     if (updateCheck.value) {
       try {
         delete sendPackage["password"];
-        console.log(JSON.stringify(sendPackage));
+        // console.log(JSON.stringify(sendPackage));
         const response = await fetchUpdateUser(sendPackage, route);
         if (response.status === 200) {
           alert("update user success");
@@ -110,7 +110,7 @@ const sendSubmit = async (event) => {
         } else if (response.status === 200 && usernameCheck.value) {
           router.push({name: "login"});
         } else {
-          console.log(response);
+          // console.log(response);
           alert("update user fail");
           if (response.status === 400) {
             status.value = 400;
@@ -130,7 +130,7 @@ const sendSubmit = async (event) => {
       }
     } else {
       try {
-        console.log(JSON.stringify(sendPackage));
+        // console.log(JSON.stringify(sendPackage));
         const response = await fetchCreateUser(sendPackage);
         if (response.status === 200) {
           alert("Create user success");
@@ -348,53 +348,53 @@ watchEffect(() => {
 <template>
   <form class="w-full" @submit="sendSubmit">
     <div class="flex flex-col space-y-5">
-      <div class="text-4xl ml-4">
+      <div class="ml-4 text-4xl">
         <p>User Detail:</p>
       </div>
-      <div class="flex flex-row rounded-lg w-3/4">
-        <div class="flex flex-col space-y-5 w-full p-5">
-          <div class="text-lg flex flex-col space-y-2">
+      <div class="flex flex-row w-3/4 rounded-lg">
+        <div class="flex flex-col w-full p-5 space-y-5">
+          <div class="flex flex-col space-y-2 text-lg">
             <div class="flex flex-row w-3/4">
               <p>Username</p>
-              <div class="flex w-full justify-end">
-                <p class="text-sm my-auto">
+              <div class="flex justify-end w-full">
+                <p class="my-auto text-sm">
                   Remaining: {{ countusernameCharac }}
                 </p>
               </div>
             </div>
             <input
                 v-model="username"
-                class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2 ann-username"
+                class="w-3/4 px-2 py-2 rounded-md ann-title bg-whitesecondCustom dark:bg-darksecondCustom ann-username"
                 maxlength="45"
                 required
                 type="text"
             />
             <div
                 v-if="status == 400 && errorUsername"
-                class="text-red-500 my-auto pr-5"
+                class="pr-5 my-auto text-red-500"
             >
               <p class="text-base ann-error-username">{{ errorUsername }}</p>
             </div>
           </div>
-          <div v-if="!checkAddOrEdit" class="text-lg flex flex-col space-y-2">
+          <div v-if="!checkAddOrEdit" class="flex flex-col space-y-2 text-lg">
             <div class="flex flex-row w-3/4">
               <p>Password</p>
-              <div class="flex w-full justify-end">
-                <p class="text-sm my-auto">
+              <div class="flex justify-end w-full">
+                <p class="my-auto text-sm">
                   Remaining: {{ countpasswordCharac }}
                 </p>
               </div>
             </div>
             <input
                 v-model="password"
-                class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2 ann-password"
+                class="w-3/4 px-2 py-2 rounded-md ann-title bg-whitesecondCustom dark:bg-darksecondCustom ann-password"
                 maxlength="14"
                 required
                 type="password"
             />
             <div
                 v-if="errorPassword"
-                class="text-red-500 my-auto pr-5"
+                class="pr-5 my-auto text-red-500"
             >
               <p class="text-base ann-error-password">{{ errorPassword }}</p>
             </div>
@@ -402,11 +402,11 @@ watchEffect(() => {
                 msg.password
               }}</span>
           </div>
-          <div v-if="!checkAddOrEdit" class="text-lg flex flex-col space-y-2">
+          <div v-if="!checkAddOrEdit" class="flex flex-col space-y-2 text-lg">
             <p>Confirm password</p>
             <input
                 v-model="conpassword"
-                class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2 ann-confirm-password"
+                class="w-3/4 px-2 py-2 rounded-md ann-title bg-whitesecondCustom dark:bg-darksecondCustom ann-confirm-password"
                 maxlength="14"
                 required
                 type="password"
@@ -415,54 +415,54 @@ watchEffect(() => {
                 errorConfirm
               }}</span>
           </div>
-          <div class="text-lg flex flex-col space-y-2">
+          <div class="flex flex-col space-y-2 text-lg">
             <div class="flex flex-row w-3/4">
               <p>Name</p>
-              <div class="flex w-full justify-end">
-                <p class="text-sm my-auto">Remaining: {{ countnameCharac }}</p>
+              <div class="flex justify-end w-full">
+                <p class="my-auto text-sm">Remaining: {{ countnameCharac }}</p>
               </div>
             </div>
             <input
                 v-model="name"
-                class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2 ann-name"
+                class="w-3/4 px-2 py-2 rounded-md ann-title bg-whitesecondCustom dark:bg-darksecondCustom ann-name"
                 maxlength="100"
                 required
                 type="text"
             />
             <div
                 v-if="status == 400 && errorName"
-                class="text-red-500 my-auto pr-5"
+                class="pr-5 my-auto text-red-500"
             >
               <p class="text-base ann-error-name">{{ errorName }}</p>
             </div>
           </div>
-          <div class="text-lg flex flex-col space-y-2">
+          <div class="flex flex-col space-y-2 text-lg">
             <div class="flex flex-row w-3/4">
               <p>Email</p>
-              <div class="flex w-full justify-end">
-                <p class="text-sm my-auto">Remaining: {{ countemailCharac }}</p>
+              <div class="flex justify-end w-full">
+                <p class="my-auto text-sm">Remaining: {{ countemailCharac }}</p>
               </div>
             </div>
             <input
                 v-model="email"
-                class="rounded-md w-3/4 ann-title bg-whitesecondCustom dark:bg-darksecondCustom py-2 px-2 ann-email"
+                class="w-3/4 px-2 py-2 rounded-md ann-title bg-whitesecondCustom dark:bg-darksecondCustom ann-email"
                 maxlength="150"
                 required
                 type="email"
             />
             <div
                 v-if="status == 400 && errorEmail"
-                class="text-red-500 my-auto pr-5"
+                class="pr-5 my-auto text-red-500"
             >
               <p class="text-base ann-error-email">{{ errorEmail }}</p>
             </div>
             <!-- <span v-if="msg.email" class="text-red-400">{{ msg.email }}</span> -->
           </div>
-          <div class="text-lg flex flex-col space-y-2">
+          <div class="flex flex-col space-y-2 text-lg">
             <p>Role</p>
             <select
                 v-model="role"
-                class="w-1/4 bg-whitesecondCustom dark:bg-darksecondCustom rounded-md py-2 px-2 ann-role"
+                class="w-1/4 px-2 py-2 rounded-md bg-whitesecondCustom dark:bg-darksecondCustom ann-role"
             >
               <option>admin</option>
               <option>announcer</option>

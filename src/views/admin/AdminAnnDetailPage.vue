@@ -4,8 +4,8 @@ import format_page from "@/components/format_page.vue";
 import {useRoute} from "vue-router";
 
 let route = useRoute();
-console.log('AdminAnnDetailPage.vue');
-console.log(route.path)
+// console.log('AdminAnnDetailPage.vue');
+// console.log(route.path)
 </script>
 
 <template>

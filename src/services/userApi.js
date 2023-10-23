@@ -50,7 +50,7 @@ export const fetchCreateUser = async (sendPackage) => {
             body: JSON.stringify(sendPackage),
         });
         if (response.status === 200) {
-            console.log(response);
+            // console.log(response);
             return response;
         } else if (response.status === 401) {
             if (await reToken()) {

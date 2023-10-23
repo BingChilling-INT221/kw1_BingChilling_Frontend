@@ -62,7 +62,7 @@ const sendSubmit = async (event) => {
     if (updateCheck.value) {
       try {
         delete sendPackage["password"];
-        console.log(JSON.stringify(sendPackage));
+        // console.log(JSON.stringify(sendPackage));
         const response = await fetchUpdateUser(sendPackage, route);
         if (response.status === 200) {
           alert("update user success");
@@ -70,7 +70,7 @@ const sendSubmit = async (event) => {
         } else if (response.status === 200 && usernameCheck.value) {
           await router.push({name: "login"});
         } else {
-          console.log(response);
+          // console.log(response);
           alert("update user fail");
           if (response.status === 400) {
             status.value = 400;
@@ -90,7 +90,7 @@ const sendSubmit = async (event) => {
       }
     } else {
       try {
-        console.log(JSON.stringify(sendPackage));
+        // console.log(JSON.stringify(sendPackage));
         const response = await fetchCreateUserAnnouncer(sendPackage);
         if (response.status === 200) {
           alert("Create user success");
@@ -227,20 +227,20 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div class="w-full h-screen cursor-default overflow-hidden">
-    <div class="my-12 pt-12 flex">
-      <div class="container  m-auto ">
-        <div class="items-center justify-center flex mx-2">
+  <div class="w-full h-screen overflow-hidden cursor-default">
+    <div class="flex pt-12 my-12">
+      <div class="container m-auto ">
+        <div class="flex items-center justify-center mx-2">
           <div class="w-[400px]
        bg-bgNav rounded-md  p-6">
             <div class="mt-2 text-center">
-              <h5 class="text-headerAdmin text-base">Welcome Back !</h5>
+              <h5 class="text-base text-headerAdmin">Welcome Back !</h5>
               <h1 class="text-sm text-header2">Sign in to continue to Admin.</h1>
             </div>
-            <div class="mt-6 p-2 text-header2">
+            <div class="p-2 mt-6 text-header2">
               <form class="w-full" @submit="sendSubmit">
                 <div class="flex flex-col space-y-4 text-lg ">
-                  <div class="flex flex-row text-sm justify-between">
+                  <div class="flex flex-row justify-between text-sm">
                     <p>Username</p>
                     <p> Remaining: {{ countusernameCharac }}</p>
                   </div>
@@ -256,12 +256,12 @@ watchEffect(() => {
 
                   <div
                       v-if="status == 400 && errorUsername"
-                      class="text-red-500 my-auto pr-5"
+                      class="pr-5 my-auto text-red-500"
                   >
                     <p class="text-base ann-error-username">{{ errorUsername }}</p>
                   </div>
                   <div class="flex flex-col space-y-2 text-lg">
-                    <div class="flex flex-row text-sm justify-between ">
+                    <div class="flex flex-row justify-between text-sm ">
                       <p>Password</p>
                       <p>Remaining: {{ countpasswordCharac }}</p>
                     </div>
@@ -277,7 +277,7 @@ watchEffect(() => {
 
                     <div
                         v-if="errorPassword"
-                        class="text-red-500 my-auto pr-5"
+                        class="pr-5 my-auto text-red-500"
                     >
                       <p class="text-base ann-error-password">{{ errorPassword }}</p>
                     </div>
@@ -286,7 +286,7 @@ watchEffect(() => {
                       }}</span>
                   </div>
                   <div class="flex flex-col space-y-2 text-lg">
-                    <div class="flex flex-row text-sm justify-between ">
+                    <div class="flex flex-row justify-between text-sm ">
                       <p>Confirm password</p>
                     </div>
                     <input
@@ -303,7 +303,7 @@ watchEffect(() => {
                       }}</span>
                   </div>
                   <div class="flex flex-col space-y-2 text-lg">
-                    <div class="flex flex-row text-sm justify-between ">
+                    <div class="flex flex-row justify-between text-sm ">
                       <p>Name</p>
                       <p> Remaining: {{ countnameCharac }}</p>
                     </div>
@@ -318,13 +318,13 @@ watchEffect(() => {
                     />
                     <div
                         v-if="status == 400 && errorName"
-                        class="text-red-500 my-auto pr-5"
+                        class="pr-5 my-auto text-red-500"
                     >
                       <p class="text-base ann-error-name">{{ errorName }}</p>
                     </div>
                   </div>
                   <div class="flex flex-col space-y-2 text-lg">
-                    <div class="flex flex-row text-sm justify-between ">
+                    <div class="flex flex-row justify-between text-sm ">
                       <p>Email</p>
                       <p>Remaining: {{ countemailCharac }}</p>
                     </div>
@@ -339,15 +339,15 @@ watchEffect(() => {
                     />
                     <div
                         v-if="status == 400 && errorEmail"
-                        class="text-red-500 my-auto pr-5"
+                        class="pr-5 my-auto text-red-500"
                     >
                       <p class="text-base ann-error-email">{{ errorEmail }}</p>
                     </div>
                   </div>
                 </div>
-                <div class="flex mt-4 justify-end">
+                <div class="flex justify-end mt-4">
                   <button
-                      class="px-4 py-2 rounded-md ann-button leading-6 bg-headerAdmin text-white text-sm"
+                      class="px-4 py-2 text-sm leading-6 text-white rounded-md ann-button bg-headerAdmin"
                   >
                     Register
                   </button>
@@ -360,9 +360,9 @@ watchEffect(() => {
                         v-if="status == 200"
 
                     >
-                      <div class="alert alert-success fixed top-0 w-full left-0">
+                      <div class="fixed top-0 left-0 w-full alert alert-success">
                         <div>
-                          <svg class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"
+                          <svg class="w-6 h-6 stroke-current shrink-0" fill="none" viewBox="0 0 24 24"
                                xmlns="http://www.w3.org/2000/svg">
                             <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
                                   stroke-linejoin="round"
@@ -377,9 +377,9 @@ watchEffect(() => {
                         v-if="status == 401"
 
                     >
-                      <div class="alert alert-error fixed top-0 w-full left-0">
+                      <div class="fixed top-0 left-0 w-full alert alert-error">
                         <div>
-                          <svg class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"
+                          <svg class="w-6 h-6 stroke-current shrink-0" fill="none" viewBox="0 0 24 24"
                                xmlns="http://www.w3.org/2000/svg">
                             <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
                                   stroke-linejoin="round"
@@ -394,9 +394,9 @@ watchEffect(() => {
                         v-if="status == 404"
 
                     >
-                      <div class="alert alert-error fixed top-0 w-full left-0">
+                      <div class="fixed top-0 left-0 w-full alert alert-error">
                         <div>
-                          <svg class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"
+                          <svg class="w-6 h-6 stroke-current shrink-0" fill="none" viewBox="0 0 24 24"
                                xmlns="http://www.w3.org/2000/svg">
                             <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
                                   stroke-linejoin="round"

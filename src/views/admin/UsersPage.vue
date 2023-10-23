@@ -13,7 +13,7 @@ onMounted(async () => {
     const response = await fetchUser();
     if (response.status === 200) {
       users.value = await response.json();
-      console.log(response);
+      // console.log(response);
     }
   } catch (err) {
     console.log(err);
@@ -32,7 +32,7 @@ const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   <div class="w-full">
     <format_page>
       <div class="flex flex-col min-w-full space-y-5">
-        <div class="text-4xl text-center ann-title pt-3">
+        <div class="pt-3 text-4xl text-center ann-title">
           <p>User Management</p>
         </div>
         <div>
@@ -51,7 +51,7 @@ const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
           </div>
 
           <div class="overflow-x-auto w-72 sm:w-[720px] xl:w-full">
-            <table class="text-left mb-0 w-72 xl:w-full">
+            <table class="mb-0 text-left w-72 xl:w-full">
               <thead class="text-xs">
                 <tr>
                   <th class="px-6 py-3 text-lg" scope="col">No.</th>
