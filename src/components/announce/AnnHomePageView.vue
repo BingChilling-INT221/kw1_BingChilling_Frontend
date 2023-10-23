@@ -204,8 +204,10 @@ onMounted(() => {
           </div>
         </div>
       </div>
-      
-      <div class="overflow-x-auto w-72 sm:w-[720px] xl:w-full">
+      <p v-if="announces.length <= 0" class="flex justify-center text-5xl text-center text-gray-400">
+                  No Announcement
+      </p>
+      <div class="overflow-x-auto w-72 sm:w-[720px] xl:w-full" v-else>
         <table class=" text-left mb-0 w-72 xl:w-full">
           <thead class="text-xs">
           <tr>
