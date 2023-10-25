@@ -2,7 +2,6 @@
 import {ref} from "vue";
 import {fetchCreateToken} from "@/services/authorizationApi.js";
 import {useRouter} from "vue-router";
-import jwtDecode from "jwt-decode";
 import Router from "@/router";
 
 const username = ref("");
@@ -10,8 +9,6 @@ const password = ref("");
 
 const status = ref("");
 const rou = useRouter();
-const token = ref("");
-const refreshToken = ref("");
 
 const sendSubmit = async (event) => {
   event.preventDefault();
@@ -23,17 +20,7 @@ const sendSubmit = async (event) => {
     const response = await fetchCreateToken(sendData);
     if (response.status === 200) {
       status.value = 200;
-      const result = await response.json();
-      token.value = result.token;
-      refreshToken.value = result.refreshToken;
-      // console.log("hi", token.value, "\n", refreshToken.value);
-      localStorage.setItem("token", `Bearer ${token.value}`);
-      localStorage.setItem("refreshToken", `Bearer ${refreshToken.value}`);
-      // console.log("token");
-      // console.log(token);
-      const payload = jwtDecode(token.value);
-      localStorage.setItem("role", payload.role);
-      localStorage.setItem("username", payload.username);
+      console.log("hi1", response);
       setTimeout(() => rou.push({name: "adminhomepage"}), 1200);
     } else if (response.status === 401) {
       status.value = 401;

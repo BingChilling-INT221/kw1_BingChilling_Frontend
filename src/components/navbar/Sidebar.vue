@@ -2,19 +2,21 @@
 import {useRoute} from "vue-router";
 import Ann from "../icons/Ann.vue";
 import Groups from "../icons/Groups.vue";
-
+import {useUsersStore} from "@/stores/user";
+const userStore = useUsersStore();
 const route = useRoute();
 const checkPath = (path) => {
   // console.log(route.path, path, route.path.endsWith(path));
   return route.path.endsWith(path);
 };
 
-const CheckAnnouncer = localStorage.getItem("role") === "announcer";
+const CheckAnnouncer = userStore.role === "announcer";
 
 
 </script>
 
 <template>
+
   <div>
     <div class="absolute w-[320px] pt-[3.75rem] min-h-screen lg:block hidden">
       <div class="w-10/12 mt-1 ml-4 space-y-2">

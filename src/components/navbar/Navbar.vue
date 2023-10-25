@@ -5,32 +5,24 @@ import SearchBox from "./SearchBox.vue";
 import {useRoute} from "vue-router";
 import router from "@/router";
 import Search_light from "../icons/Search_light.vue";
-
+import {useUsersStore} from "@/stores/user";
+const userStore=useUsersStore()
 const route = useRoute();
 const users = ref([]);
 const isSearch = ref(false);
-const token = ref(localStorage.getItem("token") || "");
-const username = localStorage.getItem("username");
 const checkAdmin = () => {
   return route.path.includes("/admin");
 };
 
-const logout = () => {
-  localStorage.removeItem("token");
-  localStorage.removeItem("refreshToken");
-  localStorage.removeItem("username");
-  localStorage.removeItem("role");
-  window.location.reload();
+const logout = async () => {
+  userStore.logout()
+  await router.push({name: "mainpage"});
 };
 const login = () => {
   router.push({name: "login"});
 };
 const isLogin = computed(() => {
-  if (!token.value) {
-    return false;
-  } else {
-    return true;
-  }
+  return userStore.token;
 });
 </script>
 
@@ -68,7 +60,7 @@ const isLogin = computed(() => {
               v-if="checkAdmin()"
               class="flex items-center justify-end space-x-4 grow"
           >
-            <div class="hidden md:block">{{ username }}</div>
+            <div class="hidden md:block">{{ userStore.username }}</div>
             <div class="hidden md:block">
               <button v-if="!isLogin" @click="login">Log in</button>
               <button v-if="isLogin" @click="logout">Log out</button>

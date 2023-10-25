@@ -36,13 +36,13 @@ const sendSubmit = async (event) => {
       <form class="w-full" @submit="sendSubmit">
         <div class="flex flex-col space-y-5 items-center pt-20">
           <div class="flex w-3/4 ann-message">
-            <div v-if="status == 200" class="p-6  text-green-500 bg-green-200 border-green-500 rounded-xl">
+            <div v-if="status === 200" class="p-6  text-green-500 bg-green-200 border-green-500 rounded-xl">
               <p class="text-2xl">Password Matched</p>
             </div>
-            <div v-if="status == 401" class="p-6 text-red-500 bg-red-200 border-red-500 rounded-xl">
+            <div v-if="status === 401" class="p-6 text-red-500 bg-red-200 border-red-500 rounded-xl">
               <p class="text-2xl">Password NOT Matched</p>
             </div>
-            <div v-if="status == 404" class="p-6  text-red-500 bg-red-200 border-red-500 rounded-xl">
+            <div v-if="status === 404" class="p-6  text-red-500 bg-red-200 border-red-500 rounded-xl">
               <p class="text-2xl">The specified username DOES NOT exist</p>
             </div>
           </div>
@@ -70,6 +70,7 @@ const sendSubmit = async (event) => {
                 </div>
                 <input
                     v-model="password"
+                    autocomplete="on"
                     class="rounded-md w-3/4 ann-title bg-bgNav py-2 px-2 ann-password"
                     maxlength="14"
                     required

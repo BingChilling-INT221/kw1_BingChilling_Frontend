@@ -1,6 +1,7 @@
 <script setup>
 import {computed, onMounted, ref, watch} from "vue";
 import {useAnnouncerStore} from "@/stores/announcer";
+import {useUsersStore} from "@/stores/user";
 import {fetched_api} from "@/services/annApi.js";
 import {useRoute} from "vue-router";
 import AnnBox2 from "./AnnBox.vue";
@@ -11,7 +12,7 @@ import CategoryBox from "./CategoryBox.vue";
 
 const route = useRoute();
 const store = useAnnouncerStore();
-
+const userStore = useUsersStore();
 // เวลาและ Time zone
 const datetime = new Intl.DateTimeFormat("en-GB", {
   dateStyle: "medium",
@@ -64,13 +65,7 @@ const fetches = async () => {
   }
   await fetched();
 };
-const logout = () => {
-  localStorage.removeItem("token");
-  localStorage.removeItem("refreshToken");
-  localStorage.removeItem("username");
-  localStorage.removeItem("role");
-  window.location.reload();
-};
+
 
 const fetched = async () => {
   const auth = isAdminPath.value;
@@ -89,6 +84,7 @@ const fetched = async () => {
       auth
   );
   if (response.status === 200) {
+    console.log(response.status, "status");
     fetchDate.value = true;
     data.value = await response.json();
     // console.log(data.value, "data");
@@ -99,7 +95,7 @@ const fetched = async () => {
   } else if (response.status === 404) {
     notFound.value = true;
   } else if (response === 401) {
-    logout();
+    userStore.logout();
   }
 };
 
@@ -116,6 +112,7 @@ onMounted(() => {
 </script>
 
 <template>
+  {{userStore}}
   <div class="min-w-full min-h-full">
     <div v-if="!isAdminPath" class="mx-6">
       <div class="flex items-center justify-center my-2 md:justify-end xl:hidden">
