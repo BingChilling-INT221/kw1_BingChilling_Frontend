@@ -1,8 +1,10 @@
 import {reToken} from "@/services/authorizationApi";
 import router from "@/router";
+import {useUsersStore} from "@/stores/user";
 
 export const fetchUpdateUser = async (sendPackage, route) => {
-    const token = localStorage.getItem("token");
+    const usersStore = useUsersStore();
+    const token = usersStore.token
     if (token === null) {
         if (await reToken()) {
             return await fetchUpdateUser(sendPackage, route);
@@ -34,7 +36,8 @@ export const fetchUpdateUser = async (sendPackage, route) => {
     }
 };
 export const fetchCreateUser = async (sendPackage) => {
-    const token = localStorage.getItem("token");
+    const usersStore = useUsersStore();
+    const token = usersStore.token
     if (token === null) {
         if (await reToken()) {
             return await fetchCreateUser(sendPackage);
@@ -56,7 +59,7 @@ export const fetchCreateUser = async (sendPackage) => {
             if (await reToken()) {
                 return await fetchCreateUser(sendPackage);
             } else {
-                router.push({name: "login"});
+                await router.push({name: "login"});
             }
 
         } else {
@@ -68,7 +71,8 @@ export const fetchCreateUser = async (sendPackage) => {
     }
 };
 export const fetchDeleteUser = async (id) => {
-    const token = localStorage.getItem("token");
+    const usersStore = useUsersStore();
+    const token = usersStore.token
     if (token === null) {
         if (await reToken()) {
             return await fetchDeleteUser(id);
@@ -96,7 +100,8 @@ export const fetchDeleteUser = async (id) => {
     }
 };
 export const fetchUser = async () => {
-    const token = localStorage.getItem("token");
+    const usersStore = useUsersStore();
+    const token = usersStore.token
     if (token === null) {
         if (await reToken()) {
             return await fetchUser();
@@ -115,14 +120,15 @@ export const fetchUser = async () => {
         }
         return router.push({name: "login"});
     } else if (response.status === 403) {
-        router.push({name: "403"});
+        await router.push({name: "403"});
     } else {
         const errorResponse = await response.json();
         throw new Error(errorResponse.message);
     }
 };
 export const fetchUserEdit = async (route) => {
-    const token = localStorage.getItem("token");
+    const usersStore = useUsersStore();
+    const token = usersStore.token
     if (token === null) {
         if (await reToken()) {
             return await fetchUserEdit(route);
@@ -144,7 +150,7 @@ export const fetchUserEdit = async (route) => {
         }
         return router.push({name: "login"});
     } else if (response.status === 403) {
-        router.push({name: "403"});
+        await router.push({name: "403"});
     } else if (response.status === 404) {
         await router.push({name: "adminuserpage"});
 

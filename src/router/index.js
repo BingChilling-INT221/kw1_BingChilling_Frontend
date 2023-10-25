@@ -1,4 +1,5 @@
 import {createRouter, createWebHistory} from 'vue-router'
+import {useUsersStore} from "@/stores/user";
 
 const routes = [
     {
@@ -142,23 +143,72 @@ const router = createRouter({
 })
 
 
-router.beforeEach((to, from, next) => {
+// router.beforeEach((to, from, next) => {
+//     const requiredRole = to.meta.requiredRole;
+//     const usersStore = useUsersStore();
+//     const role = usersStore.role;
+//     // console.log(role);
+//     const token = localStorage.getItem('token');
+//     // console.log(role);
+//     // console.log(requiredRole);
+//     if (token && to.path === '/login') {
+//         next('/admin/announcement');
+//     }
+//     else if (!token && to.path == '/login') {
+//         next('/login');
+//     }
+//     console.log(Boolean(!token && to.path == '/login'))
+//     console.log(Boolean(token ))
+//     console.log(Boolean(to.path == '/login'))
+//     if (requiredRole === undefined) {
+//         console.log(requiredRole, "requiredRole")
+//         console.log(role, "role")
+//         console.log(to.path, "to.path")
+//         console.log("undefined");
+//         next();
+//     }
+//     if (requiredRole.includes(role)) {
+//         console.log("includes");
+//         next();
+//     }
+//     else {
+//         next('/login');
+//     }
+// });
+router.beforeEach(async (to, from, next) => {
     const requiredRole = to.meta.requiredRole;
-    const role = localStorage.getItem('role');
-    const token = localStorage.getItem('token');
-    // console.log(role);
-    // console.log(requiredRole);
-    if (token && to.path === '/login') {
-        next('/admin/announcement');
+    const usersStore = useUsersStore();
+    const token = usersStore.token;
+    const role = usersStore.role;
+
+    // If the user's token is empty and there are tokens in localStorage, recall the user's data.
+    if (!token && (localStorage.getItem('token') || localStorage.getItem('refreshToken'))) {
+        await usersStore.recall();
     }
-    if (requiredRole === undefined) {
+
+    // If the user is trying to visit the login page and they are already authenticated, redirect them.
+    if (to.path === '/login') {
+        if (token) {
+            next('/admin/announcement');
+        } else {
+            next();
+        }
+    } else if (requiredRole === undefined) {
+        // If no specific role is required, allow access to the route.
         next();
-    }
-    if (requiredRole.includes(role)) {
+    } else if (requiredRole.includes(role)) {
+        // If the user's role matches the required role, allow access to the route.
         next();
+    } else if (to.path.includes('admin')) {
+        // If the user is trying to access an admin route, check their token.
+        if (token) {
+            next();
+        } else {
+            next('/403');
+        }
     } else {
-        next('/login');
+        // If none of the conditions match, allow access to the route.
+        next();
     }
 });
-
 export default router

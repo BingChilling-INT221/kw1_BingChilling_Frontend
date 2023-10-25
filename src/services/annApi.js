@@ -1,6 +1,6 @@
-import { reToken } from "@/services/authorizationApi";
+import { reToken} from "@/services/authorizationApi";
 import router from "@/router";
-
+import {useUsersStore} from "@/stores/user";
 export const fetched_api = async (
   role,
   category,
@@ -9,7 +9,8 @@ export const fetched_api = async (
   pageSize,
   auth
 ) => {
-  const token = localStorage.getItem("token");
+  const usersStore = useUsersStore();
+  const token = usersStore.token
   // if (token === null) {
   //   if (await reToken()) {
   //     return await fetched_api(role, category, mode, page, pageSize);
@@ -72,14 +73,16 @@ export const fetched_api = async (
 };
 
 export const fetchCountParam = async (route, count, auth) => {
-  const token = localStorage.getItem("token");
+  const usersStore = useUsersStore();
+  const token = usersStore.token
   // if (token === null) {
   //   if (await reToken()) {
   //     return await fetchCountParam(route, count);
   //   }
   // }
   try {
-    // console.log(token);
+    console.log(token);
+    console.log(auth);
     let response 
     if (auth) {
        response = await fetch(
@@ -101,6 +104,10 @@ export const fetchCountParam = async (route, count, auth) => {
       if (await reToken()) {
         return await fetchCountParam(route, count);
       }
+      console.log("401");
+      // usersStore.clear();
+      // localStorage.clear();
+
       return router.push({ name: "login" });
     } else {
       const errorResponse = await response.json();
@@ -112,7 +119,8 @@ export const fetchCountParam = async (route, count, auth) => {
 };
 
 export const fetchCreate = async (sendPackage) => {
-  const token = localStorage.getItem("token");
+  const usersStore = useUsersStore();
+  const token = usersStore.token
   if (token === null) {
     if (await reToken()) {
       return await fetchCreate(sendPackage);
@@ -137,6 +145,7 @@ export const fetchCreate = async (sendPackage) => {
       if (await reToken()) {
         return await fetchCreate(sendPackage);
       }
+        console.log("401");
       // return router.push({ name: "login" });
     } else {
       const errorResponse = await response.json();
@@ -148,7 +157,8 @@ export const fetchCreate = async (sendPackage) => {
 };
 
 export const fetchUpdate = async (sendPackage, route) => {
-  const token = localStorage.getItem("token");
+  const usersStore = useUsersStore();
+  const token = usersStore.token
   if (token === null) {
     if (await reToken()) {
       return await fetchUpdate(sendPackage, route);
@@ -172,6 +182,7 @@ export const fetchUpdate = async (sendPackage, route) => {
       if (await reToken()) {
         return await fetchUpdate(sendPackage, route);
       }
+        console.log("401");
       return router.push({ name: "login" });
     } else {
       const errorResponse = await response.json();
@@ -183,7 +194,8 @@ export const fetchUpdate = async (sendPackage, route) => {
 }
 };
 export const fetchShowEdit = async (route) => {
-  const token = localStorage.getItem("token");
+  const usersStore = useUsersStore();
+  const token = usersStore.token
   if (token === null) {
     if (await reToken()) {
       return await fetchShowEdit(route);
@@ -204,6 +216,7 @@ export const fetchShowEdit = async (route) => {
     if (await reToken()) {
       return await fetchShowEdit(route);
     }
+    console.log("401");
     return router.push({ name: "login" });
   } else {
     const errorResponse = await response.json();
@@ -211,7 +224,8 @@ export const fetchShowEdit = async (route) => {
   }
 };
 export const fetchDelete = async (id) => {
-  const token = localStorage.getItem("token");
+  const usersStore = useUsersStore();
+  const token = usersStore.token
   if (token === null) {
     if (await reToken()) {
       return await fetchDelete(id);

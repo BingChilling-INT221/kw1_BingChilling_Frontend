@@ -1,27 +1,16 @@
 import {reToken} from "@/services/authorizationApi";
 import router from "@/router";
+import {useUsersStore} from "@/stores/user";
 
+const usersStore = useUsersStore();
 export const fetchCate = async () => {
-    const token = localStorage.getItem("token");
-    // if (token === null) {
-    //     if (await reToken()) {
-    //         return await fetchCate();
-    //     }
-    // }
     try {
-        // console.log("cat", token);
         const response = await fetch(`${import.meta.env.VITE_BASE_URL}categories`
-            // , {
-            // headers: {
-            //     Authorization: `${token}`,
-            // },
-            // }
         );
         // console.log(response.status, token);
         if (response.status === 200) {
             // console.log("200 cate");
-            const data = await response.json();
-            return data;
+            return await response.json();
         } else if (response.status === 401) {
             console.log("401 cate");
             if (await reToken()) {
@@ -37,7 +26,7 @@ export const fetchCate = async () => {
     }
 };
 export const fetchCateForMod = async () => {
-    const token = localStorage.getItem("token");
+    const token = usersStore.token;
     if (token === null) {
         if (await reToken()) {
             return await fetchCateForMod();

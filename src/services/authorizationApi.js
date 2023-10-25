@@ -1,12 +1,11 @@
 import router from "../router/index.js";
 import jwtDecode from 'jwt-decode';
+import {useUsersStore} from "@/stores/user";
 
-// const token = localStorage.getItem('token');
-//
-// const payload = jwtDecode(token);
 
 export const fetchMatch = async (sendData) => {
-    const token = localStorage.getItem("token");
+    const usersStore = useUsersStore();
+    const token = usersStore.token;
     if (token === null) {
         if (await reToken()) {
             return await fetchMatch(sendData);
@@ -33,18 +32,31 @@ export const fetchMatch = async (sendData) => {
     }
 };
 export const fetchCreateToken = async (sendData) => {
-    return await fetch(`${import.meta.env.VITE_BASE_URL}token`, {
+    const usersStore = useUsersStore();
+    const response=await fetch(`${import.meta.env.VITE_BASE_URL}token`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify(sendData),
     });
+    if (response.status === 200) {
+        const data = await response.json();
+        localStorage.setItem("token", `Bearer ${data.token}`);
+        localStorage.setItem("refreshToken", `${data.refreshToken}`);
+        usersStore.setToken(`Bearer ${data.token}`);
+        usersStore.setRefreshToken(`${data.refreshToken}`);
+        usersStore.setUsername(jwtDecode(data.token).username);
+        usersStore.setRole(jwtDecode(data.token).role);
+        return response;
+    }
+    return response;
 };
 
 export const reToken = async () => {
-    const refreshToken = localStorage.getItem("refreshToken");
-    const token = localStorage.getItem("token");
+    const usersStore = useUsersStore();
+    const token = usersStore.token;
+    const refreshToken = usersStore.refreshToken;
     // console.log(jwtDecode(token).exp > Date.now() / 1000, "jwtDecode(token).exp > Date.now() / 1000");
     if (jwtDecode(token).exp > Date.now() / 1000) {
         return false;
@@ -63,6 +75,7 @@ export const reToken = async () => {
         const data = await response.json();
         // console.log(data);
         localStorage.setItem("token", `Bearer ${data.token}`);
+        usersStore.setToken(`Bearer ${data.token}`);
         console.log("token new");
         return true;
     }
