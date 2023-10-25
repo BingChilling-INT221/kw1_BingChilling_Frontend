@@ -65,7 +65,7 @@ export const fetched_api = async (
         } else {
             // console.log("else");
             const errorResponse = await response.json();
-            throw new Error(errorResponse.message);
+           console.log(errorResponse);
         }
     } catch (err) {
         console.log("ยังหาข้อมูลไม่พบโปรดรีเฟรชหน้าอีกครั้งครับ");
@@ -112,7 +112,7 @@ export const fetchCountParam = async (route, count, auth) => {
             return router.push({name: "login"});
         } else {
             const errorResponse = await response.json();
-            throw new Error(errorResponse.message);
+            console.log(errorResponse);
         }
     } catch (err) {
         console.log(err);
@@ -150,7 +150,7 @@ export const fetchCreate = async (sendPackage) => {
             // return router.push({ name: "login" });
         } else {
             const errorResponse = await response.json();
-            throw new Error(errorResponse.message);
+           console.log(errorResponse);
         }
     } catch (err) {
         console.log(err);
@@ -187,7 +187,7 @@ export const fetchUpdate = async (sendPackage, route) => {
             return router.push({name: "login"});
         } else {
             const errorResponse = await response.json();
-            throw new Error(errorResponse.message);
+           console.log(errorResponse);
         }
     } catch (err) {
         console.log(err);

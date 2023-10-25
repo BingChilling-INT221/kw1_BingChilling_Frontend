@@ -29,7 +29,7 @@ export const fetchUpdateUser = async (sendPackage, route) => {
             return router.push({name: "login"});
         } else {
             const errorResponse = await response.json();
-            throw new Error(errorResponse.message);
+            console.log(errorResponse);
         }
     } catch (err) {
         throw err;
@@ -64,7 +64,7 @@ export const fetchCreateUser = async (sendPackage) => {
 
         } else {
             const errorResponse = await response.json();
-            throw new Error(errorResponse.message);
+            console.log(errorResponse);
         }
     } catch (err) {
         throw err;
@@ -173,7 +173,7 @@ export const fetchCreateUserAnnouncer = async (sendPackage) => {
             return response;
         } else {
             const errorResponse = await response.json();
-            throw new Error(errorResponse.message);
+          console.log(errorResponse);
         }
     } catch (err) {
         console.log(err);

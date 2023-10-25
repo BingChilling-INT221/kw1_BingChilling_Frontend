@@ -91,7 +91,7 @@ const sendSubmit = async (event) => {
                 <div class="flex flex-col items-center space-y-5">
                   <div class="flex w-3/4 ann-message">
                     <div
-                        v-if="status == 200"
+                        v-if="status === 200"
 
                     >
                       <div class="fixed top-0 left-0 w-full alert alert-success">
@@ -108,7 +108,7 @@ const sendSubmit = async (event) => {
                       <!--                      <p class="text-2xl">Login Successful</p>-->
                     </div>
                     <div
-                        v-if="status == 401"
+                        v-if="status === 401"
 
                     >
                       <div class="fixed top-0 left-0 w-full alert alert-error">
@@ -125,7 +125,7 @@ const sendSubmit = async (event) => {
                       <!--                      <p class="text-2xl"></p>-->
                     </div>
                     <div
-                        v-if="status == 404"
+                        v-if="status === 404"
 
                     >
                       <div class="fixed top-0 left-0 w-full alert alert-error">
