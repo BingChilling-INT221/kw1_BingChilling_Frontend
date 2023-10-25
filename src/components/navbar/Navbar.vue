@@ -6,7 +6,8 @@ import {useRoute} from "vue-router";
 import router from "@/router";
 import Search_light from "../icons/Search_light.vue";
 import {useUsersStore} from "@/stores/user";
-const userStore=useUsersStore()
+
+const userStore = useUsersStore()
 const route = useRoute();
 const users = ref([]);
 const isSearch = ref(false);

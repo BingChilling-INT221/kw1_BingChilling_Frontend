@@ -299,7 +299,6 @@ const sendSubmit = async (event) => {
   } else {
     try {
       console.log(JSON.stringify(sendPackage));
-      // sendPackage.ownerName = localStorage.getItem("username");
       const response = await fetchCreate(sendPackage);
       if (response.status === 200) {
         alert("Create announcement success");

@@ -33,7 +33,7 @@ export const fetchMatch = async (sendData) => {
 };
 export const fetchCreateToken = async (sendData) => {
     const usersStore = useUsersStore();
-    const response=await fetch(`${import.meta.env.VITE_BASE_URL}token`, {
+    const response = await fetch(`${import.meta.env.VITE_BASE_URL}token`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

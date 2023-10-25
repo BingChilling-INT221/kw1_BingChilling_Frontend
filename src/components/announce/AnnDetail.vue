@@ -1,8 +1,8 @@
 <script setup>
-import { computed, onMounted, ref } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { useAnnouncerStore } from "@/stores/announcer";
-import { fetchCountParam } from "@/services/annApi.js";
+import {computed, onMounted, ref} from "vue";
+import {useRoute, useRouter} from "vue-router";
+import {useAnnouncerStore} from "@/stores/announcer";
+import {fetchCountParam} from "@/services/annApi.js";
 import Eye from "@/components/icons/Eye.vue";
 
 const queryAnnounce = ref({});
@@ -54,13 +54,13 @@ const changeTime = (time) => {
     year: "numeric",
   };
   return `${
-    newDate.toLocaleDateString("en-GB", options).replace(/,/gi, "") +
-    ", " +
-    newDate.toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-    })
+      newDate.toLocaleDateString("en-GB", options).replace(/,/gi, "") +
+      ", " +
+      newDate.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      })
   }`;
 };
 </script>
@@ -73,14 +73,14 @@ const changeTime = (time) => {
       </button>
     </div>
     <div
-      v-if="loading"
-      class="flex justify-center min-w-full min-h-full text-center bg-slate-400"
+        v-if="loading"
+        class="flex justify-center min-w-full min-h-full text-center bg-slate-400"
     >
       <div class="absolute mt-2 mr-2">
         <svg
-          class="w-20 h-20 bg-transparent border-2 border-transparent border-opacity-50 rounded-full animate-spin"
-          style="border-right-color: white; border-top-color: white"
-          viewBox="0 0 24 24"
+            class="w-20 h-20 bg-transparent border-2 border-transparent border-opacity-50 rounded-full animate-spin"
+            style="border-right-color: white; border-top-color: white"
+            viewBox="0 0 24 24"
         ></svg>
       </div>
     </div>
@@ -94,12 +94,12 @@ const changeTime = (time) => {
 
           <div v-show="isAdminPath" class="flex justify-end">
             <div
-              :class="
+                :class="
                 queryAnnounce.announcementDisplay === 'Y'
                   ? 'bg-green-500'
                   : 'bg-red-500'
               "
-              class="flex justify-center w-24 h-10 p-2 py-3 bg-green-500 rounded-lg ann-display sm:w-28 sm:h-12"
+                class="flex justify-center w-24 h-10 p-2 py-3 bg-green-500 rounded-lg ann-display sm:w-28 sm:h-12"
             >
               {{ queryAnnounce.announcementDisplay }}
             </div>
@@ -123,23 +123,23 @@ const changeTime = (time) => {
 
         <div class="py-5 ann-category">
           <a class="bg-[#628FB8] px-5 text-sm rounded-lg py-1" href="#">{{
-            queryAnnounce.announcementCategory
-          }}</a>
+              queryAnnounce.announcementCategory
+            }}</a>
         </div>
         <div class="pt-5 font-bold border-2 rounded-lg">
           <!-- <h1 class="pl-5">Description:</h1> -->
           <div class="h-auto">
             <p
-              class="p-5 pl-5 ann-description ql-editor"
-              v-html="queryAnnounce.announcementDescription"
+                class="p-5 pl-5 ann-description ql-editor"
+                v-html="queryAnnounce.announcementDescription"
             ></p>
           </div>
         </div>
         <div class="flex justify-end">
           <button
-            v-show="isAdminPath"
-            class="px-2 py-1 mt-2 ml-6 border-2 rounded-lg ann-button hover:bg-gray-300"
-            @click="
+              v-show="isAdminPath"
+              class="px-2 py-1 mt-2 ml-6 border-2 rounded-lg ann-button hover:bg-gray-300"
+              @click="
               $router.push({
                 name: 'editannouncement',
                 params: { id: queryAnnounce.id },

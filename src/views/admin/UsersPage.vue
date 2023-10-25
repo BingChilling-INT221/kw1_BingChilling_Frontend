@@ -1,10 +1,10 @@
 <script setup>
-import { onMounted, ref } from "vue";
+import {onMounted, ref} from "vue";
 import format_page from "@/components/format_page.vue";
 import dateTimeBox from "../../components/announce/DateTimeBox.vue";
 import timeZoneBox from "../../components/announce/TimeZoneBox.vue";
 import userBox from "../../components/user/UserBox.vue";
-import { fetchUser } from "@/services/userApi";
+import {fetchUser} from "@/services/userApi";
 
 const users = ref([]);
 
@@ -53,23 +53,23 @@ const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
           <div class="overflow-x-auto w-72 sm:w-[720px] xl:w-full">
             <table class="mb-0 text-left w-72 xl:w-full">
               <thead class="text-xs">
-                <tr>
-                  <th class="px-6 py-3 text-lg" scope="col">No.</th>
-                  <th class="px-6 py-3 text-lg" scope="col">Username</th>
-                  <th class="px-6 py-3 text-lg" scope="col">Name</th>
-                  <th class="px-6 py-3 text-lg" scope="col">Email</th>
-                  <th class="px-6 py-3 text-lg" scope="col">Role</th>
-                  <th class="px-6 py-3 text-lg" scope="col">CreatedOn</th>
-                  <th class="px-6 py-3 text-lg" scope="col">UpdatedOn</th>
-                  <th class="px-6 py-3 text-lg text-center" scope="col">
-                    Action
-                  </th>
-                </tr>
+              <tr>
+                <th class="px-6 py-3 text-lg" scope="col">No.</th>
+                <th class="px-6 py-3 text-lg" scope="col">Username</th>
+                <th class="px-6 py-3 text-lg" scope="col">Name</th>
+                <th class="px-6 py-3 text-lg" scope="col">Email</th>
+                <th class="px-6 py-3 text-lg" scope="col">Role</th>
+                <th class="px-6 py-3 text-lg" scope="col">CreatedOn</th>
+                <th class="px-6 py-3 text-lg" scope="col">UpdatedOn</th>
+                <th class="px-6 py-3 text-lg text-center" scope="col">
+                  Action
+                </th>
+              </tr>
               </thead>
               <tbody>
-                <tr v-for="(user, index) in users" class="ann-item">
-                  <userBox :ann-item="user" :index="index"></userBox>
-                </tr>
+              <tr v-for="(user, index) in users" class="ann-item">
+                <userBox :ann-item="user" :index="index"></userBox>
+              </tr>
               </tbody>
             </table>
           </div>

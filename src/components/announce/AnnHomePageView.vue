@@ -112,7 +112,7 @@ onMounted(() => {
 </script>
 
 <template>
-  {{userStore}}
+  {{ userStore }}
   <div class="min-w-full min-h-full">
     <div v-if="!isAdminPath" class="mx-6">
       <div class="flex items-center justify-center my-2 md:justify-end xl:hidden">
@@ -184,10 +184,10 @@ onMounted(() => {
       </div>
     </div>
 
-    <div class="h-full min-w-full pt-2 " v-else>
+    <div v-else class="h-full min-w-full pt-2 ">
       <div class="pt-2 text-4xl text-center ann-title">
-          <p>Announcements</p>
-        </div>
+        <p>Announcements</p>
+      </div>
       <div class="flex justify-between">
         <div class="flex">
           <dateTimeBox :time="datetime" class="text-sm"></dateTimeBox>
@@ -202,9 +202,9 @@ onMounted(() => {
         </div>
       </div>
       <p v-if="announces.length <= 0" class="flex justify-center text-5xl text-center text-gray-400">
-                  No Announcement
+        No Announcement
       </p>
-      <div class="overflow-x-auto w-72 sm:w-[720px] xl:w-full" v-else>
+      <div v-else class="overflow-x-auto w-72 sm:w-[720px] xl:w-full">
         <table class=" text-left mb-0 w-72 xl:w-full">
           <thead class="text-xs">
           <tr>
