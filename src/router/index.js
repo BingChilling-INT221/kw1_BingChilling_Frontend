@@ -199,16 +199,9 @@ router.beforeEach(async (to, from, next) => {
     } else if (requiredRole.includes(role)) {
         // If the user's role matches the required role, allow access to the route.
         next();
-    } else if (to.path.includes('admin')) {
-        // If the user is trying to access an admin route, check their token.
-        if (token) {
-            next();
-        } else {
-            next('/403');
-        }
-    } else {
+    }  else {
         // If none of the conditions match, allow access to the route.
-        next();
+        next('/login');
     }
 });
 export default router

@@ -112,7 +112,6 @@ onMounted(() => {
 </script>
 
 <template>
-  {{ userStore }}
   <div class="min-w-full min-h-full">
     <div v-if="!isAdminPath" class="mx-6">
       <div class="flex items-center justify-center my-2 md:justify-end xl:hidden">
