@@ -181,27 +181,37 @@ router.beforeEach(async (to, from, next) => {
     const token = usersStore.token;
     const role = usersStore.role;
 
+    
     // If the user's token is empty and there are tokens in localStorage, recall the user's data.
     if (!token && (localStorage.getItem('token') || localStorage.getItem('refreshToken'))) {
         await usersStore.recall();
+
+    
     }
 
     // If the user is trying to visit the login page and they are already authenticated, redirect them.
     if (to.path === '/login') {
         if (token) {
             next('/admin/announcement');
+            console.log('1');
+            console.log(role);
         } else {
             next();
+            console.log('2');
         }
     } else if (requiredRole === undefined) {
         // If no specific role is required, allow access to the route.
         next();
+        console.log('3');
     } else if (requiredRole.includes(role)) {
         // If the user's role matches the required role, allow access to the route.
         next();
+        console.log('4');
     }  else {
         // If none of the conditions match, allow access to the route.
         next('/login');
+        console.log('5');
+        console.log(role);
     }
 });
 export default router

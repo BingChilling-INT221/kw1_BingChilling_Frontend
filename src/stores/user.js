@@ -17,6 +17,7 @@ export const useUsersStore = defineStore('users', () => {
 
     function setToken(setToken) {
         token.value = setToken
+        localStorage.setItem('token', setToken);
     }
 
     function setRefreshToken(setRefreshToken) {
@@ -33,9 +34,13 @@ export const useUsersStore = defineStore('users', () => {
     }
 
     function recall() {
-        token.value = localStorage.getItem('token')
-        refreshToken.value = localStorage.getItem('refreshToken')
+        // token.value = localStorage.getItem('token')
+        // refreshToken.value = localStorage.getItem('refreshToken')
+        const storedToken = localStorage.getItem('token');
+        const storedRefreshToken = localStorage.getItem('refreshToken');
         if (token.value === null) {
+            token.value = storedToken;
+            refreshToken.value = storedRefreshToken;
             // const data = JWTDecode(token.value)
             // username.value = data.username
             // role.value = data.role
