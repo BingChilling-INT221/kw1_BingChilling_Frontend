@@ -1,9 +1,9 @@
 <script setup>
-import {computed, onMounted, ref, watch} from "vue";
-import {useRoute, useRouter} from "vue-router";
-import {fetchCateForMod} from "@/services/catApi.js";
-import {fetchCreate, fetchUpdate} from "@/services/annApi.js";
-import {QuillEditor} from "@vueup/vue-quill";
+import { computed, onMounted, ref, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { fetchCateForMod } from "@/services/catApi.js";
+import { fetchCreate, fetchUpdate } from "@/services/annApi.js";
+import { QuillEditor } from "@vueup/vue-quill";
 
 const route = useRoute();
 const limit = 10000;
@@ -16,17 +16,17 @@ const props = defineProps({
 
 const updateCheck = ref(false);
 watch(
-    () => props.updatePackage,
-    (newv) => {
-      // console.log(JSON.stringify(newv).length);
-      if (JSON.stringify(newv).length > 0) {
-        updateCheck.value = true;
-        updateInit();
-      } else {
-        console.log("no update");
-        updateCheck.value = false;
-      }
+  () => props.updatePackage,
+  (newv) => {
+    // console.log(JSON.stringify(newv).length);
+    if (JSON.stringify(newv).length > 0) {
+      updateCheck.value = true;
+      updateInit();
+    } else {
+      console.log("no update");
+      updateCheck.value = false;
     }
+  }
 );
 
 const category = ref([]);
@@ -57,33 +57,33 @@ const compObj = computed(() => {
 
 let change = ref(false);
 watch(
-    () => compObj,
-    () => {
-      if (!updateCheck.value) return;
-      change.value = false;
-      for (const property in compObj.value) {
-        if (compObj.value[property] === undefined) continue;
-        if (property === "categoryId") {
-          if (
-              category.value[compObj.value[property] - 1]?.categoryName !==
-              props.updatePackage.categoryId
-          ) {
-            // console.log(
-            //     category.value[compObj.value[property]]?.categoryName,
-            //     props.updatePackage[property]
-            // );
-            change.value = true;
-            break;
-          }
-          continue;
-        }
-        if (compObj.value[property] !== props.updatePackage[property]) {
+  () => compObj,
+  () => {
+    if (!updateCheck.value) return;
+    change.value = false;
+    for (const property in compObj.value) {
+      if (compObj.value[property] === undefined) continue;
+      if (property === "categoryId") {
+        if (
+          category.value[compObj.value[property] - 1]?.categoryName !==
+          props.updatePackage.categoryId
+        ) {
+          // console.log(
+          //     category.value[compObj.value[property]]?.categoryName,
+          //     props.updatePackage[property]
+          // );
           change.value = true;
           break;
         }
+        continue;
       }
-    },
-    {deep: true}
+      if (compObj.value[property] !== props.updatePackage[property]) {
+        change.value = true;
+        break;
+      }
+    }
+  },
+  { deep: true }
 );
 
 onMounted(async () => {
@@ -106,7 +106,7 @@ onMounted(async () => {
 
 const updateInit = () => {
   const indexcategories = category.value.findIndex(
-      (c) => c.categoryName === props.updatePackage.categoryId
+    (c) => c.categoryName === props.updatePackage.categoryId
   );
   announcementTitle.value = props.updatePackage.announcementTitle;
   categoryId.value = category.value[indexcategories]?.categoryId;
@@ -138,11 +138,11 @@ const checkDisableTime = (date) => {
 };
 
 const comeTime = ref(
-    new Date().toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-    })
+  new Date().toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  })
 );
 const comeDate = ref(new Date().toLocaleDateString("en-Us"));
 const sixhour = new Date("August 19, 1975 00:00:00");
@@ -200,8 +200,8 @@ const checkPublishTime = () => {
     return false;
   }
   if (
-      compareDates(publishDate.value, comeDate.value) === 0 &&
-      compareTimes(publishTime.value, comeTime.value) < 0
+    compareDates(publishDate.value, comeDate.value) === 0 &&
+    compareTimes(publishTime.value, comeTime.value) < 0
   ) {
     alert("Please enter a correct publish time.");
     return false;
@@ -225,9 +225,9 @@ const checkCloseDate = () => {
 };
 const checkCloseTime = () => {
   if (
-      (closeTime.value === null || closeTime.value === "") &&
-      closeDate.value !== null &&
-      closeDate.value !== ""
+    (closeTime.value === null || closeTime.value === "") &&
+    closeDate.value !== null &&
+    closeDate.value !== ""
   ) {
     closeTime.value = eighteenth.toLocaleTimeString([], {
       hour: "2-digit",
@@ -238,8 +238,8 @@ const checkCloseTime = () => {
   if (closeTime.value === null || closeTime.value === "") return true;
   if (closeTime.value.length > 5) return false;
   if (
-      compareDates(closeDate.value, publishDate.value) === 0 &&
-      compareTimes(closeTime.value, publishTime.value) <= 0
+    compareDates(closeDate.value, publishDate.value) === 0 &&
+    compareTimes(closeTime.value, publishTime.value) <= 0
   ) {
     alert("Please enter correct time format close");
     return false;
@@ -249,12 +249,12 @@ const checkCloseTime = () => {
 const errm = ref();
 const sendSubmit = async (event) => {
   if (
-      !(
-          checkPublishDate() &&
-          checkPublishTime() &&
-          checkCloseDate() &&
-          checkCloseTime()
-      )
+    !(
+      checkPublishDate() &&
+      checkPublishTime() &&
+      checkCloseDate() &&
+      checkCloseTime()
+    )
   ) {
     event.preventDefault();
     return;
@@ -285,7 +285,7 @@ const sendSubmit = async (event) => {
       const response = await fetchUpdate(sendPackage, route);
       if (response.status === 200) {
         alert("update announcement success");
-        await router.push({name: `adminhomepage`});
+        await router.push({ name: `adminhomepage` });
       } else {
         console.log(response);
         alert("update announcement fail");
@@ -302,7 +302,7 @@ const sendSubmit = async (event) => {
       const response = await fetchCreate(sendPackage);
       if (response.status === 200) {
         alert("Create announcement success");
-        await router.push({name: `adminhomepage`});
+        await router.push({ name: `adminhomepage` });
       } else {
         alert("Create announcement fail");
         errm.value = await response.json();
@@ -339,6 +339,17 @@ watch(announcementDescription, (newValue, oldValue) => {
   }
 });
 
+const fileInput = ref(null);
+
+// const handleFileChange = () => {
+//   if (fileInput.value.files.length > 0) {
+//     selectedFileName.value = fileInput.value.files[0].name;
+//   } else {
+//     selectedFileName.value = null;
+//   }
+// };
+
+
 
 </script>
 <template>
@@ -352,33 +363,21 @@ watch(announcementDescription, (newValue, oldValue) => {
           {{ updateCheck ? "Edit" : "Create" }} Announcement
         </p>
       </div>
-      <div
-          class="px-5 pt-10 pb-2 m-auto mt-5 border-2 rounded-lg bg-whiteCustom md:px-20 dark:bg-blackCustom"
-      >
+      <div class="px-5 pt-10 pb-2 m-auto mt-5 border-2 rounded-lg bg-whiteCustom md:px-20 dark:bg-blackCustom">
         <form action="" class="w-full" @submit="sendSubmit">
           <div class="flex flex-col md:flex-row">
             <p class="w-full py-2 text-2xl font-bold md:w-1/4">Title</p>
-            <input
-                v-model="announcementTitle"
-                class="w-full ml-2 rounded-md md:w-3/4 md:ml-2 ann-title bg-whitesecondCustom dark:bg-darksecondCustom"
-                maxlength="200"
-                required
-                type="text"
-            />
+            <input v-model="announcementTitle"
+              class="w-full ml-2 rounded-md md:w-3/4 md:ml-2 ann-title bg-whitesecondCustom dark:bg-darksecondCustom"
+              maxlength="200" required type="text" />
           </div>
           <p class="flex justify-end">Remaining: {{ countTitleCharac }}</p>
           <div class="flex flex-col mt-2 md:flex-row">
             <p class="w-full py-2 text-2xl font-bold md:w-1/4">Category</p>
-            <select
-                v-model="categoryId"
-                class="w-full ml-2 shadow-md bg-whitesecondCustom dark:bg-darksecondCustom md:w-3/4 md:ml-2 shadow-slate-300 ann-category"
-                required
-            >
-              <option
-                  v-for="data in category"
-                  :key="data.id"
-                  :value="data.categoryId"
-              >
+            <select v-model="categoryId"
+              class="w-full ml-2 shadow-md bg-whitesecondCustom dark:bg-darksecondCustom md:w-3/4 md:ml-2 shadow-slate-300 ann-category"
+              required>
+              <option v-for="data in category" :key="data.id" :value="data.categoryId">
                 {{ data.categoryName }}
               </option>
             </select>
@@ -386,76 +385,57 @@ watch(announcementDescription, (newValue, oldValue) => {
           <div class="flex flex-col mt-6 md:flex-row">
             <p class="w-full py-2 text-2xl font-bold md:w-1/4">Publish Date</p>
             <div class="flex w-full space-x-4 md:w-3/4">
-              <input
-                  v-model="publishDate"
-                  :placeholder="'  ' + comeDate + ''"
-                  class="w-1/2 py-1 ml-2 border-2 rounded-md bg-whitesecondCustom dark:bg-darksecondCustom md:w-1/4 ann-publish-date"
-                  type="date"
-              />
-              <input
-                  v-model="publishTime"
-                  :class="checkDisableTime(publishDate) ? 'opacity-50' : ''"
-                  :disabled="checkDisableTime(publishDate)"
-                  :placeholder="'  ' + comeTime + ''"
-                  class="w-1/2 py-1 ml-2 border-2 rounded-md bg-whitesecondCustom dark:bg-darksecondCustom md:w-1/4 ann-publish-time"
-                  type="time"
-              />
+              <input v-model="publishDate" :placeholder="'  ' + comeDate + ''"
+                class="w-1/2 py-1 ml-2 border-2 rounded-md bg-whitesecondCustom dark:bg-darksecondCustom md:w-1/4 ann-publish-date"
+                type="date" />
+              <input v-model="publishTime" :class="checkDisableTime(publishDate) ? 'opacity-50' : ''"
+                :disabled="checkDisableTime(publishDate)" :placeholder="'  ' + comeTime + ''"
+                class="w-1/2 py-1 ml-2 border-2 rounded-md bg-whitesecondCustom dark:bg-darksecondCustom md:w-1/4 ann-publish-time"
+                type="time" />
             </div>
           </div>
           <div class="flex flex-col mt-6 md:flex-row">
             <p class="w-full py-2 text-2xl font-bold md:w-1/4">Close Date</p>
             <div class="flex w-full space-x-4 md:w-3/4">
-              <input
-                  v-model="closeDate"
-                  :placeholder="'  ' + comeDate + ''"
-                  class="w-1/2 py-1 ml-2 border-2 rounded-md bg-whitesecondCustom dark:bg-darksecondCustom md:w-1/4 ann-close-date"
-                  type="date"
-              />
-              <input
-                  v-model="closeTime"
-                  :class="checkDisableTime(closeDate) ? 'opacity-50' : ''"
-                  :disabled="checkDisableTime(closeDate)"
-                  :placeholder="'  ' + comeTime + ''"
-                  class="w-1/2 py-1 ml-2 border-2 rounded-md bg-whitesecondCustom dark:bg-darksecondCustom md:w-1/4 ann-close-time"
-                  type="time"
-              />
+              <input v-model="closeDate" :placeholder="'  ' + comeDate + ''"
+                class="w-1/2 py-1 ml-2 border-2 rounded-md bg-whitesecondCustom dark:bg-darksecondCustom md:w-1/4 ann-close-date"
+                type="date" />
+              <input v-model="closeTime" :class="checkDisableTime(closeDate) ? 'opacity-50' : ''"
+                :disabled="checkDisableTime(closeDate)" :placeholder="'  ' + comeTime + ''"
+                class="w-1/2 py-1 ml-2 border-2 rounded-md bg-whitesecondCustom dark:bg-darksecondCustom md:w-1/4 ann-close-time"
+                type="time" />
             </div>
           </div>
           <div class="flex flex-col py-2 mt-5 md:flex-row">
             <p class="w-full text-2xl font-bold md:w-1/4">Display</p>
             <div class="flex w-full space-x-4 md:w-3/4">
-              <input
-                  v-model="announcementDisplay"
-                  class="w-[2%] md:w-[10%] ann-display"
-                  type="checkbox"
-              />
+              <input v-model="announcementDisplay" class="w-[2%] md:w-[10%] ann-display" type="checkbox" />
               <label class="m-auto ml-2">Check to show this announcement</label>
             </div>
           </div>
           <p class="py-2 mt-5 text-2xl font-bold">Description</p>
-          <QuillEditor
-              ref="myEditor"
-              v-model:content="announcementDescription"
-              class="w-full border-2 rounded-md ann-description"
-              contentType="html"
-              maxlength="10000"
-              theme="snow"
-              toolbar="full"
-          />
+          <QuillEditor ref="myEditor" v-model:content="announcementDescription"
+            class="w-full border-2 rounded-md ann-description" contentType="html" maxlength="10000" theme="snow"
+            toolbar="full" />
 
           <p class="flex justify-end">Remaining: {{ countDesCharac }}</p>
+
+          <div class="flex flex-col py-2 mt-5 md:flex-row">
+            <p class="w-full text-2xl font-bold md:w-1/4">Attachment</p>
+            <div class="flex w-full space-x-4 md:w-3/4">
+              <input ref="fileInput" type="file" @change="handleFileChange"
+                class="w-full border-2 rounded-md ann-attachment" />
+              <p v-if="selectedFileName" class="m-auto ml-2">{{ selectedFileName }}</p>
+            </div>
+          </div>
+
           <div class="flex justify-end py-5 space-x-2">
-            <button
-                :class="change || !updateCheck ? 'bg-blue-500' : 'opacity-40 '"
-                :disabled="!change && updateCheck"
-                class="px-4 py-1 rounded-md ann-button submit"
-            >
+            <button :class="change || !updateCheck ? 'bg-blue-500' : 'opacity-40 '" :disabled="!change && updateCheck"
+              class="px-4 py-1 rounded-md ann-button submit">
               {{ updateCheck ? "edit" : "submit" }}
             </button>
-            <button
-                class="px-4 py-1 rounded-md bg-whitesecondCustom dark:bg-darksecondCustom ann-button"
-                @click="$router.push({ name: `${role}homepage` })"
-            >
+            <button class="px-4 py-1 rounded-md bg-whitesecondCustom dark:bg-darksecondCustom ann-button"
+              @click="$router.push({ name: `${role}homepage` })">
               Cancel
             </button>
           </div>

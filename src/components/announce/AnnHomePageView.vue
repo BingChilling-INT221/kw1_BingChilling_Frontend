@@ -206,7 +206,7 @@ onMounted(() => {
                           </label>
                         </div>
                         <label for="email" class="block mb-2">Email:</label>
-                        <input v-model="email" type="email" class="w-full p-2 border rounded text-black"
+                        <input  type="email" class="w-full p-2 border rounded text-black"
                           placeholder="Enter your email" required />
                         <div class="modal-action">
                           <button type="submit" class="btn">Subscribe</button>
