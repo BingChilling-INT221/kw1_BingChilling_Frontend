@@ -1,27 +1,16 @@
 <script setup>
-import {computed} from "vue";
-import {useRoute, useRouter} from "vue-router";
-import {fetchDelete} from "@/services/annApi.js";
-import Eye from "../icons/Eye.vue"
-import {useAnnouncerStore} from "@/stores/announcer";
+import { computed } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { fetchDelete } from "@/services/annApi.js";
+import Eye from "../icons/Eye.vue";
+import { useAnnouncerStore } from "@/stores/announcer";
 
 const route = useRoute();
 const router = useRouter();
-
 const store = useAnnouncerStore();
 
 const isAdminPath = computed(() => {
-  if (route.path.includes('viewer')) {
-    // console.log("viwer", route.path)
-    return false
-  }
-  console.log(route.path)
-  if (route.path.includes('admin')) {
-    // console.log("admin", route.path)
-    return true
-  }
-
-  return false
+  return !route.path.includes('viewer') && route.path.includes('admin');
 });
 
 const props = defineProps({
@@ -31,14 +20,13 @@ const props = defineProps({
   },
   index: {
     type: Number,
-    required: true
-  }
-})
-
+    required: true,
+  },
+});
 
 const changeTime = (time) => {
-  if (time === null) {
-    return "-"
+  if (!time) {
+    return "-";
   }
   const newDate = new Date(time);
   const options = {
@@ -46,80 +34,60 @@ const changeTime = (time) => {
     month: "short",
     year: "numeric",
   };
-  return `${newDate.toLocaleDateString("en-GB", options).replace(/,/gi, '') +
-  ", " +
-  newDate.toLocaleTimeString([], {hour: "2-digit", minute: "2-digit", hour12: false})
-
-  }`;
+  return `${newDate.toLocaleDateString("en-GB", options).replace(/,/gi, '')}, ${newDate.toLocaleTimeString([], {hour: "2-digit", minute: "2-digit", hour12: false})}`;
 };
+
 const printError = (err) => {
   let message = "";
   for (const i in err.detail) {
     message += `${JSON.stringify(err.detail[i])}\n`;
   }
-  // alert(message);
-}
+  alert(message);
+};
+
 const deleteAnnouncement = async (id) => {
-  if (
-      confirm("Are you sure you want to delete this announcement?") === false
-  ) {
+  if (!confirm("Are you sure you want to delete this announcement?")) {
     return;
   }
   try {
-    const response = await fetchDelete(id)
+    const response = await fetchDelete(id);
     if (response.status === 200) {
-      alert("Announcement deleted")
-      window.location.reload()
+      alert("Announcement deleted");
+      window.location.reload();
     } else if (response.status === 404 || response.status === 400) {
       const errorResponse = await response.json();
-      alert(errorResponse.message)
-      window.location.reload()
+      alert(errorResponse.message);
+      window.location.reload();
     } else {
       const errorResponse = await response.json();
-      printError(errorResponse)
+      printError(errorResponse);
     }
   } catch (err) {
-    console.log(err)
+    console.log(err);
   }
-}
-
+};
 
 const padStart = (number, length) => {
-  let str = '' + number;
-  while (str.length < length) {
-    str = '0' + str;
-  }
-  return str;
-}
+  return String(number).padStart(length, '0');
+};
 
 const isClosed = computed(() => {
   return store.mode === "close";
 });
+
 const role = computed(() => {
-  // console.log(route.path)
-  if (route.path.includes("viewer")) {
-    return "viewer"
-  }
-
-  if (route.path.includes("admin")) {
-    return "admin"
-  }
-  return "user"
+  return route.path.includes("viewer") ? "viewer" : route.path.includes("admin") ? "admin" : "user";
 });
-const seeDetail = (env) => {
-  env.preventDefault()
-  // console.log(role.value, "role")
-  // console.log(route.path, "route.path")
-  // console.log(`${role.value}announcementdetail`)
-  router.push({name: `${role.value}announcementdetail`, params: {id: `${props.annData.id}`}})
 
-}
+const seeDetail = (env) => {
+  env.preventDefault();
+  router.push({ name: `${role.value}announcementdetail`, params: { id: props.annData.id } });
+};
 </script>
 
 <template>
-  <div v-if="!isAdminPath" class="xl:w-full">
-    <div :class="isAdminPath ? 'cursor-default' : 'cursor-pointer'"
-         class="xl:w-full w-72 max-h-full border-[1px] rounded-xl border-blackCustom dark:border-whiteCustom m-auto "
+  <div v-show="!isAdminPath" class="xl:w-full">
+    <div :class="[isAdminPath ? 'cursor-default' : 'cursor-pointer', 'xl:w-full', 'w-72', 'max-h-full', 'border-[1px]', 'rounded-xl', 'border-blackCustom', 'dark:border-whiteCustom', 'm-auto']"
          @click="seeDetail">
       <div class="ml-2 pt-[0.5rem]">
         <div class="flex flex-row">
@@ -129,44 +97,40 @@ const seeDetail = (env) => {
               <Eye/>
               {{ annData.viewCount }}
             </div>
-
           </div>
-          <div v-if="isAdminPath" class=""> owner:{{ annData.announcementOwner }}</div>
+          <div v-show="isAdminPath" class=""> owner:{{ annData.announcementOwner }}</div>
           <div class="xl:flex xl:justify-end xl:w-full xl:pr-5">
-            <div
-                class="rounded-lg border border-white w-20 h-full text-[0.7rem] xl:text-lg xl:h-9 xl:w-28 xl:pt-[0.15rem] ">
-              <p class="">{{ annData.announcementCategory }}</p>
+            <div class="rounded-lg border border-white w-20 h-full text-[0.7rem] xl:text-lg xl:h-9 xl:w-28 xl:pt-[0.15rem] "
+                 :class="[{'bg-green-500': annData.announcementDisplay === 'Y'}, {'bg-red-500': annData.announcementDisplay !== 'Y'}]">
+              <p class="text-black">{{ annData.announcementCategory }}</p>
             </div>
           </div>
-
         </div>
         <div class="flex gap-x-[4.2rem] pt-[0.5rem]">
           <div :class="{ 'pb-5': !isAdminPath }" class="flex text-left w-44 xl:text-lg xl:w-full">
             <p>{{ annData.announcementTitle }}</p>
           </div>
-          <div v-if="isAdminPath" class="xl:w-full">
+          <div v-show="isAdminPath" class="xl:w-full">
             <div class="xl:flex xl:justify-end xl:w-full xl:pr-5">
-              <div :class="annData.announcementDisplay === 'Y' ? 'bg-green-500' : 'bg-red-500'"
+              <div :class="[{'bg-green-500': annData.announcementDisplay === 'Y'}, {'bg-red-500': annData.announcementDisplay !== 'Y'}]"
                    class="w-6 rounded-xl xl:w-14 xl:text-xl">
                 <p class="text-black">{{ annData.announcementDisplay }}</p>
               </div>
             </div>
-
           </div>
         </div>
         <div class="flex flex-col pt-[0.2rem]">
           <div class="flex">
-            <div v-if="isAdminPath" class="text-left">
+            <div v-show="isAdminPath" class="text-left">
               <p class="text-xs text-gray-400 xl:text-xl ann-publish-date">
                 Publishdate: {{
                   changeTime(annData.publishDate) !== null ? changeTime(annData.publishDate) : '-'
                 }}
               </p>
-
             </div>
           </div>
           <div class="flex flex-row justify-between">
-            <div v-if="isClosed || isAdminPath">
+            <div v-show="isClosed || isAdminPath">
               <p class="pb-1 text-xs text-gray-400 xl:text-xl ann-close-date">
                 Close Date: {{ changeTime(annData.closeDate) !== null ? changeTime(annData.closeDate) : '-' }}
               </p>
@@ -180,38 +144,36 @@ const seeDetail = (env) => {
                       @click="deleteAnnouncement(annData.id)">delete
               </button>
             </div>
-
           </div>
         </div>
       </div>
     </div>
-    <!-- <div v-if="isAdminPath"> -->
   </div>
-  <th v-if="isAdminPath" class="px-6 py-4 whitespace-nowrap" scope="row">
+  <th v-show="isAdminPath" :key="index" class="px-6 py-4 whitespace-nowrap" scope="row">
     {{ index + 1 }}
   </th>
-  <td v-if="isAdminPath" class="px-6 py-4 ann-username">
+  <td v-show="isAdminPath" :key="index" class="px-6 py-4 ann-username">
     {{ annData.announcementTitle }}
   </td>
-  <td v-if="isAdminPath" class="px-6 py-4 ann-name">
+  <td v-show="isAdminPath" :key="index" class="px-6 py-4 ann-name">
     {{ annData.announcementCategory }}
   </td>
-  <td v-if="isAdminPath" class="px-6 py-4 ann-email">
+  <td v-show="isAdminPath" :key="index" class="px-6 py-4 ann-email">
     {{ changeTime(annData.publishDate) !== null ? changeTime(annData.publishDate) : '-' }}
   </td>
-  <td v-if="isAdminPath" class="px-6 py-4 ann-role">
+  <td v-show="isAdminPath" :key="index" class="px-6 py-4 ann-role">
     {{ changeTime(annData.closeDate) !== null ? changeTime(annData.closeDate) : '-' }}
   </td>
-  <td v-if="isAdminPath" class="px-6 py-4 text-center ann-created-on">
+  <td v-show="isAdminPath" :key="index" class="px-6 py-4 text-center ann-created-on">
     {{ annData.announcementDisplay }}
   </td>
-  <td v-if="isAdminPath" class="px-6 py-4 ann-updated-on">
+  <td v-show="isAdminPath" :key="index" class="px-6 py-4 ann-updated-on">
     {{ annData.announcementOwner }}
   </td>
-  <td v-if="isAdminPath" class="px-6 py-4 text-center ann-updated-on">
+  <td v-show="isAdminPath" :key="index" class="px-6 py-4 text-center ann-updated-on">
     {{ annData.viewCount }}
   </td>
-  <td v-if="isAdminPath" class="px-6 py-4 text-right">
+  <td v-show="isAdminPath" :key="index" class="px-6 py-4 text-right">
     <div class="inline-flex">
       <button class="px-4 py-2 rounded-l bg-gray-50 dark:bg-gray-700 ann-button" @click="seeDetail">
         view
@@ -222,7 +184,6 @@ const seeDetail = (env) => {
       </button>
     </div>
   </td>
-  <!-- </div> -->
 </template>
 
 <style scoped></style>
