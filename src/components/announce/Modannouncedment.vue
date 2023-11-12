@@ -40,6 +40,7 @@ const closeTime = ref("");
 const announcementDisplay = ref("");
 const router = useRouter();
 const cacheDescription = ref("");
+const files = ref([]);
 
 const compObj = computed(() => {
   return {
@@ -339,15 +340,33 @@ watch(announcementDescription, (newValue, oldValue) => {
   }
 });
 
-const fileInput = ref(null);
+const filePreviews = ref([]);
 
-// const handleFileChange = () => {
-//   if (fileInput.value.files.length > 0) {
-//     selectedFileName.value = fileInput.value.files[0].name;
-//   } else {
-//     selectedFileName.value = null;
-//   }
-// };
+const handleFileChange = (event) => {
+  const selectedFiles = event.target.files;
+  const maxFiles = 5;
+
+  if (selectedFiles.length > maxFiles) {
+    alert(`You can only upload up to ${maxFiles} files.`);
+    event.target.value = null;
+    return;
+  }
+
+  filePreviews.value = [];
+
+  for (let i = 0; i < selectedFiles.length; i++) {
+    const file = selectedFiles[i];
+
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      filePreviews.value.push(e.target.result);
+    };
+
+    reader.readAsDataURL(file);
+  }
+};
+
 
 
 
@@ -423,9 +442,9 @@ const fileInput = ref(null);
           <div class="flex flex-col py-2 mt-5 md:flex-row">
             <p class="w-full text-2xl font-bold md:w-1/4">Attachment</p>
             <div class="flex w-full space-x-4 md:w-3/4">
-              <input ref="fileInput" type="file" @change="handleFileChange"
-                class="w-full border-2 rounded-md ann-attachment" />
-              <p v-if="selectedFileName" class="m-auto ml-2">{{ selectedFileName }}</p>
+              <input type="file" @change="handleFileChange" multiple class="w-full border-2 rounded-md" />
+              <img v-for="(preview, index) in filePreviews" :key="index" :src="preview" alt="File Preview"
+                class="w-16 h-16 object-cover border-2 rounded-md" />
             </div>
           </div>
 
