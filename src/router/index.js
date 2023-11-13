@@ -95,6 +95,11 @@ const routes = [
     name: "userannouncementdetail",
     component: () => import("@/views/users/AnnDetailPage.vue"),
   },
+  {
+    path: "/verify",
+    name: "verify",
+    component: () => import("@/views/otpverified/otpverification.vue"),
+  },
   // {
   //     path: '/admin/user',
   //     name: 'adminuserpage',
