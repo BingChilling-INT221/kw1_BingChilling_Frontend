@@ -3,15 +3,17 @@ import { computed, onMounted, ref, watch } from "vue";
 import { useAnnouncerStore } from "@/stores/announcer";
 import { useUsersStore } from "@/stores/user";
 import { fetched_api } from "@/services/annApi.js";
-import { useRoute } from "vue-router";
+import { useRoute,useRouter } from "vue-router";
 import {fetchCate} from '@/services/catApi.js';
 import AnnBox2 from "./AnnBox.vue";
 import dateTimeBox from "./DateTimeBox.vue";
 import timeZoneBox from "./TimeZoneBox.vue";
 import Pagination from "./Pagination.vue";
 import CategoryBox from "./CategoryBox.vue";
+import { emailverification } from "@/services/verificationapi.js";
 
 const route = useRoute();
+const router = useRouter();
 const store = useAnnouncerStore();
 const userStore = useUsersStore();
 // เวลาและ Time zone
@@ -118,10 +120,31 @@ const changePage = (page) => {
   store.setPage(page);
   fetched();
 };
+
+const sendSubmit = async () => {
+  const sendData = {
+    subscribes: checkedCategories.value,
+  };
+  try {
+    const response = await emailverification(sendData,email.value);
+    if (response.status === 200) {
+      await router.push({ name: `verify` });
+    }
+    checkedCategories.value = [];
+    email.value = '';
+  } catch (error) {
+    console.error('Error submitting form:', error);
+  }
+};
+
+
+
 // pagination
 onMounted(() => {
   fetches();
 })
+
+const email = ref("");
 </script>
 
 <template>
@@ -193,11 +216,11 @@ onMounted(() => {
                 <div class="flex justify-end pt-2">
                   <!-- The button to open modal -->
                   <label for="my_modal_6" class="btn">Subscribe</label>
-                  <!-- Put this part before </body> tag -->
+                  <!-- The modal -->
                   <input type="checkbox" id="my_modal_6" class="modal-toggle" />
                   <div class="modal">
-                    <div class="modal-box bg-bgNav text-white">
-                      <form action="">
+                    <div class="modal-box bg-white text-black">
+                      <form action="" @submit.prevent="sendSubmit">
                         <div class="flex space-x-5 justify-center">
                           <label v-for="datas in category" :key="datas.id" class="flex items-center">
                             <input type="checkbox" :id="'category_' + datas.id" :value="datas.categoryId"
@@ -206,11 +229,11 @@ onMounted(() => {
                           </label>
                         </div>
                         <label for="email" class="block mb-2">Email:</label>
-                        <input  type="email" class="w-full p-2 border rounded text-black"
-                          placeholder="Enter your email" required />
+                        <input  type="email" class="w-full p-2 border rounded"
+                          placeholder="Enter your email" required v-model="email"/>
                         <div class="modal-action">
-                          <button type="submit" class="btn">Subscribe</button>
-                          <label for="my_modal_6" class="btn">Close</label>
+                          <button type="submit" class="btn submit text-white bg-bgNav">Subscribe</button>
+                          <label for="my_modal_6" class="btn bg-bgNav">Close</label>
                         </div>
                       </form>
                     </div>
