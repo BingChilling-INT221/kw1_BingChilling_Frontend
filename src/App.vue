@@ -1,27 +1,39 @@
 <script setup>
-import { RouterView } from "vue-router";
-import { useAnnouncerStore } from "@/stores/announcer.js";
+import {RouterView} from "vue-router";
+import {useAnnouncerStore} from "@/stores/announcer.js";
 
 const announcer = useAnnouncerStore();
 
-// Set the dark mode class on the root element based on the user's preference
-const prefersDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
-const theme = localStorage.theme || (prefersDarkMode ? "dark" : "light");
-document.documentElement.classList.add(theme);
-
-// Listen for changes to the user's preference and update the class accordingly
-window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", event => {
-  const newTheme = event.matches ? "dark" : "light";
-  document.documentElement.classList.remove(theme);
-  document.documentElement.classList.add(newTheme);
-  localStorage.theme = newTheme;
-  theme = newTheme;
-});
+/// ref form https://tailwindcss.com/docs/dark-mode
+// On page load or when changing themes, best to add inline in `head` to avoid FOUC
+if (
+    localStorage.theme === "dark" ||
+    (!("theme" in localStorage) &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+) {
+  document.documentElement.classList.add("dark");
+} else {
+  document.documentElement.classList.remove("dark");
+}
+// Whenever the user explicitly chooses light mode
+// localStorage.theme = 'light'
+// // Whenever the user explicitly chooses dark mode
+// localStorage.theme = 'dark'
+// // Whenever the user explicitly chooses to respect the OS preference
+// localStorage.removeItem('theme')
+///
 </script>
-
 <template>
-  <div class="absolute top-0 min-w-full min-h-screen text-sm text-white bg-bg">
-    <router-view />
+  <div
+      class="min-w-full min-h-screen top-0 absolute text-white text-sm bg-bg "
+  >
+    <!-- <div class="flex">
+      <Sidebar />
+      <div class="flex max-w-full basis-full">
+        <navbar class="fixed top-0 left-0 w-full max"></navbar> -->
+    <router-view/>
+    <!-- </div>
+    </div> -->
   </div>
 </template>
 
