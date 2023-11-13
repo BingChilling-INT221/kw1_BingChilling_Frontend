@@ -129,6 +129,7 @@ const sendSubmit = async () => {
     const response = await emailverification(sendData,email.value);
     if (response.status === 200) {
       await router.push({ name: `verify` });
+      console.log(response.tokenOtp);
     }
     checkedCategories.value = [];
     email.value = '';
