@@ -17,7 +17,7 @@ export const emailverification = async (sendData,email) => {
     }
 }
 
-export const otpverification = async (otp) => {
+export const otpverification = async (otp, clearInput) => {
 
     const token = localStorage.getItem("tokenOtp");
     const response = await fetch(`${import.meta.env.VITE_BASE_URL}announcements/confirm_otp`, {
@@ -31,7 +31,12 @@ export const otpverification = async (otp) => {
 
     if (response.status === 200) {
         return response;
-    } else {
+    } 
+    else if( response.status === 401){
+        alert('OTP is incorrect');
+        clearInput();
+      } 
+    else {
         const errorResponse = await response.json();
        console.log(errorResponse);
     }

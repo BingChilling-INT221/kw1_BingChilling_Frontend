@@ -1,15 +1,23 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { otpverification } from "@/services/verificationapi.js";
+import { useRoute, useRouter } from "vue-router";
 const otp = ref('')
+const router = useRouter();
 
+const clearOtpInput = () => {
+  otp.value = '';
+};
 
 const submitForm = async () => {
   try {
-    const response = await otpverification(otp.value);
+    const response = await otpverification(otp.value, clearOtpInput);
     if (response.status === 200) {
-      console.log('OTP verification successful');
-    } else {
+      alert('OTP verified successfully');
+      router.back()
+      localStorage.removeItem("tokenOtp")
+    }
+    else {
       const errorResponse = await response.json();
       console.log(errorResponse);
     }
