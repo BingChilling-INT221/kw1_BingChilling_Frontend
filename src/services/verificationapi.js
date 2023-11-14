@@ -1,3 +1,5 @@
+import Swal from 'sweetalert2';
+
 export const emailverification = async (sendData,email) => {
     const response = await fetch(`${import.meta.env.VITE_BASE_URL}announcements/notified_subscribe?email=${email}`, {
         method: "POST",
@@ -33,7 +35,12 @@ export const otpverification = async (otp, clearInput) => {
         return response;
     } 
     else if( response.status === 401){
-        alert('OTP is incorrect');
+        Swal.fire({
+            icon: 'error',
+            title: 'OTP is incorrect',
+            showConfirmButton: false,
+            timer: 1500
+          });
         clearInput();
       } 
     else {

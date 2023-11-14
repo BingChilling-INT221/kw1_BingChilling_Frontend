@@ -2,6 +2,7 @@
 import { onMounted, ref } from "vue";
 import { otpverification } from "@/services/verificationapi.js";
 import { useRoute, useRouter } from "vue-router";
+import Swal from 'sweetalert2';
 const otp = ref('')
 const router = useRouter();
 
@@ -13,7 +14,12 @@ const submitForm = async () => {
   try {
     const response = await otpverification(otp.value, clearOtpInput);
     if (response.status === 200) {
-      alert('OTP verified successfully');
+      Swal.fire({
+        icon: 'success',
+        title: 'OTP Verified Successfully',
+        showConfirmButton: false,
+        timer: 1500
+      });
       router.back()
       localStorage.removeItem("tokenOtp")
     }
