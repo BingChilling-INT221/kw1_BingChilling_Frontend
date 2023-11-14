@@ -37,13 +37,13 @@ export const useUsersStore = defineStore("users", () => {
 async function recall() {
     const storedToken = localStorage.getItem("token");
     const storedRefreshToken = localStorage.getItem("refreshToken");
-    console.log(storedToken, "storedToken");
+    // console.log(storedToken, "storedToken");
     if ( storedRefreshToken) {
-        console.log("storedRefreshToken");
+        // console.log("storedRefreshToken");
         refreshToken.value = storedRefreshToken;
-        console.log(refreshToken.value, "refreshToken.value");
+        // console.log(refreshToken.value, "refreshToken.value");
         if (storedToken) {
-            console.log("storedToken");
+            // console.log("storedToken");
             token.value = storedToken;
             const { username: storedUsername, role: storedRole } = jwtDecode(token.value);
             username.value = storedUsername;
