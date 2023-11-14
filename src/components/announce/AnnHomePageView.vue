@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref, watch } from "vue";
+import {computed, inject, onMounted, ref, watch, watchEffect} from "vue";
 import { useAnnouncerStore } from "@/stores/announcer";
 import { useUsersStore } from "@/stores/user";
 import { fetched_api } from "@/services/annApi.js";
@@ -23,6 +23,7 @@ const datetime = new Intl.DateTimeFormat("en-GB", {
 }).format();
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 // เวลาและ Time zone
+const loading = inject("loading");
 
 const announces = ref([]);
 const data = ref({});
@@ -32,8 +33,9 @@ const isOpen = computed(() => {
 });
 const fetchCat = ref(false);
 const fetchDate = ref(false);
-const loading = computed(() => {
-  return fetchCat.value && fetchDate.value;
+const fetchSub = ref(false);
+watchEffect(() => {
+  loading.value = fetchDate.value|| fetchCat.value ||fetchSub.value;
 });
 const notFound = ref(false);
 
@@ -62,8 +64,9 @@ watch(
 const checkedCategories = ref([]);
 onMounted(async () => {
   try {
-    // fetchCat.value = true;
+    fetchCat.value = true;
     category.value = await fetchCate();
+    fetchCat.value = false;
     store.category = '';
   } catch (err) {
     // alert(err.message);
@@ -102,6 +105,7 @@ const fetched = async () => {
     console.log(response.status, "status");
     fetchDate.value = true;
     data.value = await response.json();
+    fetchDate.value = false;
     // console.log(data.value, "data");
     announces.value = data.value.content;
     if (announces.value.length === 0) {
@@ -123,12 +127,15 @@ const changePage = (page) => {
 
 const sendSubmit = async (event) => {
   event.preventDefault();
+  fetchSub.value = true;
   const sendData = {
     subscribes: checkedCategories.value,
   };
   try {
     const response = await emailverification(sendData,email.value);
+
     if (response.status === 200) {
+      fetchSub.value = false;
       await router.push({ name: `verify` });
       console.log(response.tokenOtp);
     }
@@ -215,7 +222,7 @@ const email = ref("");
                   <CategoryBox />
                 </div>
 
-                <div class="flex justify-end pt-2">
+                <div class="flex justify-end pt-2 sub">
                   <!-- The button to open modal -->
                   <label for="my_modal_6" class="btn">Subscribe</label>
                   <!-- The modal -->
@@ -300,4 +307,9 @@ const email = ref("");
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.sub {
+  z-index: 20;
+}
+
+</style>
