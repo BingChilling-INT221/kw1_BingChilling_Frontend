@@ -1,6 +1,7 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
 import jwtDecode from "jwt-decode";
+import {reToken} from "@/services/authorizationApi";
 export const useUsersStore = defineStore("users", () => {
   const username = ref("");
   const role = ref("");
@@ -44,6 +45,10 @@ function recall() {
             username.value = storedUsername;
             role.value = storedRole;
         }
+    }
+    else if (storedRefreshToken) {
+        refreshToken.value = storedRefreshToken;
+        reToken();
     }
 }
 
