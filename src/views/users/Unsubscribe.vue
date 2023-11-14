@@ -1,11 +1,37 @@
 <script setup>
 import { useRoute } from "vue-router";
-import { ref } from "vue";
+import {onMounted, ref} from "vue";
+import {getSubscribes, unsubscribes} from "@/services/verificationapi";
+import * as events from "events";
 
 const route = useRoute();
 const unsubscribeList = ref([]);
 const unsubscribeAll = ref(true);
-const list = ["a", "b", "c"];
+const list = ref([]);
+const error = ref(null);
+onMounted(async () => {
+  const response = await getSubscribes(route.query.email);
+  response.forEach((item) => {
+    list.value.push(item.category);
+  });
+})
+const unsubscribe =async (event) => {
+  event.preventDefault();
+  console.log(unsubscribeList.value);
+  console.log(unsubscribeAll.value);
+  let response;
+  if (unsubscribeAll.value) {
+   response=await unsubscribes(route.query.email);
+  } else {
+    if (unsubscribeList.value.length === 0) {
+      error.value = "Please select at least one mailing list";
+      return;
+    }
+  response = await unsubscribes(route.query.email, unsubscribeList.value);
+  }
+  console.log(response);
+  error.value = response;
+}
 </script>
 
 <template>
@@ -57,7 +83,6 @@ const list = ["a", "b", "c"];
             >Unsubscribe from the current mailing list</label
           >
         </div>
-
         <div v-if="!unsubscribeAll">
           <div class="mb-4">
             <span class="text-gray-700"
@@ -66,25 +91,25 @@ const list = ["a", "b", "c"];
 
             <div
               v-for="item in list"
-              :key="item"
+              :key="item.categoryId"
               class="flex items-center mb-2"
             >
               <input
                 type="checkbox"
-                :id="`unsubscribe-${item}`"
-                :value="item"
+                :id="`unsubscribe-${item.categoryId}`"
+                :value="item.categoryId"
                 v-model="unsubscribeList"
                 class="mr-2"
               />
-              <label class="text-gray-700" :for="`unsubscribe-${item}`">{{
-                item
+              <label class="text-gray-700" :for="`unsubscribe-${item.categoryId}`">{{
+                item.categoryName
               }}</label>
             </div>
           </div>
         </div>
       </div>
-
-      <button class="px-4 py-2 font-semibold text-white bg-blue-500 rounded-lg">
+      {{ error}}
+      <button class="px-4 py-2 font-semibold text-white bg-blue-500 rounded-lg" @click="unsubscribe">
         Unsubscribe
       </button>
     </div>
