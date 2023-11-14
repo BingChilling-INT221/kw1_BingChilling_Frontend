@@ -121,7 +121,8 @@ const changePage = (page) => {
   fetched();
 };
 
-const sendSubmit = async () => {
+const sendSubmit = async (event) => {
+  event.preventDefault();
   const sendData = {
     subscribes: checkedCategories.value,
   };

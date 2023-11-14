@@ -10,7 +10,8 @@ const clearOtpInput = () => {
   otp.value = '';
 };
 
-const submitForm = async () => {
+const submitForm = async (event) => {
+  event.preventDefault();
   try {
     const response = await otpverification(otp.value, clearOtpInput);
     if (response.status === 200) {
