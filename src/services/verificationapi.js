@@ -1,7 +1,7 @@
 import Swal from 'sweetalert2';
 
 export const emailverification = async (sendData,email) => {
-    const response = await fetch(`${import.meta.env.VITE_BASE_URL}notified_subscribe?email=${email}`, {
+    const response = await fetch(`${import.meta.env.VITE_BASE_URL}subscribes/notified_subscribe?email=${email}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -22,7 +22,7 @@ export const emailverification = async (sendData,email) => {
 export const otpverification = async (otp, clearInput) => {
 
     const token = localStorage.getItem("tokenOtp");
-    const response = await fetch(`${import.meta.env.VITE_BASE_URL}confirm_otp`, {
+    const response = await fetch(`${import.meta.env.VITE_BASE_URL}subscribes/confirm_otp`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
