@@ -241,6 +241,10 @@ router.beforeEach(async (to, from, next) => {
   let token = usersStore.token;
 
   // If the user's token is empty and there are tokens in localStorage, recall the user's data.
+  if (!usersStore.refreshToken )
+  {
+    usersStore.refreshToken = localStorage.getItem("refreshToken");
+  }
   if (
     !token &&
     (localStorage.getItem("token") || localStorage.getItem("refreshToken"))
