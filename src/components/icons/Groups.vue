@@ -4,7 +4,7 @@
   <div>
     <div class="flex items-center justify-center w-8 h-8">
       <svg
-          class="stroke-blackCustom dark:stroke-whiteCustom"
+          class="stroke-whiteCustom"
           fill="none"
           height="24"
           viewBox="0 0 24 24"

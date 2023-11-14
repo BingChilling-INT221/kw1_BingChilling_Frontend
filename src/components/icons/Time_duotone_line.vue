@@ -3,7 +3,7 @@
 <template>
   <div>
     <svg
-        class="w-full stroke-blackCustom dark:stroke-whiteCustom w-5 h-5 md:w-10 md:h-10"
+        class="w-full stroke-whiteCustom w-5 h-5 md:w-10 md:h-10"
         fill="none"
         viewBox="0 0 20 22"
         xmlns="http://www.w3.org/2000/svg"

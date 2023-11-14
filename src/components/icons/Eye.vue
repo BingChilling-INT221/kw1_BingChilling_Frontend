@@ -3,7 +3,7 @@
 <template>
   <div>
     <svg
-        class="stroke-blackCustom dark:stroke-whiteCustom lg:w-5 lg:h-[1.75rem]"
+        class="stroke-whiteCustom lg:w-5 lg:h-[1.75rem]"
         fill="none"
         height="16"
         viewBox="0 0 24 24"
