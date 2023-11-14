@@ -149,8 +149,10 @@ const sendSubmit = async (event) => {
 
 
 // pagination
-onMounted(() => {
-  fetches();
+onMounted(async () => {
+  store.setPage(0);
+  store.setMode("active");
+  await fetched();
 })
 
 const email = ref("");
