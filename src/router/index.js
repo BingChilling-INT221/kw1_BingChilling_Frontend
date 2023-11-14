@@ -144,7 +144,7 @@ router.beforeEach(async (to, from, next) => {
     // If the user is trying to visit the login page and they are already authenticated, redirect them.
     if (to.path === "/login") {
         if (token) {
-            next("/admin");
+            next("/admin/announcement");
         } else {
             next();
         }
