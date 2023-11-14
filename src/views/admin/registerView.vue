@@ -27,7 +27,7 @@ const status = ref("");
 
 const usernameCheck = ref(false)
 
-watch(username.value, (newUsername, oldUsername) => {
+watch(() => username.value, (newUsername, oldUsername) => {
   if (newUsername !== oldUsername) {
     usernameCheck.value = true;
   }
