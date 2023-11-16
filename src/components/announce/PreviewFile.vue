@@ -12,26 +12,29 @@ import {computed, ref} from "vue";
 const props = defineProps({
   previewType: {
     type: String,
-    default: 'image',
+    required: true,
   },
   previewName: {
     type: String,
-    default: '',
+    required: true,
   },
   previewUrl: {
     type: String,
-    default: '',
   },
 })
 const previewType = ref(props.previewType)
 const previewUrl = computed(() => {
+  console.log('previewType : ', previewType.value)
+  console.log('previewType : ', previewType?.value)
+  console.log('previewName : ', props.previewName)
+  console.log('previewUrl : ', props.previewUrl)
   if (props.previewType === '' || props.previewType === null || props.previewType === undefined) {
     return placeHolderImage
   }
   if (previewType?.value?.startsWith('image')) {
     return props.previewUrl
   } else if (previewType?.value === 'video') {
-    return URL.createObjectURL(props.previewUrl)
+    return props.previewUrl
   } else if (previewType?.value === 'text/plain') {
     return textPreviewValue
   } else if (previewType?.value === 'application/pdf') {

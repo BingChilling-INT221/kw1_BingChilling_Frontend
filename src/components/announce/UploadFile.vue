@@ -2,6 +2,13 @@
 
 import {ref} from 'vue'
 import placeHolderImage from '@/assets/images/placeholder.png'
+import pdfPreviewValue from '@/assets/images/pdf-icon.png'
+import textPreviewValue from '@/assets/images/text-icon.png'
+import audioPreviewValue from '@/assets/images/music-icon.png'
+import apkPreviewValue from '@/assets/images/apk-icon.png'
+import zipPreviewValue from '@/assets/images/zip-icon.png'
+import sqlPreviewValue from '@/assets/images/sql-icon.png'
+import filePreviewValue from '@/assets/images/file-icon.png'
 import previewFileC from '@/components/announce/PreviewFile.vue'
 const fileInput = ref(null)
 const isUploading = ref(false)
@@ -21,14 +28,21 @@ const selectFiles = () => {
     fileInputRef.click();
   }
 };
-const uploadDefaultImage = (event, index, action) => {
+const uploadDefault = (event, index, action) => {
 
   console.log('uploadDefaultImage');
   console.log('k' + index);
   const files = event.target.files;
+  uploadFile(files,index,action)
 
+};
+const uploadFile =(files, index, action)=>{
   for (let i = 0; i < files.length; i++) {
+    console.log('files[i] : ', files[i]);
     try {
+      console.log('files[i].size : ', files[i].size);
+      console.log('maxFileSize : ', maxFileSize);
+      console.log('files[i].size > maxFileSize : ', files[i].size > maxFileSize);
       if (files[i].size > maxFileSize) {
         alert('File size is too large. Max file size is 10MB.');
         continue;
@@ -42,8 +56,7 @@ const uploadDefaultImage = (event, index, action) => {
       console.error('error : ', error);
     }
   }
-};
-
+}
 const previewFile = (file, index, action) => {
   console.log('index : ', index);
   const reader = new FileReader();
@@ -55,6 +68,7 @@ const previewFile = (file, index, action) => {
       previewName: file.name,
       isDragging: false,
     };
+    console.log('file.type : ', file.type);
     if (file.type.startsWith('image/')) {
       obj.previewUrl = reader.result;
     } else if (file.type === 'text/plain') {
@@ -75,7 +89,7 @@ const previewFile = (file, index, action) => {
     } else {
       obj.previewUrl = filePreviewValue;
     }
-
+    console.log('obj : ', obj);
     if (action === 'reset') {
       console.log('obj : ', obj);
       update(obj.previewType, obj.previewUrl, obj.previewName, obj.isDragging, index);
@@ -91,6 +105,8 @@ const previewFile = (file, index, action) => {
   reader.readAsDataURL(file);
 };
 const add = (previewType, previewUrl, previewName, isDragging) => {
+  console.log('add');
+  console.log('previewType : ', previewType);
   filesPreview.value.push({
     previewType: previewType,
     previewUrl: previewUrl,
@@ -139,7 +155,7 @@ const selectFile = (index) => {
     return;
   }
   const fileInput = fileInputRefs.value[index]; // Removed the type assertion
-  if (fileInput instanceof HTMLInputElement && fileInput !== null) {
+  if (fileInput instanceof HTMLInputElement) {
     fileInput.click();
   }
 };
@@ -153,14 +169,9 @@ const handleDrop = (event, index, action) => {
   } else {
 
   }
+  console.log('event.dataTransfer.files : ', event.dataTransfer.files);
   const files = event.dataTransfer.files;
-  for (let i = 0; i < files.length; i++) {
-    try {
-      previewFile(files[i], index + i, action);
-    } catch (error) {
-      console.error('error : ', error);
-    }
-  }
+  uploadFile(files,index,action)
 };
 
 </script>
@@ -176,10 +187,10 @@ const handleDrop = (event, index, action) => {
       <input
           ref="fileInputRefs"
           :accept="accept"
-          :disabled="filesPreview.length >= maxFile"
+          :disabled="filesPreview.length -1 >= maxFile"
           class="hidden"
           type="file"
-          @change="uploadDefaultImage($event, k, 'reset')"
+          @change="uploadDefault($event, k, 'reset')"
       />
       <div v-if="file" class="m-5">
         <div class="flex justify-end">
@@ -191,7 +202,8 @@ const handleDrop = (event, index, action) => {
             x
           </button>
         </div>
-        <preview-file-c :previewName="file.name" :previewType="file.type" :previewUrl="file.previewUrl" v-if="file"/>
+        {{file.previewType}}
+        <preview-file-c :previewName="file.previewName" :previewType="file.previewType" :previewUrl="file.previewUrl" v-if="file"/>
       </div>
     </div>
 
@@ -208,10 +220,10 @@ const handleDrop = (event, index, action) => {
         <input
             ref="fileInput"
             :accept="accept"
-            :disabled="filesPreview.length >= maxFile"
+            :disabled="filesPreview.length-1 >= maxFile"
             class="hidden"
             type="file"
-            @change="uploadDefaultImage($event, k, 'reset')"
+            @change="uploadDefault($event, k, 'reset')"
         />
         <svg
             aria-hidden="true"
@@ -228,9 +240,9 @@ const handleDrop = (event, index, action) => {
               stroke-width="2"
           />
         </svg>
-        <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+        <div class="mb-2 text-sm text-gray-500 dark:text-gray-400">
           <span class="font-semibold">Click to upload</span> or drag and drop
-        </p>
+        </div>
         <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF</p>
 
       </label></div>
@@ -241,7 +253,7 @@ const handleDrop = (event, index, action) => {
         class="hidden"
         multiple
         type="file"
-        @change="uploadDefaultImage($event, filesPreview.length, 'add')"
+        @change="uploadDefault($event, filesPreview.length, 'add')"
     /></div>
 
 </template>
