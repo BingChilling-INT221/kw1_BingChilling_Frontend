@@ -4,7 +4,7 @@ import {useRoute, useRouter} from "vue-router";
 import {fetchCateForMod} from "@/services/catApi.js";
 import {fetchCreate, fetchUpdate} from "@/services/annApi.js";
 import {QuillEditor} from "@vueup/vue-quill";
-import UploadFile from "@/components/announce/UploadFile2.vue";
+import UploadFile from "@/components/announce/UploadFile.vue";
 
 const route = useRoute();
 const limit = 10000;
