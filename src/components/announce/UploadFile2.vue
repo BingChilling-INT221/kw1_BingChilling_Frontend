@@ -32,15 +32,16 @@ const uploadDefaultImage = (event, index, action) => {
   console.log('uploadDefaultImage');
   console.log('k'+index);
   const files = event.target.files;
+  
   for (let i = 0; i < files.length; i++) {
     try {
       if (files[i].size > maxFileSize) {
         alert('File size is too large. Max file size is 10MB.');
         continue;
       }
-      if(filesPreview.value.length >= maxFile){
+      if (i >= maxFile) {
         alert('Max file is 5');
-        continue;
+        return
       }
       previewFile(files[i], index + i, action);
     } catch (error) {
