@@ -7,20 +7,17 @@ import apkPreviewValue from '@/assets/images/apk-icon.png'
 import zipPreviewValue from '@/assets/images/zip-icon.png'
 import sqlPreviewValue from '@/assets/images/sql-icon.png'
 import filePreviewValue from '@/assets/images/file-icon.png'
-import {ref} from 'vue'
+import {ref, watch} from 'vue'
 
 const fileInput = ref(null)
-const isDragging = ref(false)
 const isUploading = ref(false)
-const errorAlertVisible = ref(false)
-const errorMessage = ref('Something went wrong')
-const settingSavedSuccess = ref(false)
 const filesPreview = ref([])
 const files = ref([])
 const newFilesInput = ref(null)
 const fileInputRefs = ref(null)
 const accept = ref('')
-const uploadedFiles = ref([])
+const maxFile = 5;
+const maxFileSize = 10 * 1024 * 1024; // 10MB
 const selectFiles = () => {
   if (isUploading.value) {
     return;
@@ -31,17 +28,27 @@ const selectFiles = () => {
   }
 };
 const uploadDefaultImage = (event, index, action) => {
+
   console.log('uploadDefaultImage');
   console.log('k'+index);
   const files = event.target.files;
   for (let i = 0; i < files.length; i++) {
     try {
+      if (files[i].size > maxFileSize) {
+        alert('File size is too large. Max file size is 10MB.');
+        continue;
+      }
+      if(filesPreview.value.length >= maxFile){
+        alert('Max file is 5');
+        continue;
+      }
       previewFile(files[i], index + i, action);
     } catch (error) {
       console.error('error : ', error);
     }
   }
 };
+
 const previewFile = (file, index, action) => {
   console.log('index : ', index);
   const reader = new FileReader();
@@ -176,6 +183,7 @@ const handleDrop = (event, index, action) => {
               :accept="accept"
               class="hidden"
               type="file"
+              :disabled="filesPreview.length >= maxFile"
               @change="uploadDefaultImage($event, k, 'reset')"
           />
       <div v-if="file" class="m-5">
@@ -223,6 +231,7 @@ const handleDrop = (event, index, action) => {
             class="hidden"
             :accept="accept"
             @change="uploadDefaultImage($event, k, 'reset')"
+            :disabled="filesPreview.length >= maxFile"
         />
         <svg
             aria-hidden="true"
@@ -252,6 +261,7 @@ const handleDrop = (event, index, action) => {
         multiple
         type="file"
         @change="uploadDefaultImage($event, filesPreview.length, 'add')"
+        :disabled="filesPreview.length >= maxFile"
     /></div>
 
 </template>
