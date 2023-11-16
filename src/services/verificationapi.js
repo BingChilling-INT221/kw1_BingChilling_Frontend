@@ -15,7 +15,7 @@ export const emailverification = async (sendData) => {
         return response;
     } else {
         const errorResponse = await response.json();
-       console.log(errorResponse);
+        console.log(errorResponse);
     }
 }
 
@@ -33,19 +33,17 @@ export const otpverification = async (otp, clearInput) => {
 
     if (response.status === 200) {
         return response;
-    } 
-    else if( response.status === 401){
+    } else if (response.status === 401) {
         Swal.fire({
             icon: 'error',
             title: 'OTP is incorrect',
             showConfirmButton: false,
             timer: 1500
-          });
+        });
         clearInput();
-      } 
-    else {
+    } else {
         const errorResponse = await response.json();
-       console.log(errorResponse);
+        console.log(errorResponse);
     }
 }
 export const getSubscribes = async (email) => {
@@ -59,18 +57,18 @@ export const getSubscribes = async (email) => {
         return response.json();
     } else {
         const errorResponse = await response.json();
-       console.log(errorResponse);
+        console.log(errorResponse);
     }
 }
-export const unsubscribes = async (email,subscribes) => {
+export const unsubscribes = async (email, subscribes) => {
     if (subscribes) {
-        console.log(JSON.stringify({ email ,subscribes}))
+        console.log(JSON.stringify({email, subscribes}))
         const response = await fetch(`${import.meta.env.VITE_BASE_URL}subscribes/unsubscribe/id`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ email ,subscribes}),
+            body: JSON.stringify({email, subscribes}),
         });
         if (response.status === 200) {
             if (!response.bodyUsed) {
@@ -82,16 +80,15 @@ export const unsubscribes = async (email,subscribes) => {
             }
         } else {
             const errorResponse = await response.json();
-           console.log(errorResponse);
+            console.log(errorResponse);
         }
-    }
-    else {
+    } else {
         const response = await fetch(`${import.meta.env.VITE_BASE_URL}subscribes/unsubscribes`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ email }),
+            body: JSON.stringify({email}),
         });
         if (response.status === 200) {
             if (!response.bodyUsed) {
@@ -104,7 +101,7 @@ export const unsubscribes = async (email,subscribes) => {
             return response;
         } else {
             const errorResponse = await response.json();
-           console.log(errorResponse);
+            console.log(errorResponse);
         }
     }
 }

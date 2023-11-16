@@ -1,0 +1,68 @@
+<script setup>
+import placeHolderImage from '@/assets/images/placeholder.png'
+import pdfPreviewValue from '@/assets/images/pdf-icon.png'
+import textPreviewValue from '@/assets/images/text-icon.png'
+import audioPreviewValue from '@/assets/images/music-icon.png'
+import apkPreviewValue from '@/assets/images/apk-icon.png'
+import zipPreviewValue from '@/assets/images/zip-icon.png'
+import sqlPreviewValue from '@/assets/images/sql-icon.png'
+import filePreviewValue from '@/assets/images/file-icon.png'
+import {computed, ref} from "vue";
+
+const props = defineProps({
+  previewType: {
+    type: String,
+    default: 'image',
+  },
+  previewName: {
+    type: String,
+    default: '',
+  },
+  previewUrl: {
+    type: String,
+    default: '',
+  },
+})
+const previewType = ref(props.previewType)
+const previewUrl = computed(() => {
+  if (props.previewType === '' || props.previewType === null || props.previewType === undefined) {
+    return placeHolderImage
+  }
+  if (previewType?.value?.startsWith('image')) {
+    return props.previewUrl
+  } else if (previewType?.value === 'video') {
+    return URL.createObjectURL(props.previewUrl)
+  } else if (previewType?.value === 'text/plain') {
+    return textPreviewValue
+  } else if (previewType?.value === 'application/pdf') {
+    return pdfPreviewValue
+  } else if (previewType?.value === 'audio/') {
+    return audioPreviewValue
+  } else if (previewType?.value === 'application/vnd.android.package-archive') {
+    return apkPreviewValue
+  } else if (previewType?.value === 'application/zip') {
+    return zipPreviewValue
+  } else if (previewType?.value === 'application/sql') {
+    return sqlPreviewValue
+  } else {
+    return filePreviewValue
+  }
+})
+</script>
+<template>
+  <div class="w-full h-64">
+    <img
+        v-if="previewType !== 'video'"
+        :src="previewUrl"
+        alt=""
+        class="h-full w-full object-contain rounded-2xl"
+    />
+    <video v-else autoplay class="h-full w-full object-contain" loop>
+      <source :src="previewUrl" type="video/mp4"/>
+    </video>
+    <p class="flex items-center justify-center text-center w-full mt-5">
+      {{ previewName }}
+    </p>
+  </div>
+</template>
+<style></style>

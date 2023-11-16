@@ -1,8 +1,7 @@
 <script setup>
-import { useRoute } from "vue-router";
+import {useRoute} from "vue-router";
 import {onMounted, ref} from "vue";
 import {getSubscribes, unsubscribes} from "@/services/verificationapi";
-import * as events from "events";
 
 const route = useRoute();
 const unsubscribeList = ref([]);
@@ -15,19 +14,19 @@ onMounted(async () => {
     list.value.push(item.category);
   });
 })
-const unsubscribe =async (event) => {
+const unsubscribe = async (event) => {
   event.preventDefault();
   console.log(unsubscribeList.value);
   console.log(unsubscribeAll.value);
   let response;
   if (unsubscribeAll.value) {
-   response=await unsubscribes(route.query.email);
+    response = await unsubscribes(route.query.email);
   } else {
     if (unsubscribeList.value.length === 0) {
       error.value = "Please select at least one mailing list";
       return;
     }
-  response = await unsubscribes(route.query.email, unsubscribeList.value);
+    response = await unsubscribes(route.query.email, unsubscribeList.value);
   }
   console.log(response);
   error.value = response;
@@ -49,9 +48,9 @@ const unsubscribe =async (event) => {
       <div class="mb-4 text-xl text-gray-700">
         You will not receive any more email from
         <a
-          href="mailto:bingchillingsas@gmail.com"
-          class="text-blue-500 underline"
-          >bingchillingsas@gmail.com</a
+            class="text-blue-500 underline"
+            href="mailto:bingchillingsas@gmail.com"
+        >bingchillingsas@gmail.com</a
         >
       </div>
 
@@ -60,55 +59,55 @@ const unsubscribe =async (event) => {
 
         <div class="flex items-center mb-2">
           <input
-            type="radio"
-            id="unsubscribeAll"
-            :value="true"
-            v-model="unsubscribeAll"
-            class="mr-2"
+              id="unsubscribeAll"
+              v-model="unsubscribeAll"
+              :value="true"
+              class="mr-2"
+              type="radio"
           />
           <label class="text-gray-700" for="unsubscribeAll"
-            >Unsubscribe from all mailing lists</label
+          >Unsubscribe from all mailing lists</label
           >
         </div>
 
         <div class="flex items-center mb-2">
           <input
-            type="radio"
-            id="unsubscribeEach"
-            :value="false"
-            v-model="unsubscribeAll"
-            class="mr-2"
+              id="unsubscribeEach"
+              v-model="unsubscribeAll"
+              :value="false"
+              class="mr-2"
+              type="radio"
           />
           <label class="text-gray-700" for="unsubscribeEach"
-            >Unsubscribe from the current mailing list</label
+          >Unsubscribe from the current mailing list</label
           >
         </div>
         <div v-if="!unsubscribeAll">
           <div class="mb-4">
             <span class="text-gray-700"
-              >Select the mailing lists you want to unsubscribe from:</span
+            >Select the mailing lists you want to unsubscribe from:</span
             >
 
             <div
-              v-for="item in list"
-              :key="item.categoryId"
-              class="flex items-center mb-2"
+                v-for="item in list"
+                :key="item.categoryId"
+                class="flex items-center mb-2"
             >
               <input
-                type="checkbox"
-                :id="`unsubscribe-${item.categoryId}`"
-                :value="item.categoryId"
-                v-model="unsubscribeList"
-                class="mr-2"
+                  :id="`unsubscribe-${item.categoryId}`"
+                  v-model="unsubscribeList"
+                  :value="item.categoryId"
+                  class="mr-2"
+                  type="checkbox"
               />
-              <label class="text-gray-700" :for="`unsubscribe-${item.categoryId}`">{{
-                item.categoryName
-              }}</label>
+              <label :for="`unsubscribe-${item.categoryId}`" class="text-gray-700">{{
+                  item.categoryName
+                }}</label>
             </div>
           </div>
         </div>
       </div>
-      {{ error}}
+      {{ error }}
       <button class="px-4 py-2 font-semibold text-white bg-blue-500 rounded-lg" @click="unsubscribe">
         Unsubscribe
       </button>

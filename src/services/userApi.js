@@ -173,7 +173,7 @@ export const fetchCreateUserAnnouncer = async (sendPackage) => {
             return response;
         } else {
             const errorResponse = await response.json();
-          console.log(errorResponse);
+            console.log(errorResponse);
         }
     } catch (err) {
         console.log(err);

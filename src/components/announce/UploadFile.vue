@@ -1,14 +1,8 @@
 <script setup>
-import placeHolderImage from '@/assets/images/placeholder.png'
-import pdfPreviewValue from '@/assets/images/pdf-icon.png'
-import textPreviewValue from '@/assets/images/text-icon.png'
-import audioPreviewValue from '@/assets/images/music-icon.png'
-import apkPreviewValue from '@/assets/images/apk-icon.png'
-import zipPreviewValue from '@/assets/images/zip-icon.png'
-import sqlPreviewValue from '@/assets/images/sql-icon.png'
-import filePreviewValue from '@/assets/images/file-icon.png'
-import {ref, watch} from 'vue'
 
+import {ref} from 'vue'
+import placeHolderImage from '@/assets/images/placeholder.png'
+import previewFileC from '@/components/announce/PreviewFile.vue'
 const fileInput = ref(null)
 const isUploading = ref(false)
 const filesPreview = ref([])
@@ -30,9 +24,9 @@ const selectFiles = () => {
 const uploadDefaultImage = (event, index, action) => {
 
   console.log('uploadDefaultImage');
-  console.log('k'+index);
+  console.log('k' + index);
   const files = event.target.files;
-  
+
   for (let i = 0; i < files.length; i++) {
     try {
       if (files[i].size > maxFileSize) {
@@ -162,7 +156,7 @@ const handleDrop = (event, index, action) => {
   const files = event.dataTransfer.files;
   for (let i = 0; i < files.length; i++) {
     try {
-        previewFile(files[i], index + i, action);
+      previewFile(files[i], index + i, action);
     } catch (error) {
       console.error('error : ', error);
     }
@@ -174,65 +168,50 @@ const handleDrop = (event, index, action) => {
 <template>
   <div>
     <div v-for="(file, k) in filesPreview" :key="k" class="flex cursor-pointer"
-      @click="selectFile(k)"
-      @dragover.prevent="handleDragOver($event, k, 'reset')"
-      @dragleave.prevent="handleDragLeave($event, k, 'reset')"
-      @drop="handleDrop($event, k, 'reset')"
-  >
-          <input
-              ref="fileInputRefs"
-              :accept="accept"
-              class="hidden"
-              type="file"
-              :disabled="filesPreview.length >= maxFile"
-              @change="uploadDefaultImage($event, k, 'reset')"
-          />
+         @click="selectFile(k)"
+         @drop="handleDrop($event, k, 'reset')"
+         @dragover.prevent="handleDragOver($event, k, 'reset')"
+         @dragleave.prevent="handleDragLeave($event, k, 'reset')"
+    >
+      <input
+          ref="fileInputRefs"
+          :accept="accept"
+          :disabled="filesPreview.length >= maxFile"
+          class="hidden"
+          type="file"
+          @change="uploadDefaultImage($event, k, 'reset')"
+      />
       <div v-if="file" class="m-5">
         <div class="flex justify-end">
-        <button
-            class="remove-btn bg-[#ccc] h-7 rounded-full dark:bg-stone-500 dark:text-white px-2.5 "
-            type="button"
-            @click="removeImg(k)"
-        >
-          x
-        </button></div>
-        <div class="w-full h-64">
-
-          <img
-              v-if="file.previewType != 'video'"
-              :src="file.previewUrl"
-              alt=""
-              class="h-full w-full object-contain rounded-2xl"
-          />
-          <video v-else autoplay class="h-full w-full object-contain" loop>
-            <source :src="file.previewUrl" type="video/mp4"/>
-          </video>
+          <button
+              class="remove-btn bg-[#ccc] h-7 rounded-full dark:bg-stone-500 dark:text-white px-2.5 "
+              type="button"
+              @click="removeImg(k)"
+          >
+            x
+          </button>
         </div>
-        <p class="flex items-center justify-center text-center w-full mt-5">
-          {{ file ? file.previewName : '' }}
-        </p>
-
-
+        <preview-file-c :previewName="file.name" :previewType="file.type" :previewUrl="file.previewUrl" v-if="file"/>
       </div>
     </div>
 
 
     <div
         @click="selectFiles"
-        @dragover.prevent="handleDragOver($event, filesPreview.length, 'add')"
         @drop="handleDrop($event, filesPreview.length, 'add')"
+        @dragover.prevent="handleDragOver($event, filesPreview.length, 'add')"
     >
-        <label
-            class="flex flex-col items-center justify-center w-full h-56 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
-            for="dropzone-file"
-        >
+      <label
+          class="flex flex-col items-center justify-center w-full h-56 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+          for="dropzone-file"
+      >
         <input
             ref="fileInput"
-            type="file"
-            class="hidden"
             :accept="accept"
-            @change="uploadDefaultImage($event, k, 'reset')"
             :disabled="filesPreview.length >= maxFile"
+            class="hidden"
+            type="file"
+            @change="uploadDefaultImage($event, k, 'reset')"
         />
         <svg
             aria-hidden="true"
@@ -254,15 +233,15 @@ const handleDrop = (event, index, action) => {
         </p>
         <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF</p>
 
-    </label>   </div>
+      </label></div>
     <input
         ref="newFilesInput"
         :accept="accept"
+        :disabled="filesPreview.length >= maxFile"
         class="hidden"
         multiple
         type="file"
         @change="uploadDefaultImage($event, filesPreview.length, 'add')"
-        :disabled="filesPreview.length >= maxFile"
     /></div>
 
 </template>

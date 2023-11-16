@@ -74,7 +74,7 @@ const routes = [
                 name: "matchpassword",
                 component: () => import("@/views/admin/MatchPassword.vue"),
             },
-            ],
+        ],
     },
     {
         path: "/announcement",
@@ -132,8 +132,7 @@ router.beforeEach(async (to, from, next) => {
         !token
     ) {
         // console.log("2");
-        if ( await usersStore.recall())
-        {
+        if (await usersStore.recall()) {
             token = usersStore.token;
             // console.log(token, "token");
         }
@@ -158,8 +157,7 @@ router.beforeEach(async (to, from, next) => {
     } else if (token && !requiredRole.includes(usersStore.role)) {
         // If the user's role does not match the required role, redirect them to the 403 page.
         next("/403");
-    }
-    else {
+    } else {
         next("/login");
     }
 });

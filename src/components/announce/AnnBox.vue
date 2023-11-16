@@ -1,9 +1,9 @@
 <script setup>
-import { computed } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { fetchDelete } from "@/services/annApi.js";
+import {computed} from "vue";
+import {useRoute, useRouter} from "vue-router";
+import {fetchDelete} from "@/services/annApi.js";
 import Eye from "../icons/Eye.vue";
-import { useAnnouncerStore } from "@/stores/announcer";
+import {useAnnouncerStore} from "@/stores/announcer";
 
 const route = useRoute();
 const router = useRouter();
@@ -46,13 +46,13 @@ const changeTime = (time) => {
     year: "numeric",
   };
   return `${
-    newDate.toLocaleDateString("en-GB", options).replace(/,/gi, "") +
-    ", " +
-    newDate.toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-    })
+      newDate.toLocaleDateString("en-GB", options).replace(/,/gi, "") +
+      ", " +
+      newDate.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      })
   }`;
 };
 const printError = (err) => {
@@ -113,7 +113,7 @@ const seeDetail = (env) => {
   // console.log(`${role.value}announcementdetail`)
   router.push({
     name: `${role.value}announcementdetail`,
-    params: { id: `${props.annData.id}` },
+    params: {id: `${props.annData.id}`},
   });
 };
 </script>
@@ -121,19 +121,19 @@ const seeDetail = (env) => {
 <template>
   <div v-if="!isAdminPath" class="xl:w-full">
     <div
-      :class="isAdminPath ? 'cursor-default' : 'cursor-pointer'"
-      class="xl:w-full w-72 max-h-full border-[1px] rounded-xl border-blackCustom dark:border-whiteCustom m-auto"
-      @click="seeDetail"
+        :class="isAdminPath ? 'cursor-default' : 'cursor-pointer'"
+        class="xl:w-full w-72 max-h-full border-[1px] rounded-xl border-blackCustom dark:border-whiteCustom m-auto"
+        @click="seeDetail"
     >
       <div class="ml-2 pt-[0.5rem]">
         <div class="flex flex-row">
           <div class="flex w-48 text-xs gap-x-2 xl:text-lg">
             No. {{ padStart(index + 1, 2) }}
             <div
-              v-show="isAdminPath"
-              class="flex gap-x-[0.15rem] xl:gap-x-[0.5rem]"
+                v-show="isAdminPath"
+                class="flex gap-x-[0.15rem] xl:gap-x-[0.5rem]"
             >
-              <Eye />
+              <Eye/>
               {{ annData.viewCount }}
             </div>
           </div>
@@ -142,7 +142,7 @@ const seeDetail = (env) => {
           </div>
           <div class="xl:flex xl:justify-end xl:w-full xl:pr-5">
             <div
-              class="rounded-lg border-2 border-white w-20 h-full text-[0.7rem] xl:text-lg xl:h-9 xl:w-28 xl:pt-[0.15rem]"
+                class="rounded-lg border-2 border-white w-20 h-full text-[0.7rem] xl:text-lg xl:h-9 xl:w-28 xl:pt-[0.15rem]"
             >
               <p class="">{{ annData.announcementCategory }}</p>
             </div>
@@ -150,20 +150,20 @@ const seeDetail = (env) => {
         </div>
         <div class="flex gap-x-[4.2rem] pt-[0.5rem]">
           <div
-            :class="{ 'pb-5': !isAdminPath }"
-            class="flex text-left w-44 xl:text-lg xl:w-full"
+              :class="{ 'pb-5': !isAdminPath }"
+              class="flex text-left w-44 xl:text-lg xl:w-full"
           >
             <p>{{ annData.announcementTitle }}</p>
           </div>
           <div v-if="isAdminPath" class="xl:w-full">
             <div class="xl:flex xl:justify-end xl:w-full xl:pr-5">
               <div
-                :class="
+                  :class="
                   annData.announcementDisplay === 'Y'
                     ? 'bg-green-500'
                     : 'bg-red-500'
                 "
-                class="w-6 rounded-xl xl:w-14 xl:text-xl"
+                  class="w-6 rounded-xl xl:w-14 xl:text-xl"
               >
                 <p class="text-black">{{ annData.announcementDisplay }}</p>
               </div>
@@ -177,8 +177,8 @@ const seeDetail = (env) => {
                 Publishdate:
                 {{
                   changeTime(annData.publishDate) !== null
-                    ? changeTime(annData.publishDate)
-                    : "-"
+                      ? changeTime(annData.publishDate)
+                      : "-"
                 }}
               </p>
             </div>
@@ -189,21 +189,21 @@ const seeDetail = (env) => {
                 Close Date:
                 {{
                   changeTime(annData.closeDate) !== null
-                    ? changeTime(annData.closeDate)
-                    : "-"
+                      ? changeTime(annData.closeDate)
+                      : "-"
                 }}
               </p>
             </div>
             <div v-show="isAdminPath" class="flex">
               <button
-                class="ml-2 text-xs font-medium rounded-lg xl:text-xl hover:bg-green-500 ann-button"
-                @click="seeDetail"
+                  class="ml-2 text-xs font-medium rounded-lg xl:text-xl hover:bg-green-500 ann-button"
+                  @click="seeDetail"
               >
                 view
               </button>
               <button
-                class="pr-2 ml-2 text-xs font-medium rounded-lg xl:text-xl hover:bg-red-500 ann-button"
-                @click="deleteAnnouncement(annData.id)"
+                  class="pr-2 ml-2 text-xs font-medium rounded-lg xl:text-xl hover:bg-red-500 ann-button"
+                  @click="deleteAnnouncement(annData.id)"
               >
                 delete
               </button>
@@ -226,15 +226,15 @@ const seeDetail = (env) => {
   <td v-if="isAdminPath" class="px-6 py-4 ann-email">
     {{
       changeTime(annData.publishDate) !== null
-        ? changeTime(annData.publishDate)
-        : "-"
+          ? changeTime(annData.publishDate)
+          : "-"
     }}
   </td>
   <td v-if="isAdminPath" class="px-6 py-4 ann-role">
     {{
       changeTime(annData.closeDate) !== null
-        ? changeTime(annData.closeDate)
-        : "-"
+          ? changeTime(annData.closeDate)
+          : "-"
     }}
   </td>
   <td v-if="isAdminPath" class="px-6 py-4 text-center ann-created-on">
@@ -249,14 +249,14 @@ const seeDetail = (env) => {
   <td v-if="isAdminPath" class="px-6 py-4 text-right">
     <div class="inline-flex">
       <button
-        class="px-4 py-2 rounded-l bg-gray-50 dark:bg-gray-700 ann-button"
-        @click="seeDetail"
+          class="px-4 py-2 rounded-l bg-gray-50 dark:bg-gray-700 ann-button"
+          @click="seeDetail"
       >
         view
       </button>
       <button
-        class="px-4 py-2 rounded-r bg-gray-50 dark:bg-gray-700 ann-button"
-        @click="deleteAnnouncement(annData.id)"
+          class="px-4 py-2 rounded-r bg-gray-50 dark:bg-gray-700 ann-button"
+          @click="deleteAnnouncement(annData.id)"
       >
         delete
       </button>

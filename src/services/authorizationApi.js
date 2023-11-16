@@ -60,7 +60,7 @@ export const reToken = async () => {
     const token = usersStore.token;
     const refreshToken = usersStore.refreshToken;
     console.log(token, "token");
-    if (token !="") {
+    if (token != "") {
         console.log(jwtDecode(token).exp > Date.now() / 1000, "jwtDecode(token).exp > Date.now() / 1000");
         if (jwtDecode(token).exp > Date.now() / 1000) {
             return false;
