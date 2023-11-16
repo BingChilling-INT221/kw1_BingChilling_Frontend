@@ -1,7 +1,7 @@
 import Swal from 'sweetalert2';
 
-export const emailverification = async (sendData,email) => {
-    const response = await fetch(`${import.meta.env.VITE_BASE_URL}subscribes/notified_subscribe?email=${email}`, {
+export const emailverification = async (sendData) => {
+    const response = await fetch(`${import.meta.env.VITE_BASE_URL}subscribes/notified_subscribe`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

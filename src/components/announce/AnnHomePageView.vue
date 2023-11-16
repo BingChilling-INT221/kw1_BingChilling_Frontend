@@ -130,9 +130,10 @@ const sendSubmit = async (event) => {
   fetchSub.value = true;
   const sendData = {
     subscribes: checkedCategories.value,
+    email: email.value,
   };
   try {
-    const response = await emailverification(sendData,email.value);
+    const response = await emailverification(sendData);
 
     if (response.status === 200) {
       fetchSub.value = false;
