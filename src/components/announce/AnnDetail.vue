@@ -8,6 +8,7 @@ import {fetchCate} from '@/services/catApi.js';
 import {fetchPreview} from '@/services/annApi.js';
 import Eye from "@/components/icons/Eye.vue";
 import PreviewFile from "@/components/announce/PreviewFile.vue";
+import {useUsersStore} from "@/stores/user";
 
 const queryAnnounce = ref({});
 const route = useRoute();
@@ -16,6 +17,7 @@ const loading = ref(true);
 const store = useAnnouncerStore();
 const email = ref("");
 const category = ref([]);
+const userStore = useUsersStore();
 const isAdminPath = computed(() => {
   // console.log(route.path);
   if (route.path.includes("viewer")) {
@@ -118,6 +120,29 @@ const sendSubmit = async (event) => {
   }
 };
 
+
+watchEffect(() => {
+  if (userStore.token) {
+    if (route.path.includes('viewer')) {
+      email.value = '';
+    } else {
+      email.value = userStore.email;
+    }
+  } else {
+    email.value = "";
+  }
+});
+
+const isLogin = ref(!!userStore.token);
+
+
+onMounted(async () => {
+  userStore.recall();
+});
+
+watchEffect(() => {
+  isLogin.value = !!userStore.token;
+});
 
 </script>
 
