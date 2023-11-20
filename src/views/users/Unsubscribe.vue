@@ -1,7 +1,8 @@
 <script setup>
 import {useRoute} from "vue-router";
-import {onMounted, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import {getSubscribes, unsubscribes} from "@/services/verificationapi";
+import jwtDecode from "jwt-decode";
 
 const route = useRoute();
 const unsubscribeList = ref([]);
@@ -9,7 +10,7 @@ const unsubscribeAll = ref(true);
 const list = ref([]);
 const error = ref(null);
 onMounted(async () => {
-  const response = await getSubscribes(route.query.email);
+  const response = await getSubscribes(email.value);
   response.forEach((item) => {
     list.value.push(item.category);
   });
@@ -20,17 +21,22 @@ const unsubscribe = async (event) => {
   console.log(unsubscribeAll.value);
   let response;
   if (unsubscribeAll.value) {
-    response = await unsubscribes(route.query.email);
+    response = await unsubscribes(email.value);
   } else {
     if (unsubscribeList.value.length === 0) {
       error.value = "Please select at least one mailing list";
       return;
     }
-    response = await unsubscribes(route.query.email, unsubscribeList.value);
+    response = await unsubscribes(email.value, unsubscribeList.value);
   }
   console.log(response);
   error.value = response;
 }
+const email = computed(()=>{
+  if (!route.query.email) return;
+  const decode =jwtDecode(route.query.email);
+  return decode.email;
+})
 </script>
 
 <template>
@@ -42,7 +48,7 @@ const unsubscribe = async (event) => {
       <div class="mb-4 text-xl font-semibold">Unsubscribe</div>
 
       <div class="mb-4 text-xl text-gray-700">
-        Your email address: {{ route.query.email }}
+        Your email address: {{ email }}
       </div>
 
       <div class="mb-4 text-xl text-gray-700">
