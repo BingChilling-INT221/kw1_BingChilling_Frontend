@@ -5,7 +5,9 @@ import { useAnnouncerStore } from "@/stores/announcer";
 import { fetchCountParam } from "@/services/annApi.js";
 import {emailverification} from "@/services/verificationapi.js";
 import {fetchCate} from '@/services/catApi.js';
+import {fetchPreview} from '@/services/annApi.js';
 import Eye from "@/components/icons/Eye.vue";
+import PreviewFile from "@/components/announce/PreviewFile.vue";
 
 const queryAnnounce = ref({});
 const route = useRoute();
@@ -22,11 +24,13 @@ const isAdminPath = computed(() => {
   return route.path.includes("admin");
 });
 onMounted(async () => {
+  fetchPreviewF();
   if (route.path.includes("admin")) {
     store.setCount(true);
   }
   try {
     const auth = isAdminPath.value;
+
     const response = await fetchCountParam(route.params.id, store.count, auth);
     if (response.status === 200) {
       queryAnnounce.value = await response.json();
@@ -66,6 +70,12 @@ const changeTime = (time) => {
     })
     }`;
 };
+const preview = ref({});
+const fetchPreviewF =async ()=>{
+  const response = await fetchPreview(route.params.id);
+  preview.value = await response.json();
+}
+const fetchPreviewMode = ref(false);
 
 const fetchCat = ref(false);
 const fetchDate = ref(false);
@@ -222,6 +232,15 @@ const sendSubmit = async (event) => {
             </div>
           </div>
         </div>
+      </div>
+    </div>
+    <div>
+    <div>attachment</div>
+      <div v-for="file in preview">
+<!--        {{file.fileName}}-->
+<!--        {{file.fileType}}-->
+<!--        {{file.fileUrl}}-->
+        <preview-file :preview-name="file.fileName" :preview-type="file.fileType" :preview-url="file.fileUrl"></preview-file>
       </div>
     </div>
   </div>
