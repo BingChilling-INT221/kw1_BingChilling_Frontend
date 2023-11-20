@@ -1,5 +1,5 @@
 <script setup>
-import {computed, inject, onMounted, ref, watch, watchEffect} from "vue";
+import {computed, inject, onMounted, ref, watch, watchEffect, onBeforeMount} from "vue";
 import {useAnnouncerStore} from "@/stores/announcer";
 import {useUsersStore} from "@/stores/user";
 import {fetched_api} from "@/services/annApi.js";
@@ -125,6 +125,24 @@ const changePage = (page) => {
   fetched();
 };
 
+const email = ref("");
+watchEffect(() => {
+  if (userStore.token) {
+    email.value = userStore.email;
+  }
+});
+const isLogin = ref(!!userStore.token);
+
+
+onMounted(async () => {
+  checklogin();
+  userStore.recall();
+});
+watchEffect(() => {
+  isLogin.value = !!userStore.token;
+});
+
+
 const sendSubmit = async (event) => {
   event.preventDefault();
   fetchSub.value = true;
@@ -155,10 +173,12 @@ onMounted(async () => {
   await fetched();
 })
 
-const email = ref("");
+
+
 </script>
 
 <template>
+  {{ email }}
   <div class="min-w-full min-h-full">
     <div v-if="!isAdminPath" class="mx-6">
       <div class="flex items-center justify-center my-2 md:justify-end xl:hidden">
@@ -168,6 +188,9 @@ const email = ref("");
       <div class="flex flex-col gap-y-2">
         <div class="flex justify-around xl:hidden">
           <CategoryBox/>
+
+          
+
           <button v-if="!isAdminPath" :class="isOpen ? 'bg-green-400' : 'bg-red-400'"
                   class="px-4 py-2 text-xs rounded-md ann-button" @click="fetches()">
             {{ isOpen ? "Closed " : "Active " }}
@@ -182,6 +205,9 @@ const email = ref("");
               Add
             </button>
           </div>
+          
+          
+
         </div>
 
         <div class="pt-2 xl:flex xl:flex-row xl:gap-x-24 xl:w-full">
@@ -234,7 +260,7 @@ const email = ref("");
                       <form action="" @submit.prevent="sendSubmit">
                         <div class="flex space-x-5 justify-center">
                           <label v-for="datas in category" :key="datas.id" class="flex items-center">
-                            <input :id="'category_' + datas.id" v-model="checkedCategories" :value="datas.categoryId"
+                            <input :id="'category' + datas.id" v-model="checkedCategories" :value="datas.categoryId"
                                    class="mr-2" type="checkbox"/>
                             <span>{{ datas.categoryName }}</span>
                           </label>

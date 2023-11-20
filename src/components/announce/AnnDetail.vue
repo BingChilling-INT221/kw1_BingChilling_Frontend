@@ -1,8 +1,10 @@
 <script setup>
-import {computed, onMounted, ref} from "vue";
-import {useRoute, useRouter} from "vue-router";
-import {useAnnouncerStore} from "@/stores/announcer";
-import {fetchCountParam} from "@/services/annApi.js";
+import { computed, onMounted, ref, watchEffect } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { useAnnouncerStore } from "@/stores/announcer";
+import { fetchCountParam } from "@/services/annApi.js";
+import {emailverification} from "@/services/verificationapi.js";
+import {fetchCate} from '@/services/catApi.js';
 import Eye from "@/components/icons/Eye.vue";
 
 const queryAnnounce = ref({});
@@ -10,6 +12,8 @@ const route = useRoute();
 const router = useRouter();
 const loading = ref(true);
 const store = useAnnouncerStore();
+const email = ref("");
+const category = ref([]);
 const isAdminPath = computed(() => {
   // console.log(route.path);
   if (route.path.includes("viewer")) {
@@ -53,16 +57,58 @@ const changeTime = (time) => {
     month: "short",
     year: "numeric",
   };
-  return `${
-      newDate.toLocaleDateString("en-GB", options).replace(/,/gi, "") +
-      ", " +
-      newDate.toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false,
-      })
-  }`;
+  return `${newDate.toLocaleDateString("en-GB", options).replace(/,/gi, "") +
+    ", " +
+    newDate.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    })
+    }`;
 };
+
+const fetchCat = ref(false);
+const fetchDate = ref(false);
+const fetchSub = ref(false);
+watchEffect(() => {
+  loading.value = fetchDate.value || fetchCat.value || fetchSub.value;
+});
+
+const checkedCategories = ref([]);
+onMounted(async () => {
+  try {
+    fetchCat.value = true;
+    category.value = await fetchCate();
+    fetchCat.value = false;
+    store.category = '';
+  } catch (err) {
+    // alert(err.message);
+  }
+});
+
+const sendSubmit = async (event) => {
+  event.preventDefault();
+  fetchSub.value = true;
+  category.value = [queryAnnounce.announcementCategory];
+  const sendData = {
+    subscribes: category.value,
+    email: email.value,
+  };
+  try {
+    const response = await emailverification(sendData);
+
+    if (response.status === 200) {
+      fetchSub.value = false;
+      await router.push({name: `verify`});
+      console.log(response.tokenOtp);
+    }
+    email.value = '';
+  } catch (error) {
+    console.error('Error submitting form:', error);
+  }
+};
+
+
 </script>
 
 <template>
@@ -72,16 +118,10 @@ const changeTime = (time) => {
         <span>&lt;</span> Back
       </button>
     </div>
-    <div
-        v-if="loading"
-        class="flex justify-center min-w-full min-h-full text-center bg-slate-400"
-    >
+    <div v-if="loading" class="flex justify-center min-w-full min-h-full text-center bg-slate-400">
       <div class="absolute mt-2 mr-2">
-        <svg
-            class="w-20 h-20 bg-transparent border-2 border-transparent border-opacity-50 rounded-full animate-spin"
-            style="border-right-color: white; border-top-color: white"
-            viewBox="0 0 24 24"
-        ></svg>
+        <svg class="w-20 h-20 bg-transparent border-2 border-transparent border-opacity-50 rounded-full animate-spin"
+          style="border-right-color: white; border-top-color: white" viewBox="0 0 24 24"></svg>
       </div>
     </div>
     <div v-else class="mt-2">
@@ -93,14 +133,10 @@ const changeTime = (time) => {
           </p>
 
           <div v-show="isAdminPath" class="flex justify-end">
-            <div
-                :class="
-                queryAnnounce.announcementDisplay === 'Y'
-                  ? 'bg-green-500'
-                  : 'bg-red-500'
-              "
-                class="flex justify-center w-24 h-10 p-2 py-3 bg-green-500 rounded-lg ann-display sm:w-28 sm:h-12"
-            >
+            <div :class="queryAnnounce.announcementDisplay === 'Y'
+                ? 'bg-green-500'
+                : 'bg-red-500'
+              " class="flex justify-center w-24 h-10 p-2 py-3 bg-green-500 rounded-lg ann-display sm:w-28 sm:h-12">
               {{ queryAnnounce.announcementDisplay }}
             </div>
           </div>
@@ -121,33 +157,70 @@ const changeTime = (time) => {
           </div>
         </div>
 
-        <div class="py-5 ann-category">
-          <a class="bg-[#628FB8] px-5 text-sm rounded-lg py-1" href="#">{{
-              queryAnnounce.announcementCategory
-            }}</a>
+        <div class="py-5 ann-category flex justify-between">
+          <a class="bg-[#628FB8] px-5 text-sm rounded-lg py-1 my-auto" href="#">{{
+            queryAnnounce.announcementCategory
+          }}</a>
+
+          <div class="flex justify-end" v-show="isAdminPath">
+            <!-- The button to open modal -->
+            <label class="btn btn-sm" for="my_modal_admin">Subscribe</label>
+            <!-- The modal -->
+            <input id="my_modal_admin" class="modal-toggle" type="checkbox" />
+            <div class="modal">
+              <div class="modal-box bg-white text-black">
+                <form action="" @submit.prevent="sendSubmit">
+                  <label class="block mb-2" for="email">Email:</label>
+                  <input v-model="email" class="w-full p-2 border rounded" placeholder="Enter your email" required
+                    type="email" />
+                  <div class="modal-action">
+                    <button class="btn submit text-white bg-bgNav" type="submit">Subscribe</button>
+                    <label class="btn bg-bgNav" for="my_modal_admin">Close</label>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+
         </div>
-        <div class="pt-5 font-bold border-2 rounded-lg">
+        <div class=" font-bold border-2 rounded-lg">
           <!-- <h1 class="pl-5">Description:</h1> -->
           <div class="h-auto">
-            <p
-                class="p-5 pl-5 ann-description ql-editor"
-                v-html="queryAnnounce.announcementDescription"
-            ></p>
+            <p class="p-5 pl-5 ann-description ql-editor" v-html="queryAnnounce.announcementDescription"></p>
           </div>
         </div>
         <div class="flex justify-end">
-          <button
-              v-show="isAdminPath"
-              class="px-2 py-1 mt-2 ml-6 border-2 rounded-lg ann-button hover:bg-gray-300"
-              @click="
+          <button v-show="isAdminPath" class="px-2 py-1 mt-2 ml-6 border-2 rounded-lg ann-button hover:bg-gray-300"
+            @click="
               $router.push({
                 name: 'editannouncement',
                 params: { id: queryAnnounce.id },
               })
-            "
-          >
+              ">
             edit
           </button>
+        </div>
+        <div class="flex justify-end" v-show="!isAdminPath">
+          <div class="flex justify-end pt-2 sub">
+            <!-- The button to open modal -->
+            <label class="btn btn-sm" for="my_modal_nonadmin">Subscribe</label>
+            <!-- The modal -->
+            <input id="my_modal_nonadmin" class="modal-toggle" type="checkbox" />
+            <div class="modal">
+              <div class="modal-box bg-white text-black">
+                <form action="" @submit.prevent="sendSubmit">
+                  <label class="block mb-2" for="email">Email:</label>
+                  <input v-model="email" class="w-full p-2 border rounded" placeholder="Enter your email" required
+                    type="email" />
+                  <div class="modal-action">
+                    <button class="btn submit text-white bg-bgNav" type="submit">Subscribe</button>
+                    <label class="btn bg-bgNav" for="my_modal_nonadmin">Close</label>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

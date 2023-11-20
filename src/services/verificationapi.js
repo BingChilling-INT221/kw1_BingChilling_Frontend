@@ -1,4 +1,5 @@
 import Swal from 'sweetalert2';
+import router from "@/router";
 
 export const emailverification = async (sendData) => {
     const response = await fetch(`${import.meta.env.VITE_BASE_URL}subscribes/notified_subscribe`, {
@@ -41,7 +42,17 @@ export const otpverification = async (otp, clearInput) => {
             timer: 1500
         });
         clearInput();
-    } else {
+    }
+    else if(response.status === 400){
+        Swal.fire({
+            icon: 'error',
+            title: 'You have subscribed this category before',
+            showConfirmButton: false,
+            timer: 1500
+        });
+        router.back()
+      }
+    else {
         const errorResponse = await response.json();
         console.log(errorResponse);
     }

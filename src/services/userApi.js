@@ -179,3 +179,38 @@ export const fetchCreateUserAnnouncer = async (sendPackage) => {
         console.log(err);
     }
 }
+
+export const fetchUserDetail = async (userId) => {
+    const usersStore = useUsersStore();
+    const token = usersStore.token;
+    if (token === null) {
+        if (await reToken()) {
+            return await fetchUserDetail(userId);
+        }
+    }
+    try {
+        const response = await fetch(
+            `${import.meta.env.VITE_BASE_URL}users/${userId}`,
+            {
+                headers: {
+                    Authorization: `${token}`,
+                },
+            }
+        );
+
+        if (response.status === 200) {
+            return response;
+        } else if (response.status === 401) {
+            if (await reToken()) {
+                return await fetchUserDetail(userId);
+            }
+            return router.push({ name: "login" });
+        } 
+        else {
+            const errorResponse = await response.json();
+            throw new Error(errorResponse.message);
+        }
+    } catch (err) {
+        throw err;
+    }
+};

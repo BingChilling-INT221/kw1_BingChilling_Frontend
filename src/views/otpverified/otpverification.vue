@@ -12,6 +12,8 @@ const clearOtpInput = () => {
   otp.value = '';
 };
 
+
+
 const submitForm = async (event) => {
   event.preventDefault();
   loading.value = true;
@@ -19,7 +21,6 @@ const submitForm = async (event) => {
     const response = await otpverification(otp.value, clearOtpInput);
     loading.value = false;
     if (response.status === 200) {
-
       Swal.fire({
         icon: 'success',
         title: 'OTP Verified Successfully',
@@ -28,7 +29,9 @@ const submitForm = async (event) => {
       });
       router.back()
       localStorage.removeItem("tokenOtp")
-    } else {
+    } 
+    
+    else {
       const errorResponse = await response.json();
       console.log(errorResponse);
     }
