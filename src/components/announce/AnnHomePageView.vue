@@ -48,7 +48,6 @@ const isAdminPath = computed(() => {
     // console.log(route.path, "admin")
     return true
   }
-
   // console.log(route.path, "free")
   return false
 });
@@ -128,15 +127,23 @@ const changePage = (page) => {
 const email = ref("");
 watchEffect(() => {
   if (userStore.token) {
-    email.value = userStore.email;
+    if (route.path.includes('viewer')) {
+      email.value = '';
+    } else if(route.path.includes('admin')) {
+      email.value = userStore.email;
+    }
+  } else {
+    email.value = "";
   }
 });
+
 const isLogin = ref(!!userStore.token);
 
 
 onMounted(async () => {
   userStore.recall();
 });
+
 watchEffect(() => {
   isLogin.value = !!userStore.token;
 });
@@ -187,8 +194,7 @@ onMounted(async () => {
         <div class="flex justify-around xl:hidden">
           <CategoryBox/>
 
-          
-
+        
           <button v-if="!isAdminPath" :class="isOpen ? 'bg-green-400' : 'bg-red-400'"
                   class="px-4 py-2 text-xs rounded-md ann-button" @click="fetches()">
             {{ isOpen ? "Closed " : "Active " }}

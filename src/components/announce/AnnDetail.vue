@@ -8,6 +8,7 @@ import {fetchCate} from '@/services/catApi.js';
 import {fetchPreview} from '@/services/fileApi.js';
 import Eye from "@/components/icons/Eye.vue";
 import PreviewFile from "@/components/announce/PreviewFile.vue";
+import {useUsersStore} from "@/stores/user";
 
 const queryAnnounce = ref({});
 const route = useRoute();
@@ -16,6 +17,8 @@ const loading = ref(true);
 const store = useAnnouncerStore();
 const email = ref("");
 const category = ref([]);
+const categories = ref([]);
+const userStore = useUsersStore();
 const isAdminPath = computed(() => {
   // console.log(route.path);
   if (route.path.includes("viewer")) {
@@ -88,29 +91,33 @@ watchEffect(() => {
   loading.value = fetchDate.value || fetchCat.value || fetchSub.value;
 });
 
-const checkedCategories = ref([]);
+
 onMounted(async () => {
   try {
     fetchCat.value = true;
-    category.value = await fetchCate();
+    categories.value = await fetchCate();
     fetchCat.value = false;
     store.category = '';
   } catch (err) {
     // alert(err.message);
   }
+  
 });
 
 const sendSubmit = async (event) => {
   event.preventDefault();
+  // console.log(categories.value);
+  // console.log(queryAnnounce.announcementCategory);
+  const selectedCategory = categories.value.find(category => category.categoryName === queryAnnounce.value.announcementCategory);
+  console.log(selectedCategory);
   fetchSub.value = true;
-  category.value = [queryAnnounce.announcementCategory];
   const sendData = {
-    subscribes: category.value,
+    subscribes: [selectedCategory.categoryId],
     email: email.value,
   };
+  console.log(sendData);
   try {
     const response = await emailverification(sendData);
-
     if (response.status === 200) {
       fetchSub.value = false;
       await router.push({name: `verify`});
@@ -123,9 +130,36 @@ const sendSubmit = async (event) => {
 };
 
 
+watchEffect(() => {
+  if (userStore.token) {
+    if (route.path.includes('viewer')) {
+      email.value = '';
+    } else {
+      email.value = userStore.email;
+    }
+  } else {
+    email.value = "";
+  }
+});
+
+const isLogin = ref(!!userStore.token);
+
+
+onMounted(async () => {
+  userStore.recall();
+});
+
+watchEffect(() => {
+  isLogin.value = !!userStore.token;
+});
+
 </script>
 
 <template>
+  {{ category }}
+  {{ categories }}
+  {{ queryAnnounce.announcementCategory }}
+  
   <div class="mx-[10%] w-[80%] pt-10">
     <div class="">
       <button class="text-2xl font-bold ann-button" @click="$router.back()">
