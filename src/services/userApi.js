@@ -62,7 +62,9 @@ export const fetchCreateUser = async (sendPackage) => {
                 await router.push({name: "login"});
             }
 
-        } else {
+        } else if(response.status === 400){
+            return response;
+        }else {
             const errorResponse = await response.json();
             console.log(errorResponse);
         }

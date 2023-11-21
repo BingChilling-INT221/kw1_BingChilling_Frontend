@@ -155,6 +155,7 @@ const sendSubmit = async (event) => {
       }
     }
   }
+  console.log(errorMessages.value);
 };
 
 const compObj = computed(() => {
