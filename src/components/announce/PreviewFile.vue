@@ -25,8 +25,8 @@ watch(() => props.previewType, (value) => {
   previewType.value = value
 })
 const previewUrl = computed(() => {
-  console.log('previewType : ', previewType?.value)
-  console.log('previewName : ', props.previewName)
+  // console.log('previewType : ', previewType?.value)
+  // console.log('previewName : ', props.previewName)
   // console.log('previewUrl : ', props.previewUrl)
   if (props.previewType === '' || props.previewType === null || props.previewType === undefined) {
     return placeHolderImage

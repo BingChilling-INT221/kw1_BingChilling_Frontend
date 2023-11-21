@@ -73,6 +73,9 @@ const changeTime = (time) => {
 const preview = ref({});
 
 const fetchPreviewF =async ()=>{
+  if (route.params.id === undefined) {
+    return;
+  }
   const response = await fetchPreview(route.params.id);
   preview.value = await response.json();
 }

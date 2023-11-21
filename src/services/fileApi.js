@@ -1,18 +1,24 @@
-
-
 export const fetchPreview = async (id) => {
-    const response = await fetch(
-        `${import.meta.env.VITE_BASE_URL}files/${id}`
-    );
-    if (response.status === 200) {
+    try {
+        const response = await fetch(
+            `${import.meta.env.VITE_BASE_URL}files/${id}`
+        );
         console.log(response);
-        return response;
-    } else {
-        const errorResponse = await response.json();
-        console.log(errorResponse);
+        if (response.status === 200) {
+            return response;
+        } else if (response.status === 404) {
+            console.log('Not Found');
+            return null;
+        } else {
+            const errorResponse = await response.json();
+            console.log(errorResponse);
+        }
+    }
+    catch (error) {
+        console.log(error);
     }
 };
-export const uploadFiles = async (id, files) =>{
+export const uploadFiles = async (id, files) => {
     const formData = new FormData();
     for (let i = 0; i < files.length; i++) {
         formData.append('file', files[i]);
@@ -39,7 +45,7 @@ export const uploadFiles = async (id, files) =>{
     }
 }
 
-export const updateFiles= async  (id, files, oldFiles)=> {
+export const updateFiles = async (id, files, oldFiles) => {
     const formData = new FormData();
     for (let i = 0; i < files.length; i++) {
         formData.append('file', files[i]);

@@ -33,12 +33,14 @@ watch(() => props.preview, (value) => {
   console.log('value : ', value);
   filesPreview.value = JSON.parse(JSON.stringify(value));
 });
-watchEffect(() => {
-  console.log('filesPreview.value : ', filesPreview.value);
-  console.log('oldFiles.value : ', oldFiles.value);
-  console.log('files.value : ', files.value);
-  emit('upload', files.value, oldFiles.value);
-});
+watch(()=>oldFiles,(value)=>{
+  console.log('oldFiles : ', oldFiles);
+  emit('upload',files.value, oldFiles.value)
+}, {deep: true})
+watch(()=>files,(value)=>{
+  console.log('files : ', files);
+  emit('upload',files.value, oldFiles.value)
+}, {deep: true})
 const selectFiles = () => {
   if (isUploading.value) {
     return;
@@ -155,10 +157,7 @@ const add = (previewType, previewUrl, previewName, isDragging) => {
 const update = (previewType, previewUrl, previewName, isDragging, index) => {
   console.log('index : ', index);
   if (props.preview[index].fileName === filesPreview.value[index].fileName) {
-    console.log('oldFiles.value[index] : ', oldFiles.value[index]);
-    console.log('filesPreview.value[index].fileName : ', filesPreview.value[index].fileName);
-    console.log('props.preview[index].fileName : ',props.preview[index].fileName);
-    oldFiles.value[index] = filesPreview.value[index].fileName;
+    oldFiles.value.push(filesPreview.value[index].fileName);
   }
   filesPreview.value[index].fileType = previewType;
   filesPreview.value[index].fileUrl = previewUrl;
@@ -173,7 +172,7 @@ const removeImg = (index) => {
   // filesPreview.value.splice(index, 1);
   // console.log('filesPreview.value : ', filesPreview.value);
   if (props.preview.some((item) => item.fileName === filesPreview.value[index].fileName)) {
-    oldFiles.value[index] = filesPreview.value[index].fileName;
+    oldFiles.value.push( filesPreview.value[index].fileName);
   }
   else {
   const indefinable = files.value.indexOf((item) => {
@@ -241,10 +240,7 @@ const handleDrop = (event, index, action) => {
     <div class="text-red">{{oldFiles}}</div>
 <!--    <div class="text-blue">{{ filesPreview}}</div>-->
     <div v-for="(file, k) in filesPreview" :key="k" class="flex cursor-pointer"
-         @click="selectFile(k)"
-         @drop="handleDrop($event, k, 'reset')"
-         @dragover.prevent="handleDragOver($event, k, 'reset')"
-         @dragleave.prevent="handleDragLeave($event, k, 'reset')"
+
     >
       <input
           ref="fileInputRefs"
@@ -265,7 +261,10 @@ const handleDrop = (event, index, action) => {
           </button>
         </div>
         {{file.fileType}}
-        <preview-file-c :previewName="file.fileName" :previewType="file.fileType" :previewUrl="file.fileUrl" v-if="file"/>
+        <preview-file-c :previewName="file.fileName" :previewType="file.fileType" :previewUrl="file.fileUrl" v-if="file"  @click="selectFile(k)"
+                        @drop="handleDrop($event, k, 'reset')"
+                        @dragover.prevent="handleDragOver($event, k, 'reset')"
+                        @dragleave.prevent="handleDragLeave($event, k, 'reset')"/>
       </div>
     </div>
 

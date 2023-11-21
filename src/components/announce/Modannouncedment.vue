@@ -5,7 +5,7 @@ import {fetchCateForMod} from "@/services/catApi.js";
 import {fetchCreate, fetchUpdate} from "@/services/annApi.js";
 import {QuillEditor} from "@vueup/vue-quill";
 import UploadFile from "@/components/announce/UploadFile.vue";
-import {fetchPreview} from '@/services/fileApi.js';
+import {fetchPreview, updateFiles, uploadFiles} from '@/services/fileApi.js';
 const route = useRoute();
 const limit = 10000;
 
@@ -97,8 +97,9 @@ onMounted(async () => {
       if (!updateCheck.value) {
         categoryId.value = category.value[0].categoryId;
       } else {
-        await fetchPreviewF();
+        // await fetchPreviewF();
         updateInit();
+        fetchPreviewF()
       }
     }
   } catch (err) {
@@ -285,7 +286,18 @@ const sendSubmit = async (event) => {
       // console.log(props.updatePackage);
       // console.log(JSON.stringify(sendPackage));
       const response = await fetchUpdate(sendPackage, route);
-      if (response.status === 200) {
+      const response2 = await updateFiles(route.params.id, files.value, oldFiles.value);
+
+      if (response.status === 200 ) {
+        if (response2.status === 200) {
+          alert("update file success");
+        } else {
+          console.log(response2);
+          alert("update file fail");
+          errm.value = await response2.json();
+          alert(errm.value.message);
+          // console.log(errm.value.message)
+        }
         alert("update announcement success");
         await router.push({name: `adminhomepage`});
       } else {
@@ -302,8 +314,26 @@ const sendSubmit = async (event) => {
     try {
       console.log(JSON.stringify(sendPackage));
       const response = await fetchCreate(sendPackage);
+      const result = await response.json();
+      console.log(result);
       if (response.status === 200) {
+        // if (response2.status === 200) {
+        //   alert("Create file success");
+        // } else {
+        //   alert("Create file fail");
+        //   errm.value = await response2.json();
+        //   alert(errm.value.message);
+        // }
         alert("Create announcement success");
+        const response2 = await uploadFiles(result.id, files.value)
+        console.log(response2)
+        if (response2.status === 200) {
+          alert("Create file success");
+        } else {
+          alert("Create file fail");
+          errm.value = await response2.json();
+          alert(errm.value.message);
+        }
         await router.push({name: `adminhomepage`});
       } else {
         alert("Create announcement fail");
@@ -369,17 +399,55 @@ const handleFileChange = (event) => {
 };
 const fetchPreviewF =async ()=>{
   const response = await fetchPreview(route.params.id);
+  if (response== null)
+  {
+    return;
+  }
   const result = await response.json();
   if (result){
     filePreviews.value = result
   }
 }
 const oldFiles = ref([]);
-const upload=  (files,oldFiles)=>{
-  console.log(files,oldFiles);
-  files.value = JSON.parse(JSON.stringify(files));
-  oldFiles.value = oldFiles;
+const upload=  (filessend,oldFilesend)=>{
+  filessend.forEach((file)=>{
+   console.log(file)
+  })
+  oldFilesend.forEach((file)=>{
+    console.log(file)
+  })
+  if (filessend.length === 0 && oldFilesend.length === 0) return;
+  if (filessend.length === 0 && oldFilesend.length !== 0) {
+    oldFiles.value = oldFilesend;
+    return;
+  }
+  else if (filessend.length !== 0 && oldFilesend.length === 0) {
+    files.value = filessend;
+    return;
+  }
+  files.value = JSON.parse(JSON.stringify(filessend));
+  oldFiles.value = oldFilesend;
 }
+watch(()=>files,()=>{
+      if (!updateCheck.value) return;
+      change.value = false;
+      console.log(files.value.length,oldFiles.value.length)
+      if (files.value.length > 0) {
+        change.value = true;
+        return;
+      }
+    },
+    {deep: true})
+watch(()=>oldFiles,()=>{
+      if (!updateCheck.value) return;
+      change.value = false;
+      console.log(files.value.length,oldFiles.value.length)
+      if (oldFiles.value.length > 0) {
+        change.value = true;
+        return;
+      }
+    },
+    {deep: true})
 </script>
 <template>
   <div class="text-amber">{{files}}</div>
