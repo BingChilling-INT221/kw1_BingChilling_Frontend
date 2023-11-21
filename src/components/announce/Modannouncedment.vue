@@ -5,7 +5,7 @@ import {fetchCateForMod} from "@/services/catApi.js";
 import {fetchCreate, fetchUpdate} from "@/services/annApi.js";
 import {QuillEditor} from "@vueup/vue-quill";
 import UploadFile from "@/components/announce/UploadFile.vue";
-
+import {fetchPreview} from '@/services/fileApi.js';
 const route = useRoute();
 const limit = 10000;
 
@@ -97,6 +97,7 @@ onMounted(async () => {
       if (!updateCheck.value) {
         categoryId.value = category.value[0].categoryId;
       } else {
+        await fetchPreviewF();
         updateInit();
       }
     }
@@ -366,8 +367,23 @@ const handleFileChange = (event) => {
     reader.readAsDataURL(file);
   }
 };
+const fetchPreviewF =async ()=>{
+  const response = await fetchPreview(route.params.id);
+  const result = await response.json();
+  if (result){
+    filePreviews.value = result
+  }
+}
+const oldFiles = ref([]);
+const upload=  (files,oldFiles)=>{
+  console.log(files,oldFiles);
+  files.value = JSON.parse(JSON.stringify(files));
+  oldFiles.value = oldFiles;
+}
 </script>
 <template>
+  <div class="text-amber">{{files}}</div>
+  <div class="text-red">{{oldFiles}}</div>
   <div class="flex flex-col h-auto md:flex-row">
     <div class="w-full md:w-[80%] mx-auto md:mx-[10%]">
       <div class="mt-5">
@@ -476,7 +492,7 @@ const handleFileChange = (event) => {
               <p class="w-full text-2xl font-bold ">Attachment</p></div>
             <div class="flex">
 
-              <UploadFile></UploadFile>
+              <UploadFile :preview="filePreviews" @upload="upload"></UploadFile>
             </div>
             <!--            <div class="flex w-full space-x-4 md:w-3/4">-->
             <!--              <input type="file" @change="handleFileChange" multiple class="w-full border-2 rounded-md" />-->

@@ -156,18 +156,7 @@ export const fetchCreate = async (sendPackage) => {
         console.log(err);
     }
 };
-export const fetchPreview = async (id) => {
-    const response = await fetch(
-        `${import.meta.env.VITE_BASE_URL}files/${id}`
-    );
-    if (response.status === 200) {
-        console.log(response);
-        return response;
-    } else {
-        const errorResponse = await response.json();
-        console.log(errorResponse);
-    }
-}
+
 
 export const fetchUpdate = async (sendPackage, route) => {
     const usersStore = useUsersStore();

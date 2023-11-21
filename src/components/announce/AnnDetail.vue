@@ -5,7 +5,7 @@ import { useAnnouncerStore } from "@/stores/announcer";
 import { fetchCountParam } from "@/services/annApi.js";
 import {emailverification} from "@/services/verificationapi.js";
 import {fetchCate} from '@/services/catApi.js';
-import {fetchPreview} from '@/services/annApi.js';
+import {fetchPreview} from '@/services/fileApi.js';
 import Eye from "@/components/icons/Eye.vue";
 import PreviewFile from "@/components/announce/PreviewFile.vue";
 
@@ -71,6 +71,7 @@ const changeTime = (time) => {
     }`;
 };
 const preview = ref({});
+
 const fetchPreviewF =async ()=>{
   const response = await fetchPreview(route.params.id);
   preview.value = await response.json();

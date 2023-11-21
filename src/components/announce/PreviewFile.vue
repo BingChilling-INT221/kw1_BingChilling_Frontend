@@ -7,27 +7,27 @@ import apkPreviewValue from '@/assets/images/apk-icon.png'
 import zipPreviewValue from '@/assets/images/zip-icon.png'
 import sqlPreviewValue from '@/assets/images/sql-icon.png'
 import filePreviewValue from '@/assets/images/file-icon.png'
-import {computed, ref} from "vue";
+import {computed, ref, watch} from "vue";
 
 const props = defineProps({
   previewType: {
     type: String,
-    required: true,
   },
   previewName: {
     type: String,
-    required: true,
   },
   previewUrl: {
     type: String,
   },
 })
 const previewType = ref(props.previewType)
+watch(() => props.previewType, (value) => {
+  previewType.value = value
+})
 const previewUrl = computed(() => {
-  console.log('previewType : ', previewType.value)
   console.log('previewType : ', previewType?.value)
   console.log('previewName : ', props.previewName)
-  console.log('previewUrl : ', props.previewUrl)
+  // console.log('previewUrl : ', props.previewUrl)
   if (props.previewType === '' || props.previewType === null || props.previewType === undefined) {
     return placeHolderImage
   }

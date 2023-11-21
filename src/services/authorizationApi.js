@@ -84,6 +84,6 @@ export const reToken = async () => {
         return true;
     }
     console.log("token new error");
-    // localStorage.clear();
-    // await router.push({name: "login"});
+    localStorage.clear();
+    await router.push({name: "login"});
 };

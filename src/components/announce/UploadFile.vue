@@ -1,6 +1,6 @@
 <script setup>
 
-import {ref} from 'vue'
+import {ref, watch, watchEffect} from 'vue'
 import placeHolderImage from '@/assets/images/placeholder.png'
 import pdfPreviewValue from '@/assets/images/pdf-icon.png'
 import textPreviewValue from '@/assets/images/text-icon.png'
@@ -14,11 +14,31 @@ const fileInput = ref(null)
 const isUploading = ref(false)
 const filesPreview = ref([])
 const files = ref([])
+const oldFiles = ref([])
 const newFilesInput = ref(null)
 const fileInputRefs = ref(null)
 const accept = ref('')
 const maxFile = 5;
 const maxFileSize = 10 * 1024 * 1024; // 10MB
+const props=defineProps(
+    {
+      preview: {
+        type: Array,
+        default: () => [],
+      },
+    }
+)
+const emit = defineEmits(['upload'])
+watch(() => props.preview, (value) => {
+  console.log('value : ', value);
+  filesPreview.value = JSON.parse(JSON.stringify(value));
+});
+watchEffect(() => {
+  console.log('filesPreview.value : ', filesPreview.value);
+  console.log('oldFiles.value : ', oldFiles.value);
+  console.log('files.value : ', files.value);
+  emit('upload', files.value, oldFiles.value);
+});
 const selectFiles = () => {
   if (isUploading.value) {
     return;
@@ -89,14 +109,32 @@ const previewFile = (file, index, action) => {
     } else {
       obj.previewUrl = filePreviewValue;
     }
-    console.log('obj : ', obj);
+    // console.log('obj : ', obj);
     if (action === 'reset') {
       console.log('obj : ', obj);
-      update(obj.previewType, obj.previewUrl, obj.previewName, obj.isDragging, index);
-      files.value[index] = file;
+      if (filesPreview.value.every((item) => item.fileName !== obj.previewName)|| oldFiles.value.some((item) => item === obj.previewName)) {
+        update(obj.previewType, obj.previewUrl, obj.previewName, obj.isDragging, index);
+      }
+      if (props.preview.every((item) => item.fileName !== obj.previewName)) {
+        files.value[index] = file;
+      }
+
+      console.log('files.value : ', files.value);
+
     } else {
-      add(obj.previewType, obj.previewUrl, obj.previewName, obj.isDragging);
-      files.value.push(file);
+      if (filesPreview.value.every((item) => item.fileName !== obj.previewName)) {
+        add(obj.previewType, obj.previewUrl, obj.previewName, obj.isDragging);
+      }
+      else {
+        alert('File already exists')
+        return
+      }
+      // add(obj.previewType, obj.previewUrl, obj.previewName, obj.isDragging);
+      if (props.preview.every((item) => item.fileName !== obj.previewName) || oldFiles.value.some((item) => item === obj.previewName)) {
+        files.value.push(file);
+      }
+
+
     }
   };
   reader.onerror = (error) => {
@@ -106,29 +144,48 @@ const previewFile = (file, index, action) => {
 };
 const add = (previewType, previewUrl, previewName, isDragging) => {
   console.log('add');
-  console.log('previewType : ', previewType);
+  // console.log('previewType : ', previewType);
   filesPreview.value.push({
-    previewType: previewType,
-    previewUrl: previewUrl,
-    previewName: previewName,
-    isDragging: isDragging,
+    fileType: previewType,
+    fileUrl: previewUrl,
+    fileName: previewName,
   });
 };
 
 const update = (previewType, previewUrl, previewName, isDragging, index) => {
   console.log('index : ', index);
-  console.log('filesPreview.value[index] : ', filesPreview.value[index]);
-  filesPreview.value[index].previewType = previewType;
-  filesPreview.value[index].previewUrl = previewUrl;
-  filesPreview.value[index].previewName = previewName;
-  filesPreview.value[index].isDragging = isDragging;
+  if (props.preview[index].fileName === filesPreview.value[index].fileName) {
+    console.log('oldFiles.value[index] : ', oldFiles.value[index]);
+    console.log('filesPreview.value[index].fileName : ', filesPreview.value[index].fileName);
+    console.log('props.preview[index].fileName : ',props.preview[index].fileName);
+    oldFiles.value[index] = filesPreview.value[index].fileName;
+  }
+  filesPreview.value[index].fileType = previewType;
+  filesPreview.value[index].fileUrl = previewUrl;
+  filesPreview.value[index].fileName = previewName;
 };
 const removeImg = (index) => {
   if (isUploading.value) {
     return;
   }
+  console.log('index : ', index);
+  console.log('filesPreview.value : ', filesPreview.value);
+  // filesPreview.value.splice(index, 1);
+  // console.log('filesPreview.value : ', filesPreview.value);
+  if (props.preview.some((item) => item.fileName === filesPreview.value[index].fileName)) {
+    oldFiles.value[index] = filesPreview.value[index].fileName;
+  }
+  else {
+  const indefinable = files.value.indexOf((item) => {
+    console.log('item : ', item);
+    console.log('filesPreview.value[index].fileName : ', filesPreview.value[index].fileName);
+    console.log('item.name : ', item.name);
+    return item.name === filesPreview.value[index].fileName;
+  });
+  files.value.splice(indefinable, 1);}
+  console.log('files.value : ', files.value);
   filesPreview.value.splice(index, 1);
-  files.value.splice(index, 1);
+  // console.log('files.value : ', files.value);
 };
 const handleDragOver = (event, index, action) => {
   if (isUploading.value) {
@@ -177,7 +234,12 @@ const handleDrop = (event, index, action) => {
 </script>
 
 <template>
+
   <div>
+    <div class="text-amber">{{props.preview}}</div>
+    <div class="text-amber">{{files}}</div>
+    <div class="text-red">{{oldFiles}}</div>
+<!--    <div class="text-blue">{{ filesPreview}}</div>-->
     <div v-for="(file, k) in filesPreview" :key="k" class="flex cursor-pointer"
          @click="selectFile(k)"
          @drop="handleDrop($event, k, 'reset')"
@@ -202,13 +264,14 @@ const handleDrop = (event, index, action) => {
             x
           </button>
         </div>
-        {{file.previewType}}
-        <preview-file-c :previewName="file.previewName" :previewType="file.previewType" :previewUrl="file.previewUrl" v-if="file"/>
+        {{file.fileType}}
+        <preview-file-c :previewName="file.fileName" :previewType="file.fileType" :previewUrl="file.fileUrl" v-if="file"/>
       </div>
     </div>
 
 
     <div
+        v-if="filesPreview.length < maxFile"
         @click="selectFiles"
         @drop="handleDrop($event, filesPreview.length, 'add')"
         @dragover.prevent="handleDragOver($event, filesPreview.length, 'add')"
@@ -245,7 +308,7 @@ const handleDrop = (event, index, action) => {
         </div>
         <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF</p>
 
-      </label></div>
+      </label>
     <input
         ref="newFilesInput"
         :accept="accept"
@@ -254,7 +317,7 @@ const handleDrop = (event, index, action) => {
         multiple
         type="file"
         @change="uploadDefault($event, filesPreview.length, 'add')"
-    /></div>
+    /></div></div>
 
 </template>
 
