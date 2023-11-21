@@ -80,6 +80,9 @@ const fetchPreviewF =async ()=>{
     return;
   }
   const response = await fetchPreview(route.params.id);
+  if (response === null) {
+    return;
+  }
   preview.value = await response.json();
 }
 const fetchPreviewMode = ref(false);
