@@ -21,7 +21,6 @@ export const emailverification = async (sendData) => {
 }
 
 export const otpverification = async (otp, clearInput) => {
-
     const token = localStorage.getItem("tokenOtp");
     const response = await fetch(`${import.meta.env.VITE_BASE_URL}subscribes/confirm_otp`, {
         method: "POST",
