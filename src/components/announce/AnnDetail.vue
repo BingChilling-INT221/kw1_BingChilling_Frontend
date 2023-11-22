@@ -156,9 +156,6 @@ watchEffect(() => {
 </script>
 
 <template>
-  {{ category }}
-  {{ categories }}
-  {{ queryAnnounce.announcementCategory }}
   
   <div class="mx-[10%] w-[80%] pt-10">
     <div class="">
