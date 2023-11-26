@@ -94,7 +94,7 @@ const sendSubmit = async (event) => {
                         v-if="status === 200"
 
                     >
-                      <div class="fixed top-0 left-0 w-full alert alert-success">
+                      <div class="fixed top-0 left-0 w-full alert alert-success flex flex-row">
                         <div>
                           <svg class="w-6 h-6 stroke-current shrink-0" fill="none" viewBox="0 0 24 24"
                                xmlns="http://www.w3.org/2000/svg">
