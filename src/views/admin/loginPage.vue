@@ -91,7 +91,7 @@ const sendSubmit = async (event) => {
                 <div class="flex flex-col items-center space-y-5">
                   <div class="flex w-3/4 ann-message">
                     <div
-                        v-if="status === 200"
+                        
 
                     >
                       <div class="fixed top-0 left-0 w-full alert alert-success flex flex-row">
