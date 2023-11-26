@@ -317,13 +317,6 @@ const sendSubmit = async (event) => {
       const result = await response.json();
       console.log(result);
       if (response.status === 200) {
-        if (response2.status === 200) {
-          alert("Create file success");
-        } else {
-          alert("Create file fail");
-          errm.value = await response2.json();
-          alert(errm.value.message);
-        }
         alert("Create announcement success");
         const response2 = await uploadFiles(result.id, files.value)
         console.log(response2)
