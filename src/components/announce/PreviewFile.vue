@@ -24,7 +24,7 @@ const previewType = ref(props.previewType)
 watch(() => props.previewType, (value) => {
   previewType.value = value
 })
-const previewUrl = computed(() => {
+const previewImg = computed(() => {
   // console.log('previewType : ', previewType?.value)
   // console.log('previewName : ', props.previewName)
   // console.log('previewUrl : ', props.previewUrl)
@@ -54,19 +54,21 @@ const previewUrl = computed(() => {
 </script>
 <template>
 <!--  {{props}}-->
+<a :href= "previewUrl">
   <div class="w-full h-64 py-6">
     <img
         v-if="previewType !== 'video'"
-        :src="previewUrl"
+        :src="previewImg"
         alt=""
         class="h-full w-full object-contain rounded-2xl"
     />
     <video v-else autoplay class="h-full w-full object-contain" loop>
-      <source :src="previewUrl" type="video/mp4"/>
+      <source :src="previewImg" type="video/mp4"/>
     </video>
     <p class="flex items-center justify-center text-center w-full mt-5">
       {{ previewName }}
     </p>
   </div>
+</a>
 </template>
 <style></style>
