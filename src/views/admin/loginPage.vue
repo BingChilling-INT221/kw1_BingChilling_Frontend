@@ -91,18 +91,18 @@ const sendSubmit = async (event) => {
                 <div class="flex flex-col items-center space-y-5">
                   <div class="flex w-3/4 ann-message">
                     <div
-                        
+                        v-if="status === 200"
 
                     >
-                      <div class="fixed top-0 left-0 w-full alert alert-success flex flex-row">
-                        <div>
+                      <div class="fixed top-0 left-0 w-full alert alert-success">
+                        <div class="flex flex-row">
                           <svg class="w-6 h-6 stroke-current shrink-0" fill="none" viewBox="0 0 24 24"
                                xmlns="http://www.w3.org/2000/svg">
                             <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
                                   stroke-linejoin="round"
                                   stroke-width="2"/>
                           </svg>
-                          <span>Login Successful</span>
+                          <span class="my-auto">Login Successful</span>
                         </div>
                       </div>
                       <!--                      <p class="text-2xl">Login Successful</p>-->
@@ -112,14 +112,14 @@ const sendSubmit = async (event) => {
 
                     >
                       <div class="fixed top-0 left-0 w-full alert alert-error">
-                        <div>
+                        <div class="flex flex-row">
                           <svg class="w-6 h-6 stroke-current shrink-0" fill="none" viewBox="0 0 24 24"
                                xmlns="http://www.w3.org/2000/svg">
                             <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
                                   stroke-linejoin="round"
                                   stroke-width="2"/>
                           </svg>
-                          <span>Password Incorrect</span>
+                          <span class="my-auto">Password Incorrect</span>
                         </div>
                       </div>
                       <!--                      <p class="text-2xl"></p>-->
@@ -129,14 +129,14 @@ const sendSubmit = async (event) => {
 
                     >
                       <div class="fixed top-0 left-0 w-full alert alert-error">
-                        <div>
+                        <div class="flex flex-row">
                           <svg class="w-6 h-6 stroke-current shrink-0" fill="none" viewBox="0 0 24 24"
                                xmlns="http://www.w3.org/2000/svg">
                             <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
                                   stroke-linejoin="round"
                                   stroke-width="2"/>
                           </svg>
-                          <span>A user with the specified username DOES NOT exist</span>
+                          <span class="my-auto">A user with the specified username DOES NOT exist</span>
                         </div>
                       </div>
 
