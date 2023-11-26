@@ -12,7 +12,7 @@
     "@vueup/vue-quill": "^1.2.0",
     "jwt-decode": "^3.1.2",
     "pinia": "^2.0.32",
-    "sweetalert2": "^11.9.0",
+    "sweetalert2": "^11.6.13",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6",
     "vue-sweetalert2": "^5.0.5",
