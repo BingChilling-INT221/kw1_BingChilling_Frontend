@@ -11,8 +11,9 @@ const checkPath = (path) => {
   return route.path.endsWith(path);
 };
 
-const CheckAnnouncer = userStore.role === "announcer";
-
+const CheckRole = (reqrole) => {
+  return userStore.role === reqrole;
+};
 
 </script>
 
@@ -36,6 +37,7 @@ const CheckAnnouncer = userStore.role === "announcer";
               class="ann-menu "> Announcement (viewer)</span>
         </button>
         <button
+             v-if="CheckRole('announcer') || CheckRole('admin')"
             :class="
             checkPath('/admin/announcement')
               ? ' bg-whitesecondCustom dark:bg-darksecondCustom '
@@ -50,7 +52,7 @@ const CheckAnnouncer = userStore.role === "announcer";
               class="ann-menu">Announcement</span>
         </button>
         <button
-            v-if="!CheckAnnouncer"
+            v-if="CheckRole('admin')"
             :class="
             checkPath('/user')
               ? ' bg-whitesecondCustom dark:bg-darksecondCustom '
@@ -65,7 +67,7 @@ const CheckAnnouncer = userStore.role === "announcer";
               class="ann-menu">User</span>
         </button>
         <button
-            v-if="!CheckAnnouncer"
+            v-if="CheckRole('admin')"
             :class="
             checkPath('/match')
               ? ' bg-whitesecondCustom dark:bg-darksecondCustom '
