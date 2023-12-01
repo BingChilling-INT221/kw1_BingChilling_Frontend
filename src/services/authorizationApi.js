@@ -89,10 +89,10 @@ export const reToken = async () => {
   localStorage.clear();
   await router.push({ name: "login" });
 };
-export const  sendTokenToSpringBoot = async(token)=> {
-    const usersStore = useUsersStore();
+export const sendTokenToSpringBoot = async (token) => {
+  const usersStore = useUsersStore();
   try {
-    const url = "http://localhost:8080/api/azure/token"; // URL ของ Spring Boot backend
+    const url = `${import.meta.env.VITE_BASE_URL}azure/token `; // URL ของ Spring Boot backend
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -117,4 +117,4 @@ export const  sendTokenToSpringBoot = async(token)=> {
   } catch (error) {
     console.error(error);
   }
-}
+};
