@@ -45,7 +45,7 @@ const msalConfig = {
     clientId: "d48bf0d6-1418-46b3-a836-9a764309b1bb",
     authority:
       "https://login.microsoftonline.com/6f4432dc-20d2-441d-b1db-ac3380ba633d",
-    redirectUri: "https://intproj22.sit.kmutt.ac.th/kw1/login", // Redirect URI ของแอปพลิเคชัน Vue 3
+    redirectUri: "https://intproj22.sit.kmutt.ac.th/kw1", // Redirect URI ของแอปพลิเคชัน Vue 3
   },
 };
 
