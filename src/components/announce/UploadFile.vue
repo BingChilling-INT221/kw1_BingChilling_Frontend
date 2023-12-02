@@ -19,7 +19,7 @@ const newFilesInput = ref(null)
 const fileInputRefs = ref(null)
 const accept = ref('')
 const maxFile = 5;
-const maxFileSize = 10 * 1024 * 1024; // 10MB
+const maxFileSize = 20 * 1024 * 1024; // 20MB
 const props=defineProps(
     {
       preview: {
