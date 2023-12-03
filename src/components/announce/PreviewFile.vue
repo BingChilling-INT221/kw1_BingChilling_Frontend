@@ -65,7 +65,7 @@ const previewImg = computed(() => {
     <video v-else autoplay class="h-full w-full object-contain" loop>
       <source :src="previewImg" type="video/mp4"/>
     </video>
-    <p class="flex items-center justify-center text-center w-full mt-5">
+    <p class="flex items-center justify-center text-center w-full mt-1">
       {{ previewName }}
     </p>
   </div>

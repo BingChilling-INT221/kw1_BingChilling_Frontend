@@ -1,4 +1,7 @@
 import {da} from "vuetify/locale";
+import {reToken} from "@/services/authorizationApi";
+import router from "@/router";
+import {useUsersStore} from "@/stores/user";
 
 export const fetchPreview = async (id) => {
     try {
@@ -21,6 +24,14 @@ export const fetchPreview = async (id) => {
     }
 };
 export const uploadFiles = async (id, files) => {
+    const usersStore = useUsersStore();
+    const token = usersStore.token
+    if (token === null) {
+        if (await reToken()) {
+            return await uploadFiles(id, files);
+        }
+    }
+
     const formData = new FormData();
     for (let i = 0; i < files.length; i++) {
         formData.append('file', files[i]);
@@ -30,6 +41,9 @@ export const uploadFiles = async (id, files) => {
         const response = await fetch(`${import.meta.env.VITE_BASE_URL}files/${id}`, {
             method: 'POST',
             body: formData,
+            headers: {
+                Authorization: `${token}`,
+            },
         });
 
         if (response.ok) {
@@ -52,6 +66,13 @@ export const updateFiles = async (id, files, oldFiles) => {
     console.log(files);
     console.log(oldFiles);
     console.log(id);
+    const usersStore = useUsersStore();
+    const token = usersStore.token
+    if (token === null) {
+        if (await reToken()) {
+            return await updateFiles(id, files, oldFiles);
+        }
+    }
     const formData = new FormData();
     if (files.length > 0)
     {
@@ -69,6 +90,9 @@ export const updateFiles = async (id, files, oldFiles) => {
         const response = await fetch(`${import.meta.env.VITE_BASE_URL}files/${id}`, {
             method: 'PUT',
             body: formData,
+            headers: {
+                Authorization: `${token}`,
+            },
         });
 
         if (response.ok) {
