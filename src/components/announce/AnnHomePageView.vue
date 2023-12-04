@@ -127,11 +127,7 @@ const changePage = (page) => {
 const email = ref("");
 watchEffect(() => {
   if (userStore.token) {
-    if (route.path.includes('viewer')) {
-      email.value = '';
-    } else if(route.path.includes('admin')) {
-      email.value = userStore.email;
-    }
+    email.value = userStore.email;
   } else {
     email.value = "";
   }
