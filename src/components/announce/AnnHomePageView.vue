@@ -189,8 +189,6 @@ onMounted(async () => {
       <div class="flex flex-col gap-y-2">
         <div class="flex justify-around xl:hidden">
           <CategoryBox/>
-
-        
           <button v-if="!isAdminPath" :class="isOpen ? 'bg-green-400' : 'bg-red-400'"
                   class="px-4 py-2 text-xs rounded-md ann-button" @click="fetches()">
             {{ isOpen ? "Closed " : "Active " }}

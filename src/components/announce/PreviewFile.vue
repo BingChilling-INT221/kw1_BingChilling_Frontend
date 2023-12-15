@@ -54,7 +54,7 @@ const previewImg = computed(() => {
 </script>
 <template>
 <!--  {{props}}-->
-<a :href= "previewUrl">
+<a :href="previewUrl">
   <div class="w-full h-64 py-6">
     <img
         v-if="previewType !== 'video'"

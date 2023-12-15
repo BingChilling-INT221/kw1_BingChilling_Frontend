@@ -23,8 +23,8 @@ onMounted(async () => {
       <!-- <p class="hidden py-2 text-xl md:inline-block">Category:</p> -->
       <select
           v-model="store.category"
-          class="text-sm rounded-lg block w-full p-1
-        bg-blackCustom border-white placeholder-gray-400 text-white ann-category-filter"
+          class="text-sm rounded-lg block w-full p-2
+        bg-blackCustom ann-category-filter"
 
       >
         <option value="">All</option>
@@ -36,6 +36,7 @@ onMounted(async () => {
           {{ data.categoryName }}
         </option>
       </select>
+      
     </div>
   </div>
 </template>

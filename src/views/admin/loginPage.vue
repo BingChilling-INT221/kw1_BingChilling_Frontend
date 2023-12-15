@@ -107,60 +107,52 @@ async function loginWithMicrosoft(event) {
                   <div class="flex flex-row text-sm">
                     <p>Username</p>
                   </div>
-                  <input
-                    v-model="username"
-                    autocomplete="username"
+                  <input v-model="username" autocomplete="username"
                     class="px-3 py-2 rounded-sm ann-title bg-inputAdmin ann-username border-[1px] border-borderInputAdmin leading-10 text-xs outline-none"
-                    maxlength="45"
-                    placeholder="Enter your username"
-                    required
-                    type="text"
-                  />
+                    maxlength="45" placeholder="Enter your username" required type="text" />
                   <div class="flex flex-col space-y-2 text-lg">
                     <div class="flex flex-row justify-between text-sm">
                       <p>Password</p>
                       <p>Forgot password?</p>
                     </div>
-                    <input
-                      v-model="password"
-                      autocomplete="current-password"
+                    <input v-model="password" autocomplete="current-password"
                       class="px-3 py-2 rounded-sm ann-title bg-inputAdmin ann-password border-[1px] border-borderInputAdmin leading-10 text-xs outline-none"
-                      maxlength="14"
-                      placeholder="Enter your password"
-                      required
-                      type="password"
-                    />
+                      maxlength="14" placeholder="Enter your password" required type="password" />
                   </div>
                 </div>
-                <div class="flex justify-end mt-4">
-                  <button
-                    class="px-4 py-2 text-sm leading-6 text-white rounded-md ann-button bg-headerAdmin"
-                  >
-                    Log In
-                  </button>
+                <div class="flex flex-col space-y-4">
+                  <div class="flex justify-center mt-4">
+                    <button
+                      class="px-4 py-2 text-sm leading-6 text-white rounded-md ann-button bg-blue-500 hover:bg-blue-600 transition duration-300">
+                      Log in
+                    </button>
+                  </div>
+                  <div class="flex items-center justify-center">
+                    <div class="w-full border-t-[1px] border-gray-400"></div>
+                    <p class="px-3 z-10 text-header2">Or</p>
+                    <div class="w-full border-t-[1px] border-gray-400"></div>
+                  </div>
+
+                  <div class="flex justify-center">
+                    <button @click="loginWithMicrosoft"
+                      class="px-4 py-2 bg-headerAdmin text-white rounded-md hover:bg-blue-700 transition duration-300 flex flex-row">
+                      <img src="../../assets/images/teamsicon.png" alt="Microsoft Logo" class="w-6 h-6 mr-2" />
+                      Login with Microsoft
+                    </button>
+
+                  </div>
                 </div>
-                <div @click="loginWithMicrosoft" class="cursor-pointer">
-                  Login Microsft
-                </div>
+
+
                 <div class="flex flex-col items-center space-y-5">
                   <div class="flex w-3/4 ann-message">
                     <div v-if="status === 200">
-                      <div
-                        class="fixed top-0 left-0 w-full alert alert-success"
-                      >
+                      <div class="fixed top-0 left-0 w-full alert alert-success">
                         <div class="flex flex-row">
-                          <svg
-                            class="w-6 h-6 stroke-current shrink-0"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                            />
+                          <svg class="w-6 h-6 stroke-current shrink-0" fill="none" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
+                              stroke-linejoin="round" stroke-width="2" />
                           </svg>
                           <span class="my-auto">Login Successful</span>
                         </div>
@@ -170,18 +162,10 @@ async function loginWithMicrosoft(event) {
                     <div v-if="status === 401">
                       <div class="fixed top-0 left-0 w-full alert alert-error">
                         <div class="flex flex-row">
-                          <svg
-                            class="w-6 h-6 stroke-current shrink-0"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                            />
+                          <svg class="w-6 h-6 stroke-current shrink-0" fill="none" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
+                              stroke-linejoin="round" stroke-width="2" />
                           </svg>
                           <span class="my-auto">Password Incorrect</span>
                         </div>
@@ -191,23 +175,13 @@ async function loginWithMicrosoft(event) {
                     <div v-if="status === 404">
                       <div class="fixed top-0 left-0 w-full alert alert-error">
                         <div class="flex flex-row">
-                          <svg
-                            class="w-6 h-6 stroke-current shrink-0"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                            />
+                          <svg class="w-6 h-6 stroke-current shrink-0" fill="none" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round"
+                              stroke-linejoin="round" stroke-width="2" />
                           </svg>
-                          <span class="my-auto"
-                            >A user with the specified username DOES NOT
-                            exist</span
-                          >
+                          <span class="my-auto">A user with the specified username DOES NOT
+                            exist</span>
                         </div>
                       </div>
                     </div>
@@ -215,11 +189,8 @@ async function loginWithMicrosoft(event) {
                 </div>
                 <div class="mt-4 text-sm text-center">
                   Don't have an account ?
-                  <span
-                    class="text-white cursor-pointer"
-                    @click="Router.push({ name: 'register' })"
-                    >Register here !</span
-                  >
+                  <span class="text-white cursor-pointer" @click="Router.push({ name: 'register' })">Register here
+                    !</span>
                 </div>
               </form>
             </div>

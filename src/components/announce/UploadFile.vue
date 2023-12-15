@@ -235,9 +235,9 @@ const handleDrop = (event, index, action) => {
 <template>
 
   <div>
-    <div class="text-amber">{{props.preview}}</div>
+    <!-- <div class="text-amber">{{props.preview}}</div>
     <div class="text-amber">{{files}}</div>
-    <div class="text-red">{{oldFiles}}</div>
+    <div class="text-red">{{oldFiles}}</div> -->
 <!--    <div class="text-blue">{{ filesPreview}}</div>-->
     <div v-for="(file, k) in filesPreview" :key="k" class="flex cursor-pointer"
 

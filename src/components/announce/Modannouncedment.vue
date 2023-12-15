@@ -443,8 +443,8 @@ watch(()=>oldFiles,()=>{
     {deep: true})
 </script>
 <template>
-  <div class="text-amber">{{files}}</div>
-  <div class="text-red">{{oldFiles}}</div>
+  <!-- <div class="text-amber">{{files}}</div>
+  <div class="text-red">{{oldFiles}}</div> -->
   <div class="flex flex-col h-auto md:flex-row">
     <div class="w-full md:w-[80%] mx-auto md:mx-[10%]">
       <div class="mt-5">
