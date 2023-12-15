@@ -79,7 +79,7 @@ const sendSubmit = async (event) => {
               </div>
               <div class="flex">
                 <button
-                    class="ann-button px-4 py-2 rounded-md bg-gray-50 dark:bg-gray-700 submit"
+                    class="ann-button px-4 py-2 rounded-md bg-gray-700 submit"
                 >
                   Match or not
                 </button>

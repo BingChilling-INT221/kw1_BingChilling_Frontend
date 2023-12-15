@@ -365,7 +365,7 @@ watchEffect(() => {
             </div>
             <input
                 v-model="username"
-                class="w-3/4 px-2 py-2 rounded-md ann-title bg-whitesecondCustom dark:bg-darksecondCustom ann-username"
+                class="w-3/4 px-2 py-2 rounded-md ann-title bg-darksecondCustom ann-username"
                 maxlength="45"
                 required
                 type="text"
@@ -388,7 +388,7 @@ watchEffect(() => {
             </div>
             <input
                 v-model="password"
-                class="w-3/4 px-2 py-2 rounded-md ann-title bg-whitesecondCustom dark:bg-darksecondCustom ann-password"
+                class="w-3/4 px-2 py-2 rounded-md ann-title bg-darksecondCustom ann-password"
                 maxlength="14"
                 required
                 type="password"
@@ -407,7 +407,7 @@ watchEffect(() => {
             <p>Confirm password</p>
             <input
                 v-model="conpassword"
-                class="w-3/4 px-2 py-2 rounded-md ann-title bg-whitesecondCustom dark:bg-darksecondCustom ann-confirm-password"
+                class="w-3/4 px-2 py-2 rounded-md ann-title bg-darksecondCustom ann-confirm-password"
                 maxlength="14"
                 required
                 type="password"
@@ -425,7 +425,7 @@ watchEffect(() => {
             </div>
             <input
                 v-model="name"
-                class="w-3/4 px-2 py-2 rounded-md ann-title bg-whitesecondCustom dark:bg-darksecondCustom ann-name"
+                class="w-3/4 px-2 py-2 rounded-md ann-title bg-darksecondCustom ann-name"
                 maxlength="100"
                 required
                 type="text"
@@ -446,7 +446,7 @@ watchEffect(() => {
             </div>
             <input
                 v-model="email"
-                class="w-3/4 px-2 py-2 rounded-md ann-title bg-whitesecondCustom dark:bg-darksecondCustom ann-email"
+                class="w-3/4 px-2 py-2 rounded-md ann-title bg-darksecondCustom ann-email"
                 maxlength="150"
                 required
                 type="email"
@@ -463,7 +463,7 @@ watchEffect(() => {
             <p>Role</p>
             <select
                 v-model="role"
-                class="w-1/4 px-2 py-2 rounded-md bg-whitesecondCustom dark:bg-darksecondCustom ann-role"
+                class="w-1/4 px-2 py-2 rounded-md bg-darksecondCustom ann-role"
             >
               <option>admin</option>
               <option>announcer</option>
@@ -484,12 +484,12 @@ watchEffect(() => {
                   : 'opacity-40 '
               "
                 :disabled="!(change || !updateCheck)"
-                class="px-4 py-2 rounded-md bg-gray-50 dark:bg-gray-700 submit ann-button"
+                class="px-4 py-2 rounded-md bg-gray-700 submit ann-button"
             >
               save
             </button>
             <button
-                class="px-4 py-2 rounded-md bg-gray-50 dark:bg-gray-700 ann-button"
+                class="px-4 py-2 rounded-md bg-gray-700 ann-button"
                 @click="$router.push({ name: 'adminuserpage' })"
             >
               cancel

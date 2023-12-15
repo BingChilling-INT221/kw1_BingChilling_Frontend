@@ -83,7 +83,7 @@ const deleteUser = async (id) => {
   </td>
   <td class="py-4 px-6 text-right">
     <div class="inline-flex">
-      <button class="px-4 py-2 rounded-l bg-gray-50 dark:bg-gray-700 ann-button" @click="
+      <button class="px-4 py-2 rounded-l bg-gray-700 ann-button" @click="
               $router.push({
                 name: 'edituser',
                 params: { id: annItem.id },
@@ -91,7 +91,7 @@ const deleteUser = async (id) => {
             ">
         edit
       </button>
-      <button class="px-4 py-2 rounded-r bg-gray-50 dark:bg-gray-700 ann-button" @click="deleteUser(annItem.id)">
+      <button class="px-4 py-2 rounded-r bg-gray-700 ann-button" @click="deleteUser(annItem.id)">
         delete
       </button>
     </div>

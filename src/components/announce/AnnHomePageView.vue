@@ -197,11 +197,11 @@ onMounted(async () => {
             <span class="hidden md:inline-block">announcement</span>
           </button>
           <div v-else class="ann-button" @click="$router.push({ name: 'addannouncement' })">
-            <button class="hidden px-2 py-2 rounded-md bg-gray-50 dark:bg-gray-700 md:inline-block">
+            <button class="hidden px-2 py-2 rounded-md bg-gray-700 md:inline-block">
               Add announcements
             </button>
             <button
-                class="fixed bottom-0 right-0 px-2 py-2 rounded-md bg-black2Cus hover:bg-black3Cus md:hidden bg-gray-50 dark:bg-gray-700">
+                class="fixed bottom-0 right-0 px-2 py-2 rounded-md bg-black2Cus hover:bg-black3Cus md:hidden bg-gray-700">
               Add
             </button>
           </div>
@@ -232,11 +232,11 @@ onMounted(async () => {
                   </button>
                   <div v-else class="ann-button" @click="$router.push({ name: 'addannouncement' })">
                     <button
-                        class="hidden px-2 py-2 rounded-md bg-gray-50 dark:bg-gray-700 md:inline-block xl:py-2 xl:text-base">
+                        class="hidden px-2 py-2 rounded-md bg-gray-700 md:inline-block xl:py-2 xl:text-base">
                       Add announcements
                     </button>
                     <button
-                        class="fixed bottom-0 right-0 px-2 py-2 rounded-md bg-black2Cus hover:bg-black3Cus md:hidden bg-gray-50 dark:bg-gray-700">
+                        class="fixed bottom-0 right-0 px-2 py-2 rounded-md bg-black2Cus hover:bg-black3Cus md:hidden bg-gray-700">
                       Add
                     </button>
                   </div>
@@ -252,7 +252,7 @@ onMounted(async () => {
 
                 <div class="flex justify-end pt-2 sub">
                   <!-- The button to open modal -->
-                  <label class="btn" for="my_modal_6">Subscribe</label>
+                  <label class="btn bg-bgNav border-none text-white" for="my_modal_6">Subscribe</label>
                   <!-- The modal -->
                   <input id="my_modal_6" class="modal-toggle" type="checkbox"/>
                   <div class="modal">
@@ -270,7 +270,7 @@ onMounted(async () => {
                                placeholder="Enter your email" required type="email"/>
                         <div class="modal-action">
                           <button class="btn submit text-white bg-bgNav" type="submit">Subscribe</button>
-                          <label class="btn bg-bgNav" for="my_modal_6">Close</label>
+                          <label class="btn bg-bgNav text-white" for="my_modal_6">Close</label>
                         </div>
                       </form>
                     </div>

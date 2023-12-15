@@ -25,7 +25,7 @@ const CheckRole = (reqrole) => {
         <button
             :class="
             checkPath('/viewer')
-              ? ' bg-whitesecondCustom dark:bg-darksecondCustom '
+              ? 'bg-darksecondCustom '
               : ''
           "
             class="flex items-center w-full px-4 py-2 optionSidebar rounded-xl"
@@ -40,7 +40,7 @@ const CheckRole = (reqrole) => {
              v-if="CheckRole('announcer') || CheckRole('admin')"
             :class="
             checkPath('/admin/announcement')
-              ? ' bg-whitesecondCustom dark:bg-darksecondCustom '
+              ? ' bg-darksecondCustom  '
               : ''
           "
             class="flex items-center w-full px-4 py-2 optionSidebar rounded-xl"
@@ -55,7 +55,7 @@ const CheckRole = (reqrole) => {
             v-if="CheckRole('admin')"
             :class="
             checkPath('/user')
-              ? ' bg-whitesecondCustom dark:bg-darksecondCustom '
+              ? ' bg-darksecondCustom  '
               : ''
           "
             class="flex items-center w-full px-4 py-2 optionSidebar rounded-xl"
@@ -70,7 +70,7 @@ const CheckRole = (reqrole) => {
             v-if="CheckRole('admin')"
             :class="
             checkPath('/match')
-              ? ' bg-whitesecondCustom dark:bg-darksecondCustom '
+              ? ' bg-darksecondCustom  '
               : ''
           "
             class="flex items-center w-full px-4 py-2 optionSidebar rounded-xl"

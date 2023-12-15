@@ -122,7 +122,7 @@ const seeDetail = (env) => {
   <div v-if="!isAdminPath" class="xl:w-full">
     <div
         :class="isAdminPath ? 'cursor-default' : 'cursor-pointer'"
-        class="xl:w-full w-72 max-h-full border-[1px] rounded-xl border-blackCustom dark:border-whiteCustom m-auto"
+        class="xl:w-full w-72 max-h-full border-[1px] rounded-xl border-whiteCustom m-auto"
         @click="seeDetail"
     >
       <div class="ml-2 pt-[0.5rem]">
@@ -249,13 +249,13 @@ const seeDetail = (env) => {
   <td v-if="isAdminPath" class="px-6 py-4 text-right">
     <div class="inline-flex">
       <button
-          class="px-4 py-2 rounded-l bg-gray-50 dark:bg-gray-700 ann-button"
+          class="px-4 py-2 rounded-l bg-gray-700 ann-button"
           @click="seeDetail"
       >
         view
       </button>
       <button
-          class="px-4 py-2 rounded-r bg-gray-50 dark:bg-gray-700 ann-button"
+          class="px-4 py-2 rounded-r bg-gray-700 ann-button"
           @click="deleteAnnouncement(annData.id)"
       >
         delete

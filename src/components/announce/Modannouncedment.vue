@@ -456,14 +456,14 @@ watch(()=>oldFiles,()=>{
         </p>
       </div>
       <div
-          class="px-5 pt-10 pb-2 m-auto mt-5 border-2 rounded-lg bg-whiteCustom md:px-20 dark:bg-blackCustom"
+          class="px-5 pt-10 pb-2 m-auto mt-5 border-2 rounded-lg bg-blackCustom"
       >
         <form action="" class="w-full" @submit="sendSubmit">
           <div class="flex flex-col md:flex-row">
             <p class="w-full py-2 text-2xl font-bold md:w-1/4">Title</p>
             <input
                 v-model="announcementTitle"
-                class="w-full ml-2 rounded-md md:w-3/4 md:ml-2 ann-title bg-whitesecondCustom dark:bg-darksecondCustom"
+                class="w-full ml-2 rounded-md md:w-3/4 md:ml-2 ann-title bg-darksecondCustom"
                 maxlength="200"
                 required
                 type="text"
@@ -474,7 +474,7 @@ watch(()=>oldFiles,()=>{
             <p class="w-full py-2 text-2xl font-bold md:w-1/4">Category</p>
             <select
                 v-model="categoryId"
-                class="w-full ml-2 shadow-md bg-whitesecondCustom dark:bg-darksecondCustom md:w-3/4 md:ml-2 shadow-slate-300 ann-category"
+                class="w-full ml-2 shadow-md bg-darksecondCustom md:w-3/4 md:ml-2 rounded-md ann-category"
                 required
             >
               <option
@@ -492,7 +492,7 @@ watch(()=>oldFiles,()=>{
               <input
                   v-model="publishDate"
                   :placeholder="'  ' + comeDate + ''"
-                  class="w-1/2 py-1 ml-2 border-2 rounded-md bg-whitesecondCustom dark:bg-darksecondCustom md:w-1/4 ann-publish-date"
+                  class="w-1/2 py-1 ml-2 border-2 rounded-md bg-darksecondCustom md:w-1/4 ann-publish-date"
                   type="date"
               />
               <input
@@ -500,7 +500,7 @@ watch(()=>oldFiles,()=>{
                   :class="checkDisableTime(publishDate) ? 'opacity-50' : ''"
                   :disabled="checkDisableTime(publishDate)"
                   :placeholder="'  ' + comeTime + ''"
-                  class="w-1/2 py-1 ml-2 border-2 rounded-md bg-whitesecondCustom dark:bg-darksecondCustom md:w-1/4 ann-publish-time"
+                  class="w-1/2 py-1 ml-2 border-2 rounded-md bg-darksecondCustom md:w-1/4 ann-publish-time"
                   type="time"
               />
             </div>
@@ -511,7 +511,7 @@ watch(()=>oldFiles,()=>{
               <input
                   v-model="closeDate"
                   :placeholder="'  ' + comeDate + ''"
-                  class="w-1/2 py-1 ml-2 border-2 rounded-md bg-whitesecondCustom dark:bg-darksecondCustom md:w-1/4 ann-close-date"
+                  class="w-1/2 py-1 ml-2 border-2 rounded-md bg-darksecondCustom md:w-1/4 ann-close-date"
                   type="date"
               />
               <input
@@ -519,7 +519,7 @@ watch(()=>oldFiles,()=>{
                   :class="checkDisableTime(closeDate) ? 'opacity-50' : ''"
                   :disabled="checkDisableTime(closeDate)"
                   :placeholder="'  ' + comeTime + ''"
-                  class="w-1/2 py-1 ml-2 border-2 rounded-md bg-whitesecondCustom dark:bg-darksecondCustom md:w-1/4 ann-close-time"
+                  class="w-1/2 py-1 ml-2 border-2 rounded-md bg-darksecondCustom md:w-1/4 ann-close-time"
                   type="time"
               />
             </div>
@@ -571,7 +571,7 @@ watch(()=>oldFiles,()=>{
               {{ updateCheck ? "edit" : "submit" }}
             </button>
             <button
-                class="px-4 py-1 rounded-md bg-whitesecondCustom dark:bg-darksecondCustom ann-button"
+                class="px-4 py-1 rounded-md bg-darksecondCustom ann-button"
                 @click="$router.push({ name: `${role}homepage` })"
             >
               Cancel

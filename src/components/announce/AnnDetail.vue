@@ -212,7 +212,7 @@ watchEffect(() => {
 
           <div class="flex justify-end" v-show="isAdminPath">
             <!-- The button to open modal -->
-            <label class="btn btn-sm" for="my_modal_admin">Subscribe</label>
+            <label class="btn btn-sm bg-bgNav border-none text-white" for="my_modal_admin">Subscribe</label>
             <!-- The modal -->
             <input id="my_modal_admin" class="modal-toggle" type="checkbox" />
             <div class="modal">
@@ -223,7 +223,7 @@ watchEffect(() => {
                     type="email" />
                   <div class="modal-action">
                     <button class="btn submit text-white bg-bgNav" type="submit">Subscribe</button>
-                    <label class="btn bg-bgNav" for="my_modal_admin">Close</label>
+                    <label class="btn bg-bgNav text-white" for="my_modal_admin">Close</label>
                   </div>
                 </form>
               </div>
@@ -239,7 +239,7 @@ watchEffect(() => {
           </div>
         </div>
         <div class="flex justify-end">
-          <button v-show="isAdminPath" class="px-2 py-1 mt-2 ml-6 border-2 rounded-lg ann-button hover:bg-gray-300"
+          <button v-show="isAdminPath" class="px-2 py-1 mt-2 ml-6 border-2 rounded-lg ann-button hover:bg-gray-300 bg-bgNav"
             @click="
               $router.push({
                 name: 'editannouncement',
@@ -252,7 +252,7 @@ watchEffect(() => {
         <div class="flex justify-end" v-show="!isAdminPath">
           <div class="flex justify-end pt-2 sub">
             <!-- The button to open modal -->
-            <label class="btn btn-sm" for="my_modal_nonadmin">Subscribe</label>
+            <label class="btn btn-sm bg-bgNav border-none text-white" for="my_modal_nonadmin">Subscribe</label>
             <!-- The modal -->
             <input id="my_modal_nonadmin" class="modal-toggle" type="checkbox" />
             <div class="modal">
@@ -263,7 +263,7 @@ watchEffect(() => {
                     type="email" />
                   <div class="modal-action">
                     <button class="btn submit text-white bg-bgNav" type="submit">Subscribe</button>
-                    <label class="btn bg-bgNav" for="my_modal_nonadmin">Close</label>
+                    <label class="btn bg-bgNav text-white" for="my_modal_nonadmin">Close</label>
                   </div>
                 </form>
               </div>
