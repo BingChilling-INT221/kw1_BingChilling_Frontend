@@ -173,9 +173,12 @@ export const fetchCreateUserAnnouncer = async (sendPackage) => {
         });
         if (response.status === 200) {
             return response;
-        } else {
+        } else  if (response.status ===400){
+
+            return response
+        } {
             const errorResponse = await response.json();
-            console.log(errorResponse);
+            console.log(errorResponse.detail);
         }
     } catch (err) {
         console.log(err);
