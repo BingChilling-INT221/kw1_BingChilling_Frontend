@@ -91,6 +91,7 @@ const sendSubmit = async (event) => {
     } else {
       try {
         // console.log(JSON.stringify(sendPackage));
+
         const response = await fetchCreateUserAnnouncer(sendPackage);
         if (response.status === 200) {
           alert("Create user success");
@@ -100,6 +101,7 @@ const sendSubmit = async (event) => {
           if (response.status === 400) {
             status.value = 400;
           }
+          errorMessages.value=[]
           errm.value = await response.json();
           if (errm.value.detail && errm.value.detail.length > 0) {
             const extractedErrors = [];
@@ -209,6 +211,11 @@ let errorName = ref("");
 let errorConfirm = ref("");
 watchEffect(() => {
   // arrayError.value = ref([username, email, name])
+  errorUsername.value=""
+  errorPassword.value=""
+  errorEmail.value=""
+  errorName.value=""
+  errorConfirm.value=""
   for (const error of errorMessages.value) {
     console.log(error);
     if (error.field === "username") {
