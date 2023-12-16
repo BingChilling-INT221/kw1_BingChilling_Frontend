@@ -51,12 +51,18 @@ const selectFiles = () => {
   }
 };
 const uploadDefault = (event, index, action) => {
-
   console.log('uploadDefaultImage');
   console.log('k' + index);
   const files = event.target.files;
   uploadFile(files,index,action)
-
+  const fileInputRef = newFilesInput.value instanceof HTMLInputElement ? newFilesInput.value : null;
+  if (fileInputRef){
+    fileInputRef.value=null
+  }
+  const file2InputRef = newFilesInput.value instanceof HTMLInputElement ? fileInputRefs.value : null;
+  if (file2InputRef){
+    file2InputRef.value=null
+  }
 };
 const uploadFile =(files, index, action)=>{
   for (let i = 0; i < files.length; i++) {
