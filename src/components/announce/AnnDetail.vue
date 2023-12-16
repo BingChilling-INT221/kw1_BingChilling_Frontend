@@ -263,7 +263,7 @@ watchEffect(() => {
                     type="email" />
                   <div class="modal-action">
                     <button class="btn submit text-white bg-bgNav" type="submit">Subscribe</button>
-                    <label class="btn bg-bgNav text-white" for="my_modal_nonadmin">Close</label>
+                    <label class="btn bg-white  text-bgNav border-0 hover:border-2" for="my_modal_nonadmin">Close</label>
                   </div>
                 </form>
               </div>

@@ -256,10 +256,10 @@ onMounted(async () => {
                   <div class="modal">
                     <div class="modal-box bg-white text-black">
                       <form action="" @submit.prevent="sendSubmit">
-                        <div class="flex space-x-5 justify-center">
+                        <div class="flex space-x-5 justify-center ">
                           <label v-for="datas in category" :key="datas.id" class="flex items-center">
                             <input :id="'category' + datas.id" v-model="checkedCategories" :value="datas.categoryId"
-                                   class="mr-2" type="checkbox"/>
+                                   class="mr-2 " type="checkbox"/>
                             <span>{{ datas.categoryName }}</span>
                           </label>
                         </div>
@@ -268,7 +268,7 @@ onMounted(async () => {
                                placeholder="Enter your email" required type="email"/>
                         <div class="modal-action">
                           <button class="btn submit text-white bg-bgNav" type="submit">Subscribe</button>
-                          <label class="btn bg-bgNav text-white" for="my_modal_6">Close</label>
+                          <label class="btn  bg-white border-0 hover:border-2" for="my_modal_6">Close</label>
                         </div>
                       </form>
                     </div>
