@@ -23,9 +23,8 @@ onMounted(async () => {
       <!-- <p class="hidden py-2 text-xl md:inline-block">Category:</p> -->
       <select
           v-model="store.category"
-          class="text-sm rounded-lg block w-full p-2
-        bg-blackCustom ann-category-filter"
-
+          class=" select select-ghost max-w-xs text-sm rounded-lg block w-full p-2
+        bg-bgNav ann-category-filter text-white"
       >
         <option value="">All</option>
         <option
