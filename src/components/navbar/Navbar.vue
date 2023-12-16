@@ -1,10 +1,7 @@
 <script setup>
 import {computed, ref} from "vue";
-import Menu from "../icons/Menu.vue";
-import SearchBox from "./SearchBox.vue";
 import {useRoute} from "vue-router";
 import router from "@/router";
-import Search_light from "../icons/Search_light.vue";
 import {useUsersStore} from "@/stores/user";
 
 const userStore = useUsersStore()
@@ -14,7 +11,11 @@ const isSearch = ref(false);
 const checkAdmin = () => {
   return route.path.includes("/admin");
 };
-
+const checkRole = ()=>{
+  const role =userStore.role
+  console.log(role)
+  return role == "admin" || role == "annoucer"
+}
 const logout = async () => {
   userStore.logout()
   await router.push({name: "mainpage"});
@@ -56,60 +57,80 @@ const isLogin = computed(() => {
           </div>
         </div>
         <div class="flex justify-center align-middle">
-          <SearchBox class="hidden lg:block" @click="isSearch = true"/>
           <div
-              v-if="checkAdmin()"
+
               class="flex items-center justify-end space-x-4 grow"
           >
-            <div class="hidden md:block">{{ userStore.username }}</div>
-            <div class="hidden md:block">
-              <button v-if="!isLogin" @click="login">Log in</button>
-              <button v-if="isLogin" @click="logout">Log out</button>
-            </div>
-          </div>
-          <div v-else class="flex">
             <div
-                class="hidden m-auto cursor-pointer lg:inline-block"
-                @click="login"
+                v-if="checkRole()"
+                class="flex items-center justify-end space-x-4 grow"
             >
-              admin page
+              <div
+                  class="hidden m-auto cursor-pointer lg:inline-block"
+                  @click="login"
+              >
+                admin page
+              </div>
             </div>
-            <div class="cursor-pointer">
-              <Menu class="lg:hidden"/>
+              <div class="hidden md:block">{{ userStore.username }}</div>
+              <div class="hidden md:block">
+                <button v-if="!isLogin" @click="login">Log in</button>
+                <button v-if="isLogin" @click="logout">Log out</button>
+              </div>
+              <!--          <SearchBox class="hidden lg:block" @click="isSearch = true"/>-->
+              <!--          <div-->
+              <!--              v-if="checkAdmin()"-->
+              <!--              class="flex items-center justify-end space-x-4 grow"-->
+              <!--          >-->
+              <!--            <div class="hidden md:block">{{ userStore.username }}</div>-->
+              <!--            <div class="hidden md:block">-->
+              <!--              <button v-if="!isLogin" @click="login">Log in</button>-->
+              <!--              <button v-if="isLogin" @click="logout">Log out</button>-->
+              <!--            </div>-->
+              <!--          </div>-->
+              <!--          <div v-else class="flex">-->
+              <!--            <div-->
+              <!--                class="hidden m-auto cursor-pointer lg:inline-block"-->
+              <!--                @click="login"-->
+              <!--            >-->
+              <!--              admin page-->
+              <!--            </div>-->
+              <!--            <div class="cursor-pointer">-->
+              <!--              <Menu class="lg:hidden"/>-->
+              <!--            </div>-->
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div
-        :class="{ hidden: !isSearch }"
-        class="fixed top-0 w-full h-full m-auto bg-slate-800 search-page"
-    >
-      <div class="relative h-full p-4 lg:p-10 max-w-[1000px] m-auto">
-        <div class="flex justify-end">
-          <button
-              class="text-white rounded-lg text-sm px-5 py-2.5 text-center mb-2 bg-red-500"
-              @click="isSearch = false"
-          >
-            Close
-          </button>
-        </div>
-        <div>
-          <div class="relative">
-            <div class="absolute flex items-center m-auto">
-              <Search_light/>
-            </div>
-            <input
-                class="block w-full p-4 pl-10 text-sm text-gray-900 bg-gray-700 border border-gray-500 rounded-lg"
-                placeholder="Search For Announcements"
-                type="search"
-            />
-          </div>
-        </div>
-      </div>
+      <!--    <div-->
+      <!--        :class="{ hidden: !isSearch }"-->
+      <!--        class="fixed top-0 w-full h-full m-auto bg-slate-800 search-page"-->
+      <!--    >-->
+      <!--      <div class="relative h-full p-4 lg:p-10 max-w-[1000px] m-auto">-->
+      <!--        <div class="flex justify-end">-->
+      <!--          <button-->
+      <!--              class="text-white rounded-lg text-sm px-5 py-2.5 text-center mb-2 bg-red-500"-->
+      <!--              @click="isSearch = false"-->
+      <!--          >-->
+      <!--            Close-->
+      <!--          </button>-->
+      <!--        </div>-->
+      <!--        <div>-->
+      <!--          <div class="relative">-->
+      <!--            <div class="absolute flex items-center m-auto">-->
+      <!--              <Search_light/>-->
+      <!--            </div>-->
+      <!--            <input-->
+      <!--                class="block w-full p-4 pl-10 text-sm text-gray-900 bg-gray-700 border border-gray-500 rounded-lg"-->
+      <!--                placeholder="Search For Announcements"-->
+      <!--                type="search"-->
+      <!--            />-->
+      <!--          </div>-->
+      <!--        </div>-->
+      <!--      </div>-->
+      <!--    </div>-->
     </div>
-  </div>
 </template>
 
 <style scoped>

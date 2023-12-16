@@ -42,7 +42,7 @@ const routes = [
   {
     path: "/admin/announcement/viewer",
     name: "viewer",
-    meta: { requiredRole: ["admin", "announcer", "visitor"] },
+    meta: { requiredRole: ["admin", "announcer"] },
     component: () => import("@/views/admin/ViewerAnnPage.vue"),
   },
   {

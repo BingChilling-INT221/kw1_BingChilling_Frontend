@@ -45,7 +45,8 @@ const msalConfig = {
     clientId: "d48bf0d6-1418-46b3-a836-9a764309b1bb",
     authority:
       "https://login.microsoftonline.com/6f4432dc-20d2-441d-b1db-ac3380ba633d",
-    redirectUri: "https://intproj22.sit.kmutt.ac.th/kw1", // Redirect URI ของแอปพลิเคชัน Vue 3
+    // redirectUri: "https://intproj22.sit.kmutt.ac.th/kw1", // Redirect URI ของแอปพลิเคชัน Vue 3
+    redirectUri: "http://localhost:5173",
   },
 };
 
@@ -72,10 +73,10 @@ async function loginWithMicrosoft(event) {
     if (responseFromSpringBoot.status === 200) {
       status.value = 200;
       console.log("hi1", responseFromSpringBoot);
-      if (usersStore.role === "admin") {
+      if (usersStore.role === "admin" || usersStore.role === "announcer") {
         setTimeout(() => rou.push({ name: "adminhomepage" }), 1200);
       } else {
-        setTimeout(() => rou.push({ name: "viewer" }), 1200);
+        setTimeout(() => rou.push({ name: "mainpage" }), 1200);
       }
     } else if (responseFromSpringBoot.status === 401) {
       status.value = 401;
