@@ -41,13 +41,26 @@ const toggleSidebar = () => {
 const toggleShowAcc = () => {
   showAcc.value = !showAcc.value
 }
+
+const checkPath = (path) => {
+  // console.log(route.path, path, route.path.endsWith(path));
+  return route.path.includes(path);
+};
 </script>
 
 <template>
   <div class="">
     <div class="lg:h-[3.75rem] h-14 flex basis-full bg-bgNav text-header2 lg:px-6 lg:py-3 justify-between">
-      <div class="flex items-center justify-between basis-full">
-        <button class="lg:hidden pl-3" @click="toggleSidebar">
+      <div class="flex items-center basis-full" :class="
+            checkPath('/admin')
+              ? 'justify-between '
+              : 'justify-around'
+          ">
+        <button class="lg:hidden pl-3" @click="toggleSidebar" :class="
+            checkPath('/admin')
+              ? 'block '
+              : 'hidden'
+          ">
           <Menu />
         </button>
         <div class="cursor-pointer" @click="$router.push({ name: 'mainpage' })">
@@ -142,6 +155,9 @@ const toggleShowAcc = () => {
         <div class="align-middle lg:hidden ">
           <div class="flex items-center grow flex-col space-y-4 text-2xl content">
             <div v-if="checkRole()" class="flex items-center">
+              <div class=" m-auto cursor-pointer lg:inline-block" @click="login">
+                admin page
+              </div>
             </div>
             <div>{{ userStore.username }}</div>
             <div>
