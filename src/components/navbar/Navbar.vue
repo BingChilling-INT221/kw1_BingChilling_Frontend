@@ -53,8 +53,8 @@ const checkPath = (path) => {
     <div class="lg:h-[3.75rem] h-14 flex basis-full bg-bgNav text-header2 lg:px-6 lg:py-3 justify-between">
       <div class="flex items-center basis-full" :class="
             checkPath('/admin')
-              ? 'justify-between '
-              : 'justify-around'
+              ? 'justify-between'
+              : 'justify-around lg:justify-between'
           ">
         <button class="lg:hidden pl-3" @click="toggleSidebar" :class="
             checkPath('/admin')
