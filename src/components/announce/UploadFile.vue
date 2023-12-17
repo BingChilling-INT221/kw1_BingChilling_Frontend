@@ -30,15 +30,15 @@ const props=defineProps(
 )
 const emit = defineEmits(['upload'])
 watch(() => props.preview, (value) => {
-  console.log('value : ', value);
+  // console.log('value : ', value);
   filesPreview.value = JSON.parse(JSON.stringify(value));
 });
 watch(()=>oldFiles,(value)=>{
-  console.log('oldFiles : ', oldFiles);
+  // console.log('oldFiles : ', oldFiles);
   emit('upload',files.value, oldFiles.value)
 }, {deep: true})
 watch(()=>files,(value)=>{
-  console.log('files : ', files);
+  // console.log('files : ', files);
   emit('upload',files.value, oldFiles.value)
 }, {deep: true})
 const selectFiles = () => {
@@ -51,8 +51,8 @@ const selectFiles = () => {
   }
 };
 const uploadDefault = (event, index, action) => {
-  console.log('uploadDefaultImage');
-  console.log('k' + index);
+  // console.log('uploadDefaultImage');
+  // console.log('k' + index);
   const files = event.target.files;
   uploadFile(files,index,action)
   const fileInputRef = newFilesInput.value instanceof HTMLInputElement ? newFilesInput.value : null;
@@ -66,11 +66,11 @@ const uploadDefault = (event, index, action) => {
 };
 const uploadFile =(files, index, action)=>{
   for (let i = 0; i < files.length; i++) {
-    console.log('files[i] : ', files[i]);
+    // console.log('files[i] : ', files[i]);
     try {
-      console.log('files[i].size : ', files[i].size);
-      console.log('maxFileSize : ', maxFileSize);
-      console.log('files[i].size > maxFileSize : ', files[i].size > maxFileSize);
+      // console.log('files[i].size : ', files[i].size);
+      // console.log('maxFileSize : ', maxFileSize);
+      // console.log('files[i].size > maxFileSize : ', files[i].size > maxFileSize);
       if (files[i].size > maxFileSize) {
         alert('File size is too large. Max file size is 10MB.');
         continue;
@@ -86,7 +86,7 @@ const uploadFile =(files, index, action)=>{
   }
 }
 const previewFile = (file, index, action) => {
-  console.log('index : ', index);
+  // console.log('index : ', index);
   const reader = new FileReader();
   console.log('file : ', file);
   reader.onload = () => {

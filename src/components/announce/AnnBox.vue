@@ -15,7 +15,7 @@ const isAdminPath = computed(() => {
     // console.log("viwer", route.path)
     return false;
   }
-  console.log(route.path);
+  // console.log(route.path);
   if (route.path.includes("admin")) {
     // console.log("admin", route.path)
     return true;

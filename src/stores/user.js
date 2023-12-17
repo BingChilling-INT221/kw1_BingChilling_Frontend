@@ -52,20 +52,20 @@ export const useUsersStore = defineStore("users", () => {
                 // console.log("storedToken");
                 token.value = storedToken;
                 const {username: storedUsername, role: storedRole,email: storedEmail} = jwtDecode(token.value);
-                console.log(storedUsername, "storedUsername");
-                console.log(storedRole, "storedRole");
-                console.log(storedEmail, "storedEmail");
+                // console.log(storedUsername, "storedUsername");
+                // console.log(storedRole, "storedRole");
+                // console.log(storedEmail, "storedEmail");
                 username.value = storedUsername;
                 role.value = storedRole;
                 email.value = storedEmail;
                 return true;
             } else {
-                console.log("reToken1");
+                // console.log("reToken1");
                 if (await reToken()) {
-                    console.log("reToken");
+                    // console.log("reToken");
                     return await recall();
                 }
-                console.log("reToken2");
+                // console.log("reToken2");
             }
         }
         return false;

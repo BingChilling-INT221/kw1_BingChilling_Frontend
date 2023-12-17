@@ -136,8 +136,8 @@ router.beforeEach(async (to, from, next) => {
       // console.log(token, "token");
     }
   }
-  console.log(token, "token");
-  console.log(usersStore.role, "role");
+  // console.log(token, "token");
+  // console.log(usersStore.role, "role");
   // If the user is trying to visit the login page and they are already authenticated, redirect them.
   if (to.path === "/login") {
     if (token) {

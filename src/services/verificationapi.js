@@ -72,7 +72,7 @@ export const getSubscribes = async (email) => {
 }
 export const unsubscribes = async (email, subscribes) => {
     if (subscribes) {
-        console.log(JSON.stringify({email, subscribes}))
+        // console.log(JSON.stringify({email, subscribes}))
         const response = await fetch(`${import.meta.env.VITE_BASE_URL}subscribes/unsubscribe/id`, {
             method: "DELETE",
             headers: {
@@ -83,7 +83,7 @@ export const unsubscribes = async (email, subscribes) => {
         if (response.status === 200) {
             if (!response.bodyUsed) {
                 const text = await response.text();
-                console.log(text);
+                // console.log(text);
                 return text;
             } else {
                 console.error('Response body has already been consumed');
@@ -103,7 +103,7 @@ export const unsubscribes = async (email, subscribes) => {
         if (response.status === 200) {
             if (!response.bodyUsed) {
                 const text = await response.text();
-                console.log(text);
+                // console.log(text);
                 return text;
             } else {
                 console.error('Response body has already been consumed');

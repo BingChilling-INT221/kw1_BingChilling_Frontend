@@ -8,7 +8,7 @@ export const fetchPreview = async (id) => {
         const response = await fetch(
             `${import.meta.env.VITE_BASE_URL}files/${id}`
         );
-        console.log(response);
+        // console.log(response);
         if (response.status === 200) {
             return response;
         } else if (response.status === 404) {
@@ -48,7 +48,7 @@ export const uploadFiles = async (id, files) => {
 
         if (response.ok) {
             const data = await response.text();
-            console.log('Upload successful:', data);
+            // console.log('Upload successful:', data);
             return response;
             // ทำสิ่งที่ต้องการเมื่ออัปโหลดสำเร็จ
         } else {
@@ -63,9 +63,9 @@ export const uploadFiles = async (id, files) => {
 }
 
 export const updateFiles = async (id, files, oldFiles) => {
-    console.log(files);
-    console.log(oldFiles);
-    console.log(id);
+    // console.log(files);
+    // console.log(oldFiles);
+    // console.log(id);
     const usersStore = useUsersStore();
     const token = usersStore.token
     if (token === null) {
@@ -83,9 +83,9 @@ export const updateFiles = async (id, files, oldFiles) => {
         formData.append('file', new File([""], "empty"));
     }
     formData.append('oldFile', oldFiles);
-    for (var pair of formData.entries()) {
-        console.log(pair[0]+ ', ' + pair[1]);
-    }
+    // for (var pair of formData.entries()) {
+    //     console.log(pair[0]+ ', ' + pair[1]);
+    // }
     try {
         const response = await fetch(`${import.meta.env.VITE_BASE_URL}files/${id}`, {
             method: 'PUT',
@@ -97,7 +97,7 @@ export const updateFiles = async (id, files, oldFiles) => {
 
         if (response.ok) {
             const data = await response.text();
-            console.log('Update successful:', data);
+            // console.log('Update successful:', data);
             return response;
             // ทำสิ่งที่ต้องการเมื่ออัพเดทสำเร็จ
         } else {

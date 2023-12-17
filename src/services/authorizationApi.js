@@ -53,39 +53,39 @@ export const fetchCreateToken = async (sendData) => {
 };
 
 export const reToken = async () => {
-  console.log("reToken");
+  // console.log("reToken");
   const usersStore = useUsersStore();
-  console.log(usersStore.token, "token");
+  // console.log(usersStore.token, "token");
   const token = usersStore.token;
   const refreshToken = usersStore.refreshToken;
-  console.log(token, "token");
+  // console.log(token, "token");
   if (token != "") {
-    console.log(
-      jwtDecode(token).exp > Date.now() / 1000,
-      "jwtDecode(token).exp > Date.now() / 1000"
-    );
+    // console.log(
+    //   jwtDecode(token).exp > Date.now() / 1000,
+    //   "jwtDecode(token).exp > Date.now() / 1000"
+    // );
     if (jwtDecode(token).exp > Date.now() / 1000) {
       return false;
     }
   }
-  console.log("reToken2");
-  console.log(`"Bearer "+${refreshToken}`);
+  // console.log("reToken2");
+  // console.log(`"Bearer "+${refreshToken}`);
   const response = await fetch(`${import.meta.env.VITE_BASE_URL}token`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${refreshToken}`,
     },
   });
-  console.log(response, "response");
+  // console.log(response, "response");
   if (response.status === 200) {
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     localStorage.setItem("token", `Bearer ${data.token}`);
     usersStore.setToken(`Bearer ${data.token}`);
-    console.log("token new");
+    // console.log("token new");
     return true;
   }
-  console.log("token new error");
+  // console.log("token new error");
   localStorage.clear();
   await router.push({ name: "login" });
 };
@@ -109,7 +109,7 @@ export const sendTokenToSpringBoot = async (token) => {
       usersStore.setRefreshToken(`${data.refreshToken}`);
       usersStore.setUsername(jwtDecode(data.token).username);
       usersStore.setRole(jwtDecode(data.token).role);
-      console.log(data); // หากต้องการดำเนินการเพิ่มเติมกับข้อมูลที่ได้จาก backend
+      // console.log(data); // หากต้องการดำเนินการเพิ่มเติมกับข้อมูลที่ได้จาก backend
       return response;
     } else {
       console.error("Failed to send token to Spring Boot");

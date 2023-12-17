@@ -112,19 +112,19 @@ const sendSubmit = async (event) => {
   // console.log(categories.value);
   // console.log(queryAnnounce.announcementCategory);
   const selectedCategory = categories.value.find(category => category.categoryName === queryAnnounce.value.announcementCategory);
-  console.log(selectedCategory);
+  // console.log(selectedCategory);
   fetchSub.value = true;
   const sendData = {
     subscribes: [selectedCategory.categoryId],
     email: email.value,
   };
-  console.log(sendData);
+  // console.log(sendData);
   try {
     const response = await emailverification(sendData);
     if (response.status === 200) {
       fetchSub.value = false;
       await router.push({name: `verify`});
-      console.log(response.tokenOtp);
+      // console.log(response.tokenOtp);
     }
     email.value = '';
   } catch (error) {

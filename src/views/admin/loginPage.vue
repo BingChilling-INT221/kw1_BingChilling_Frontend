@@ -24,7 +24,7 @@ const sendSubmit = async (event) => {
     const response = await fetchCreateToken(sendData);
     if (response.status === 200) {
       status.value = 200;
-      console.log("hi1", response);
+      // console.log("hi1", response);
       setTimeout(() => rou.push({ name: "adminhomepage" }), 1200);
     } else if (response.status === 401) {
       status.value = 401;
@@ -68,12 +68,12 @@ async function loginWithMicrosoft(event) {
     const accessToken = response.accessToken; // Access token ที่ได้จากการ login
 
     // ส่ง accessToken ไปยัง Spring Boot backend
-    console.log(accessToken);
+    // console.log(accessToken);
     const responseFromSpringBoot = await sendTokenToSpringBoot(accessToken);
-    console.log(responseFromSpringBoot);
+    // console.log(responseFromSpringBoot);
     if (responseFromSpringBoot.status === 200) {
       status.value = 200;
-      console.log("hi1", responseFromSpringBoot);
+      // console.log("hi1", responseFromSpringBoot);
       if (usersStore.role === "admin" || usersStore.role === "announcer") {
         setTimeout(() => rou.push({ name: "adminhomepage" }), 1200);
       } else {

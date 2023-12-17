@@ -17,8 +17,8 @@ onMounted(async () => {
 })
 const unsubscribe = async (event) => {
   event.preventDefault();
-  console.log(unsubscribeList.value);
-  console.log(unsubscribeAll.value);
+  // console.log(unsubscribeList.value);
+  // console.log(unsubscribeAll.value);
   let response;
   if (unsubscribeAll.value) {
     response = await unsubscribes(email.value);

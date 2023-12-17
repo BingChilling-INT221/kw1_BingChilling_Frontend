@@ -82,8 +82,8 @@ export const fetchCountParam = async (route, count, auth) => {
     //   }
     // }
     try {
-        console.log(token);
-        console.log(auth);
+        // console.log(token);
+        // console.log(auth);
         let response
         if (auth) {
             response = await fetch(
