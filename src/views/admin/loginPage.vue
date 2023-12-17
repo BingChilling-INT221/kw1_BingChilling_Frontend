@@ -42,9 +42,9 @@ import { onMounted } from "vue";
 
 const msalConfig = {
   auth: {
-    clientId:`${process.env.VUE_APP_CLIENT_ID}`,
+    clientId:`${import.meta.env.VUE_APP_CLIENT_ID}`,
     authority:
-      `https://login.microsoftonline.com/${process.env.VUE_APP_TENANT_ID}}`,
+      `https://login.microsoftonline.com/${import.meta.env.VUE_APP_TENANT_ID}}`,
     // redirectUri: "https://intproj22.sit.kmutt.ac.th/kw1", // Redirect URI ของแอปพลิเคชัน Vue 3
     redirectUri: "/",
   },
