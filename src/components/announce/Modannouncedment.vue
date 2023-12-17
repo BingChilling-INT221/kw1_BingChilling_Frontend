@@ -292,7 +292,7 @@ const sendSubmit = async (event) => {
         if (response2.status === 200) {
           alert("update file success");
         } else {
-          console.log(response2);
+          // console.log(response2);
           alert("update file fail");
           errm.value = await response2.json();
           alert(errm.value.message);
@@ -301,7 +301,7 @@ const sendSubmit = async (event) => {
         alert("update announcement success");
         await router.push({name: `adminhomepage`});
       } else {
-        console.log(response);
+        // console.log(response);
         alert("update announcement fail");
         errm.value = await response.json();
         alert(errm.value.message);
@@ -312,20 +312,22 @@ const sendSubmit = async (event) => {
     }
   } else {
     try {
-      console.log(JSON.stringify(sendPackage));
+      // console.log(JSON.stringify(sendPackage));
       const response = await fetchCreate(sendPackage);
       const result = await response.json();
-      console.log(result);
+      // console.log(result);
       if (response.status === 200) {
         alert("Create announcement success");
-        const response2 = await uploadFiles(result.id, files.value)
-        console.log(response2)
-        if (response2.status === 200) {
-          alert("Create file success");
-        } else {
-          alert("Create file fail");
-          errm.value = await response2.json();
-          alert(errm.value.message);
+        // console.log(response2)
+        if (files.value.length !== 0) {
+          const response2 = await uploadFiles(result.id, files.value)
+          if (response2.status === 200) {
+            alert("Create file success");
+          } else {
+            alert("Create file fail");
+            errm.value = await response2.json();
+            alert(errm.value.message);
+          }
         }
         await router.push({name: `adminhomepage`});
       } else {
@@ -403,12 +405,12 @@ const fetchPreviewF =async ()=>{
 }
 const oldFiles = ref([]);
 const upload=  (filessend,oldFilesend)=>{
-  filessend.forEach((file)=>{
-   console.log(file)
-  })
-  oldFilesend.forEach((file)=>{
-    console.log(file)
-  })
+  // filessend.forEach((file)=>{
+  //  // console.log(file)
+  // })
+  // oldFilesend.forEach((file)=>{
+  //   // console.log(file)
+  // })
   if (filessend.length === 0 && oldFilesend.length === 0) return;
   if (filessend.length === 0 && oldFilesend.length !== 0) {
     oldFiles.value = oldFilesend;
@@ -424,7 +426,7 @@ const upload=  (filessend,oldFilesend)=>{
 watch(()=>files,()=>{
       if (!updateCheck.value) return;
       change.value = false;
-      console.log(files.value.length,oldFiles.value.length)
+      // console.log(files.value.length,oldFiles.value.length)
       if (files.value.length > 0) {
         change.value = true;
         return;
@@ -434,13 +436,26 @@ watch(()=>files,()=>{
 watch(()=>oldFiles,()=>{
       if (!updateCheck.value) return;
       change.value = false;
-      console.log(files.value.length,oldFiles.value.length)
+      // console.log(files.value.length,oldFiles.value.length)
       if (oldFiles.value.length > 0) {
         change.value = true;
         return;
       }
     },
     {deep: true})
+const submitCheck = computed(() => {
+  // console.log(announcementTitle.value)
+  // console.log(announcementDescription.value)
+  // console.log(updateCheck.value)
+  if(updateCheck.value) return false;
+  if (announcementTitle.value === null) return true;
+  if (announcementTitle.value.length === 0) return true;
+  if (announcementTitle.value.length > 200) return true;
+  if (announcementDescription.value === null) return true;
+  if (announcementDescription.value.length === 0) return true;
+  if (announcementDescription.value.length > 10000) return true;
+  return false;
+});
 </script>
 <template>
   <!-- <div class="text-amber">{{files}}</div>
@@ -564,11 +579,15 @@ watch(()=>oldFiles,()=>{
 
           <div class="flex justify-end py-5 space-x-2">
             <button
-                :class="change || !updateCheck ? 'bg-blue-500' : 'opacity-40 '"
-                :disabled="!change && updateCheck"
+                :class="(change && updateCheck) ||!submitCheck? 'bg-blue-500' : ' opacity-40 '"
+                :disabled="(!change && updateCheck) || submitCheck "
                 class="px-4 py-1 rounded-md ann-button submit"
             >
               {{ updateCheck ? "edit" : "submit" }}
+              {{submitCheck}}
+              {{updateCheck}}
+              {{change}}
+              {{ !updateCheck }}
             </button>
             <button
                 class="px-4 py-1 rounded-md bg-darksecondCustom ann-button"
