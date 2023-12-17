@@ -1,5 +1,5 @@
 <script setup>
-import {computed, onMounted, ref, watch} from "vue";
+import {computed, onMounted, ref, watch,inject} from "vue";
 import {useRoute, useRouter} from "vue-router";
 import {fetchCateForMod} from "@/services/catApi.js";
 import {fetchCreate, fetchUpdate} from "@/services/annApi.js";
@@ -8,13 +8,12 @@ import UploadFile from "@/components/announce/UploadFile.vue";
 import {fetchPreview, updateFiles, uploadFiles} from '@/services/fileApi.js';
 const route = useRoute();
 const limit = 10000;
-
 const props = defineProps({
   updatePackage: {
     type: Object,
   },
 });
-
+const loading = inject("loading");
 const updateCheck = ref(false);
 watch(
     () => props.updatePackage,
@@ -251,6 +250,7 @@ const checkCloseTime = () => {
 };
 const errm = ref();
 const sendSubmit = async (event) => {
+  loading.value = true;
   if (
       !(
           checkPublishDate() &&
@@ -285,19 +285,18 @@ const sendSubmit = async (event) => {
       // console.log(sendPackage);
       // console.log(props.updatePackage);
       // console.log(JSON.stringify(sendPackage));
-      const response = await fetchUpdate(sendPackage, route);
-      const response2 = await updateFiles(route.params.id, files.value, oldFiles.value);
-
-      if (response.status === 200 ) {
+      const response = await fetchUpdate(sendPackage, route)
+      if (files.value.length !== 0) {
+        const response2 = await uploadFiles(route.params.id, files.value)
         if (response2.status === 200) {
-          alert("update file success");
+          alert("Create file success");
         } else {
-          // console.log(response2);
-          alert("update file fail");
+          alert("Create file fail");
           errm.value = await response2.json();
           alert(errm.value.message);
-          // console.log(errm.value.message)
         }
+      }
+      if (response.status === 200 ) {
         alert("update announcement success");
         await router.push({name: `adminhomepage`});
       } else {
@@ -339,6 +338,7 @@ const sendSubmit = async (event) => {
       alert(err);
     }
   }
+  loading.value = false;
 };
 
 const countTitleCharac = computed(() => {
@@ -584,10 +584,6 @@ const submitCheck = computed(() => {
                 class="px-4 py-1 rounded-md ann-button submit"
             >
               {{ updateCheck ? "edit" : "submit" }}
-              {{submitCheck}}
-              {{updateCheck}}
-              {{change}}
-              {{ !updateCheck }}
             </button>
             <button
                 class="px-4 py-1 rounded-md bg-darksecondCustom ann-button"
