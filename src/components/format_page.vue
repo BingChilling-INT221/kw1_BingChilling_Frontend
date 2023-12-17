@@ -9,16 +9,24 @@ const checkAdmin = () => {
   return route.path.includes("/admin");
 };
 const loading = ref(false);
-provide("loading", loading);
+const showSidebar = ref(false);
+
+const toggleSidebar = (value) => {
+  showSidebar.value = value;
+};
+
+provide("loading", loading, "showSidebar", showSidebar);
+
+
 </script>
 
 <template>
   <div>
     <div class="">
-      <Sidebar v-show="checkAdmin()"/>
+      <Sidebar v-show="checkAdmin()" :showSidebar="showSidebar"/>
       <div class="flex max-w-full basis-full">
         <div v-if="loading" class="loadDiv "><span class="loading loading-spinner w-1/6 text-blue "></span></div>
-        <Navbar class="fixed top-0 left-0 w-full max "></Navbar>
+        <Navbar class="fixed top-0 left-0 w-full max " @toggle-sidebar="toggleSidebar"></Navbar>
         <div
             :class="checkAdmin() ? 'lg:ml-[320px] pl-6' : ''"
             class="pt-[3.75rem] w-full"
