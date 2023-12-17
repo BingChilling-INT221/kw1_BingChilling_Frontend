@@ -474,7 +474,7 @@ watch(()=>oldFiles,()=>{
             <p class="w-full py-2 text-2xl font-bold md:w-1/4">Category</p>
             <select
                 v-model="categoryId"
-                class="w-full ml-2 shadow-md bg-darksecondCustom md:w-3/4 md:ml-2 rounded-md ann-category"
+                class=" select w-full ml-2 shadow-md bg-darksecondCustom md:w-3/4 md:ml-2 rounded-md ann-category"
                 required
             >
               <option
