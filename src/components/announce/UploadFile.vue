@@ -88,7 +88,7 @@ const uploadFile =(files, index, action)=>{
 const previewFile = (file, index, action) => {
   // console.log('index : ', index);
   const reader = new FileReader();
-  console.log('file : ', file);
+  // console.log('file : ', file);
   reader.onload = () => {
     const obj = {
       previewType: 'image',
@@ -96,7 +96,7 @@ const previewFile = (file, index, action) => {
       previewName: file.name,
       isDragging: false,
     };
-    console.log('file.type : ', file.type);
+    // console.log('file.type : ', file.type);
     if (file.type.startsWith('image/')) {
       obj.previewUrl = reader.result;
     } else if (file.type === 'text/plain') {
@@ -119,7 +119,7 @@ const previewFile = (file, index, action) => {
     }
     // console.log('obj : ', obj);
     if (action === 'reset') {
-      console.log('obj : ', obj);
+      // console.log('obj : ', obj);
       if (filesPreview.value.every((item) => item.fileName !== obj.previewName)|| oldFiles.value.some((item) => item === obj.previewName)) {
         update(obj.previewType, obj.previewUrl, obj.previewName, obj.isDragging, index);
       }
@@ -127,7 +127,7 @@ const previewFile = (file, index, action) => {
         files.value[index] = file;
       }
 
-      console.log('files.value : ', files.value);
+      // console.log('files.value : ', files.value);
 
     } else {
       if (filesPreview.value.every((item) => item.fileName !== obj.previewName)) {
@@ -151,7 +151,7 @@ const previewFile = (file, index, action) => {
   reader.readAsDataURL(file);
 };
 const add = (previewType, previewUrl, previewName, isDragging) => {
-  console.log('add');
+  // console.log('add');
   // console.log('previewType : ', previewType);
   filesPreview.value.push({
     fileType: previewType,
@@ -161,7 +161,7 @@ const add = (previewType, previewUrl, previewName, isDragging) => {
 };
 
 const update = (previewType, previewUrl, previewName, isDragging, index) => {
-  console.log('index : ', index);
+  // console.log('index : ', index);
   if (props.preview[index].fileName === filesPreview.value[index].fileName) {
     oldFiles.value.push(filesPreview.value[index].fileName);
   }
@@ -173,8 +173,8 @@ const removeImg = (index) => {
   if (isUploading.value) {
     return;
   }
-  console.log('index : ', index);
-  console.log('filesPreview.value : ', filesPreview.value);
+  // console.log('index : ', index);
+  // console.log('filesPreview.value : ', filesPreview.value);
   // filesPreview.value.splice(index, 1);
   // console.log('filesPreview.value : ', filesPreview.value);
   if (props.preview.some((item) => item.fileName === filesPreview.value[index].fileName)) {
@@ -182,13 +182,13 @@ const removeImg = (index) => {
   }
   else {
   const indefinable = files.value.indexOf((item) => {
-    console.log('item : ', item);
-    console.log('filesPreview.value[index].fileName : ', filesPreview.value[index].fileName);
-    console.log('item.name : ', item.name);
+    // console.log('item : ', item);
+    // console.log('filesPreview.value[index].fileName : ', filesPreview.value[index].fileName);
+    // console.log('item.name : ', item.name);
     return item.name === filesPreview.value[index].fileName;
   });
   files.value.splice(indefinable, 1);}
-  console.log('files.value : ', files.value);
+  // console.log('files.value : ', files.value);
   filesPreview.value.splice(index, 1);
   // console.log('files.value : ', files.value);
 };
@@ -231,7 +231,7 @@ const handleDrop = (event, index, action) => {
   } else {
 
   }
-  console.log('event.dataTransfer.files : ', event.dataTransfer.files);
+  // console.log('event.dataTransfer.files : ', event.dataTransfer.files);
   const files = event.dataTransfer.files;
   uploadFile(files,index,action)
 };
