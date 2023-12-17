@@ -42,9 +42,10 @@ import { onMounted } from "vue";
 
 const msalConfig = {
   auth: {
-    clientId:`${import.meta.env.VUE_APP_CLIENT_ID}`,
+    clientId: "d48bf0d6-1418-46b3-a836-9a764309b1bb", // Client ID ของแอปพลิเคชัน Vue 3
     authority:
-      `https://login.microsoftonline.com/${import.meta.env.VUE_APP_TENANT_ID}}`,
+      "https://login.microsoftonline.com/" +
+      "6f4432dc-20d2-441d-b1db-ac3380ba633d", // Tenant ID ของ Azure AD
     // redirectUri: "https://intproj22.sit.kmutt.ac.th/kw1", // Redirect URI ของแอปพลิเคชัน Vue 3
     redirectUri: "/",
   },
