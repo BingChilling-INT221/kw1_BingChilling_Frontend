@@ -15,12 +15,14 @@ const CheckRole = (reqrole) => {
   return userStore.role === reqrole;
 };
 
+const props = defineProps(["showSidebar"]);
+
 </script>
 
 <template>
 
   <div>
-    <div class="absolute w-[320px] pt-[3.75rem] min-h-screen lg:block hidden">
+    <div class="lg:absolute w-[320px] pt-[3.75rem] min-h-screen lg:block" :class="showSidebar ? `block` : `hidden`">
       <div class="w-10/12 mt-1 ml-4 space-y-2">
         <button
             :class="

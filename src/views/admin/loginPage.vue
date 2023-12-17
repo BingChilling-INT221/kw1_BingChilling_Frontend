@@ -109,7 +109,7 @@ async function loginWithMicrosoft(event) {
                     <p>Username</p>
                   </div>
                   <input v-model="username" autocomplete="username"
-                    class="px-3 py-2 rounded-sm ann-title bg-inputAdmin ann-username border-[1px] border-borderInputAdmin leading-10 text-xs outline-none"
+                    class="px-3 py-2 rounded-sm ann-title bg-gray-700 ann-username border-[1px] border-borderInputAdmin leading-10 text-xs outline-none"
                     maxlength="45" placeholder="Enter your username" required type="text" />
                   <div class="flex flex-col space-y-2 text-lg">
                     <div class="flex flex-row justify-between text-sm">
@@ -117,7 +117,7 @@ async function loginWithMicrosoft(event) {
                       <p>Forgot password?</p>
                     </div>
                     <input v-model="password" autocomplete="current-password"
-                      class="px-3 py-2 rounded-sm ann-title bg-inputAdmin ann-password border-[1px] border-borderInputAdmin leading-10 text-xs outline-none"
+                      class="px-3 py-2 rounded-sm ann-title bg-gray-700 ann-password border-[1px] border-borderInputAdmin leading-10 text-xs outline-none"
                       maxlength="14" placeholder="Enter your password" required type="password" />
                   </div>
                 </div>
