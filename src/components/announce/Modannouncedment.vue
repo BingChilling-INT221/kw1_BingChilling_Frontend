@@ -579,15 +579,17 @@ const submitCheck = computed(() => {
 
           <div class="flex justify-end py-5 space-x-2">
             <button
-                :class="(change && updateCheck) ||!submitCheck? 'bg-blue-500' : ' opacity-40 '"
+                type="submit"
+                :class="(change && updateCheck) ||(!submitCheck && !updateCheck)? 'bg-blue-500' : ' opacity-40 '"
                 :disabled="(!change && updateCheck) || submitCheck "
                 class="px-4 py-1 rounded-md ann-button submit"
             >
               {{ updateCheck ? "edit" : "submit" }}
             </button>
             <button
+                type="reset"
                 class="px-4 py-1 rounded-md bg-darksecondCustom ann-button"
-                @click="$router.push({ name: `${role}homepage` })"
+                @click="$router.push({ name: `adminhomepage` })"
             >
               Cancel
             </button>

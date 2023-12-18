@@ -46,7 +46,6 @@ const msalConfig = {
     authority:
       "https://login.microsoftonline.com/" +
         import.meta.env.VITE_BASE_TENANT_ID, // Tenant ID ของ Azure AD
-    // redirectUri: "https://intproj22.sit.kmutt.ac.th/kw1", // Redirect URI ของแอปพลิเคชัน Vue 3
     redirectUri: import.meta.env.VITE_BASE_REDIRECT_URI,
   },
 };
