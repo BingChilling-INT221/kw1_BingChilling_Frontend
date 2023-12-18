@@ -340,13 +340,13 @@ const sendSubmit = async (event) => {
     try {
       // console.log(JSON.stringify(sendPackage));
       const response = await fetchCreate(sendPackage);
-      const result = await response.json();
       loading.value = false;
       // console.log(result);
       if (response.status === 200) {
         alert("Create announcement success");
         // console.log(response2)
         if (files.value.length !== 0) {
+          const result = await response.json();
           const response2 = await uploadFiles(result.id, files.value)
           if (response2.status === 200) {
             alert("Create file success");
@@ -359,10 +359,16 @@ const sendSubmit = async (event) => {
         await router.push({name: `adminhomepage`});
       } else {
         alert("Create announcement fail");
-        errm.value = await response.json();
-        alert(errm.value.message);
+        console.log(response)
+        // const errm = await response.json();
+        // console.log(errm)
+        // errm.value.detail.forEach((err) => {
+        //   const  errm ="field : " +err.field+" error : "+  err.errorMessage
+        //   alert(errm);
+        // });
       }
     } catch (err) {
+      console.log("error")
       loading.value = false;
       alert(err);
     }

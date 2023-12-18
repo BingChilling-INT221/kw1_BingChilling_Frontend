@@ -148,7 +148,18 @@ export const fetchCreate = async (sendPackage) => {
             }
             console.log("401");
             // return router.push({ name: "login" });
-        } else {
+        }
+        else  if(response.status === 400){
+            const errorResponse = await response.json();
+            console.log("400")
+            console.log(errorResponse);
+            errorResponse.detail.forEach((err) => {
+              const  errm ="field : " +err.field+" error : "+  err.errorMessage
+              alert(errm);
+            });
+            return response;
+        }
+        else {
             const errorResponse = await response.json();
             console.log(errorResponse);
         }
