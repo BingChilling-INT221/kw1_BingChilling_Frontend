@@ -239,7 +239,7 @@ watchEffect(() => {
           </div>
         </div>
         <div class="flex justify-end">
-          <button v-show="isAdminPath" class="px-2 py-1 mt-2 ml-6 border-2 rounded-lg ann-button hover:bg-gray-300 bg-bgNav"
+          <button v-show="isAdminPath" class="px-5 py-2 mt-2 ml-6 border-2 rounded-lg ann-button hover:bg-gray-300 bg-bgNav"
             @click="
               $router.push({
                 name: 'editannouncement',
@@ -273,8 +273,8 @@ watchEffect(() => {
       </div>
     </div>
     <div>
-    <div>attachment</div>
-      <div v-for="file in preview">
+    <p class="text-xl">attachment</p>
+      <div v-for="file in preview" class="flex justify-center">
 <!--        {{file.fileName}}-->
 <!--        {{file.fileType}}-->
 <!--        {{file.fileUrl}}-->
