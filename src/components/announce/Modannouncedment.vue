@@ -60,23 +60,22 @@ watch(
     () => {
       if (!updateCheck.value) return;
       change.value = false;
+      if (category.value[categoryId.value - 1]?.categoryName !== props.updatePackage.categoryId) {
+        change.value = true;
+        return;
+      }
       for (const property in compObj.value) {
-        if (compObj.value[property] === undefined) continue;
         if (property === "categoryId") {
           if (
               category.value[compObj.value[property] - 1]?.categoryName !==
               props.updatePackage.categoryId
           ) {
-            // console.log(
-            //     category.value[compObj.value[property]]?.categoryName,
-            //     props.updatePackage[property]
-            // );
             change.value = true;
-            console.log(
-                category.value[compObj.value[property] - 1]?.categoryName,
-                props.updatePackage[property],
-                property
-            );
+            // console.log(
+            //     category.value[compObj.value[property] - 1]?.categoryName,
+            //     props.updatePackage[property],
+            //     property
+            // );
             break;
           }
           continue;
@@ -311,6 +310,7 @@ const sendSubmit = async (event) => {
         console.log(change.value)
       if (change.value) {
       const response = await fetchUpdate(sendPackage, route);
+        loading.value = false;
       if (response.status === 200 ) {
         alert("update announcement success");
         await router.push({name: `adminhomepage`});
@@ -332,6 +332,7 @@ const sendSubmit = async (event) => {
       }
 
     } catch (err) {
+      loading.value = false;
       alert(err);
     }
   } else {
@@ -339,6 +340,7 @@ const sendSubmit = async (event) => {
       // console.log(JSON.stringify(sendPackage));
       const response = await fetchCreate(sendPackage);
       const result = await response.json();
+      loading.value = false;
       // console.log(result);
       if (response.status === 200) {
         alert("Create announcement success");
@@ -360,6 +362,7 @@ const sendSubmit = async (event) => {
         alert(errm.value.message);
       }
     } catch (err) {
+      loading.value = false;
       alert(err);
     }
   }
