@@ -1,6 +1,4 @@
-import {da} from "vuetify/locale";
 import {reToken} from "@/services/authorizationApi";
-import router from "@/router";
 import {useUsersStore} from "@/stores/user";
 
 export const fetchPreview = async (id) => {
@@ -18,8 +16,7 @@ export const fetchPreview = async (id) => {
             const errorResponse = await response.json();
             console.log(errorResponse);
         }
-    }
-    catch (error) {
+    } catch (error) {
         console.log(error);
     }
 };
@@ -36,7 +33,9 @@ export const uploadFiles = async (id, files) => {
     for (let i = 0; i < files.length; i++) {
         formData.append('file', files[i]);
     }
-
+    // console.log(token)
+    // console.log(formData);
+    // console.log(files);
     try {
         const response = await fetch(`${import.meta.env.VITE_BASE_URL}files/${id}`, {
             method: 'POST',
@@ -63,9 +62,9 @@ export const uploadFiles = async (id, files) => {
 }
 
 export const updateFiles = async (id, files, oldFiles) => {
-    // console.log(files);
-    // console.log(oldFiles);
-    // console.log(id);
+    console.log(files);
+    console.log(oldFiles);
+    console.log(id);
     const usersStore = useUsersStore();
     const token = usersStore.token
     if (token === null) {
@@ -74,15 +73,16 @@ export const updateFiles = async (id, files, oldFiles) => {
         }
     }
     const formData = new FormData();
-    if (files.length > 0)
-    {
-    for (let i = 0; i < files.length; i++) {
-        formData.append('file', files[i]);
-    }}
-    else {
+    if (files.length > 0) {
+        for (let i = 0; i < files.length; i++) {
+            console.log(files[i])
+            formData.append('file', files[i]);
+        }
+    } else {
         formData.append('file', new File([""], "empty"));
     }
     formData.append('oldFile', oldFiles);
+    // console.log(formData.getAll());
     // for (var pair of formData.entries()) {
     //     console.log(pair[0]+ ', ' + pair[1]);
     // }

@@ -7,7 +7,6 @@ import {QuillEditor} from "@vueup/vue-quill";
 import UploadFile from "@/components/announce/UploadFile.vue";
 import {fetchPreview, updateFiles, uploadFiles} from '@/services/fileApi.js';
 const route = useRoute();
-const limit = 10000;
 const props = defineProps({
   updatePackage: {
     type: Object,
@@ -41,7 +40,7 @@ const announcementDisplay = ref("");
 const router = useRouter();
 const cacheDescription = ref("");
 const files = ref([]);
-
+const changeFile = ref(false);
 const compObj = computed(() => {
   return {
     announcementTitle: announcementTitle.value,
@@ -73,19 +72,38 @@ watch(
             //     props.updatePackage[property]
             // );
             change.value = true;
+            console.log(
+                category.value[compObj.value[property] - 1]?.categoryName,
+                props.updatePackage[property],
+                property
+            );
             break;
           }
           continue;
         }
+        if (isEmty(compObj.value[property]) && isEmty(props.updatePackage[property])) continue;
+        if (property === "announcementDisplay") {
+          const checkD = compObj.value[property] === "Y";
+          return checkD === props.updatePackage[property];
+        }
         if (compObj.value[property] !== props.updatePackage[property]) {
           change.value = true;
+          console.log(
+              compObj.value[property],
+              props.updatePackage[property],
+              property)
           break;
         }
+
       }
     },
     {deep: true}
 );
+const isEmty =(value)=>{
+  if (value === null) return true;
+  return value === "";
 
+}
 onMounted(async () => {
   try {
     const response = await fetchCateForMod();
@@ -285,17 +303,14 @@ const sendSubmit = async (event) => {
       // console.log(sendPackage);
       // console.log(props.updatePackage);
       // console.log(JSON.stringify(sendPackage));
-      const response = await fetchUpdate(sendPackage, route)
-      if (files.value.length !== 0) {
-        const response2 = await uploadFiles(route.params.id, files.value)
-        if (response2.status === 200) {
-          alert("Create file success");
-        } else {
-          alert("Create file fail");
-          errm.value = await response2.json();
-          alert(errm.value.message);
-        }
-      }
+      // console.log(change.value)
+      if (files.value.length !== 0 || oldFiles.value.length !== 0) {
+        console.log(files.value, oldFiles.value)
+        const response2 = await updateFiles(route.params.id, files.value, oldFiles.value)
+
+        console.log(change.value)
+      if (change.value) {
+      const response = await fetchUpdate(sendPackage, route);
       if (response.status === 200 ) {
         alert("update announcement success");
         await router.push({name: `adminhomepage`});
@@ -305,7 +320,17 @@ const sendSubmit = async (event) => {
         errm.value = await response.json();
         alert(errm.value.message);
         // console.log(errm.value.message)
+      }}
+        if (response2.status === 200) {
+          alert("Update file success");
+          await router.push({name: `adminhomepage`});
+        } else {
+          alert("Update file fail");
+          errm.value = await response2.json();
+          alert(errm.value.message);
+        }
       }
+
     } catch (err) {
       alert(err);
     }
@@ -367,31 +392,6 @@ watch(announcementDescription, (newValue, oldValue) => {
 });
 
 const filePreviews = ref([]);
-
-const handleFileChange = (event) => {
-  const selectedFiles = event.target.files;
-  const maxFiles = 5;
-
-  if (selectedFiles.length > maxFiles) {
-    alert(`You can only upload up to ${maxFiles} files.`);
-    event.target.value = null;
-    return;
-  }
-
-  filePreviews.value = [];
-
-  for (let i = 0; i < selectedFiles.length; i++) {
-    const file = selectedFiles[i];
-
-    const reader = new FileReader();
-
-    reader.onload = (e) => {
-      filePreviews.value.push(e.target.result);
-    };
-
-    reader.readAsDataURL(file);
-  }
-};
 const fetchPreviewF =async ()=>{
   const response = await fetchPreview(route.params.id);
   if (response== null)
@@ -420,25 +420,26 @@ const upload=  (filessend,oldFilesend)=>{
     files.value = filessend;
     return;
   }
-  files.value = JSON.parse(JSON.stringify(filessend));
+  console.log(filessend,oldFilesend)
+  files.value = filessend;
   oldFiles.value = oldFilesend;
 }
 watch(()=>files,()=>{
       if (!updateCheck.value) return;
-      change.value = false;
+      changeFile.value = false;
       // console.log(files.value.length,oldFiles.value.length)
       if (files.value.length > 0) {
-        change.value = true;
+        changeFile.value = true;
         return;
       }
     },
     {deep: true})
 watch(()=>oldFiles,()=>{
       if (!updateCheck.value) return;
-      change.value = false;
+      changeFile.value = false;
       // console.log(files.value.length,oldFiles.value.length)
       if (oldFiles.value.length > 0) {
-        change.value = true;
+        changeFile.value = true;
         return;
       }
     },
@@ -570,18 +571,13 @@ const submitCheck = computed(() => {
 
               <UploadFile :preview="filePreviews" @upload="upload"></UploadFile>
             </div>
-            <!--            <div class="flex w-full space-x-4 md:w-3/4">-->
-            <!--              <input type="file" @change="handleFileChange" multiple class="w-full border-2 rounded-md" />-->
-            <!--              <img v-for="(preview, index) in filePreviews" :key="index" :src="preview" alt="File Preview"-->
-            <!--                class="object-cover w-16 h-16 border-2 rounded-md" />-->
-            <!--            </div> -->
           </div>
 
           <div class="flex justify-end py-5 space-x-2">
             <button
                 type="submit"
-                :class="(change && updateCheck) ||(!submitCheck && !updateCheck)? 'bg-blue-500' : ' opacity-40 '"
-                :disabled="(!change && updateCheck) || submitCheck "
+                :class="((change || changeFile) && updateCheck) ||(!submitCheck && !updateCheck)? 'bg-blue-500' : ' opacity-40 '"
+                :disabled="(!changeFile && !change && updateCheck) || submitCheck "
                 class="px-4 py-1 rounded-md ann-button submit"
             >
               {{ updateCheck ? "edit" : "submit" }}
