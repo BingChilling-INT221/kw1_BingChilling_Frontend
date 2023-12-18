@@ -277,6 +277,7 @@ const sendSubmit = async (event) => {
       )
   ) {
     event.preventDefault();
+    loading.value = false;
     return;
   }
   event.preventDefault();
