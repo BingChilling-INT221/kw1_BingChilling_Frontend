@@ -64,6 +64,10 @@ watch(
         change.value = true;
         return;
       }
+        if (compObj.value.announcementDisplay !=props.updatePackage.announcementDisplay) {
+        change.value=true
+        return
+      }
       for (const property in compObj.value) {
         if (property === "categoryId") {
           if (
@@ -309,6 +313,15 @@ const sendSubmit = async (event) => {
         const response2 = await updateFiles(route.params.id, files.value, oldFiles.value)
 
         console.log(change.value)
+        if (response2.status === 200) {
+          alert("Update file success");
+          
+        } else {
+          alert("Update file fail");
+          errm.value = await response2.json();
+          alert(errm.value.message);
+        }
+      }
       if (change.value) {
       const response = await fetchUpdate(sendPackage, route);
         loading.value = false;
@@ -322,15 +335,7 @@ const sendSubmit = async (event) => {
         alert(errm.value.message);
         // console.log(errm.value.message)
       }}
-        if (response2.status === 200) {
-          alert("Update file success");
-          await router.push({name: `adminhomepage`});
-        } else {
-          alert("Update file fail");
-          errm.value = await response2.json();
-          alert(errm.value.message);
-        }
-      }
+      await router.push({name: `adminhomepage`});
 
     } catch (err) {
       loading.value = false;
