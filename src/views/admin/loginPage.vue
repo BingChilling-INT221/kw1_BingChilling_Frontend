@@ -64,10 +64,8 @@ async function loginWithMicrosoft(event) {
       prompt: "select_account", // ให้เลือก account ทุกครั้งที่ login
     };
     const response = await msalInstance.loginPopup(loginRequest);
-    console.log(response)
-    const accessToken = response.idToken; // Access token ที่ได้จากการ login
-    console.log(accessToken)
-    console.log(response.idToken)
+    const accessToken = response.accessToken; // Access token ที่ได้จากการ login
+
     // ส่ง accessToken ไปยัง Spring Boot backend
     // console.log(accessToken);
     const responseFromSpringBoot = await sendTokenToSpringBoot(accessToken);
