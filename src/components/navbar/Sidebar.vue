@@ -21,7 +21,7 @@ const props = defineProps(["showSidebar"]);
 
 <template>
 
-  <div>
+  <div class="w-full bg-bgNav h-auto fixed lg:w-auto lg:block">
     <div class="lg:absolute w-[320px] pt-[3.75rem] min-h-screen lg:block" :class="showSidebar ? `block` : `hidden`">
       <div class="w-10/12 mt-1 ml-4 space-y-2">
         <button
