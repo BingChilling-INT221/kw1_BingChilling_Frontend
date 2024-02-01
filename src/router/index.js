@@ -52,7 +52,7 @@ const routes = [
     component: () => import("@/views/users/AnnDetailPage.vue"),
   },
   {
-    path: "/admin/user",
+    path: "/admin/users",
     name: "adminuser",
     meta: { requiredRole: ["admin"] },
     children: [
