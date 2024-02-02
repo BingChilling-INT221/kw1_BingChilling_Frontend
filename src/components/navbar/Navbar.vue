@@ -15,8 +15,8 @@ const checkAdmin = () => {
 };
 const checkRole = () => {
   const role = userStore.role
-  // console.log(role)
-  return role == "admin" || role == "annoucer"
+  console.log(role)
+  return role == "admin" || role == "announcer"
 }
 const logout = async () => {
   userStore.logout()
